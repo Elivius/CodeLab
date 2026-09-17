@@ -5,6 +5,7 @@ WebLearningSystem/
 │
 ├── App_Data/
 │   └── Database.mdf
+│
 ├── App_Code/                
 │   ├── BLL/                 
 │   │   ├── CourseManager.cs
