@@ -1,7 +1,7 @@
 Architecture diagram with the `.aspx.cs` (Code-Behind) files explicitly included. In ASP.NET Web Forms, every `.aspx`, `.ascx`, and `.Master` file has a paired `.cs` file right underneath it that handles its specific events.
 
 ```text
-WebLearningSystem/
+CodeLab/
 │
 ├── App_Data/
 │   └── Database.mdf
