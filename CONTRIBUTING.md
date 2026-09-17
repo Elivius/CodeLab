@@ -3,6 +3,8 @@ Architecture diagram with the `.aspx.cs` (Code-Behind) files explicitly included
 ```text
 WebLearningSystem/
 │
+├── App_Data/
+│   └── Database.mdf
 ├── App_Code/                
 │   ├── BLL/                 
 │   │   ├── CourseManager.cs
