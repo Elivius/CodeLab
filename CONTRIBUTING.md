@@ -13,6 +13,8 @@ CodeLab/
 │   ├── DAL/                 
 │   │   ├── DatabaseHelper.cs
 │   │   └── QuizRepository.cs
+│   ├── Helpers/             
+│   │   └── SessionHelper.cs
 │   └── Models/              
 │       ├── User.cs
 │       └── Quiz.cs
@@ -60,6 +62,9 @@ This folder is strictly for database connectivity to your local database. Files 
 
 **App_Code/BLL/ (Business Logic Layer)**
 This folder contains the "brain" of your application. Files here (like `QuizEvaluator.cs`) enforce your system's rules. If a Tutor tries to set a passing score to 150%, the BLL catches that error before it reaches the database. **No SQL queries and no UI code go here.**
+
+**App_Code/Helpers/**
+This folder holds static helper utilities and cross-cutting helpers. Files here (like `SessionHelper.cs`) manage strongly-typed user sessions and authentication checks. Team members should use this helper instead of accessing raw session keys (e.g., `Session["UserID"]`) directly in code-behind to avoid typo bugs and null reference exceptions.
 
 **Assets/**
 This holds your external CSS stylesheets, JavaScript files, and images.
