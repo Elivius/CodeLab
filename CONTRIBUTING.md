@@ -14,7 +14,8 @@ CodeLab/
 │   │   ├── DatabaseHelper.cs
 │   │   └── QuizRepository.cs
 │   ├── Helpers/             
-│   │   └── SessionHelper.cs
+│   │   ├── SessionHelper.cs
+│   │   └── AuditLogger.cs
 │   └── Models/              
 │       ├── User.cs
 │       └── Quiz.cs
