@@ -3,7 +3,8 @@
 > **Project Model**: CodeLab is structured as an **ASP.NET Web Site Project (WSP)**.
 > - Shared classes live in `App_Code/` and are dynamically compiled at runtime by the ASP.NET runtime.
 > - Pages (`.aspx`), User Controls (`.ascx`), and Master Pages (`.Master`) have paired `.cs` (Code-Behind) files without `.designer.cs` overhead.
-> - *Note for Visual Studio*: If your team ever converts this to a Web Application Project (WAP), remember that files in `App_Code` will require their **Build Action** set to `Compile` or should be moved to root-level folders with `.designer.cs` files.
+> - *Note for Visual Studio*: If we ever convert this to a Web Application Project (WAP), the classes in `App_Code` must move to a differently named folder (WAP compiles them at build time, and `App_Code` would compile them a second time at runtime), and every page gains a `.designer.cs` file.
+> - *Compiler version*: The code samples below use C# 6/7 syntax (`out int x`, `=>` members, `$"..."` strings). A Web Site Project only compiles these if the `Microsoft.CodeDom.Providers.DotNetCompilerPlatform` NuGet package is installed and registered in `Web.config`; without it the runtime falls back to the C# 5 compiler and these pages fail to compile.
 
 ---
 
@@ -63,6 +64,7 @@ CodeLab/
 │
 ├── Site.Master
 ├── Site.Master.cs
+├── Global.asax               # Attaches the user's role to the request principal
 └── Web.config                # Global configuration & authentication rules
 ```
 
@@ -73,7 +75,7 @@ CodeLab/
 > [!WARNING]
 > **Do NOT commit binary `Database.mdf` and `Database_log.ldf` to Git!**
 > Binary database files lead to merge conflicts, repository bloat, and file locks across teammate machines.
-> Keep `*.mdf` and `*.ldf` in your `.gitignore`. Instead, version [Schema.sql](file:///d:/ASP Workspace/CodeLab/App_Data/Schema.sql) and [Seed.sql](file:///d:/ASP Workspace/CodeLab/App_Data/Seed.sql) in `App_Data/`. Each team member runs these scripts in LocalDB or SQL Server Express to stand up their own clean local database instance.
+> Keep `*.mdf` and `*.ldf` in your `.gitignore`. Instead, version `Schema.sql` and `Seed.sql` in `App_Data/`. Each team member runs these scripts in LocalDB or SQL Server Express to stand up their own clean local database instance.
 
 ---
 
@@ -115,7 +117,7 @@ Reusable UI blocks like `LeaderboardWidget.ascx`.
 
 ## Authentication & Role-Based Authorization
 
-To prevent unauthorized users (e.g., a Learner navigating directly to `/Modules/Admin/AuditLogs.aspx`), security is enforced at three distinct boundaries:
+To prevent unauthorized users (e.g., a Learner navigating directly to `/Modules/Admin/AuditLogs.aspx`), security is enforced at two distinct boundaries:
 
 ### 1. Declarative Authorization in Folder-Level `Web.config`
 Each protected subfolder in `Modules/` contains its own scoped `Web.config`:
@@ -144,11 +146,14 @@ Each protected subfolder in `Modules/` contains its own scoped `Web.config`:
 </configuration>
 ```
 
+> [!IMPORTANT]
+> `<allow roles="...">` checks `HttpContext.User`, not the session. At login, issue a forms authentication ticket that carries the user's role, and attach that role to the principal in `Global.asax` (`Application_AuthenticateRequest`). If the role is stored only in `Session`, these rules deny every user, including Admins.
+
 ### 2. Defense-in-Depth in the Business Logic Layer
 UI and page-level checks alone are not enough. BLL methods verify that the calling user possesses the required permissions before mutating any records:
 
 ```csharp
-if (!SessionHelper.IsUserInRole(currentUserId, "Tutor") && !SessionHelper.IsUserInRole(currentUserId, "Admin"))
+if (!SessionHelper.IsUserInRole("Tutor") && !SessionHelper.IsUserInRole("Admin"))
 {
     return OperationResult.Fail("Unauthorized: You do not have permission to configure quizzes.");
 }
@@ -304,7 +309,7 @@ public class QuizEvaluator
     public OperationResult ValidateAndSaveQuiz(Quiz quizData, int performedByUserId)
     {
         // 1. Defense-in-depth: authorization check
-        if (!SessionHelper.IsUserInRole(performedByUserId, "Tutor") && !SessionHelper.IsUserInRole(performedByUserId, "Admin"))
+        if (!SessionHelper.IsUserInRole("Tutor") && !SessionHelper.IsUserInRole("Admin"))
         {
             return OperationResult.Fail("Unauthorized: You do not have permission to create quizzes.");
         }
@@ -491,6 +496,62 @@ protected void Page_Load(object sender, EventArgs eventArgs)
     }
 }
 ```
+
+---
+
+## Naming Conventions
+
+* **Classes, methods, properties:** `PascalCase` (`QuizRepository`, `InsertQuiz`, `PassMark`).
+* **Local variables and parameters:** `camelCase` (`newQuiz`, `currentTutorId`).
+* **BLL classes:** `<Entity>Manager`. **DAL classes:** `<Entity>Repository`.
+* **Server controls:** a type prefix plus a descriptive name.
+
+| Control | Prefix | Example |
+| --- | --- | --- |
+| Button | `btn` | `btnSaveQuiz` |
+| TextBox | `txt` | `txtQuizTitle` |
+| Label | `lbl` | `lblMessage` |
+| DropDownList | `ddl` | `ddlCourse` |
+| GridView | `gv` | `gvAuditLogs` |
+| CheckBox | `chk` | `chkPublished` |
+
+---
+
+## Git Workflow
+
+**Branches**
+Do not commit directly to `main`. Create a branch per piece of work, named `<type>/<short-description>`, for example `feat/tutor-quiz-config` or `fix/login-redirect`. Pull `main` before starting work.
+
+**Commits**
+Use the format `<type>: <summary>`, written in the present tense and kept to one logical change.
+
+| Type | Use for |
+| --- | --- |
+| `feat` | A new feature |
+| `fix` | A bug fix |
+| `docs` | Documentation only |
+| `style` | CSS or formatting, no behaviour change |
+| `refactor` | Restructuring without behaviour change |
+| `chore` | Config, tooling, housekeeping |
+
+**Pull requests**
+Open a pull request into `main` and have at least one teammate review it before merging. Before requesting review, check that:
+
+* the site builds and the pages you touched load without errors;
+* no SQL appears outside `App_Code/DAL/`, and no business rules appear in code-behind;
+* a new role folder under `Modules/` has its own `Web.config`;
+* a schema change is made in `Schema.sql` (and `Seed.sql` if needed), not only in your local database;
+* nothing from `.vs/`, `bin/`, `obj/`, or `App_Data/*.mdf` is included.
+
+---
+
+## Running Locally
+
+1. Clone the repository.
+2. In Visual Studio, choose **File > Open > Web Site** and select the `CodeLab` folder.
+3. Create a local database in LocalDB or SQL Server Express, then run `App_Data/Schema.sql` followed by `App_Data/Seed.sql` against it.
+4. Confirm the connection string in `Web.config` points to that database.
+5. Press **Ctrl+F5** to run on IIS Express.
 
 ---
 
