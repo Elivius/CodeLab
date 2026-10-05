@@ -34,6 +34,7 @@ erDiagram
     Users ||--o{ CodeSubmissions : "runs code"
     Users ||--o{ DiscussionPosts : "posts"
     Users ||--o{ DiscussionReplies : "replies"
+    Users ||--o{ AuditLogs : "logs actions"
     Users ||--|| LearnerStats : "has gamification stats"
 
     Courses ||--o{ Lessons : "contains"
@@ -143,13 +144,15 @@ CREATE TABLE LessonCompletions (
     PRIMARY KEY (LearnerId, LessonId)
 );
 
--- 7. QUIZZES
+-- 7. QUIZZES (Matches Quiz.cs & QuizRepository.cs)
 CREATE TABLE Quizzes (
     Id INT IDENTITY(1,1) PRIMARY KEY,
-    CourseId INT NOT NULL FOREIGN KEY REFERENCES Courses(Id) ON DELETE CASCADE,
-    Title NVARCHAR(200) NOT NULL,
-    Instructions NVARCHAR(MAX) NOT NULL,
-    PassMarkPercent INT NOT NULL DEFAULT 80,
+    CourseId INT NULL FOREIGN KEY REFERENCES Courses(Id) ON DELETE SET NULL,
+    Title NVARCHAR(150) NOT NULL,
+    PassMark INT NOT NULL DEFAULT 80 
+        CONSTRAINT CHK_Quiz_PassMark CHECK (PassMark BETWEEN 0 AND 100),
+    CreatedByUserId INT NOT NULL FOREIGN KEY REFERENCES Users(Id),
+    Instructions NVARCHAR(MAX) NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 
@@ -234,6 +237,15 @@ CREATE TABLE DiscussionReplies (
     Content NVARCHAR(MAX) NOT NULL,
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE()
 );
+
+-- 15. AUDIT & ACTIVITY LOGS (Matches AuditLog.cs & AuditRepository.cs)
+CREATE TABLE AuditLogs (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL FOREIGN KEY REFERENCES Users(Id),
+    Action VARCHAR(50) NOT NULL, -- e.g. 'CREATE_QUIZ', 'LOGIN', 'LOCK_COURSE'
+    Details NVARCHAR(500) NULL,
+    Timestamp DATETIME2 NOT NULL DEFAULT GETDATE()
+);
 ```
 
 ---
@@ -271,6 +283,21 @@ Role NVARCHAR(20) NOT NULL CONSTRAINT CHK_User_Role CHECK (Role IN ('Learner', '
 2. **Human-readable in Visual Studio:** When viewing the table in Visual Studio Server Explorer, you see real words (`'Learner'`, `'Tutor'`) instead of confusing numbers (like `0, 1, 2`).
 3. **100% Compatible with C# / Entity Framework:** In your C# code, you can still define `public enum UserRole { Learner, Tutor, Admin }` and EF Core will seamlessly map them.
 
+### 4.2 Where Should Logs Be Stored? (Database vs. `.txt` File)
+
+In software architecture, there are **two completely different types of logs**:
+
+| Log Type | What it Records | Where to Save It | Why? |
+| :--- | :--- | :--- | :--- |
+| **1. Business & Audit Logs** | Who did what? (e.g. *User logged in*, *Course published*, *User banned*, *Password changed*) | **In Database (`AuditLogs` table)** | Because the Admin Dashboard needs to display, filter, search, and paginate this data by user or date. |
+| **2. Technical & Error Logs** | Server crashes, `NullReferenceException`, 500 errors, stack traces | **In `.txt` files** (via Serilog / NLog) | If the database crashes or disconnects, an error log in the database will fail! File logs keep working and won't bloat your database storage. |
+| **3. System Metrics (CPU/RAM)** | Memory usage, CPU load, network latency | **Skip it entirely** (or use Task Manager / Azure Monitor) | Storing CPU/RAM snapshots every 10 seconds creates millions of useless rows in a development database. |
+
+#### Summary Recommendation:
+- Use the **`AuditLogs` table** in the schema for business actions shown to the Admin.
+- Use **`.txt` files** for server crashes and technical debugging.
+- **Do not record CPU/RAM performance** in the database.
+
 ---
 
 ## 5. Sample Seed Data (To Test Right Away)
@@ -305,15 +332,21 @@ INSERT INTO LearnerStats (LearnerId, AchievementPoints, CurrentLevel, LevelTitle
 VALUES 
 (3, 1250, 4, 'Code Voyager', 2000, 5);
 
--- Insert Sample Quiz
-INSERT INTO Quizzes (CourseId, Title, Instructions, PassMarkPercent)
+-- Insert Sample Quiz (Matches Quiz.cs & QuizRepository.cs)
+INSERT INTO Quizzes (CourseId, Title, PassMark, CreatedByUserId, Instructions)
 VALUES 
-(1, 'TypeScript Fundamentals Quiz', 'Test your knowledge on static typing and basic interfaces.', 80);
+(1, 'TypeScript Fundamentals Quiz', 80, 2, 'Test your knowledge on static typing and basic interfaces.');
 
 -- Insert Sample Quiz Question
 INSERT INTO QuizQuestions (QuizId, QuestionText, OptionsJson, CorrectOptionIndex, Explanation)
 VALUES 
 (1, 'Which keyword is used to declare a block-scoped variable in modern JavaScript/TypeScript?', '["var", "let", "global", "dim"]', 1, 'The "let" keyword defines block-scoped variables in modern ECMAScript.');
+
+-- Insert Sample Audit Log (Matches AuditRepository.cs)
+INSERT INTO AuditLogs (UserId, Action, Details, Timestamp)
+VALUES 
+(2, 'CREATE_QUIZ', 'Created quiz ''TypeScript Fundamentals Quiz'' with pass mark 80%.', GETDATE()),
+(1, 'LOGIN', 'Admin logged in from local environment.', GETDATE());
 ```
 
 ---

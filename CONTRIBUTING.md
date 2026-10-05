@@ -83,8 +83,8 @@ CodeLab/
 
 ### 1. `App_Code/Models/` (Data Transfer Objects & POCOs)
 Plain C# classes that represent domain entities and operation results. They carry structured data across layers without containing SQL or business rules.
-* `Quiz.cs`: Properties such as `QuizID`, `Title`, `PassMark`, `CreatedByUserID`, `CreatedAt`.
-* `AuditLog.cs`: Properties such as `LogID`, `UserID`, `Username`, `FullName`, `Action`, `Details`, `Timestamp`.
+* `Quiz.cs`: Properties such as `Id`, `CourseId`, `Title`, `PassMark`, `CreatedByUserId`, `CreatedAt`.
+* `AuditLog.cs`: Properties such as `Id`, `UserId`, `Username`, `FullName`, `Action`, `Details`, `Timestamp`.
 * `OperationResult.cs`: Standardized result object with `Success` (bool) and `Message` (string) so the BLL can communicate why an operation passed or failed back to the UI.
 
 ### 2. `App_Code/DAL/` (Data Access Layer)
@@ -210,7 +210,7 @@ sequenceDiagram
     AdminUI->>AdminCB: Page_Load()
     AdminCB->>AuditBLL: GetRecentAuditLogs()
     AuditBLL->>AuditDAL: GetRecentLogsWithUsernames()
-    AuditDAL->>DB: SELECT with INNER JOIN Users
+    AuditDAL->>DB: SELECT with INNER JOIN Users u ON a.UserId = u.Id
     DB-->>AdminCB: Returns List<AuditLog> (with Usernames)
     AdminCB-->>AdminUI: Binds to GridView
 ```
@@ -231,18 +231,19 @@ public class OperationResult
 // App_Code/Models/Quiz.cs
 public class Quiz
 {
-    public int QuizID { get; set; }
+    public int Id { get; set; }
+    public int? CourseId { get; set; }
     public string Title { get; set; }
     public int PassMark { get; set; }
-    public int CreatedByUserID { get; set; }
+    public int CreatedByUserId { get; set; }
     public DateTime CreatedAt { get; set; }
 }
 
 // App_Code/Models/AuditLog.cs
 public class AuditLog
 {
-    public int LogID { get; set; }
-    public int UserID { get; set; }
+    public int Id { get; set; }
+    public int UserId { get; set; }
     public string Username { get; set; }
     public string FullName { get; set; }
     public string Action { get; set; }
@@ -286,7 +287,7 @@ protected void btnSaveQuiz_Click(object sender, EventArgs eventArgs)
     {
         Title = txtQuizTitle.Text.Trim(),
         PassMark = passMarkValue,
-        CreatedByUserID = currentTutorId,
+        CreatedByUserId = currentTutorId,
         CreatedAt = DateTime.UtcNow
     };
 
@@ -354,8 +355,8 @@ public class QuizRepository
 {
     public bool InsertQuiz(Quiz quizData)
     {
-        string query = @"INSERT INTO Quizzes (Title, PassMark, CreatedByUserID, CreatedAt) 
-                         VALUES (@Title, @PassMark, @CreatedByUserID, @CreatedAt)";
+        string query = @"INSERT INTO Quizzes (Title, PassMark, CreatedByUserId, CreatedAt) 
+                         VALUES (@Title, @PassMark, @CreatedByUserId, @CreatedAt)";
 
         try
         {
@@ -366,7 +367,7 @@ public class QuizRepository
                     // Explicit SqlDbType parameters to prevent type-inference quirks
                     command.Parameters.Add("@Title", SqlDbType.NVarChar, 150).Value = quizData.Title;
                     command.Parameters.Add("@PassMark", SqlDbType.Int).Value = quizData.PassMark;
-                    command.Parameters.Add("@CreatedByUserID", SqlDbType.Int).Value = quizData.CreatedByUserID;
+                    command.Parameters.Add("@CreatedByUserId", SqlDbType.Int).Value = quizData.CreatedByUserId;
                     command.Parameters.Add("@CreatedAt", SqlDbType.DateTime2).Value = quizData.CreatedAt;
 
                     connection.Open();
@@ -397,7 +398,7 @@ public class AuditManager
     {
         AuditLog log = new AuditLog
         {
-            UserID = userId,
+            UserId = userId,
             Action = action,
             Details = details,
             Timestamp = DateTime.UtcNow
@@ -417,15 +418,15 @@ public class AuditRepository
 {
     public bool InsertAuditLog(AuditLog auditRecord)
     {
-        string query = @"INSERT INTO AuditLogs (UserID, Action, Details, Timestamp) 
-                         VALUES (@UserID, @Action, @Details, @Timestamp)";
+        string query = @"INSERT INTO AuditLogs (UserId, Action, Details, Timestamp) 
+                         VALUES (@UserId, @Action, @Details, @Timestamp)";
         try
         {
             using (SqlConnection connection = DatabaseHelper.GetConnection())
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.Add("@UserID", SqlDbType.Int).Value = auditRecord.UserID;
+                    command.Parameters.Add("@UserId", SqlDbType.Int).Value = auditRecord.UserId;
                     command.Parameters.Add("@Action", SqlDbType.VarChar, 50).Value = auditRecord.Action;
                     command.Parameters.Add("@Details", SqlDbType.NVarChar, 500).Value = auditRecord.Details;
                     command.Parameters.Add("@Timestamp", SqlDbType.DateTime2).Value = auditRecord.Timestamp;
@@ -446,9 +447,9 @@ public class AuditRepository
     {
         List<AuditLog> logList = new List<AuditLog>();
         string query = @"SELECT TOP 100 
-                            a.LogID, a.UserID, u.Username, u.FullName, a.Action, a.Details, a.Timestamp 
+                            a.Id, a.UserId, u.Username, u.FullName, a.Action, a.Details, a.Timestamp 
                          FROM AuditLogs a
-                         INNER JOIN Users u ON a.UserID = u.UserID
+                         INNER JOIN Users u ON a.UserId = u.Id
                          ORDER BY a.Timestamp DESC";
 
         using (SqlConnection connection = DatabaseHelper.GetConnection())
@@ -462,8 +463,8 @@ public class AuditRepository
                     {
                         logList.Add(new AuditLog
                         {
-                            LogID = Convert.ToInt32(reader["LogID"]),
-                            UserID = Convert.ToInt32(reader["UserID"]),
+                            Id = Convert.ToInt32(reader["Id"]),
+                            UserId = Convert.ToInt32(reader["UserId"]),
                             Username = reader["Username"].ToString(),
                             FullName = reader["FullName"].ToString(),
                             Action = reader["Action"].ToString(),
@@ -501,7 +502,9 @@ protected void Page_Load(object sender, EventArgs eventArgs)
 
 ## Naming Conventions
 
-* **Classes, methods, properties:** `PascalCase` (`QuizRepository`, `InsertQuiz`, `PassMark`).
+* **Primary Keys:** Always `Id` (`int`) on every entity (`Users.Id`, `Courses.Id`, `Quizzes.Id`, `AuditLogs.Id`).
+* **Foreign Keys:** Entity name + `Id` (`UserId`, `CourseId`, `InstructorId`, `CreatedByUserId`).
+* **Classes, methods, properties:** `PascalCase` (`QuizRepository`, `InsertQuiz`, `PassMark`, `CreatedByUserId`).
 * **Local variables and parameters:** `camelCase` (`newQuiz`, `currentTutorId`).
 * **BLL classes:** `<Entity>Manager`. **DAL classes:** `<Entity>Repository`.
 * **Server controls:** a type prefix plus a descriptive name.
