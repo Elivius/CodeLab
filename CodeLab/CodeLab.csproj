@@ -100,6 +100,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="App_Data\Schema.sql" />
+    <Content Include="App_Data\Seed.sql" />
+    <Content Include="Modules\Admin\AuditLogs.aspx" />
+    <Content Include="Modules\Admin\Web.config" />
+    <Content Include="Modules\Learner\Web.config" />
+    <Content Include="Modules\Public\Login.aspx" />
+    <Content Include="Modules\Tutor\Web.config" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -184,6 +191,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="BLL\AuditManager.cs" />
+    <Compile Include="BLL\UserManager.cs" />
+    <Compile Include="DAL\AuditRepository.cs" />
+    <Compile Include="DAL\DatabaseHelper.cs" />
+    <Compile Include="DAL\UserRepository.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\SessionHelper.cs" />
+    <Compile Include="Models\AuditLog.cs" />
+    <Compile Include="Models\OperationResult.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRoles.cs" />
+    <Compile Include="Modules\Admin\AuditLogs.aspx.cs">
+      <DependentUpon>AuditLogs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\AuditLogs.aspx.designer.cs">
+      <DependentUpon>AuditLogs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -231,10 +264,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="App_Data\SetupDatabase.cmd" />
     <None Include="packages.config" />
+    <None Include="UserControls\.gitkeep" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
     <None Include="Web.Debug.config">
