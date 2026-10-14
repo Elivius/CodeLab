@@ -1,72 +1,85 @@
 # CodeLab Contribution & Architectural Guidelines
 
-> **Project Model**: CodeLab is structured as an **ASP.NET Web Site Project (WSP)**.
-> - Shared classes live in `App_Code/` and are dynamically compiled at runtime by the ASP.NET runtime.
-> - Pages (`.aspx`), User Controls (`.ascx`), and Master Pages (`.Master`) have paired `.cs` (Code-Behind) files without `.designer.cs` overhead.
-> - *Note for Visual Studio*: If we ever convert this to a Web Application Project (WAP), the classes in `App_Code` must move to a differently named folder (WAP compiles them at build time, and `App_Code` would compile them a second time at runtime), and every page gains a `.designer.cs` file.
-> - *Compiler version*: The code samples below use C# 6/7 syntax (`out int x`, `=>` members, `$"..."` strings). A Web Site Project only compiles these if the `Microsoft.CodeDom.Providers.DotNetCompilerPlatform` NuGet package is installed and registered in `Web.config`; without it the runtime falls back to the C# 5 compiler and these pages fail to compile.
+> **Project Model**: CodeLab is an **ASP.NET Web Forms Web Application Project** (.NET Framework 4.7.2), in the `CodeLab/` folder of this repository.
+> - The project is compiled by Visual Studio into `bin/CodeLab.dll`. A file only exists for the build if it is listed in `CodeLab.csproj`, so **always add files through Visual Studio** (right-click a folder > Add), never by copying them in with File Explorer.
+> - Every page (`.aspx`), user control (`.ascx`), and master page (`.Master`) has two paired files: the `.cs` code-behind that we write, and a `.designer.cs` that Visual Studio generates. Never edit a `.designer.cs` by hand.
+> - Do not create an `App_Code` folder. In this project type its classes get compiled twice and the build breaks.
+> - Every class lives in a namespace matching its folder: `CodeLab.Models`, `CodeLab.DAL`, `CodeLab.BLL`, `CodeLab.Helpers`, `CodeLab.Modules.Tutor`, and so on. Add the matching `using` line to reach another layer.
+> - The project uses friendly URLs, so links leave out the extension: `~/Modules/Admin/AuditLogs`, not `AuditLogs.aspx`.
+> - The Roslyn compiler package is installed, so C# 7.3 syntax (`out int x`, `=>` members, `$"..."` strings) is available.
 
 ---
 
 ## Architecture Diagram
 
 ```text
-CodeLab/
-│
-├── App_Data/
-│   ├── Database.mdf          # Local SQL Server Express / LocalDB file (Ignored in .gitignore)
-│   ├── Schema.sql            # DDL script to create tables, keys, and constraints
-│   └── Seed.sql              # Initial seed data for development & testing
-│
-├── App_Code/                 # Shared application layers (Auto-compiled)
-│   ├── BLL/                  # Business Logic Layer (The "Brain")
-│   │   ├── CourseManager.cs
-│   │   ├── QuizEvaluator.cs
-│   │   ├── AuditManager.cs
-│   │   └── LeaderboardManager.cs
-│   ├── DAL/                  # Data Access Layer (Strictly SQL connectivity)
-│   │   ├── DatabaseHelper.cs
-│   │   ├── QuizRepository.cs
-│   │   ├── AuditRepository.cs
-│   │   └── LeaderboardRepository.cs
-│   ├── Helpers/              # Cross-cutting static utilities (No SQL!)
-│   │   ├── SessionHelper.cs
-│   │   └── LogHelper.cs
-│   └── Models/               # Plain Old CLR Objects (POCOs) & DTOs
-│       ├── User.cs
-│       ├── Quiz.cs
-│       ├── AuditLog.cs
-│       └── OperationResult.cs
-│
-├── Assets/                   # Static client-side assets
-│   ├── CSS/
-│   ├── JS/
-│   └── Images/
-│
-├── Modules/                  # Presentation Layer (Organized by role)
-│   ├── Admin/
-│   │   ├── Dashboard.aspx / Dashboard.aspx.cs
-│   │   ├── AuditLogs.aspx / AuditLogs.aspx.cs
-│   │   └── Web.config        # Role lockdown (Admin only)
-│   ├── Learner/
-│   │   ├── CodeLab.aspx / CodeLab.aspx.cs
-│   │   └── Web.config        # Role lockdown (Learner, Tutor, Admin)
-│   ├── Tutor/
-│   │   ├── ConfigureQuiz.aspx / ConfigureQuiz.aspx.cs
-│   │   └── Web.config        # Role lockdown (Tutor, Admin)
-│   └── Public/
-│       ├── Login.aspx / Login.aspx.cs
-│       └── Register.aspx / Register.aspx.cs
-│
-├── UserControls/             # Reusable UI components
-│   ├── LeaderboardWidget.ascx
-│   └── LeaderboardWidget.ascx.cs
-│
-├── Site.Master
-├── Site.Master.cs
-├── Global.asax               # Attaches the user's role to the request principal
-└── Web.config                # Global configuration & authentication rules
+CodeLab/                          # Repository root
+├── CONTRIBUTING.md
+└── CodeLab/                      # The Visual Studio project
+    │
+    ├── CodeLab.slnx              # Open this in Visual Studio
+    ├── CodeLab.csproj
+    ├── packages.config           # NuGet packages (restored automatically on build)
+    │
+    ├── App_Data/
+    │   ├── Database.mdf          # Local LocalDB file (ignored in .gitignore)
+    │   ├── Schema.sql            # DDL script to create tables, keys, and constraints
+    │   ├── Seed.sql              # Initial seed data for development & testing
+    │   └── SetupDatabase.cmd     # Builds Database.mdf from the two scripts above
+    │
+    ├── App_Start/                # Template startup code (bundles, friendly URLs)
+    │
+    ├── Models/                   # Plain Old CLR Objects (POCOs) & DTOs
+    │   ├── User.cs
+    │   ├── UserRoles.cs
+    │   ├── Quiz.cs
+    │   ├── AuditLog.cs
+    │   └── OperationResult.cs
+    ├── DAL/                      # Data Access Layer (Strictly SQL connectivity)
+    │   ├── DatabaseHelper.cs
+    │   ├── UserRepository.cs
+    │   ├── QuizRepository.cs
+    │   ├── AuditRepository.cs
+    │   └── LeaderboardRepository.cs
+    ├── BLL/                      # Business Logic Layer (The "Brain")
+    │   ├── UserManager.cs
+    │   ├── CourseManager.cs
+    │   ├── QuizEvaluator.cs
+    │   ├── AuditManager.cs
+    │   └── LeaderboardManager.cs
+    ├── Helpers/                  # Cross-cutting static utilities (No SQL!)
+    │   ├── SessionHelper.cs
+    │   ├── PasswordHelper.cs
+    │   └── LogHelper.cs
+    │
+    ├── Content/                  # CSS: Bootstrap 5 plus our own Site.css
+    ├── Scripts/                  # JavaScript: Bootstrap, jQuery, Web Forms scripts
+    │
+    ├── Modules/                  # Presentation Layer (Organized by role)
+    │   ├── Admin/
+    │   │   ├── Dashboard.aspx / .aspx.cs / .aspx.designer.cs
+    │   │   ├── AuditLogs.aspx / .aspx.cs / .aspx.designer.cs
+    │   │   └── Web.config        # Role lockdown (Admin only)
+    │   ├── Learner/
+    │   │   ├── CodeLab.aspx / .aspx.cs / .aspx.designer.cs
+    │   │   └── Web.config        # Role lockdown (Learner, Tutor, Admin)
+    │   ├── Tutor/
+    │   │   ├── ConfigureQuiz.aspx / .aspx.cs / .aspx.designer.cs
+    │   │   └── Web.config        # Role lockdown (Tutor, Admin)
+    │   └── Public/
+    │       ├── Login.aspx / .aspx.cs / .aspx.designer.cs
+    │       └── Register.aspx / .aspx.cs / .aspx.designer.cs
+    │
+    ├── UserControls/             # Reusable UI components
+    │   └── LeaderboardWidget.ascx / .ascx.cs / .ascx.designer.cs
+    │
+    ├── Site.Master               # Shared layout and navigation
+    ├── Default.aspx              # Home page
+    ├── Global.asax               # Attaches the user's role to the request principal
+    └── Web.config                # Connection string & login settings
 ```
+
+Files that do not exist yet (`Quiz.cs`, `ConfigureQuiz.aspx`, `Dashboard.aspx`, ...) show where each module's work belongs.
 
 ---
 
@@ -81,25 +94,25 @@ CodeLab/
 
 ## Folder Responsibilities & Strict Layering Rules
 
-### 1. `App_Code/Models/` (Data Transfer Objects & POCOs)
+### 1. `Models/` (Data Transfer Objects & POCOs)
 Plain C# classes that represent domain entities and operation results. They carry structured data across layers without containing SQL or business rules.
 * `Quiz.cs`: Properties such as `QuizID`, `Title`, `PassMark`, `CreatedByUserID`, `CreatedAt`.
 * `AuditLog.cs`: Properties such as `LogID`, `UserID`, `Username`, `FullName`, `Action`, `Details`, `Timestamp`.
 * `OperationResult.cs`: Standardized result object with `Success` (bool) and `Message` (string) so the BLL can communicate why an operation passed or failed back to the UI.
 
-### 2. `App_Code/DAL/` (Data Access Layer)
+### 2. `DAL/` (Data Access Layer)
 **Strict Rule: All SQL queries, `SqlConnection`, `SqlCommand`, and `SqlDataReader` reside exclusively here.**
 * Files like `QuizRepository.cs`, `AuditRepository.cs`, and `LeaderboardRepository.cs`.
 * Always use parameterized queries via `command.Parameters.Add("@Name", SqlDbType.Type).Value = ...` to prevent SQL injection and avoid type-inference pitfalls.
 * **No UI code, redirects, or session checks belong here.**
 
-### 3. `App_Code/BLL/` (Business Logic Layer)
+### 3. `BLL/` (Business Logic Layer)
 **Strict Rule: The brain of the application. No raw SQL queries and no UI server controls.**
 * Files like `QuizEvaluator.cs`, `AuditManager.cs`, and `LeaderboardManager.cs`.
 * Validates domain rules (e.g., `PassMark` between 0 and 100), performs defense-in-depth role authorization checks, coordinates transactions, and calls the DAL.
 * Returns rich `OperationResult` or typed model objects instead of ambiguous booleans.
 
-### 4. `App_Code/Helpers/` (Cross-Cutting Utilities)
+### 4. `Helpers/` (Cross-Cutting Utilities)
 **Strict Rule: Pure utility functions only. Absolutely NO SQL statements.**
 * `SessionHelper.cs`: Encapsulates session access (e.g., `SessionHelper.GetCurrentUserID()`, `SessionHelper.IsUserInRole("Admin")`) to prevent string-key typos and null reference exceptions.
 * `LogHelper.cs`: Captures unhandled technical exceptions (diagnostic file logging or `System.Diagnostics.Trace`) so system errors are logged without exposing raw exceptions to end users.
@@ -107,6 +120,7 @@ Plain C# classes that represent domain entities and operation results. They carr
 ### 5. `Modules/` (Presentation Layer)
 Organized by role to match user access boundaries:
 * `.aspx` files contain HTML5, ASP.NET server controls, and client scripts.
+* `.aspx.designer.cs` files are generated by Visual Studio from the `.aspx` markup. Commit them, but never edit them.
 * `.aspx.cs` (Code-Behind) files collect user input, validate basic form formats, call the BLL, and bind result messages to the UI. **Never write SQL in code-behind.**
 
 ### 6. `UserControls/` (Reusable Widgets)
@@ -218,7 +232,7 @@ sequenceDiagram
 ### Step 1: The Model Definitions
 
 ```csharp
-// App_Code/Models/OperationResult.cs
+// Models/OperationResult.cs
 public class OperationResult
 {
     public bool Success { get; set; }
@@ -228,7 +242,7 @@ public class OperationResult
     public static OperationResult Fail(string message) => new OperationResult { Success = false, Message = message };
 }
 
-// App_Code/Models/Quiz.cs
+// Models/Quiz.cs
 public class Quiz
 {
     public int QuizID { get; set; }
@@ -238,7 +252,7 @@ public class Quiz
     public DateTime CreatedAt { get; set; }
 }
 
-// App_Code/Models/AuditLog.cs
+// Models/AuditLog.cs
 public class AuditLog
 {
     public int LogID { get; set; }
@@ -269,7 +283,7 @@ protected void btnSaveQuiz_Click(object sender, EventArgs eventArgs)
     int currentTutorId = SessionHelper.GetCurrentUserID();
     if (currentTutorId <= 0)
     {
-        Response.Redirect("~/Modules/Public/Login.aspx");
+        Response.Redirect("~/Modules/Public/Login");
         return;
     }
 
@@ -301,7 +315,7 @@ protected void btnSaveQuiz_Click(object sender, EventArgs eventArgs)
 }
 ```
 
-### Step 4: The Business Logic Layer (`App_Code/BLL/QuizEvaluator.cs`)
+### Step 4: The Business Logic Layer (`BLL/QuizEvaluator.cs`)
 
 ```csharp
 public class QuizEvaluator
@@ -347,7 +361,7 @@ public class QuizEvaluator
 }
 ```
 
-### Step 5: The Data Access Layer (`App_Code/DAL/QuizRepository.cs`)
+### Step 5: The Data Access Layer (`DAL/QuizRepository.cs`)
 
 ```csharp
 public class QuizRepository
@@ -385,10 +399,10 @@ public class QuizRepository
 }
 ```
 
-### Step 6: Audit Layering (`App_Code/BLL/AuditManager.cs` & `App_Code/DAL/AuditRepository.cs`)
+### Step 6: Audit Layering (`BLL/AuditManager.cs` & `DAL/AuditRepository.cs`)
 
 ```csharp
-// App_Code/BLL/AuditManager.cs (Business Logic)
+// BLL/AuditManager.cs (Business Logic)
 public class AuditManager
 {
     private readonly AuditRepository _auditRepository = new AuditRepository();
@@ -406,13 +420,26 @@ public class AuditManager
         _auditRepository.InsertAuditLog(log);
     }
 
-    public List<AuditLog> GetRecentAuditLogs()
+    public OperationResult<List<AuditLog>> GetRecentAuditLogs()
     {
-        return _auditRepository.GetRecentLogsWithUsernames();
+        if (!SessionHelper.IsUserInRole(UserRoles.Admin))
+        {
+            return OperationResult<List<AuditLog>>.Fail("Unauthorized: Only administrators can view audit logs.");
+        }
+
+        try
+        {
+            return OperationResult<List<AuditLog>>.Ok(_auditRepository.GetRecentLogsWithUsernames());
+        }
+        catch (Exception exception)
+        {
+            LogHelper.LogError("AuditManager.GetRecentAuditLogs failure", exception);
+            return OperationResult<List<AuditLog>>.Fail("The audit logs could not be loaded. Please try again.");
+        }
     }
 }
 
-// App_Code/DAL/AuditRepository.cs (Data Access)
+// DAL/AuditRepository.cs (Data Access)
 public class AuditRepository
 {
     public bool InsertAuditLog(AuditLog auditRecord)
@@ -489,9 +516,16 @@ protected void Page_Load(object sender, EventArgs eventArgs)
     if (!IsPostBack)
     {
         AuditManager auditManager = new AuditManager();
-        List<AuditLog> auditLogs = auditManager.GetRecentAuditLogs();
+        OperationResult<List<AuditLog>> result = auditManager.GetRecentAuditLogs();
 
-        gvAuditLogs.DataSource = auditLogs;
+        if (!result.Success)
+        {
+            lblMessage.Text = result.Message;
+            lblMessage.Visible = true;
+            return;
+        }
+
+        gvAuditLogs.DataSource = result.Data;
         gvAuditLogs.DataBind();
     }
 }
@@ -538,20 +572,44 @@ Use the format `<type>: <summary>`, written in the present tense and kept to one
 Open a pull request into `main` and have at least one teammate review it before merging. Before requesting review, check that:
 
 * the site builds and the pages you touched load without errors;
-* no SQL appears outside `App_Code/DAL/`, and no business rules appear in code-behind;
+* no SQL appears outside `DAL/`, and no business rules appear in code-behind;
 * a new role folder under `Modules/` has its own `Web.config`;
 * a schema change is made in `Schema.sql` (and `Seed.sql` if needed), not only in your local database;
-* nothing from `.vs/`, `bin/`, `obj/`, or `App_Data/*.mdf` is included.
+* every new file is listed in `CodeLab.csproj` (it is, if you added it through Visual Studio);
+* nothing from `.vs/`, `bin/`, `obj/`, `packages/`, or `App_Data/*.mdf` is included.
 
 ---
 
 ## Running Locally
 
 1. Clone the repository.
-2. In Visual Studio, choose **File > Open > Web Site** and select the `CodeLab` folder.
-3. Create a local database in LocalDB or SQL Server Express, then run `App_Data/Schema.sql` followed by `App_Data/Seed.sql` against it.
-4. Confirm the connection string in `Web.config` points to that database.
-5. Press **Ctrl+F5** to run on IIS Express.
+2. Open `CodeLab/CodeLab.slnx` in Visual Studio.
+3. Double-click `CodeLab/App_Data/SetupDatabase.cmd` in File Explorer. It creates `App_Data/Database.mdf` in LocalDB and runs `Schema.sql` and `Seed.sql` (requires `sqlcmd`). After pulling a schema change, delete `Database.mdf` and `Database_log.ldf` and run it again.
+4. Press **Ctrl+F5**. The first build downloads the NuGet packages, then the site opens on IIS Express.
+5. Log in with a seeded account: `admin` / `Admin@123`, `tutor` / `Tutor@123`, or `learner` / `Learner@123`.
+
+**Adding a page to your module:** right-click your folder under `Modules/` > **Add > Web Form with Master Page**, and pick `Site.Master`. Visual Studio creates the three files and registers them in `CodeLab.csproj`. Commit the `.csproj` change together with the new files.
+
+---
+
+## What Already Exists (Use It, Don't Rebuild It)
+
+The shared foundation is in place. Build your module on top of it:
+
+| You need to... | Use |
+| --- | --- |
+| Open a database connection | `DatabaseHelper.GetConnection()` |
+| Know who is signed in | `SessionHelper.GetCurrentUserID()`, `GetCurrentRole()`, `IsUserInRole(UserRoles.Tutor)` |
+| Return success or failure from the BLL | `OperationResult.Ok(...)` / `OperationResult.Fail(...)`, or `OperationResult<T>` to also return data |
+| Record who did what | `new AuditManager().RecordActivity(userId, "CREATE_QUIZ", "details")` from your BLL |
+| Log a technical error | `LogHelper.LogError("Where it happened", exception)` (written to `App_Data/Logs/`) |
+| Hash or check a password | `PasswordHelper.HashPassword(...)` / `VerifyPassword(...)` |
+| Share the page layout | `MasterPageFile="~/Site.Master"`, and add your menu links to the PlaceHolder for your role in `Site.Master` |
+| Style a page | Bootstrap 5 classes (`form-control`, `btn btn-primary`, `alert alert-success`, `table`); put our own rules in `Content/Site.css` |
+
+**The reference example is audit logging.** Read these four files in order to see one feature across every layer: `Modules/Admin/AuditLogs.aspx.cs` → `BLL/AuditManager.cs` → `DAL/AuditRepository.cs` → `Models/AuditLog.cs`.
+
+**Error handling convention:** DAL *write* methods catch `SqlException`, log it, and return `false`. DAL *read* methods let the exception rise to the BLL, which logs it and returns `OperationResult.Fail(...)` with a friendly message.
 
 ---
 
@@ -563,4 +621,4 @@ Open a pull request into `main` and have at least one teammate review it before 
 
 > [!TIP]
 > **Testability & Interfaces**:
-> To make your BLL unit-testable without requiring a live database connection, define interfaces (e.g., `IQuizRepository`, `IAuditRepository`) in `App_Code/DAL/`. Inject these interfaces into BLL class constructors so mock repositories can be passed during automated testing.
+> To make your BLL unit-testable without requiring a live database connection, define interfaces (e.g., `IQuizRepository`, `IAuditRepository`) in `DAL/`. Inject these interfaces into BLL class constructors so mock repositories can be passed during automated testing.
