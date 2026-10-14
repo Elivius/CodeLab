@@ -1,44 +1,239 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CodeLab._Default" %>
+<%@ Page Title="Master Programming on Your Terms" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CodeLab._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-            <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+    <main class="cl-landing">
+
+        <%-- ===== Hero ===== --%>
+        <section class="cl-hero">
+            <span class="cl-pill">
+                <i data-lucide="sparkles" class="cl-icon" aria-hidden="true"></i>
+                Interactive Computer Science Education
+            </span>
+
+            <h1>Master Programming<br /><span class="cl-gradient-text">on Your Terms</span></h1>
+
+            <p class="cl-hero-lead">
+                Explore interactive lessons, write and execute code in our zero-setup browser sandbox,
+                and unlock complete curriculums upon registration.
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+                <a runat="server" href="~/Modules/Public/Register" class="btn btn-primary cl-btn-lg">Start Learning Free</a>
+                <a href="#courses" class="btn cl-btn-outline cl-btn-lg">
+                    Browse Course Catalogue
+                    <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 pt-3">
+                <div class="col">
+                    <div class="cl-card cl-feature">
+                        <span class="cl-icon-tile"><i data-lucide="book-open" class="cl-icon" aria-hidden="true"></i></span>
+                        <h3>Structured Lessons</h3>
+                        <p>Step-by-step curriculum guided by verified tech mentors.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="cl-card cl-feature">
+                        <span class="cl-icon-tile"><i data-lucide="code" class="cl-icon" aria-hidden="true"></i></span>
+                        <h3>Live Sandbox</h3>
+                        <p>Write and test your code directly in the in-browser runtime.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="cl-card cl-feature">
+                        <span class="cl-icon-tile"><i data-lucide="trophy" class="cl-icon" aria-hidden="true"></i></span>
+                        <h3>Gamified Progress</h3>
+                        <p>Earn points, unlock milestones, and level up your skills.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="cl-card cl-feature">
+                        <span class="cl-icon-tile"><i data-lucide="users" class="cl-icon" aria-hidden="true"></i></span>
+                        <h3>Community Support</h3>
+                        <p>Join active discussion boards to collaborate with peers.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
+        <%-- ===== Featured courses (mock data, hard-coded until the Courses module exists) ===== --%>
+        <section id="courses" class="cl-section">
+            <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-4">
+                <div>
+                    <span class="cl-eyebrow">Curated Curriculum</span>
+                    <h2 class="cl-section-title">Featured Courses</h2>
+                </div>
+                <a href="#courses" class="cl-link-arrow">
+                    View all catalogue (5)
+                    <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col">
+                    <article class="cl-card cl-course">
+                        <div class="cl-course-thumb cl-thumb-frontend">
+                            &lt;/&gt;
+                            <span class="cl-level cl-level-intermediate">Intermediate</span>
+                        </div>
+                        <div class="cl-course-body">
+                            <span class="cl-course-category">Frontend Engineering</span>
+                            <h3>Modern TypeScript &amp; Scalable React Patterns</h3>
+                            <p>Master enterprise-grade TypeScript type gymnastics, React 18 concurrent rendering, custom hooks, and scalable state management.</p>
+                            <div class="cl-course-footer">
+                                <span><i data-lucide="book-open" class="cl-icon me-1" aria-hidden="true"></i>18 Lessons</span>
+                                <a href="#courses">Explore Syllabus <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="cl-card cl-course">
+                        <div class="cl-course-thumb cl-thumb-science">
+                            O(n log n)
+                            <span class="cl-level cl-level-advanced">Advanced</span>
+                        </div>
+                        <div class="cl-course-body">
+                            <span class="cl-course-category">Computer Science</span>
+                            <h3>Algorithms &amp; Discrete Math for Developers</h3>
+                            <p>Explore rigorous algorithmic principles, asymptotic complexity, graph theory, dynamic programming, and proof techniques.</p>
+                            <div class="cl-course-footer">
+                                <span><i data-lucide="book-open" class="cl-icon me-1" aria-hidden="true"></i>24 Lessons</span>
+                                <a href="#courses">Explore Syllabus <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="cl-card cl-course">
+                        <div class="cl-course-thumb cl-thumb-python">
+                            &gt;&gt;&gt; py
+                            <span class="cl-level cl-level-beginner">Beginner</span>
+                        </div>
+                        <div class="cl-course-body">
+                            <span class="cl-course-category">Programming Fundamentals</span>
+                            <h3>Python Essentials: From Zero to Automated Scripts</h3>
+                            <p>Comprehensive introduction to Python programming syntax, idiomatic data structures, file I/O operations, and task automation.</p>
+                            <div class="cl-course-footer">
+                                <span><i data-lucide="book-open" class="cl-icon me-1" aria-hidden="true"></i>14 Lessons</span>
+                                <a href="#courses">Explore Syllabus <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <%-- ===== Sandbox panel ===== --%>
+        <section class="cl-section">
+            <div class="cl-dark-panel">
+                <span class="cl-pill cl-pill-dark">
+                    <i data-lucide="terminal" class="cl-icon" aria-hidden="true"></i>
+                    Zero-Toolchain Code Execution
+                </span>
+                <h2>Write, Test, and Debug in Real-Time</h2>
+                <p class="cl-lead mb-5">
+                    Every lesson comes equipped with an automated test suite. Complete exercises directly
+                    in your browser without spending hours configuring local environments.
                 </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
+
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <div class="col">
+                        <div class="cl-step">
+                            <span class="cl-step-label">01 &bull; Browser Sandboxes</span>
+                            Instant runtime initialization for Python, JavaScript, TypeScript, and Go.
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-step">
+                            <span class="cl-step-label">02 &bull; Automated Tests</span>
+                            Run unit test suites against your implementations with immediate feedback.
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-step">
+                            <span class="cl-step-label">03 &bull; Verified Pedagogy</span>
+                            Curated and moderated content by verified engineering practitioners.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cl-panel-footer">
+                    <span>Ready to unlock your interactive coding playground?</span>
+                    <a runat="server" href="~/Modules/Public/Register" class="btn btn-primary">Create Learner Account</a>
+                </div>
+            </div>
+        </section>
+
+        <%-- ===== About ===== --%>
+        <section id="about" class="cl-section">
+            <div class="cl-card cl-about">
+                <span class="cl-pill">
+                    <i data-lucide="shield" class="cl-icon" aria-hidden="true"></i>
+                    ABOUT CODELAB
+                </span>
+                <h2>Built for Aspiring Engineers, Backed by Industry Mentors</h2>
+                <p class="cl-lead mb-5">
+                    CodeLab bridges the gap between passive video tutorials and production software engineering.
+                    We pair peer-reviewed curricula authored by verified educators with an instantaneous,
+                    browser-based runtime environment.
                 </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
-                </p>
-            </section>
-        </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="cl-value">
+                            <span class="cl-icon-tile cl-icon-tile-sm"><i data-lucide="shield-check" class="cl-icon" aria-hidden="true"></i></span>
+                            <h3>Rigorous Moderation</h3>
+                            <p>No unverified content. Every course syllabus, lesson exercise, and starter repo undergoes administrative quality audit before publication.</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-value">
+                            <span class="cl-icon-tile cl-icon-tile-sm"><i data-lucide="laptop" class="cl-icon" aria-hidden="true"></i></span>
+                            <h3>Zero-Setup Sandboxes</h3>
+                            <p>Eliminate local toolchain setup blockers. Execute code, run automated unit test suites, and inspect errors directly in the browser.</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-value">
+                            <span class="cl-icon-tile cl-icon-tile-sm"><i data-lucide="award" class="cl-icon" aria-hidden="true"></i></span>
+                            <h3>Verified Credentials</h3>
+                            <p>Validate your competence through milestone-driven projects and shareable certificates recognized across engineering teams.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-cols-2 row-cols-md-4 g-4 cl-stats">
+                    <div class="col">
+                        <div class="cl-stat-value">45,000+</div>
+                        <div class="cl-stat-label">Active Learners</div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-stat-value cl-accent">98.4%</div>
+                        <div class="cl-stat-label">Satisfaction Rate</div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-stat-value">5+</div>
+                        <div class="cl-stat-label">Audited Curriculums</div>
+                    </div>
+                    <div class="col">
+                        <div class="cl-stat-value cl-accent">100%</div>
+                        <div class="cl-stat-label">In-Browser Execution</div>
+                    </div>
+                </div>
+
+                <div class="cl-dark-panel cl-cta-bar">
+                    <div>
+                        <h3>Start Your Software Engineering Journey</h3>
+                        <p>Register in less than 30 seconds to unlock complete curriculums, interactive code sandboxes, and quizzes.</p>
+                    </div>
+                    <a runat="server" href="~/Modules/Public/Register" class="btn btn-primary cl-btn-lg">Register Free</a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
 </asp:Content>

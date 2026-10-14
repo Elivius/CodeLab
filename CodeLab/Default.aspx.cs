@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace CodeLab
 {
@@ -11,7 +7,7 @@ namespace CodeLab
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // The landing page content is static mock data for now
         }
     }
 }

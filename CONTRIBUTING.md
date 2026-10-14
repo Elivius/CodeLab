@@ -52,7 +52,7 @@ CodeLab/                          # Repository root
     │   ├── PasswordHelper.cs
     │   └── LogHelper.cs
     │
-    ├── Content/                  # CSS: Bootstrap 5 plus our own Site.css
+    ├── Content/                  # CSS (Bootstrap 5, Site.css) and Images/ (e.g. logo.png)
     ├── Scripts/                  # JavaScript: Bootstrap, jQuery, Web Forms scripts
     │
     ├── Modules/                  # Presentation Layer (Organized by role)
@@ -606,6 +606,7 @@ The shared foundation is in place. Build your module on top of it:
 | Hash or check a password | `PasswordHelper.HashPassword(...)` / `VerifyPassword(...)` |
 | Share the page layout | `MasterPageFile="~/Site.Master"`, and add your menu links to the PlaceHolder for your role in `Site.Master` |
 | Style a page | Bootstrap 5 classes (`form-control`, `btn btn-primary`, `alert alert-success`, `table`); put our own rules in `Content/Site.css` |
+| Display icons on a page | Lucide Icons: `<i data-lucide="icon-name" class="cl-icon"></i>` (loaded in `Site.Master`, browse at [lucide.dev/icons](https://lucide.dev/icons)) |
 
 **The reference example is audit logging.** Read these four files in order to see one feature across every layer: `Modules/Admin/AuditLogs.aspx.cs` → `BLL/AuditManager.cs` → `DAL/AuditRepository.cs` → `Models/AuditLog.cs`.
 
