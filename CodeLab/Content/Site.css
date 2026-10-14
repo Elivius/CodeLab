@@ -1,0 +1,678 @@
+/* CodeLab brand styles, layered on top of Bootstrap 5.
+   Shared rules live here; classes are prefixed "cl-" so they never clash with Bootstrap. */
+
+:root {
+    --cl-raspberry: #C9527D;      /* Primary branding and CTAs */
+    --cl-coral: #FFA2A4;          /* Gradient end and accent */
+    --cl-cherry: #FF758F;         /* Alternate accent */
+    --cl-slate: #2D3436;          /* Body text and high contrast */
+    --cl-rose: #FFE5EC;           /* Soft backgrounds and borders */
+    --cl-alabaster: #FDF8FA;      /* Page background */
+
+    /* Theme tokens: use these, not the raw brand colours, so both themes work */
+    --cl-bg: var(--cl-alabaster);        /* Page background */
+    --cl-surface: #ffffff;               /* Cards, header, footer */
+    --cl-border: var(--cl-rose);
+    --cl-soft: var(--cl-rose);           /* Tinted backgrounds: pills, icon tiles */
+    --cl-text: var(--cl-slate);
+    --cl-text-soft: #4B5563;
+    --cl-muted: #6B7280;
+    --cl-accent: var(--cl-raspberry);    /* Coloured text and icons */
+    --cl-accent-hover: #A93F66;
+    --cl-gradient: linear-gradient(90deg, #C9527D 0%, #FF758F 55%, #FFA2A4 100%);
+    --cl-radius: 16px;
+}
+
+/* Dark theme: switched by the toggle in the header (data-theme on <html>) */
+[data-theme="dark"] {
+    --cl-bg: #1A1D1F;
+    --cl-surface: #24292B;
+    --cl-border: #394144;
+    --cl-soft: rgba(255, 117, 143, 0.16);
+    --cl-text: #F3F4F6;
+    --cl-text-soft: #D1D5DB;
+    --cl-muted: #9CA3AF;
+    --cl-accent: #FF8FA6;
+    --cl-accent-hover: #FFA2A4;
+
+    /* Bootstrap reads these for body text, tables and borders */
+    --bs-body-color: #F3F4F6;
+    --bs-body-bg: #1A1D1F;
+    --bs-border-color: #394144;
+    color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    color: var(--cl-text);
+    background-color: var(--cl-bg);
+}
+
+h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+a {
+    color: var(--cl-accent);
+}
+
+a:hover {
+    color: var(--cl-accent-hover);
+}
+
+/* Keeps the footer at the bottom of the window on short pages */
+body > form {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.body-content {
+    flex: 1;
+    padding-top: 24px;
+    padding-bottom: 64px;
+}
+
+/* Keep ordinary form inputs from stretching across the whole page */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.cl-icon {
+    width: 1em;
+    height: 1em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: -0.125em;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+/* Colours are set through Bootstrap's own button variables, so its hover
+   transition fades smoothly between two solid colours. */
+.btn-primary {
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: #C9527D;
+    --bs-btn-border-color: #C9527D;
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-bg: #B4466E;
+    --bs-btn-hover-border-color: #B4466E;
+    --bs-btn-active-color: #ffffff;
+    --bs-btn-active-bg: #A93F66;
+    --bs-btn-active-border-color: #A93F66;
+    --bs-btn-disabled-color: #ffffff;
+    --bs-btn-disabled-bg: #C9527D;
+    --bs-btn-disabled-border-color: #C9527D;
+    --bs-btn-focus-shadow-rgb: 201, 82, 125;
+    box-shadow: 0 6px 16px rgba(201, 82, 125, 0.28);
+}
+
+.cl-btn-outline {
+    --bs-btn-color: var(--cl-text);
+    --bs-btn-bg: var(--cl-surface);
+    --bs-btn-border-color: var(--cl-border);
+    --bs-btn-hover-color: var(--cl-accent);
+    --bs-btn-hover-bg: var(--cl-surface);
+    --bs-btn-hover-border-color: var(--cl-coral);
+    --bs-btn-active-color: var(--cl-accent);
+    --bs-btn-active-bg: var(--cl-surface);
+    --bs-btn-active-border-color: var(--cl-coral);
+}
+
+.cl-btn-lg {
+    padding: 14px 32px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--cl-coral);
+    box-shadow: 0 0 0 0.2rem rgba(201, 82, 125, 0.18);
+}
+
+/* ---------- Header ---------- */
+
+.cl-navbar {
+    background-color: var(--cl-surface);
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--cl-text);
+    text-decoration: none;
+}
+
+.cl-brand:hover {
+    color: var(--cl-text);
+}
+
+.cl-brand b {
+    font-weight: inherit;
+    color: var(--cl-cherry);
+}
+
+.cl-logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.cl-navbar .nav-link {
+    font-size: 0.925rem;
+    font-weight: 500;
+    color: var(--cl-text-soft);
+}
+
+.cl-navbar .nav-link:hover,
+.cl-navbar .nav-link.active {
+    color: var(--cl-accent);
+}
+
+.cl-navbar .btn {
+    padding: 6px 14px;
+}
+
+.cl-nav-user {
+    font-size: 0.875rem;
+    color: var(--cl-muted);
+}
+
+.cl-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--cl-text);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-theme-toggle:hover {
+    border-color: var(--cl-coral);
+}
+
+.cl-theme-toggle .cl-icon {
+    font-size: 0.9rem;
+    color: var(--cl-accent);
+}
+
+/* Only the label and icon for the active theme are shown */
+.cl-theme-dark,
+[data-theme="dark"] .cl-theme-light {
+    display: none;
+}
+
+[data-theme="dark"] .cl-theme-dark {
+    display: inline;
+}
+
+/* ---------- Footer ---------- */
+
+.cl-footer {
+    padding: 28px 0;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+    background-color: var(--cl-surface);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-footer a {
+    font-size: 0.875rem;
+    color: var(--cl-muted);
+    text-decoration: none;
+}
+
+.cl-footer a:hover {
+    color: var(--cl-accent);
+}
+
+/* ---------- Shared building blocks ---------- */
+
+.cl-card {
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: var(--cl-radius);
+    box-shadow: 0 1px 2px rgba(45, 52, 54, 0.04);
+}
+
+.cl-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 999px;
+}
+
+.cl-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cl-accent);
+}
+
+.cl-icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    font-size: 1.4rem;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 12px;
+}
+
+.cl-icon-tile-sm {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+}
+
+.cl-gradient-text {
+    background: var(--cl-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* ---------- Login and register forms ---------- */
+
+.cl-auth {
+    max-width: 400px;
+    margin: 48px auto;
+    padding: 32px;
+}
+
+.cl-auth h1 {
+    margin-bottom: 24px;
+    font-size: 1.75rem;
+}
+
+.cl-auth .form-control {
+    max-width: none;
+}
+
+.cl-auth .btn {
+    width: 100%;
+    max-width: none;
+    padding: 10px;
+}
+
+/* ---------- Landing page: hero ---------- */
+
+.cl-landing {
+    max-width: 1104px;
+    margin: 0 auto;
+}
+
+.cl-hero {
+    padding: 24px 0 64px;
+    text-align: center;
+}
+
+.cl-hero h1 {
+    margin: 28px 0 32px;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+.cl-hero-lead {
+    max-width: 680px;
+    margin: 0 auto 40px;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--cl-text-soft);
+}
+
+.cl-feature {
+    height: 100%;
+    padding: 24px 20px;
+    text-align: center;
+}
+
+.cl-feature h3 {
+    margin: 16px 0 12px;
+    font-size: 1rem;
+}
+
+.cl-feature p {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--cl-muted);
+}
+
+/* ---------- Landing page: courses ---------- */
+
+.cl-section {
+    padding: 40px 0;
+    scroll-margin-top: 72px;
+}
+
+.cl-section-title {
+    margin: 4px 0 0;
+    font-size: 1.9rem;
+}
+
+.cl-link-arrow {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--cl-text);
+    text-decoration: none;
+}
+
+.cl-link-arrow:hover {
+    color: var(--cl-accent);
+}
+
+.cl-course {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.cl-course-thumb {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 176px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cl-thumb-frontend {
+    background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+}
+
+.cl-thumb-science {
+    background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%);
+}
+
+.cl-thumb-python {
+    background: linear-gradient(135deg, #052E16 0%, #15803D 100%);
+}
+
+.cl-level {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 3px 10px;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #ffffff;
+    border-radius: 6px;
+}
+
+.cl-level-beginner {
+    background-color: #10B981;
+}
+
+.cl-level-intermediate {
+    background-color: #3B82F6;
+}
+
+.cl-level-advanced {
+    background-color: #F43F5E;
+}
+
+.cl-course-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 24px;
+}
+
+.cl-course-category {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-course-body h3 {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    line-height: 1.35;
+}
+
+.cl-course-body p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-bottom: 16px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--cl-muted);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.cl-course-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 14px;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-course-footer a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ---------- Landing page: dark panels ---------- */
+
+.cl-dark-panel {
+    padding: 48px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2D3436 0%, #3B4252 55%, #2D3436 100%);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(45, 52, 54, 0.18);
+}
+
+.cl-dark-panel h2 {
+    margin: 16px 0;
+    font-size: 1.9rem;
+}
+
+.cl-dark-panel .cl-lead {
+    max-width: 680px;
+    color: #D1D5DB;
+}
+
+.cl-pill-dark {
+    padding: 4px 12px;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.cl-pill-dark .cl-icon {
+    color: var(--cl-coral);
+}
+
+.cl-step {
+    height: 100%;
+    padding: 16px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #E5E7EB;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+}
+
+.cl-step-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--cl-coral);
+}
+
+.cl-panel-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 16px;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cl-cta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px;
+    border-radius: 14px;
+}
+
+.cl-cta-bar h3 {
+    margin-bottom: 6px;
+    font-size: 1.25rem;
+}
+
+.cl-cta-bar p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #E5E7EB;
+}
+
+/* ---------- Landing page: about ---------- */
+
+.cl-about {
+    padding: 48px;
+}
+
+.cl-about h2 {
+    max-width: 700px;
+    margin: 16px 0;
+    font-size: 2.25rem;
+    line-height: 1.15;
+}
+
+.cl-about .cl-lead {
+    max-width: 740px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--cl-text-soft);
+}
+
+.cl-value {
+    height: 100%;
+    padding: 24px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-value h3 {
+    margin: 16px 0 12px;
+    font-size: 1.1rem;
+}
+
+.cl-value p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--cl-muted);
+}
+
+.cl-stats {
+    margin: 40px 0;
+    padding-top: 24px;
+    text-align: center;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cl-stat-value.cl-accent {
+    color: var(--cl-accent);
+}
+
+.cl-stat-label {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+@media (max-width: 575.98px) {
+    .cl-dark-panel,
+    .cl-about {
+        padding: 28px 20px;
+    }
+}
+
+/* ---------- Dark theme: Bootstrap components ---------- */
+
+[data-theme="dark"] .form-control {
+    color: var(--cl-text);
+    background-color: var(--cl-bg);
+    border-color: var(--cl-border);
+}
+
+[data-theme="dark"] .table {
+    --bs-table-striped-color: var(--cl-text);
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .navbar-toggler {
+    border-color: var(--cl-border);
+}
+
+[data-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+[data-theme="dark"] .cl-dark-panel {
+    border: 1px solid var(--cl-border);
+    box-shadow: none;
+}

@@ -1,2 +1,5 @@
 # Normalise line endings so files do not show as fully changed between machines
 * text=auto
+
+# Windows batch files only run correctly with CRLF line endings
+*.cmd text eol=crlf
