@@ -1,0 +1,55 @@
+<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Tutor.Master.cs" Inherits="CodeLab.Modules.Tutor.TutorMaster" %>
+
+<%-- Shared layout for every Tutor page: sidebar on the left, the page on the right.
+     A new Tutor page uses MasterPageFile="~/Modules/Tutor/Tutor.Master" and puts its
+     markup in the TutorContent placeholder. Its sidebar link turns on by itself once
+     the .aspx file exists. --%>
+
+<asp:Content ID="TutorBody" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="cl-module">
+
+        <aside class="cl-card cl-sidebar" aria-label="Tutor navigation">
+            <div class="cl-sidebar-profile">
+                <span class="cl-avatar" aria-hidden="true"><%: Initials %></span>
+                <div class="cl-sidebar-identity">
+                    <div class="cl-sidebar-name"><%: TutorName %></div>
+                    <span class="cl-badge <%: StatusBadgeCss %>"><%: StatusText %></span>
+                </div>
+            </div>
+
+            <nav class="cl-sidebar-nav">
+                <div class="cl-sidebar-group">Overview</div>
+                <%= NavLink("Dashboard", "layout-dashboard", "Dashboard", false) %>
+
+                <div class="cl-sidebar-group">Authoring</div>
+                <%= NavLink("CourseEditor", "book-plus", "Create Course", true) %>
+                <%= NavLink("QuizEditor", "list-checks", "Quizzes", true) %>
+                <%= NavLink("ChallengeEditor", "code", "Coding Challenges", true) %>
+
+                <div class="cl-sidebar-group">Insights</div>
+                <%= NavLink("Analytics", "chart-column", "Analytics", true) %>
+
+                <div class="cl-sidebar-group">Account</div>
+                <%= NavLink("Profile", "user", "My Profile", false) %>
+            </nav>
+        </aside>
+
+        <div class="cl-module-content">
+            <%-- Shown until the tutor's application is approved --%>
+            <asp:PlaceHolder ID="phNotice" runat="server" Visible="false">
+                <div class="cl-notice" role="status">
+                    <i data-lucide="shield-alert" class="cl-icon cl-notice-icon" aria-hidden="true"></i>
+                    <div class="cl-notice-body">
+                        <strong><asp:Literal ID="litNoticeTitle" runat="server" Mode="Encode" /></strong>
+                        <p><asp:Literal ID="litNoticeText" runat="server" Mode="Encode" /></p>
+                    </div>
+                    <asp:HyperLink ID="hlNoticeAction" runat="server" CssClass="btn btn-primary btn-sm" Visible="false" />
+                </div>
+            </asp:PlaceHolder>
+
+            <asp:ContentPlaceHolder ID="TutorContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </div>
+</asp:Content>

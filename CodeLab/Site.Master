@@ -82,6 +82,7 @@
                             <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Admin/AuditLogs">Audit Logs</a></li>
                         </asp:PlaceHolder>
                         <asp:PlaceHolder ID="phTutorNav" runat="server" Visible="false">
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Tutor/Dashboard">Tutor Dashboard</a></li>
                         </asp:PlaceHolder>
                         <asp:PlaceHolder ID="phLearnerNav" runat="server" Visible="false">
                         </asp:PlaceHolder>
