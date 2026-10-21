@@ -4,8 +4,8 @@ namespace CodeLab.Models
 {
     public class AuditLog
     {
-        public int LogID { get; set; }
-        public int UserID { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public string Username { get; set; }
         public string FullName { get; set; }
         public string Action { get; set; }

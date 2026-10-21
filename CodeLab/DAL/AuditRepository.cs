@@ -11,8 +11,8 @@ namespace CodeLab.DAL
     {
         public bool InsertAuditLog(AuditLog auditRecord)
         {
-            string query = @"INSERT INTO AuditLogs (UserID, Action, Details, Timestamp)
-                             VALUES (@UserID, @Action, @Details, @Timestamp)";
+            string query = @"INSERT INTO AuditLogs (UserId, Action, Details, Timestamp)
+                             VALUES (@UserId, @Action, @Details, @Timestamp)";
 
             try
             {
@@ -20,7 +20,7 @@ namespace CodeLab.DAL
                 {
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.Add("@UserID", SqlDbType.Int).Value = auditRecord.UserID;
+                        command.Parameters.Add("@UserId", SqlDbType.Int).Value = auditRecord.UserId;
                         command.Parameters.Add("@Action", SqlDbType.VarChar, 50).Value = auditRecord.Action;
                         command.Parameters.Add("@Details", SqlDbType.NVarChar, 500).Value =
                             (object)auditRecord.Details ?? DBNull.Value;
@@ -42,9 +42,9 @@ namespace CodeLab.DAL
         {
             List<AuditLog> logList = new List<AuditLog>();
             string query = @"SELECT TOP 100
-                                a.LogID, a.UserID, u.Username, u.FullName, a.Action, a.Details, a.Timestamp
+                                a.Id, a.UserId, u.Username, u.FullName, a.Action, a.Details, a.Timestamp
                              FROM AuditLogs a
-                             INNER JOIN Users u ON a.UserID = u.UserID
+                             INNER JOIN Users u ON a.UserId = u.Id
                              ORDER BY a.Timestamp DESC";
 
             using (SqlConnection connection = DatabaseHelper.GetConnection())
@@ -58,8 +58,8 @@ namespace CodeLab.DAL
                         {
                             logList.Add(new AuditLog
                             {
-                                LogID = Convert.ToInt32(reader["LogID"]),
-                                UserID = Convert.ToInt32(reader["UserID"]),
+                                Id = Convert.ToInt32(reader["Id"]),
+                                UserId = Convert.ToInt32(reader["UserId"]),
                                 Username = reader["Username"].ToString(),
                                 FullName = reader["FullName"].ToString(),
                                 Action = reader["Action"].ToString(),

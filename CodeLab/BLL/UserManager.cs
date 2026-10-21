@@ -38,13 +38,20 @@ namespace CodeLab.BLL
                 return OperationResult<User>.Fail(InvalidLoginMessage);
             }
 
-            if (!user.IsActive)
+            if (user.Status == UserStatuses.Suspended)
             {
-                return OperationResult<User>.Fail("This account has been deactivated.");
+                return OperationResult<User>.Fail("This account has been suspended. Please contact an administrator.");
             }
 
+            if (user.Status != UserStatuses.Active)
+            {
+                return OperationResult<User>.Fail("This account has not been activated yet.");
+            }
+
+            _userRepository.UpdateLastLogin(user.Id);
+
             AuditManager auditManager = new AuditManager();
-            auditManager.RecordActivity(user.UserID, "LOGIN", "Signed in.");
+            auditManager.RecordActivity(user.Id, "LOGIN", "Signed in.");
 
             return OperationResult<User>.Ok(user);
         }

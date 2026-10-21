@@ -26,7 +26,7 @@ namespace CodeLab.Helpers
             HttpContext context = HttpContext.Current;
 
             // The ticket carries the user's id and role so they survive a session timeout
-            string userData = user.UserID + "|" + user.Role;
+            string userData = user.Id + "|" + user.Role;
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                 1,
                 user.Username,
@@ -42,7 +42,7 @@ namespace CodeLab.Helpers
             cookie.Path = FormsAuthentication.FormsCookiePath;
             context.Response.Cookies.Add(cookie);
 
-            context.Session[UserIdKey] = user.UserID;
+            context.Session[UserIdKey] = user.Id;
             context.Session[UsernameKey] = user.Username;
             context.Session[FullNameKey] = user.FullName;
             context.Session[RoleKey] = user.Role;

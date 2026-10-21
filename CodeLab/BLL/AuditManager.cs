@@ -31,7 +31,7 @@ namespace CodeLab.BLL
 
             AuditLog log = new AuditLog
             {
-                UserID = userId,
+                UserId = userId,
                 Action = action,
                 Details = details,
                 Timestamp = DateTime.UtcNow
