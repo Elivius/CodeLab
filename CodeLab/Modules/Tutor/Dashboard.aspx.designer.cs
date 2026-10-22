@@ -15,6 +15,24 @@ namespace CodeLab.Modules.Tutor
     {
 
         /// <summary>
+        /// lblMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessage;
+
+        /// <summary>
+        /// litGreeting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litGreeting;
+
+        /// <summary>
         /// litTutorName control.
         /// </summary>
         /// <remarks>
@@ -22,6 +40,15 @@ namespace CodeLab.Modules.Tutor
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litTutorName;
+
+        /// <summary>
+        /// litSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSummary;
 
         /// <summary>
         /// hlCreateCourse control.
@@ -33,13 +60,13 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.HyperLink hlCreateCourse;
 
         /// <summary>
-        /// lblMessage control.
+        /// hlProfile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
+        protected global::System.Web.UI.WebControls.HyperLink hlProfile;
 
         /// <summary>
         /// litCourseCount control.
@@ -105,6 +132,42 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.Literal litPassRateNote;
 
         /// <summary>
+        /// litCountAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCountAll;
+
+        /// <summary>
+        /// litCountDraft control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCountDraft;
+
+        /// <summary>
+        /// litCountPending control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCountPending;
+
+        /// <summary>
+        /// litCountPublished control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCountPublished;
+
+        /// <summary>
         /// rptCourses control.
         /// </summary>
         /// <remarks>
@@ -121,6 +184,42 @@ namespace CodeLab.Modules.Tutor
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder phNoCourses;
+
+        /// <summary>
+        /// litPipelineTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litPipelineTotal;
+
+        /// <summary>
+        /// rptPipeline control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPipeline;
+
+        /// <summary>
+        /// rptAttention control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptAttention;
+
+        /// <summary>
+        /// phAllClear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phAllClear;
 
         /// <summary>
         /// Master property.

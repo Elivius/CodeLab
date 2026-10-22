@@ -193,39 +193,13 @@ namespace CodeLab.BLL
                 return OperationResult.Fail("Unauthorized: Only tutors can change their tutor profile photo.");
             }
 
-            if (content == null || contentLength <= 0)
+            byte[] data;
+            string extension;
+            string imageError = ImageUploadHelper.ReadValidatedImage(
+                fileName, contentLength, content, MaxAvatarBytes, "photo", out data, out extension);
+            if (imageError != null)
             {
-                return OperationResult.Fail("Choose an image to upload first.");
-            }
-
-            if (contentLength > MaxAvatarBytes)
-            {
-                return OperationResult.Fail("The photo must be 2 MB or smaller.");
-            }
-
-            if (!ImageUploadHelper.HasAllowedExtension(fileName))
-            {
-                return OperationResult.Fail("The photo must be a JPG, PNG or WebP image.");
-            }
-
-            byte[] data = new byte[contentLength];
-            int bytesRead = 0;
-            while (bytesRead < contentLength)
-            {
-                int read = content.Read(data, bytesRead, contentLength - bytesRead);
-                if (read == 0)
-                {
-                    break;
-                }
-
-                bytesRead += read;
-            }
-
-            // Trust the file's contents, not its name: a renamed file is rejected here
-            string extension = ImageUploadHelper.DetectImageExtension(data);
-            if (bytesRead != contentLength || extension == null)
-            {
-                return OperationResult.Fail("The photo must be a JPG, PNG or WebP image.");
+                return OperationResult.Fail(imageError);
             }
 
             int userId = SessionHelper.GetCurrentUserID();

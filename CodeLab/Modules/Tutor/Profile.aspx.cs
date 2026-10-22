@@ -364,6 +364,8 @@ namespace CodeLab.Modules.Tutor
 
         private void ShowError(string message)
         {
+            // The page remembers the green message from the last save; hide it next to an error
+            lblSuccess.Visible = false;
             lblMessage.Text = HttpUtility.HtmlEncode(message);
             lblMessage.Visible = true;
         }

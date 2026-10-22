@@ -1,76 +1,241 @@
-<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Tutor.Master.cs" Inherits="CodeLab.Modules.Tutor.TutorMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Tutor.Master.cs" Inherits="CodeLab.Modules.Tutor.TutorMaster" %>
 
-<%-- Shared layout for every Tutor page: sidebar on the left, the page on the right.
-     A new Tutor page uses MasterPageFile="~/Modules/Tutor/Tutor.Master" and puts its
-     markup in the TutorContent placeholder. Its sidebar link turns on by itself once
-     the .aspx file exists. --%>
+<%-- Full-screen layout for every Tutor page: a sidebar down the whole left side, a slim top bar,
+     and the page using the rest of the width. It does not use Site.Master, so the public header
+     and footer are not shown here.
+     A new Tutor page uses MasterPageFile="~/Modules/Tutor/Tutor.Master" and puts its markup in the
+     TutorContent placeholder. Its sidebar link turns on by itself once the .aspx file exists. --%>
 
-<%-- Tutor-only styles, loaded after Site.css --%>
-<asp:Content ID="TutorHead" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="<%: ResolveUrl("~/Content/Tutor.css") %>" rel="stylesheet" />
-</asp:Content>
+<!DOCTYPE html>
 
-<asp:Content ID="TutorBody" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="cl-module">
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - CodeLab Tutor</title>
 
-        <aside class="cl-card cl-sidebar" aria-label="Tutor navigation">
-            <div class="cl-sidebar-profile">
-                <% if (AvatarSrc != null) { %>
-                    <img class="cl-avatar" src="<%: AvatarSrc %>" alt="" />
-                <% } else { %>
-                    <span class="cl-avatar" aria-hidden="true"><%: Initials %></span>
-                <% } %>
-                <div class="cl-sidebar-identity">
-                    <div class="cl-sidebar-name"><%: TutorName %></div>
-                    <span class="cl-badge <%: StatusBadgeCss %>"><%: StatusText %></span>
-                </div>
-            </div>
-
-            <nav class="cl-sidebar-nav">
-                <div class="cl-sidebar-group">Overview</div>
-                <%= NavLink("Dashboard", "layout-dashboard", "Dashboard", false) %>
-
-                <div class="cl-sidebar-group">Authoring</div>
-                <%= NavLink("CourseEditor", "book-plus", "Create Course", true) %>
-                <%= NavLink("QuizEditor", "list-checks", "Quizzes", true) %>
-                <%= NavLink("ChallengeEditor", "code", "Coding Challenges", true) %>
-
-                <div class="cl-sidebar-group">Insights</div>
-                <%= NavLink("Analytics", "chart-column", "Analytics", true) %>
-
-                <div class="cl-sidebar-group">Account</div>
-                <%= NavLink("Profile", "user", "My Profile", false) %>
-            </nav>
-        </aside>
-
-        <div class="cl-module-content">
-            <%-- Shown until the tutor's application is approved --%>
-            <asp:PlaceHolder ID="phNotice" runat="server" Visible="false">
-                <div class="cl-notice" role="status">
-                    <i data-lucide="shield-alert" class="cl-icon cl-notice-icon" aria-hidden="true"></i>
-                    <div class="cl-notice-body">
-                        <strong><asp:Literal ID="litNoticeTitle" runat="server" Mode="Encode" /></strong>
-                        <p><asp:Literal ID="litNoticeText" runat="server" Mode="Encode" /></p>
-                    </div>
-                    <asp:HyperLink ID="hlNoticeAction" runat="server" CssClass="btn btn-primary btn-sm" Visible="false" />
-                </div>
-            </asp:PlaceHolder>
-
-            <asp:ContentPlaceHolder ID="TutorContent" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
-
-    </div>
-
-    <%-- On small screens the sidebar links scroll sideways; bring the current page's link into view --%>
+    <%-- Applies the saved theme before the page paints, so there is no flash of the wrong colours --%>
     <script>
-        // Runs on "load", after the icons are drawn, so the link widths are final
-        window.addEventListener('load', function () {
-            var nav = document.querySelector('.cl-sidebar-nav');
-            var active = nav && nav.querySelector('.cl-sidebar-link.active');
-            if (active && nav.scrollWidth > nav.clientWidth) {
-                nav.scrollLeft = active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2;
+        (function () {
+            var theme = null;
+            try { theme = localStorage.getItem('codelab-theme'); } catch (e) { }
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
-        });
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
     </script>
-</asp:Content>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <asp:PlaceHolder runat="server">
+        <link href="<%: TutorCssUrl %>" rel="stylesheet" />
+    </asp:PlaceHolder>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <asp:ContentPlaceHolder ID="TutorHead" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="cl-app">
+    <%-- Theme toggle icons (moon/sun) --%>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="cl-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></symbol>
+        <symbol id="cl-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></symbol>
+    </svg>
+
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div class="cl-shell" id="tutorShell">
+
+            <%-- ===== Sidebar: brand, navigation, signed-in tutor ===== --%>
+            <aside class="cl-shell-sidebar" aria-label="Tutor navigation">
+                <a class="cl-shell-brand" href="<%: GetPageUrl("Dashboard") %>">
+                    <img src="<%: ResolveUrl("~/Content/Images/logo.png") %>" alt="" class="cl-logo" />
+                    <span>Code<b>Lab</b></span>
+                    <span class="cl-shell-tag">Tutor</span>
+                </a>
+
+                <nav class="cl-shell-nav">
+                    <div class="cl-sidebar-group">Overview</div>
+                    <%= NavLink("Dashboard", "layout-dashboard", "Dashboard", false) %>
+
+                    <div class="cl-sidebar-group">Authoring</div>
+                    <%= NavLink("CourseEditor", "book-plus", "Create Course", true) %>
+                    <%= NavLink("QuizEditor", "list-checks", "Quizzes", true) %>
+                    <%= NavLink("ChallengeEditor", "code", "Coding Challenges", true) %>
+
+                    <div class="cl-sidebar-group">Insights</div>
+                    <%= NavLink("Analytics", "chart-column", "Analytics", true) %>
+
+                    <div class="cl-sidebar-group">Account</div>
+                    <%= NavLink("Profile", "user", "My Profile", false) %>
+                </nav>
+
+                <div class="cl-shell-user">
+                    <a class="cl-shell-user-card" href="<%: GetPageUrl("Profile") %>">
+                        <% if (AvatarSrc != null) { %>
+                            <img class="cl-avatar" src="<%: AvatarSrc %>" alt="" />
+                        <% } else { %>
+                            <span class="cl-avatar" aria-hidden="true"><%: Initials %></span>
+                        <% } %>
+                        <span class="cl-shell-user-text">
+                            <strong><%: TutorName %></strong>
+                            <span class="cl-badge <%: StatusBadgeCss %>"><%: StatusText %></span>
+                        </span>
+                    </a>
+                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="cl-shell-logout" CausesValidation="false" OnClick="btnLogout_Click">
+                        <i data-lucide="log-out" class="cl-icon" aria-hidden="true"></i><span>Log out</span>
+                    </asp:LinkButton>
+                </div>
+            </aside>
+
+            <div class="cl-shell-backdrop" data-shell-close></div>
+
+            <%-- ===== Main area: top bar and the page ===== --%>
+            <div class="cl-shell-main">
+                <header class="cl-topbar">
+                    <button type="button" class="cl-topbar-icon cl-shell-menu" data-shell-open aria-label="Open menu">
+                        <i data-lucide="menu" class="cl-icon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="cl-topbar-title">
+                        <span>Tutor workspace</span>
+                        <strong><%: Page.Title %></strong>
+                    </div>
+
+                    <div class="cl-topbar-actions">
+                        <% if (ShowCreateButton) { %>
+                            <a class="btn btn-primary btn-sm cl-topbar-cta" href="<%: GetPageUrl("CourseEditor") %>">
+                                <i data-lucide="plus" class="cl-icon" aria-hidden="true"></i><span>New course</span>
+                            </a>
+                        <% } %>
+                        <button type="button" id="btnThemeToggle" class="cl-topbar-icon" title="Switch between light and dark mode">
+                            <svg class="cl-icon cl-theme-light" aria-hidden="true"><use href="#cl-moon" /></svg>
+                            <svg class="cl-icon cl-theme-dark" aria-hidden="true"><use href="#cl-sun" /></svg>
+                            <span class="visually-hidden">Switch theme</span>
+                        </button>
+                        <%-- Profile menu: name and role, then Profile and Sign out --%>
+                        <div class="cl-user-menu" id="userMenu">
+                            <button type="button" class="cl-topbar-user" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenuList">
+                                <% if (AvatarSrc != null) { %>
+                                    <img class="cl-avatar" src="<%: AvatarSrc %>" alt="" />
+                                <% } else { %>
+                                    <span class="cl-avatar" aria-hidden="true"><%: Initials %></span>
+                                <% } %>
+                                <span class="cl-topbar-user-name"><%: TutorName %></span>
+                                <i data-lucide="chevron-down" class="cl-icon cl-user-caret" aria-hidden="true"></i>
+                            </button>
+                            <div class="cl-user-dropdown" id="userMenuList" role="menu" hidden>
+                                <div class="cl-user-dropdown-head">
+                                    <strong><%: TutorName %></strong>
+                                    <span>Active role: <%: RoleText %></span>
+                                </div>
+                                <a class="cl-user-dropdown-item" role="menuitem" href="<%: GetPageUrl("Profile") %>">
+                                    <i data-lucide="user-round" class="cl-icon" aria-hidden="true"></i>My profile
+                                </a>
+                                <asp:LinkButton ID="btnMenuLogout" runat="server" CssClass="cl-user-dropdown-item" role="menuitem"
+                                    CausesValidation="false" OnClick="btnLogout_Click">
+                                    <i data-lucide="log-out" class="cl-icon" aria-hidden="true"></i>Sign out
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <main class="cl-shell-content">
+                    <%-- Shown until the tutor's application is approved --%>
+                    <asp:PlaceHolder ID="phNotice" runat="server" Visible="false">
+                        <div class="cl-notice" role="status">
+                            <i data-lucide="shield-alert" class="cl-icon cl-notice-icon" aria-hidden="true"></i>
+                            <div class="cl-notice-body">
+                                <strong><asp:Literal ID="litNoticeTitle" runat="server" Mode="Encode" /></strong>
+                                <p><asp:Literal ID="litNoticeText" runat="server" Mode="Encode" /></p>
+                            </div>
+                            <asp:HyperLink ID="hlNoticeAction" runat="server" CssClass="btn btn-primary btn-sm" Visible="false" />
+                        </div>
+                    </asp:PlaceHolder>
+
+                    <asp:ContentPlaceHolder ID="TutorContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </main>
+            </div>
+        </div>
+    </form>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+    </asp:PlaceHolder>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        function initIcons() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+        document.addEventListener('DOMContentLoaded', initIcons);
+        if (typeof Sys !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(initIcons);
+        }
+
+        document.getElementById('btnThemeToggle').addEventListener('click', function () {
+            var root = document.documentElement;
+            var theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', theme);
+            try { localStorage.setItem('codelab-theme', theme); } catch (e) { }
+        });
+
+        // Profile menu in the top bar: opens on click, closes on an outside click or Escape
+        (function () {
+            var menu = document.getElementById('userMenu');
+            var button = menu.querySelector('.cl-topbar-user');
+            var list = document.getElementById('userMenuList');
+
+            function setOpen(open) {
+                list.hidden = !open;
+                button.setAttribute('aria-expanded', open ? 'true' : 'false');
+                menu.classList.toggle('is-open', open);
+            }
+
+            button.addEventListener('click', function () { setOpen(list.hidden); });
+            document.addEventListener('click', function (e) {
+                if (!menu.contains(e.target)) { setOpen(false); }
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !list.hidden) { setOpen(false); button.focus(); }
+            });
+        })();
+
+        // On small screens the sidebar slides in from the left
+        (function () {
+            var shell = document.getElementById('tutorShell');
+            document.querySelectorAll('[data-shell-open]').forEach(function (button) {
+                button.addEventListener('click', function () { shell.classList.add('is-open'); });
+            });
+            document.querySelectorAll('[data-shell-close]').forEach(function (element) {
+                element.addEventListener('click', function () { shell.classList.remove('is-open'); });
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') { shell.classList.remove('is-open'); }
+            });
+        })();
+    </script>
+</body>
+</html>

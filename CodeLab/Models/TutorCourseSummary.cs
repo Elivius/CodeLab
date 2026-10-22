@@ -15,5 +15,11 @@ namespace CodeLab.Models
         public int LessonCount { get; set; }
         public int StudentCount { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        // True when an admin sent the course back to Draft with feedback (Courses.RejectionReason)
+        public bool HasFeedback { get; set; }
+
+        // App-relative path of the cover image, or null to show a placeholder
+        public string ThumbnailUrl { get; set; }
     }
 }

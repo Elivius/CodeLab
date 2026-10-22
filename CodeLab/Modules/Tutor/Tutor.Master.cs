@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Web;
 using System.Web.UI;
@@ -16,6 +16,7 @@ namespace CodeLab.Modules.Tutor
         private string _approvalStatus;
         private string _statusError;
         private string _avatarUrl;
+        private string _fullName;
 
         /// <summary>
         /// True when the signed-in user may author content (an approved tutor, or an Admin).
@@ -36,9 +37,100 @@ namespace CodeLab.Modules.Tutor
         /// </summary>
         public bool HideApprovalNotice { get; set; }
 
-        protected string TutorName
+        /// <summary>
+        /// The "New course" shortcut in the top bar: shown to approved tutors, except on the
+        /// course builder itself.
+        /// </summary>
+        protected bool ShowCreateButton
         {
-            get { return SessionHelper.GetCurrentFullName() ?? string.Empty; }
+            get
+            {
+                return IsApproved
+                    && IsPageAvailable("CourseEditor")
+                    && !string.Equals(Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath), "CourseEditor",
+                        StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        /// <summary>
+        /// Link to Tutor.css with its last-changed time added, so browsers fetch the new file after
+        /// every change instead of showing an old cached copy.
+        /// </summary>
+        protected string TutorCssUrl
+        {
+            get
+            {
+                const string cssPath = "~/Content/Tutor.css";
+                long version = File.GetLastWriteTimeUtc(Server.MapPath(cssPath)).Ticks;
+                return ResolveUrl(cssPath) + "?v=" + version;
+            }
+        }
+
+        /// <summary>
+        /// The course builder's progress bar: Details > Lessons > Quiz > Challenge > Submit.
+        /// current is the step this page is (1-5). Steps link to their page once the course exists;
+        /// steps whose page is not built yet show as "Soon".
+        /// </summary>
+        public string BuilderSteps(int current, int courseId)
+        {
+            string[][] steps =
+            {
+                new[] { "Details", "Title, category, cover", "CourseEditor", "?id=" },
+                new[] { "Lessons", "Notes, code, video", "LessonEditor", "?courseId=" },
+                new[] { "Quiz", "Check understanding", "QuizEditor", "?courseId=" },
+                new[] { "Challenge", "Hands-on coding", "ChallengeEditor", "?courseId=" },
+                new[] { "Submit", "Send for review", "CourseEditor", "?id=" }
+            };
+
+            System.Text.StringBuilder html = new System.Text.StringBuilder("<ol class=\"cl-steps\" aria-label=\"Course builder steps\">");
+            for (int i = 0; i < steps.Length; i++)
+            {
+                int number = i + 1;
+                string state = number == current ? "is-current" : (number < current ? "is-done" : string.Empty);
+                bool available = courseId > 0 && IsPageAvailable(steps[i][2]);
+                string url = available ? GetPageUrl(steps[i][2]) + steps[i][3] + courseId + (number == 5 ? "#submit" : string.Empty) : null;
+                string dot = number < current
+                    ? "<i data-lucide=\"check\" class=\"cl-icon\" aria-hidden=\"true\"></i>"
+                    : number.ToString();
+                string label = "<span class=\"cl-steps-dot\">" + dot + "</span>"
+                    + "<span class=\"cl-steps-text\"><strong>" + HttpUtility.HtmlEncode(steps[i][0]) + "</strong><small>"
+                    + HttpUtility.HtmlEncode(courseId > 0 && !IsPageAvailable(steps[i][2]) ? "Coming soon" : steps[i][1]) + "</small></span>";
+
+                html.Append("<li class=\"").Append(state).Append(url == null && number != current ? " is-disabled" : string.Empty).Append("\"")
+                    .Append(number == current ? " aria-current=\"step\"" : string.Empty).Append('>');
+                if (url != null && number != current)
+                {
+                    html.Append("<a href=\"").Append(HttpUtility.HtmlAttributeEncode(url)).Append("\">").Append(label).Append("</a>");
+                }
+                else
+                {
+                    html.Append("<span class=\"cl-steps-item\">").Append(label).Append("</span>");
+                }
+
+                html.Append("</li>");
+            }
+
+            return html.Append("</ol>").ToString();
+        }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            new UserManager().RecordLogout(SessionHelper.GetCurrentUserID());
+            SessionHelper.SignOut();
+            Response.Redirect("~/Modules/Public/Login");
+        }
+
+        /// <summary>
+        /// The tutor's full name from their profile. The session only keeps the username after the
+        /// site restarts, so the profile is the reliable source. Pages use it through Master.TutorName.
+        /// </summary>
+        public string TutorName
+        {
+            get
+            {
+                EnsureStatusLoaded();
+                return _fullName ?? SessionHelper.GetCurrentFullName() ?? string.Empty;
+            }
         }
 
         /// <summary>
@@ -91,6 +183,12 @@ namespace CodeLab.Modules.Tutor
                     default: return "Not applied";
                 }
             }
+        }
+
+        // The role shown in the profile menu
+        protected string RoleText
+        {
+            get { return SessionHelper.IsUserInRole(UserRoles.Admin) ? "Administrator" : "Tutor"; }
         }
 
         protected string StatusBadgeCss
@@ -176,6 +274,7 @@ namespace CodeLab.Modules.Tutor
             {
                 _approvalStatus = SessionHelper.IsUserInRole(UserRoles.Admin) ? TutorStatuses.Approved : result.Data.Status;
                 _avatarUrl = result.Data.AvatarUrl;
+                _fullName = result.Data.FullName;
             }
             else
             {

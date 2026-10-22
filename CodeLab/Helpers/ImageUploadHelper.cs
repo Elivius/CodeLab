@@ -11,6 +11,59 @@ namespace CodeLab.Helpers
     public static class ImageUploadHelper
     {
         public const string AvatarFolder = "~/Uploads/Avatars/";
+        public const string CoverFolder = "~/Uploads/Covers/";
+
+        /// <summary>
+        /// Checks an uploaded image (size, name, then the real file contents) and reads it into memory.
+        /// Returns null when it is valid (data and extension are filled in), otherwise a message to show
+        /// the user. label is how the file is called in the message, e.g. "photo" or "cover image".
+        /// </summary>
+        public static string ReadValidatedImage(string fileName, int contentLength, Stream content, int maxBytes,
+            string label, out byte[] data, out string extension)
+        {
+            data = null;
+            extension = null;
+
+            if (content == null || contentLength <= 0)
+            {
+                return "Choose an image to upload first.";
+            }
+
+            if (contentLength > maxBytes)
+            {
+                return "The " + label + " must be " + (maxBytes / (1024 * 1024)) + " MB or smaller.";
+            }
+
+            string typeMessage = "The " + label + " must be a JPG, PNG or WebP image.";
+            if (!HasAllowedExtension(fileName))
+            {
+                return typeMessage;
+            }
+
+            byte[] buffer = new byte[contentLength];
+            int bytesRead = 0;
+            while (bytesRead < contentLength)
+            {
+                int read = content.Read(buffer, bytesRead, contentLength - bytesRead);
+                if (read == 0)
+                {
+                    break;
+                }
+
+                bytesRead += read;
+            }
+
+            // Trust the file's contents, not its name: a renamed file is rejected here
+            string detected = DetectImageExtension(buffer);
+            if (bytesRead != contentLength || detected == null)
+            {
+                return typeMessage;
+            }
+
+            data = buffer;
+            extension = detected;
+            return null;
+        }
 
         /// <summary>
         /// True if the file name ends in an extension we accept (.jpg, .jpeg, .png, .webp).

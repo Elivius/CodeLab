@@ -1,29 +1,67 @@
-/* CodeLab Tutor module styles, loaded only by Modules/Tutor/Tutor.Master after Site.css.
+/* CodeLab Tutor module styles, loaded only by Modules/Tutor/Tutor.Master (the full-screen Tutor layout) after Site.css.
    Uses the theme tokens from Site.css (--cl-surface, --cl-accent, ...) so light and dark mode both work.
    Classes keep the shared "cl-" prefix so they never clash with Bootstrap. */
 
-/* ---------- Tutor layout: sidebar + page ---------- */
+/* ---------- Tutor app shell: full-height sidebar, top bar, full-width content ---------- */
 
-.cl-module {
+body.cl-app {
+    background-color: var(--cl-bg);
+}
+
+.cl-shell {
     display: grid;
-    grid-template-columns: 252px minmax(0, 1fr);
-    gap: 28px;
-    align-items: start;
+    grid-template-columns: 264px minmax(0, 1fr);
+    min-height: 100vh;
 }
 
-.cl-sidebar {
+/* Sidebar: runs the whole height of the window */
+.cl-shell-sidebar {
     position: sticky;
-    top: 88px;
-    padding: 20px 14px;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 22px 16px 16px;
+    overflow-y: auto;
+    background-color: var(--cl-surface);
+    border-right: 1px solid var(--cl-border);
 }
 
-.cl-sidebar-profile {
+.cl-shell-brand {
     display: flex;
+    gap: 8px;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    padding: 0 8px 18px;
-    border-bottom: 1px solid var(--cl-border);
+    padding: 0 10px 18px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--cl-text);
+    text-decoration: none;
+}
+
+.cl-shell-brand:hover {
+    color: var(--cl-text);
+}
+
+.cl-shell-brand b {
+    font-weight: inherit;
+    color: var(--cl-cherry);
+}
+
+.cl-shell-tag {
+    margin-left: auto;
+    padding: 2px 9px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 999px;
+}
+
+.cl-shell-nav {
+    flex: 1;
 }
 
 .cl-avatar {
@@ -46,20 +84,8 @@ img.cl-avatar {
     background: var(--cl-soft);
 }
 
-.cl-sidebar-identity {
-    min-width: 0;
-}
-
-.cl-sidebar-name {
-    margin-bottom: 4px;
-    font-size: 0.92rem;
-    font-weight: 700;
-    line-height: 1.3;
-    overflow-wrap: anywhere;
-}
-
 .cl-sidebar-group {
-    margin: 18px 12px 6px;
+    margin: 20px 12px 8px;
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -69,20 +95,21 @@ img.cl-avatar {
 
 .cl-sidebar-link {
     display: flex;
+    gap: 12px;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 2px;
-    padding: 9px 12px;
-    font-size: 0.9rem;
+    margin-bottom: 3px;
+    padding: 10px 12px;
+    font-size: 0.92rem;
     font-weight: 500;
     color: var(--cl-text-soft);
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 12px;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .cl-sidebar-link .cl-icon {
     flex: none;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
 }
 
 .cl-sidebar-link:hover {
@@ -92,16 +119,16 @@ img.cl-avatar {
 
 .cl-sidebar-link.active {
     font-weight: 600;
-    color: var(--cl-accent);
-    background-color: var(--cl-soft);
-    box-shadow: inset 3px 0 0 var(--cl-accent);
+    color: #ffffff;
+    background: var(--cl-gradient);
+    box-shadow: 0 8px 18px rgba(201, 82, 125, 0.28);
 }
 
 .cl-sidebar-link.disabled {
     color: var(--cl-muted);
     background-color: transparent;
     cursor: default;
-    opacity: 0.65;
+    opacity: 0.6;
 }
 
 .cl-sidebar-marker,
@@ -111,7 +138,7 @@ img.cl-avatar {
 
 .cl-sidebar-tag {
     padding: 1px 8px;
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -119,41 +146,341 @@ img.cl-avatar {
     border-radius: 999px;
 }
 
-/* Below desktop width the sidebar sits above the page and its links scroll sideways */
+/* Signed-in tutor and log out, at the bottom of the sidebar */
+.cl-shell-user {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-shell-user-card {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    color: var(--cl-text);
+    text-decoration: none;
+    background-color: var(--cl-bg);
+    border-radius: 14px;
+}
+
+.cl-shell-user-card:hover {
+    color: var(--cl-text);
+    background-color: var(--cl-soft);
+}
+
+.cl-shell-user-card .cl-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 0.85rem;
+}
+
+.cl-shell-user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.cl-shell-user-text strong {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 0.88rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-shell-logout {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--cl-text-soft);
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.cl-shell-logout:hover {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.1);
+}
+
+/* Main area */
+.cl-shell-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 32px;
+    background-color: color-mix(in srgb, var(--cl-bg) 86%, transparent);
+    border-bottom: 1px solid var(--cl-border);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.cl-topbar-title {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.cl-topbar-title span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-topbar-title strong {
+    overflow: hidden;
+    font-size: 1.05rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-topbar-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.cl-topbar-cta {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+}
+
+.cl-topbar-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 1.05rem;
+    color: var(--cl-text-soft);
+    cursor: pointer;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-topbar-icon:hover {
+    color: var(--cl-accent);
+    border-color: var(--cl-coral);
+}
+
+.cl-topbar-user {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 4px 14px 4px 4px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cl-text);
+    text-decoration: none;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-topbar-user:hover {
+    color: var(--cl-accent);
+}
+
+.cl-topbar-user .cl-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.72rem;
+}
+
+.cl-topbar-user {
+    cursor: pointer;
+}
+
+.cl-user-caret {
+    font-size: 0.95rem;
+    color: var(--cl-muted);
+    transition: transform 0.15s ease;
+}
+
+/* Profile menu below the top-bar button */
+.cl-user-menu {
+    position: relative;
+}
+
+.cl-user-menu.is-open .cl-user-caret {
+    transform: rotate(180deg);
+}
+
+.cl-user-menu.is-open .cl-topbar-user {
+    border-color: var(--cl-coral);
+}
+
+.cl-user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1050;
+    width: 250px;
+    padding: 6px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(45, 52, 54, 0.16);
+}
+
+.cl-user-dropdown[hidden] {
+    display: none;
+}
+
+.cl-user-dropdown-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 4px;
+    padding: 10px 12px 12px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-user-dropdown-head strong {
+    font-size: 0.92rem;
+    color: var(--cl-text);
+    overflow-wrap: anywhere;
+}
+
+.cl-user-dropdown-head span {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--cl-accent);
+}
+
+.cl-user-dropdown-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--cl-text);
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.cl-user-dropdown-item:hover,
+.cl-user-dropdown-item:focus-visible {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-user-dropdown-item .cl-icon {
+    font-size: 1.05rem;
+    color: var(--cl-muted);
+}
+
+.cl-user-dropdown-item:hover .cl-icon {
+    color: var(--cl-accent);
+}
+
+.cl-user-dropdown-item + .cl-user-dropdown-item {
+    margin-top: 2px;
+}
+
+.cl-shell-menu,
+.cl-shell-backdrop {
+    display: none;
+}
+
+.cl-shell-content {
+    flex: 1;
+    padding: 28px 32px 48px;
+}
+
+/* Below desktop width the sidebar slides in from the left */
 @media (max-width: 991.98px) {
-    .cl-module {
+    .cl-shell {
         grid-template-columns: minmax(0, 1fr);
-        gap: 20px;
     }
 
-    .cl-sidebar {
-        position: static;
-        padding: 14px;
+    .cl-shell-sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 280px;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
     }
 
-    .cl-sidebar-profile {
-        margin-bottom: 12px;
-        padding: 0 4px 12px;
+    .cl-shell.is-open .cl-shell-sidebar {
+        transform: none;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
     }
 
-    .cl-sidebar-nav {
-        display: flex;
-        gap: 6px;
-        overflow-x: auto;
+    .cl-shell.is-open .cl-shell-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 35;
+        display: block;
+        background-color: rgba(15, 23, 42, 0.45);
     }
 
-    .cl-sidebar-group {
+    .cl-shell-menu {
+        display: inline-flex;
+    }
+
+    .cl-topbar {
+        padding: 12px 16px;
+    }
+
+    .cl-shell-content {
+        padding: 20px 16px 40px;
+    }
+
+    .cl-topbar-user-name,
+    .cl-user-caret,
+    .cl-topbar-cta span {
         display: none;
     }
 
-    .cl-sidebar-link {
-        flex: none;
-        margin: 0;
-        white-space: nowrap;
+    .cl-topbar-cta {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cl-topbar-title span {
+        display: none;
     }
 
-    .cl-sidebar-link.active {
-        box-shadow: inset 0 -2px 0 var(--cl-accent);
+    .cl-topbar-user {
+        padding: 4px;
     }
 }
 
@@ -800,6 +1127,17 @@ img.cl-avatar {
     color: #FB7185;
 }
 
+/* Checkboxes in dark mode */
+[data-theme="dark"] .form-check-input {
+    background-color: var(--cl-bg);
+    border-color: var(--cl-muted);
+}
+
+.form-check-input:checked {
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
 @media (max-width: 575.98px) {
     .cl-profile-cover {
         height: 110px;
@@ -827,5 +1165,2501 @@ img.cl-avatar {
         width: 108px;
         height: 108px;
         font-size: 2.1rem;
+    }
+}
+
+/* ---------- Tutor course builder ---------- */
+
+/* Progress bar: Course > Lessons > Quiz > Challenge */
+.cl-stepper {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-stepper li {
+    position: relative;
+    display: flex;
+    flex: 1;
+    gap: 12px;
+    align-items: center;
+    min-width: 0;
+    padding: 12px 14px;
+    color: var(--cl-muted);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-step-dot {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-step-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.cl-step-text strong {
+    overflow: hidden;
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-step-text small {
+    overflow: hidden;
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-stepper li.is-current {
+    color: var(--cl-text);
+    border-color: var(--cl-accent);
+    box-shadow: 0 0 0 3px rgba(201, 82, 125, 0.12);
+}
+
+.cl-stepper li.is-current .cl-step-dot {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+@media (max-width: 767.98px) {
+    .cl-stepper {
+        overflow-x: auto;
+    }
+
+    .cl-stepper li {
+        flex: none;
+    }
+}
+
+/* Cover image preview: 16:9, the same shape learners see on the catalogue */
+.cl-cover-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%);
+    border-radius: 12px;
+}
+
+.cl-cover-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-cover-placeholder {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cl-checklist {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--cl-text-soft);
+}
+
+.cl-checklist li + li {
+    margin-top: 6px;
+}
+
+/* ---------- Tutor lessons ---------- */
+
+.cl-form .form-select {
+    max-width: none;
+}
+
+/* A finished step in the progress bar */
+.cl-stepper li.is-done {
+    color: var(--cl-text-soft);
+}
+
+.cl-stepper li.is-done .cl-step-dot {
+    color: #ffffff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+/* Syllabus: the lessons in order */
+.cl-syllabus-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cl-syllabus {
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+}
+
+.cl-lesson-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.cl-lesson-item + .cl-lesson-item {
+    margin-top: 2px;
+}
+
+.cl-lesson-item:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-lesson-item.is-selected {
+    background-color: var(--cl-soft);
+    box-shadow: inset 3px 0 0 var(--cl-accent);
+}
+
+.cl-lesson-number {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 10px;
+}
+
+.cl-lesson-item.is-selected .cl-lesson-number {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+}
+
+.cl-lesson-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-lesson-title {
+    display: block;
+    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--cl-text);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+a.cl-lesson-title:hover {
+    color: var(--cl-accent);
+}
+
+.cl-lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-size: 0.72rem;
+    color: var(--cl-muted);
+}
+
+.cl-lesson-meta span {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.cl-lesson-delete {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--cl-muted);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.cl-lesson-delete:hover {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.12);
+}
+
+/* Markdown editor: toolbar above a text box */
+.cl-md-editor {
+    overflow: hidden;
+    border: 1px solid var(--bs-border-color, var(--cl-border));
+    border-radius: 10px;
+}
+
+.cl-md-editor:focus-within {
+    border-color: var(--cl-coral);
+    box-shadow: 0 0 0 0.2rem rgba(201, 82, 125, 0.18);
+}
+
+.cl-md-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    padding: 6px;
+    background-color: var(--cl-bg);
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-md-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    color: var(--cl-text-soft);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+}
+
+.cl-md-toolbar button:hover {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-md-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 6px;
+    background-color: var(--cl-border);
+}
+
+.cl-form .cl-md-input.form-control {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.cl-code-input.form-control {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/* Preview of the lesson */
+.cl-preview {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: var(--cl-bg);
+    border: 1px dashed var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-preview-label {
+    margin-bottom: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+/* Lesson text as learners will read it */
+.cl-markdown {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--cl-text-soft);
+    overflow-wrap: anywhere;
+}
+
+.cl-markdown > :first-child {
+    margin-top: 0;
+}
+
+.cl-markdown > :last-child {
+    margin-bottom: 0;
+}
+
+.cl-markdown h3,
+.cl-markdown h4,
+.cl-markdown h5 {
+    margin: 1.4em 0 0.5em;
+    color: var(--cl-text);
+}
+
+.cl-markdown h3 {
+    font-size: 1.25rem;
+}
+
+.cl-markdown h4 {
+    font-size: 1.1rem;
+}
+
+.cl-markdown h5 {
+    font-size: 1rem;
+}
+
+.cl-markdown blockquote {
+    margin: 1em 0;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--cl-accent);
+}
+
+.cl-markdown code {
+    padding: 2px 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85em;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 6px;
+}
+
+.cl-markdown pre.cl-code code {
+    padding: 0;
+    color: inherit;
+    background: transparent;
+}
+
+/* Code block: dark in both themes, so the highlighter colours are always readable */
+pre.cl-code {
+    margin: 1em 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #ABB2BF;
+    background-color: #282C34;
+    border-radius: 12px;
+}
+
+pre.cl-code code.hljs {
+    padding: 0;
+    background: transparent;
+}
+
+pre.cl-code code {
+    font-family: Consolas, "Courier New", monospace;
+    white-space: pre;
+}
+
+.cl-attachment-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+}
+
+.cl-attachment-row .cl-icon {
+    flex: none;
+    color: var(--cl-accent);
+}
+
+/* ---------- Tutor submit for review ---------- */
+
+.cl-notice-danger {
+    background-color: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.35);
+}
+
+.cl-notice-danger .cl-notice-icon {
+    color: #E11D48;
+}
+
+[data-theme="dark"] .cl-notice-danger .cl-notice-icon {
+    color: #FB7185;
+}
+
+.cl-panel-note {
+    margin: -6px 0 14px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+/* What is ready before a course can be submitted */
+.cl-readiness {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-readiness li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.88rem;
+}
+
+.cl-readiness li + li {
+    border-top: 1px dashed var(--cl-border);
+}
+
+.cl-readiness .cl-icon {
+    flex: none;
+    font-size: 1.1rem;
+}
+
+.cl-readiness .is-ready .cl-icon {
+    color: #10B981;
+}
+
+.cl-readiness .is-missing {
+    font-weight: 600;
+}
+
+.cl-readiness .is-missing .cl-icon {
+    color: #F59E0B;
+}
+
+.cl-readiness .is-optional {
+    color: var(--cl-muted);
+}
+
+.cl-readiness small {
+    font-size: 0.75rem;
+}
+
+.cl-syllabus-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-syllabus-footer:hover {
+    background-color: var(--cl-soft);
+}
+
+/* ---------- Lesson video (YouTube player inside the page) ---------- */
+
+.cl-video {
+    position: relative;
+    margin: 0 0 1.25em;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background-color: #000000;
+    border-radius: 12px;
+}
+
+.cl-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ---------- Tutor dashboard ---------- */
+
+/* Main column plus a right-hand column on wide screens */
+.cl-dash {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 28px;
+    align-items: start;
+}
+
+.cl-dash-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.cl-dash-side {
+    position: sticky;
+    top: 92px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Welcome banner */
+.cl-hero-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 34px 36px;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(255, 162, 164, 0.55) 0, transparent 40%),
+        linear-gradient(120deg, #6B2F4A 0%, #C9527D 55%, #FF8FA6 100%);
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(201, 82, 125, 0.25);
+}
+
+.cl-hero-art {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 360px;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cl-hero-banner-body {
+    position: relative;
+    max-width: 640px;
+}
+
+.cl-hero-kicker {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cl-hero-banner h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.cl-hero-banner p {
+    margin: 0 0 22px;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.cl-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cl-hero-actions .btn {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+}
+
+.cl-btn-light {
+    --bs-btn-color: #6B2F4A;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-border-color: #ffffff;
+    --bs-btn-hover-color: #6B2F4A;
+    --bs-btn-hover-bg: #FFE5EC;
+    --bs-btn-hover-border-color: #FFE5EC;
+    --bs-btn-active-bg: #FFE5EC;
+    --bs-btn-disabled-color: #6B2F4A;
+    --bs-btn-disabled-bg: rgba(255, 255, 255, 0.7);
+    --bs-btn-disabled-border-color: transparent;
+}
+
+.cl-btn-ghost-light {
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: rgba(255, 255, 255, 0.14);
+    --bs-btn-border-color: rgba(255, 255, 255, 0.35);
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-bg: rgba(255, 255, 255, 0.24);
+    --bs-btn-hover-border-color: rgba(255, 255, 255, 0.5);
+    --bs-btn-active-color: #ffffff;
+    --bs-btn-active-bg: rgba(255, 255, 255, 0.3);
+}
+
+/* Colour tones shared by stat icons, pipeline bars and attention icons */
+.cl-tone-pink {
+    color: #C9527D;
+    background-color: rgba(201, 82, 125, 0.13);
+}
+
+.cl-tone-blue {
+    color: #2563EB;
+    background-color: rgba(59, 130, 246, 0.13);
+}
+
+.cl-tone-amber {
+    color: #D97706;
+    background-color: rgba(245, 158, 11, 0.15);
+}
+
+.cl-tone-green {
+    color: #059669;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-tone-red {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.13);
+}
+
+.cl-tone-neutral {
+    color: var(--cl-muted);
+    background-color: rgba(107, 114, 128, 0.15);
+}
+
+[data-theme="dark"] .cl-tone-pink { color: #FF8FA6; }
+[data-theme="dark"] .cl-tone-blue { color: #60A5FA; }
+[data-theme="dark"] .cl-tone-amber { color: #FBBF24; }
+[data-theme="dark"] .cl-tone-green { color: #34D399; }
+[data-theme="dark"] .cl-tone-red { color: #FB7185; }
+
+/* Stat cards */
+.cl-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cl-stat-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 18px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cl-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(45, 52, 54, 0.08);
+}
+
+.cl-stat-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    font-size: 1.3rem;
+    border-radius: 14px;
+}
+
+.cl-stat-card-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.cl-stat-card-label {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cl-stat-card-note {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+/* Section heading with filter chips */
+.cl-section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cl-section-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.cl-section-bar h2 {
+    margin: 0 0 2px;
+    font-size: 1.25rem;
+}
+
+.cl-section-bar p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--cl-muted);
+}
+
+.cl-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-chip {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+}
+
+.cl-chip span {
+    padding: 0 7px;
+    font-size: 0.7rem;
+    background-color: var(--cl-bg);
+    border-radius: 999px;
+}
+
+.cl-chip:hover {
+    color: var(--cl-accent);
+}
+
+.cl-chip.is-active {
+    color: #ffffff;
+    background: var(--cl-gradient);
+}
+
+.cl-chip.is-active span {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Course cards */
+.cl-course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.cl-course-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 18px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.cl-course-card:hover {
+    border-color: var(--cl-coral);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(45, 52, 54, 0.1);
+}
+
+.cl-course-card[hidden] {
+    display: none;
+}
+
+.cl-course-card-cover {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.cl-course-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.cl-course-card:hover .cl-course-card-cover img {
+    transform: scale(1.04);
+}
+
+.cl-course-card-letter {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.cl-cover-tone-1 { background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%); }
+.cl-cover-tone-2 { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); }
+.cl-cover-tone-3 { background: linear-gradient(135deg, #052E16 0%, #15803D 100%); }
+.cl-cover-tone-4 { background: linear-gradient(135deg, #431407 0%, #EA580C 100%); }
+
+.cl-course-card-status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--cl-surface) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cl-course-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 18px 18px;
+}
+
+.cl-course-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.cl-course-card-category {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-course-card h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    line-height: 1.35;
+}
+
+.cl-course-card h3 a {
+    color: var(--cl-text);
+    text-decoration: none;
+}
+
+.cl-course-card h3 a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-course-card-flag {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    align-self: flex-start;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.1);
+    border-radius: 8px;
+}
+
+[data-theme="dark"] .cl-course-card-flag {
+    color: #FB7185;
+}
+
+.cl-course-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 0.8rem;
+    color: var(--cl-text-soft);
+}
+
+.cl-course-card-meta span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.cl-course-card-meta .cl-icon {
+    color: var(--cl-muted);
+}
+
+.cl-course-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-course-card-footer .cl-link-arrow {
+    font-size: 0.82rem;
+    color: var(--cl-accent);
+}
+
+/* Right column cards */
+.cl-side-card {
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.cl-side-card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.cl-side-card-head h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.cl-side-card-head span {
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-pipeline-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+}
+
+.cl-pipeline-row strong {
+    margin-left: auto;
+}
+
+.cl-pipeline-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.cl-pipeline-track {
+    height: 8px;
+    overflow: hidden;
+    background-color: var(--cl-bg);
+    border-radius: 999px;
+}
+
+.cl-pipeline-track span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+}
+
+/* Bars and dots use the solid colour of their tone */
+.cl-pipeline-dot.cl-tone-neutral, .cl-pipeline-track .cl-tone-neutral { background-color: #9CA3AF; }
+.cl-pipeline-dot.cl-tone-amber, .cl-pipeline-track .cl-tone-amber { background-color: #F59E0B; }
+.cl-pipeline-dot.cl-tone-green, .cl-pipeline-track .cl-tone-green { background-color: #10B981; }
+.cl-pipeline-dot.cl-tone-red, .cl-pipeline-track .cl-tone-red { background-color: #F43F5E; }
+
+.cl-attention {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-attention a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px;
+    color: var(--cl-text);
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.cl-attention a:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-attention-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.cl-attention-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-attention-text strong {
+    overflow: hidden;
+    font-size: 0.86rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-attention-text span {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+.cl-attention-go {
+    flex: none;
+    color: var(--cl-muted);
+}
+
+.cl-all-clear {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 14px;
+    font-size: 0.86rem;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border-radius: 12px;
+}
+
+.cl-all-clear .cl-icon {
+    font-size: 1.2rem;
+    color: var(--cl-accent);
+}
+
+.cl-filter-empty[hidden] {
+    display: none;
+}
+
+@media (max-width: 1399.98px) {
+    .cl-dash {
+        grid-template-columns: minmax(0, 1fr) 300px;
+    }
+
+    .cl-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .cl-dash {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-dash-side {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-hero-banner {
+        padding: 26px 22px;
+    }
+
+    .cl-hero-art {
+        opacity: 0.5;
+    }
+
+    .cl-dash-side {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 479.98px) {
+    .cl-stat-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Tutor builder: shared by the Course and Lesson builders ---------- */
+
+/* Header: breadcrumb, big title, status badge */
+.cl-builder-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cl-builder-heading {
+    min-width: 0;
+}
+
+.cl-builder-heading h1 {
+    margin: 6px 0 4px;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+}
+
+.cl-builder-heading p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--cl-muted);
+}
+
+.cl-crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+}
+
+.cl-crumbs a {
+    color: var(--cl-muted);
+    text-decoration: none;
+}
+
+.cl-crumbs a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-crumbs .cl-icon {
+    font-size: 0.85rem;
+}
+
+.cl-crumbs span:last-child {
+    color: var(--cl-text-soft);
+}
+
+.cl-badge-lg {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+}
+
+/* Progress bar: connected steps with a line between the dots */
+.cl-steps {
+    display: flex;
+    margin: 0 0 24px;
+    padding: 18px 20px;
+    list-style: none;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 18px;
+}
+
+.cl-steps li {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+/* The line to the next step */
+.cl-steps li:not(:last-child)::after {
+    position: absolute;
+    top: 17px;
+    right: 8px;
+    left: 48px;
+    height: 2px;
+    content: "";
+    background-color: var(--cl-border);
+    border-radius: 2px;
+}
+
+.cl-steps li.is-done:not(:last-child)::after {
+    background-color: #10B981;
+}
+
+.cl-steps a,
+.cl-steps-item {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    max-width: 100%;
+    padding-right: 12px;
+    color: var(--cl-muted);
+    text-decoration: none;
+    background-color: var(--cl-surface);
+}
+
+.cl-steps a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-steps-dot {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+    transition: border-color 0.15s ease;
+}
+
+.cl-steps a:hover .cl-steps-dot {
+    border-color: var(--cl-coral);
+}
+
+.cl-steps-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.cl-steps-text strong {
+    overflow: hidden;
+    font-size: 0.86rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-steps-text small {
+    overflow: hidden;
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-steps .is-current .cl-steps-item {
+    color: var(--cl-text);
+}
+
+.cl-steps .is-current .cl-steps-dot {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+.cl-steps .is-done a,
+.cl-steps .is-done .cl-steps-item {
+    color: var(--cl-text-soft);
+}
+
+.cl-steps .is-done .cl-steps-dot {
+    color: #ffffff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+.cl-steps .is-disabled .cl-steps-item {
+    opacity: 0.6;
+}
+
+/* Alerts above the form */
+.cl-alert {
+    display: block;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 14px;
+}
+
+.cl-alert ul {
+    margin: 6px 0 0;
+    padding-left: 1.1rem;
+}
+
+.cl-alert-success {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.cl-alert-danger {
+    color: #BE123C;
+    background-color: rgba(244, 63, 94, 0.08);
+    border-color: rgba(244, 63, 94, 0.3);
+}
+
+[data-theme="dark"] .cl-alert-success { color: #34D399; }
+[data-theme="dark"] .cl-alert-danger { color: #FB7185; }
+
+/* Admin feedback on a course that was sent back */
+.cl-feedback {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    background-color: rgba(244, 63, 94, 0.06);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    border-left: 4px solid #F43F5E;
+    border-radius: 14px;
+}
+
+.cl-feedback p {
+    margin: 4px 0 0;
+    font-size: 0.88rem;
+    color: var(--cl-text-soft);
+    white-space: pre-line;
+}
+
+/* Two columns: the form, and a sticky side column */
+.cl-builder {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 24px;
+    align-items: start;
+}
+
+.cl-builder-main,
+.cl-builder-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.cl-builder-aside {
+    position: sticky;
+    top: 92px;
+}
+
+.cl-builder-card {
+    padding: 24px;
+    border-radius: 18px;
+}
+
+.cl-builder-card-head {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.cl-builder-card-head h2 {
+    margin: 0 0 2px;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-builder-card-head p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-builder-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.15rem;
+    border-radius: 12px;
+}
+
+.cl-builder-label {
+    margin: 18px 0 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-builder-note {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--cl-text-soft);
+}
+
+/* Form fields */
+.cl-field + .cl-field,
+.cl-field + .cl-field-row,
+.cl-field-row + .cl-field {
+    margin-top: 18px;
+}
+
+.cl-field-row > .cl-field {
+    margin-top: 0;
+}
+
+.cl-field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.cl-field-label {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.cl-field .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cl-builder .form-control,
+.cl-builder .form-select,
+.cl-lesson-builder .form-control,
+.cl-lesson-builder .form-select {
+    max-width: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.cl-builder textarea.form-control {
+    line-height: 1.6;
+}
+
+.cl-input-lg {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.cl-counter {
+    font-size: 0.72rem;
+    color: var(--cl-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.cl-field-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #E11D48;
+}
+
+.cl-field-error:empty {
+    display: none;
+}
+
+[data-theme="dark"] .cl-field-error { color: #FB7185; }
+
+/* A checkbox with its label (asp:CheckBox, so the class goes on a wrapper) */
+.cl-check {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.86rem;
+    font-weight: 500;
+}
+
+.cl-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--cl-accent);
+}
+
+.cl-check label {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Site.css caps inputs at 280px; a submit button is an input, so let buttons fill their space */
+.cl-app input.btn {
+    max-width: none;
+}
+
+/* Remove button for a saved cover or file: it ticks a hidden checkbox, and the item is removed on save */
+.cl-remove-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.cl-remove-toggle input[type="checkbox"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cl-remove-btn {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0;
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #E11D48;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    background-color: rgba(244, 63, 94, 0.08);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    border-radius: 10px;
+    transition: background-color 0.15s ease;
+}
+
+.cl-remove-btn:hover {
+    background-color: rgba(244, 63, 94, 0.15);
+}
+
+.cl-remove-toggle input:focus-visible + .cl-remove-btn {
+    outline: 2px solid var(--cl-coral);
+    outline-offset: 2px;
+}
+
+.cl-remove-on,
+.cl-remove-note {
+    display: none;
+}
+
+.cl-remove-off,
+.cl-remove-on {
+    align-items: center;
+    gap: 6px;
+}
+
+.cl-remove-off {
+    display: inline-flex;
+}
+
+/* Marked for removal: the button becomes Undo */
+.cl-remove-toggle input:checked + .cl-remove-btn {
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border-color: var(--cl-border);
+}
+
+.cl-remove-toggle input:checked + .cl-remove-btn .cl-remove-off {
+    display: none;
+}
+
+.cl-remove-toggle input:checked + .cl-remove-btn .cl-remove-on {
+    display: inline-flex;
+}
+
+.cl-remove-toggle input:checked ~ .cl-remove-note {
+    display: inline;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+/* The attached file fades out once it is marked for removal */
+.cl-file-chip:has(.cl-remove-toggle input:checked) .cl-file-chip-body {
+    opacity: 0.45;
+    text-decoration: line-through;
+}
+
+[data-theme="dark"] .cl-remove-btn {
+    color: #FB7185;
+}
+
+/* Site.css only darkens text boxes; dropdowns need the same in dark mode */
+[data-theme="dark"] .cl-app .form-select {
+    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    color: var(--cl-text);
+    background-color: var(--cl-bg);
+    border-color: var(--cl-border);
+    color-scheme: dark;
+}
+
+/* Drag-and-drop upload: the real file input covers the whole zone */
+.cl-dropzone {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--cl-bg);
+    border: 2px dashed var(--cl-border);
+    border-radius: 16px;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.cl-dropzone:hover,
+.cl-dropzone.is-dragging,
+.cl-dropzone:focus-within {
+    background-color: var(--cl-soft);
+    border-color: var(--cl-coral);
+}
+
+.cl-dropzone-input {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.cl-dropzone-preview {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(45, 52, 54, 0.15);
+}
+
+.cl-dropzone-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-dropzone-preview .cl-course-card-letter {
+    font-size: 2.4rem;
+}
+
+.cl-dropzone-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-dropzone-text strong {
+    font-size: 0.95rem;
+    color: var(--cl-text);
+}
+
+.cl-dropzone-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-bottom: 4px;
+    font-size: 1.2rem;
+    color: var(--cl-accent);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-dropzone-link {
+    color: var(--cl-accent);
+    text-decoration: underline;
+}
+
+.cl-dropzone-file {
+    overflow: hidden;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Save bar: sticks to the bottom of the screen */
+.cl-action-bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px 12px 20px;
+    background-color: color-mix(in srgb, var(--cl-surface) 92%, transparent);
+    border: 1px solid var(--cl-border);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(45, 52, 54, 0.12);
+    backdrop-filter: blur(10px);
+}
+
+.cl-action-bar-note {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-action-bar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.cl-action-bar .btn {
+    min-width: 110px;
+}
+
+/* Catalogue preview: the dashboard course card, without the hover lift */
+.cl-preview-card,
+.cl-preview-card:hover {
+    border-color: var(--cl-border);
+    transform: none;
+    box-shadow: 0 10px 28px rgba(45, 52, 54, 0.08);
+}
+
+.cl-preview-card h3 {
+    overflow-wrap: anywhere;
+}
+
+.cl-preview-desc {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--cl-muted);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow-wrap: anywhere;
+}
+
+/* "What happens next" timeline */
+.cl-roadmap {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: roadmap;
+}
+
+.cl-roadmap li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 18px 42px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+    counter-increment: roadmap;
+}
+
+.cl-roadmap li:last-child {
+    padding-bottom: 0;
+}
+
+.cl-roadmap li::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--cl-text-soft);
+    content: counter(roadmap);
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-roadmap li:not(:last-child)::after {
+    position: absolute;
+    top: 30px;
+    bottom: 2px;
+    left: 13px;
+    width: 2px;
+    content: "";
+    background-color: var(--cl-border);
+}
+
+.cl-roadmap li.is-current::before {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+.cl-roadmap strong {
+    font-size: 0.88rem;
+    color: var(--cl-text);
+}
+
+/* Read-only course (in review, published or locked) */
+.cl-readonly-card {
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.cl-readonly-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 21 / 8;
+    overflow: hidden;
+}
+
+.cl-readonly-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-readonly-body {
+    padding: 24px 28px 28px;
+}
+
+.cl-readonly-body h2 {
+    margin: 0 0 12px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.cl-readonly-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cl-readonly-facts span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-readonly-body .cl-prose {
+    margin: 0;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* Locked / not found: centred illustration */
+.cl-state-card {
+    max-width: 560px;
+    margin: 24px auto;
+    padding: 40px 32px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.cl-state-art {
+    width: 180px;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.cl-state-card h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.cl-state-card p {
+    margin: 0 0 20px;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+@media (max-width: 1199.98px) {
+    .cl-builder {
+        grid-template-columns: minmax(0, 1fr) 320px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cl-builder {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-builder-aside {
+        position: static;
+    }
+
+    .cl-steps {
+        overflow-x: auto;
+    }
+
+    .cl-steps li {
+        flex: none;
+        min-width: 170px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-builder-heading h1 {
+        font-size: 1.45rem;
+    }
+
+    .cl-builder-card {
+        padding: 18px;
+    }
+
+    .cl-field-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-dropzone {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cl-dropzone-preview {
+        width: 100%;
+    }
+
+    .cl-action-bar {
+        bottom: 8px;
+        padding: 12px;
+    }
+
+    .cl-action-bar-note {
+        display: none;
+    }
+
+    .cl-action-bar-buttons {
+        width: 100%;
+    }
+
+    .cl-action-bar .btn {
+        flex: 1;
+    }
+}
+
+/* ---------- Tutor lesson builder ---------- */
+
+/* Syllabus on the left, the lesson form on the right */
+.cl-lesson-builder {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.cl-lesson-builder.is-readonly {
+    grid-template-columns: minmax(0, 760px);
+}
+
+.cl-syllabus-card {
+    position: sticky;
+    top: 92px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 112px);
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.cl-lesson-builder.is-readonly .cl-syllabus-card {
+    position: static;
+    max-height: none;
+}
+
+.cl-syllabus-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 14px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-syllabus-head h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-syllabus-head p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-syllabus-card .cl-syllabus {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.cl-icon-btn {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-decoration: none;
+    background: var(--cl-gradient);
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(201, 82, 125, 0.3);
+    transition: transform 0.15s ease;
+}
+
+.cl-icon-btn:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.cl-syllabus-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    padding: 28px 20px;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+    text-align: center;
+}
+
+.cl-syllabus-empty svg {
+    width: 120px;
+    margin-bottom: 6px;
+    color: var(--cl-text);
+}
+
+.cl-syllabus-empty strong {
+    font-size: 0.92rem;
+    color: var(--cl-text);
+}
+
+/* Title row: big title box and a small order box */
+.cl-lesson-form-head {
+    margin-bottom: 18px;
+}
+
+.cl-lesson-title-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    margin-top: 8px;
+}
+
+.cl-lesson-title-row .cl-field + .cl-field {
+    margin-top: 0;
+}
+
+.cl-grow {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-order-field {
+    flex: none;
+    width: 110px;
+}
+
+.cl-lesson-builder .cl-title-input {
+    padding: 12px 16px;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* The writing area: tabs and toolbar on top, text or preview below */
+.cl-writer {
+    overflow: hidden;
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-writer:focus-within {
+    border-color: var(--cl-coral);
+    box-shadow: 0 0 0 0.2rem rgba(201, 82, 125, 0.15);
+}
+
+.cl-writer-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px;
+    background-color: var(--cl-bg);
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-writer-bar .cl-md-toolbar {
+    padding: 0;
+    background: transparent;
+    border: 0;
+}
+
+.cl-tabs {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+}
+
+.cl-tab {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+}
+
+.cl-tab:hover {
+    color: var(--cl-text);
+}
+
+.cl-tab.is-active {
+    color: #ffffff;
+    background: var(--cl-gradient);
+}
+
+.cl-writer .cl-md-input.form-control {
+    min-height: 360px;
+    padding: 18px 20px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    resize: vertical;
+}
+
+.cl-writer-preview {
+    min-height: 360px;
+    padding: 22px 24px;
+    background-color: var(--cl-surface);
+}
+
+.cl-writer[data-mode="write"] .cl-writer-preview,
+.cl-writer[data-mode="preview"] .cl-writer-write,
+.cl-writer[data-mode="preview"] .cl-md-toolbar {
+    display: none;
+}
+
+.cl-markdown.is-loading {
+    opacity: 0.45;
+}
+
+.cl-preview-loading {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+.cl-writer-foot {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+    background-color: var(--cl-bg);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-writer-foot span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+/* Code example: an editor-style box, dark in both themes */
+.cl-ide {
+    overflow: hidden;
+    background-color: #282C34;
+    border: 1px solid #1F2329;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+}
+
+.cl-ide:focus-within {
+    border-color: var(--cl-coral);
+}
+
+.cl-ide-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background-color: #21252B;
+    border-bottom: 1px solid #1B1F24;
+}
+
+.cl-ide-dots {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.cl-ide-dots i {
+    width: 11px;
+    height: 11px;
+    background-color: #FF5F57;
+    border-radius: 50%;
+}
+
+.cl-ide-dots i:nth-child(2) { background-color: #FEBC2E; }
+.cl-ide-dots i:nth-child(3) { background-color: #28C840; }
+
+.cl-ide-select {
+    padding: 4px 28px 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #D7DAE0;
+    cursor: pointer;
+    background: #2C313A url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23abb2bf' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 8px center / 12px;
+    border: 1px solid #3E4451;
+    border-radius: 8px;
+    appearance: none;
+    color-scheme: dark;
+}
+
+.cl-ide-input {
+    display: block;
+    width: 100%;
+    max-width: none;
+    min-height: 220px;
+    padding: 16px 18px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: #ABB2BF;
+    tab-size: 4;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+    outline: none;
+    resize: vertical;
+    overflow-x: auto;
+}
+
+.cl-ide-input::placeholder {
+    color: #5C6370;
+}
+
+/* Video and attachment, side by side */
+.cl-media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.cl-media-grid .cl-field + .cl-field {
+    margin-top: 0;
+}
+
+.cl-input-icon {
+    position: relative;
+}
+
+.cl-input-icon .cl-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    font-size: 1.05rem;
+    color: #FF0033;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.cl-lesson-builder .cl-input-icon .form-control {
+    padding-left: 42px;
+}
+
+.cl-video-thumb {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--cl-bg);
+    border: 2px dashed var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-video-thumb.has-video {
+    background-color: #000000;
+    border: 0;
+}
+
+.cl-video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-video-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    max-width: 240px;
+    padding: 12px;
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+    text-align: center;
+}
+
+.cl-video-empty .cl-icon {
+    font-size: 1.8rem;
+    color: var(--cl-accent);
+}
+
+.cl-video-empty.is-error {
+    color: #E11D48;
+}
+
+/* YouTube-style play button on the thumbnail */
+.cl-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 44px;
+    background-color: rgba(255, 0, 51, 0.92);
+    border-radius: 12px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.cl-video-play::after {
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    content: "";
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 15px solid #ffffff;
+    transform: translate(-50%, -50%);
+}
+
+/* Attachment drop zone: icon and text stacked */
+.cl-dropzone-stack {
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    text-align: center;
+}
+
+.cl-dropzone-stack .cl-dropzone-text {
+    align-items: center;
+}
+
+.cl-dropzone-stack .cl-dropzone-file {
+    max-width: 100%;
+}
+
+/* The file already attached */
+.cl-file-chip {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-file-chip .cl-builder-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+}
+
+.cl-file-chip-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cl-file-chip-body small {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--cl-muted);
+}
+
+.cl-feedback-info {
+    background-color: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.3);
+    border-left-color: #F59E0B;
+}
+
+@media (max-width: 1199.98px) {
+    .cl-lesson-builder {
+        grid-template-columns: 280px minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cl-lesson-builder,
+    .cl-lesson-builder.is-readonly {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-syllabus-card {
+        position: static;
+        max-height: none;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-media-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-lesson-title-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cl-order-field {
+        width: 100%;
+    }
+
+    .cl-lesson-builder .cl-title-input {
+        font-size: 1.1rem;
     }
 }

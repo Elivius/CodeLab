@@ -97,6 +97,9 @@ BEGIN
         CodeLanguage    NVARCHAR(50)      NULL CONSTRAINT DF_Lessons_CodeLanguage DEFAULT (N'javascript'),
         ThumbnailUrl    NVARCHAR(500)     NULL,
         VideoUrl        NVARCHAR(500)     NULL,
+        -- Optional file attached to the lesson: where it is stored, and the name shown to learners
+        AttachmentUrl   NVARCHAR(500)     NULL,
+        AttachmentName  NVARCHAR(255)     NULL,
         OrderIndex      INT               NOT NULL CONSTRAINT DF_Lessons_OrderIndex DEFAULT (1),
         DurationMinutes INT               NOT NULL CONSTRAINT DF_Lessons_DurationMinutes DEFAULT (15),
         CreatedAt       DATETIME2         NOT NULL CONSTRAINT DF_Lessons_CreatedAt DEFAULT (SYSUTCDATETIME())

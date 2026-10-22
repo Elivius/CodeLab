@@ -107,6 +107,8 @@
     <Content Include="Modules\Learner\Web.config" />
     <Content Include="Modules\Public\Login.aspx" />
     <Content Include="Modules\Tutor\Dashboard.aspx" />
+    <Content Include="Modules\Tutor\LessonEditor.aspx" />
+    <Content Include="Modules\Tutor\CourseEditor.aspx" />
     <Content Include="Modules\Tutor\Profile.aspx" />
     <Content Include="Modules\Tutor\Tutor.Master" />
     <Content Include="Modules\Tutor\Web.config" />
@@ -196,19 +198,29 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="BLL\AuditManager.cs" />
+    <Compile Include="BLL\CourseManager.cs" />
+    <Compile Include="BLL\LessonManager.cs" />
     <Compile Include="BLL\TutorManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="DAL\AuditRepository.cs" />
     <Compile Include="DAL\CourseRepository.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
+    <Compile Include="DAL\LessonRepository.cs" />
     <Compile Include="DAL\TutorRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Helpers\ImageUploadHelper.cs" />
+    <Compile Include="Helpers\FileUploadHelper.cs" />
+    <Compile Include="Helpers\MarkdownHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
+    <Compile Include="Helpers\YouTubeHelper.cs" />
     <Compile Include="Models\AuditLog.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourseOptions.cs" />
     <Compile Include="Models\CourseStatuses.cs" />
+    <Compile Include="Models\Lesson.cs" />
+    <Compile Include="Models\LessonOptions.cs" />
     <Compile Include="Models\OperationResult.cs" />
     <Compile Include="Models\TutorCourseSummary.cs" />
     <Compile Include="Models\TutorDashboard.cs" />
@@ -231,12 +243,26 @@
     <Compile Include="Modules\Public\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Tutor\CourseEditor.aspx.cs">
+      <DependentUpon>CourseEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\CourseEditor.aspx.designer.cs">
+      <DependentUpon>CourseEditor.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Tutor\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Modules\Tutor\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\LessonEditor.aspx.cs">
+      <DependentUpon>LessonEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\LessonEditor.aspx.designer.cs">
+      <DependentUpon>LessonEditor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
