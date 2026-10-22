@@ -49,6 +49,34 @@ namespace CodeLab.DAL
             }
         }
 
+        /// <summary>
+        /// Sets the user's profile photo path, or clears it when avatarUrl is null.
+        /// </summary>
+        public bool UpdateAvatarUrl(int userId, string avatarUrl)
+        {
+            string query = @"UPDATE Users SET AvatarUrl = @AvatarUrl WHERE Id = @Id";
+
+            try
+            {
+                using (SqlConnection connection = DatabaseHelper.GetConnection())
+                {
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.Add("@AvatarUrl", SqlDbType.NVarChar, 500).Value = (object)avatarUrl ?? DBNull.Value;
+                        command.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
+
+                        connection.Open();
+                        return command.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                LogHelper.LogError("UserRepository.UpdateAvatarUrl failure", sqlException);
+                return false;
+            }
+        }
+
         public bool UpdateLastLogin(int userId)
         {
             string query = @"UPDATE Users SET LastLogin = @LastLogin WHERE Id = @Id";

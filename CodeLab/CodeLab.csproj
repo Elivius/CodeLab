@@ -107,6 +107,7 @@
     <Content Include="Modules\Learner\Web.config" />
     <Content Include="Modules\Public\Login.aspx" />
     <Content Include="Modules\Tutor\Dashboard.aspx" />
+    <Content Include="Modules\Tutor\Profile.aspx" />
     <Content Include="Modules\Tutor\Tutor.Master" />
     <Content Include="Modules\Tutor\Web.config" />
     <Content Include="Contact.aspx" />
@@ -127,6 +128,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Tutor.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -201,6 +203,7 @@
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\TutorRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
+    <Compile Include="Helpers\ImageUploadHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
@@ -209,6 +212,7 @@
     <Compile Include="Models\OperationResult.cs" />
     <Compile Include="Models\TutorCourseSummary.cs" />
     <Compile Include="Models\TutorDashboard.cs" />
+    <Compile Include="Models\TutorProfile.cs" />
     <Compile Include="Models\TutorStatuses.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserStatuses.cs" />
@@ -233,6 +237,13 @@
     </Compile>
     <Compile Include="Modules\Tutor\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\Tutor.Master.cs">
       <DependentUpon>Tutor.Master</DependentUpon>

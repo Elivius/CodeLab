@@ -36,8 +36,9 @@ DECLARE @LearnerId INT = (SELECT Id FROM dbo.Users WHERE Username = N'learner');
 -- Tutor profile (already approved, so the demo tutor can publish)
 -- =====================================
 IF NOT EXISTS (SELECT 1 FROM dbo.TutorProfiles WHERE UserId = @TutorId)
-    INSERT INTO dbo.TutorProfiles (UserId, Qualifications, PortfolioUrl, Bio, Specialty, Status, ApprovedDate)
+    INSERT INTO dbo.TutorProfiles (UserId, Qualifications, PortfolioUrl, CurriculumPitch, Bio, Specialty, Status, ApprovedDate)
     VALUES (@TutorId, N'Ph.D. in Computer Science', N'https://portfolio.codelab.local/turing',
+            N'A hands-on algorithms course: complexity, sorting, graphs and dynamic programming, each with coding challenges.',
             N'Father of modern computing and algorithm design.', N'Algorithms & Logic', N'Approved', SYSUTCDATETIME());
 
 -- =====================================

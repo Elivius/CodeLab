@@ -43,6 +43,8 @@ BEGIN
                                               CONSTRAINT FK_TutorProfiles_Users REFERENCES dbo.Users (Id) ON DELETE CASCADE,
         Qualifications NVARCHAR(MAX) NOT NULL,
         PortfolioUrl   NVARCHAR(500) NOT NULL,
+        -- Sample curriculum pitch from the tutor application (required for new applications, checked in TutorManager)
+        CurriculumPitch NVARCHAR(MAX) NULL,
         Bio            NVARCHAR(MAX) NOT NULL,
         Specialty      NVARCHAR(100) NOT NULL,
         -- New tutors wait for an Admin to approve them

@@ -15,6 +15,7 @@ namespace CodeLab.Modules.Tutor
         private bool _statusLoaded;
         private string _approvalStatus;
         private string _statusError;
+        private string _avatarUrl;
 
         /// <summary>
         /// True when the signed-in user may author content (an approved tutor, or an Admin).
@@ -29,9 +30,27 @@ namespace CodeLab.Modules.Tutor
             }
         }
 
+        /// <summary>
+        /// Set to true on a page that shows the approval status itself (e.g. Profile),
+        /// so the notice above the page is not repeated.
+        /// </summary>
+        public bool HideApprovalNotice { get; set; }
+
         protected string TutorName
         {
             get { return SessionHelper.GetCurrentFullName() ?? string.Empty; }
+        }
+
+        /// <summary>
+        /// Browser URL of the user's profile photo, or null to show their initials instead.
+        /// </summary>
+        protected string AvatarSrc
+        {
+            get
+            {
+                EnsureStatusLoaded();
+                return string.IsNullOrEmpty(_avatarUrl) ? null : ResolveUrl(_avatarUrl);
+            }
         }
 
         protected string Initials
@@ -150,10 +169,13 @@ namespace CodeLab.Modules.Tutor
             }
 
             _statusLoaded = true;
-            OperationResult<string> result = new TutorManager().GetApprovalStatus();
+
+            // One lookup gives both the approval status and the profile photo for the sidebar
+            OperationResult<TutorProfile> result = new TutorManager().GetProfile();
             if (result.Success)
             {
-                _approvalStatus = result.Data;
+                _approvalStatus = SessionHelper.IsUserInRole(UserRoles.Admin) ? TutorStatuses.Approved : result.Data.Status;
+                _avatarUrl = result.Data.AvatarUrl;
             }
             else
             {
@@ -163,12 +185,13 @@ namespace CodeLab.Modules.Tutor
 
         private void ShowApprovalNotice()
         {
-            if (IsApproved)
+            if (IsApproved || HideApprovalNotice)
             {
                 return;
             }
 
-            string actionPage = null;
+            // The tutor applies and checks their status on the Profile page
+            const string actionPage = "Profile";
             string actionText = null;
 
             if (_statusError != null)
@@ -180,25 +203,22 @@ namespace CodeLab.Modules.Tutor
             {
                 litNoticeTitle.Text = "Your application is under review";
                 litNoticeText.Text = "An administrator is reviewing your tutor application. Course authoring unlocks once it is approved.";
-                actionPage = "Profile";
                 actionText = "View application";
             }
             else if (_approvalStatus == TutorStatuses.Rejected)
             {
                 litNoticeTitle.Text = "Your application was not approved";
                 litNoticeText.Text = "Review your details and submit a new application to unlock course authoring.";
-                actionPage = "Apply";
                 actionText = "Update application";
             }
             else
             {
                 litNoticeTitle.Text = "Apply to start teaching";
                 litNoticeText.Text = "Submit your tutor application. Course authoring unlocks once an administrator approves it.";
-                actionPage = "Apply";
                 actionText = "Apply now";
             }
 
-            if (actionPage != null && IsPageAvailable(actionPage))
+            if (actionText != null && IsPageAvailable(actionPage))
             {
                 hlNoticeAction.NavigateUrl = TutorFolder + actionPage;
                 hlNoticeAction.Text = actionText;

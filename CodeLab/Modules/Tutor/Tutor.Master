@@ -5,12 +5,21 @@
      markup in the TutorContent placeholder. Its sidebar link turns on by itself once
      the .aspx file exists. --%>
 
+<%-- Tutor-only styles, loaded after Site.css --%>
+<asp:Content ID="TutorHead" ContentPlaceHolderID="HeadContent" runat="server">
+    <link href="<%: ResolveUrl("~/Content/Tutor.css") %>" rel="stylesheet" />
+</asp:Content>
+
 <asp:Content ID="TutorBody" ContentPlaceHolderID="MainContent" runat="server">
     <div class="cl-module">
 
         <aside class="cl-card cl-sidebar" aria-label="Tutor navigation">
             <div class="cl-sidebar-profile">
-                <span class="cl-avatar" aria-hidden="true"><%: Initials %></span>
+                <% if (AvatarSrc != null) { %>
+                    <img class="cl-avatar" src="<%: AvatarSrc %>" alt="" />
+                <% } else { %>
+                    <span class="cl-avatar" aria-hidden="true"><%: Initials %></span>
+                <% } %>
                 <div class="cl-sidebar-identity">
                     <div class="cl-sidebar-name"><%: TutorName %></div>
                     <span class="cl-badge <%: StatusBadgeCss %>"><%: StatusText %></span>
@@ -52,4 +61,16 @@
         </div>
 
     </div>
+
+    <%-- On small screens the sidebar links scroll sideways; bring the current page's link into view --%>
+    <script>
+        // Runs on "load", after the icons are drawn, so the link widths are final
+        window.addEventListener('load', function () {
+            var nav = document.querySelector('.cl-sidebar-nav');
+            var active = nav && nav.querySelector('.cl-sidebar-link.active');
+            if (active && nav.scrollWidth > nav.clientWidth) {
+                nav.scrollLeft = active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2;
+            }
+        });
+    </script>
 </asp:Content>
