@@ -112,5 +112,13 @@ namespace CodeLab.Modules.Learner
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litMilestone;
+        protected global::System.Web.UI.WebControls.Literal litInitial;
+        protected global::System.Web.UI.WebControls.Literal litNavName;
+        protected global::System.Web.UI.WebControls.Literal litNavPoints;
+        protected global::System.Web.UI.WebControls.Literal litEnrolledIntro;
+        protected global::System.Web.UI.WebControls.Literal litEnrolledHeading;
+        protected global::System.Web.UI.WebControls.Literal litBadges;
+        protected global::System.Web.UI.WebControls.Literal litBadgesShortcut;
+        protected global::System.Web.UI.WebControls.Literal litNextLevel;
     }
 }

@@ -472,3 +472,40 @@
     [data-theme=dark] .ld-tab.selected {
         color: #fff
     }
+
+
+/* AI Studio dashboard visual refinements */
+.ld-wrap{--ld-pink:#c9527d;--ld-border:#ffe5ec;max-width:1280px;margin:32px auto 64px;color:#2d3436}
+.ld-tabs{border-radius:16px;padding:8px;margin-bottom:32px;gap:4px}
+.ld-tab{padding:10px 12px;font-size:12px;gap:6px}
+.ld-tab.selected{background:linear-gradient(90deg,#b93b69,#c9527d,#d64578);box-shadow:0 2px 6px #c9527d26}
+.ld-tab .ld-icon{width:14px;height:14px}
+.ld-identity{display:flex;align-items:center;gap:10px;padding:6px 10px;background:#f8fafc}
+.ld-avatar{display:flex;align-items:center;justify-content:center;width:25px;height:25px;border-radius:50%;background:#c9527d;color:#fff;font-size:11px}
+.ld-user-meta{display:flex;flex-direction:column;gap:1px}.ld-user-meta small{color:#94a3b8;font-size:10px}
+.ld-hero,.ld-milestone,.ld-learning,.ld-shortcut{border-radius:24px}
+.ld-hero{padding:32px}.ld-hero h1{font-size:30px;letter-spacing:0}.ld-hero p{font-size:14px}
+.ld-mini{min-width:110px;padding:14px 18px;background:#fdf8fa;border-radius:16px}
+.ld-mini strong{font-size:24px}.ld-mini small{font-size:11px}
+.ld-milestone{margin:40px 0;padding:20px}.ld-milestone-icon{width:34px;height:34px}
+.ld-milestone-icon .ld-icon{width:17px;height:17px}.ld-milestone h2{font-size:14px}.ld-milestone p{font-size:11px}
+.ld-shortcut{min-height:136px;padding:16px;border-radius:16px}.ld-shortcut-icon{width:40px;height:40px;border-radius:12px}
+.ld-shortcut h3{font-size:13px;margin:12px 0 4px}.ld-shortcut p{font-size:11px}.ld-shortcut.future{opacity:1;cursor:default}
+.ld-jump,.ld-learning{margin-top:38px}.ld-jump .ld-section-heading,.ld-learning .ld-section-heading{margin-bottom:18px}
+.ld-section-heading h2{display:flex;align-items:center;gap:8px;font-size:18px}
+.ld-section-heading h2 .ld-icon{color:var(--ld-pink);width:20px;height:20px}
+.ld-section-heading a{font-size:12px;color:var(--ld-pink);font-weight:700;text-decoration:none}
+.ld-empty-card{background:#fff;border:1px solid var(--ld-border);border-radius:22px;padding:30px;color:#8490a1;font-size:13px}
+.ld-learning{padding:0;background:transparent;border:0;box-shadow:none}
+.ld-course-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.ld-course{display:flex;flex-direction:column;justify-content:space-between;min-height:180px;padding:22px;background:#fff;border:1px solid var(--ld-border);border-radius:22px}
+.ld-course-top,.ld-course-progress-label{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ld-course-category{background:#ffe5ec;color:var(--ld-pink);padding:4px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.ld-course-difficulty{font-size:11px;color:#8490a1}.ld-course h3{margin:15px 0;font-size:15px}
+.ld-course-progress{width:100%}.ld-course-progress-label{font-size:11px;color:#8490a1}
+.ld-course-progress-label b{color:var(--ld-pink)}.ld-course-progress .ld-progress{height:8px;margin-top:8px}
+@media(max-width:850px){.ld-course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.ld-course-grid{grid-template-columns:1fr}.ld-identity{margin-left:0}.ld-section-heading{gap:12px;flex-wrap:wrap}}
+[data-theme=dark] .ld-empty-card,[data-theme=dark] .ld-course{background:#181a24;border-color:#272b3b}
+[data-theme=dark] .ld-learning{background:transparent;border:0}[data-theme=dark] .ld-identity{background:#141620}
+[data-theme=dark] .ld-course h3{color:#fff}

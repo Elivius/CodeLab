@@ -16,13 +16,22 @@ namespace CodeLab.Modules.Learner
         }
         private void LoadDashboard()
         {
-            litName.Text = HttpUtility.HtmlEncode(SessionHelper.GetCurrentFullName() ?? "Learner");
+            string fullName = SessionHelper.GetCurrentFullName() ?? "Learner";
+            litName.Text = HttpUtility.HtmlEncode(fullName);
+            litNavName.Text = HttpUtility.HtmlEncode(fullName);
+            litInitial.Text = HttpUtility.HtmlEncode(fullName.Substring(0, 1).ToUpperInvariant());
             try
             {
                 var data = new LearnerManager().GetDashboard(SessionHelper.GetCurrentUserID());
-                litEnrolled.Text = data.Enrolled.ToString(); litCompleted.Text = data.Completed.ToString();
+                litEnrolled.Text = data.Enrolled.ToString();
+                litEnrolledIntro.Text = data.Enrolled.ToString();
+                litEnrolledHeading.Text = data.Enrolled.ToString();
+                
+                // The current SQL schema does not store earned badges.
+                litBadges.Text = "0";
+                litBadgesShortcut.Text = "0";
                 litPoints.Text = data.Points.ToString("N0"); litStreak.Text = data.Streak.ToString();
-                litLevel.Text = data.Level.ToString(); litLevelTitle.Text = HttpUtility.HtmlEncode(data.LevelTitle);
+                litLevel.Text = data.Level.ToString(); litNextLevel.Text = (data.Level + 1).ToString(); litNavPoints.Text = data.Points.ToString("N0"); litLevelTitle.Text = HttpUtility.HtmlEncode(data.LevelTitle);
                 litMilestone.Text = data.Milestone.ToString("N0");
                 rptCourses.DataSource = data.Courses; rptCourses.DataBind();
                 pnlNoCourses.Visible = data.Courses.Rows.Count == 0;

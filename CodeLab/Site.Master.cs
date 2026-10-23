@@ -24,6 +24,7 @@ namespace CodeLab
             phAdminNav.Visible = SessionHelper.IsUserInRole(UserRoles.Admin);
             phTutorNav.Visible = SessionHelper.IsUserInRole(UserRoles.Tutor);
             phLearnerNav.Visible = SessionHelper.IsUserInRole(UserRoles.Learner);
+            phPublicNav.Visible = !phLearnerNav.Visible;
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)

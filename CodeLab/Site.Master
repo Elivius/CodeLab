@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CodeLab.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CodeLab.SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -73,9 +73,9 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav align-items-md-center gap-md-2">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Landing</a></li>
+                        <asp:PlaceHolder ID="phPublicNav" runat="server"><li class="nav-item"><a class="nav-link" runat="server" href="~/">Landing</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/#courses">Courses</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/#about">About</a></li></asp:PlaceHolder>
 
                         <%-- Add the links for your module inside the PlaceHolder for its role --%>
                         <asp:PlaceHolder ID="phAdminNav" runat="server" Visible="false">
@@ -84,6 +84,8 @@
                         <asp:PlaceHolder ID="phTutorNav" runat="server" Visible="false">
                         </asp:PlaceHolder>
                         <asp:PlaceHolder ID="phLearnerNav" runat="server" Visible="false">
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Learner/Dashboard.aspx">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Learner/Courses.aspx">My Courses</a></li>
                         </asp:PlaceHolder>
 
                         <asp:PlaceHolder ID="phSignedOut" runat="server">

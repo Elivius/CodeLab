@@ -1,4 +1,4 @@
-<%@ Page Title="Learner Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="CodeLab.Modules.Learner.Dashboard" %>
+﻿<%@ Page Title="Learner Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="CodeLab.Modules.Learner.Dashboard" %>
 <asp:Content ID="Head" ContentPlaceHolderID="HeadContent" runat="server">
   <link rel="stylesheet" href="<%= ResolveUrl("~/Content/LearnerDashboard.css") %>" />
 </asp:Content>
@@ -18,12 +18,12 @@
   </svg>
   <nav class="ld-tabs" aria-label="Learner navigation">
     <a class="ld-tab selected" aria-current="page" href="<%= ResolveUrl("~/Modules/Learner/Dashboard.aspx") %>"><svg class="ld-icon"><use href="#ld-sparkles" /></svg>Dashboard</a>
-    <a class="ld-tab" href="<%= ResolveUrl("~/#courses") %>"><svg class="ld-icon"><use href="#ld-book" /></svg>Courses &amp; Curriculum</a>
+    <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Courses.aspx") %>"><svg class="ld-icon"><use href="#ld-book" /></svg>Courses &amp; Curriculum</a>
     <span class="ld-tab disabled" title="Coming in a later phase"><svg class="ld-icon"><use href="#ld-terminal" /></svg>CodeLab Workspace</span>
     <span class="ld-tab disabled" title="Coming in a later phase"><svg class="ld-icon"><use href="#ld-message" /></svg>Discussion Forum</span>
     <span class="ld-tab disabled" title="Coming in a later phase"><svg class="ld-icon"><use href="#ld-trophy" /></svg>Leaderboard &amp; Badges</span>
     <span class="ld-tab disabled" title="Coming in a later phase"><svg class="ld-icon"><use href="#ld-user" /></svg>Profile &amp; Security</span>
-    <span class="ld-identity">Learner &middot; Level <asp:Literal ID="litLevel" runat="server" /></span>
+    <span class="ld-identity"><span class="ld-avatar"><asp:Literal ID="litInitial" runat="server" /></span><span class="ld-user-meta"><b><asp:Literal ID="litNavName" runat="server" /></b><small>Level <asp:Literal ID="litLevel" runat="server" /> &bull; <asp:Literal ID="litNavPoints" runat="server" /> XP</small></span></span>
   </nav>
 
   <asp:Label ID="lblError" runat="server" Visible="false" CssClass="alert alert-warning d-block mt-3" />
@@ -34,39 +34,44 @@
         <span class="ld-streak"><svg class="ld-icon"><use href="#ld-flame" /></svg><asp:Literal ID="litStreak" runat="server" /> Day Active Streak</span>
       </div>
       <h1>Welcome back, <asp:Literal ID="litName" runat="server" />!</h1>
-      <p>Track your curriculum progress, complete lessons, and continue your coding journey.</p>
+      <p>You are enrolled in <asp:Literal ID="litEnrolledIntro" runat="server" /> accredited courses. Track your curriculum progress, complete lessons, and code in the sandbox.</p>
     </div>
     <div class="ld-hero-stats">
       <div class="ld-mini"><svg class="ld-stat-icon"><use href="#ld-trophy" /></svg><strong><asp:Literal ID="litPoints" runat="server" /></strong><small>POINTS (XP)</small></div>
       <div class="ld-mini"><svg class="ld-stat-icon orange"><use href="#ld-sparkles" /></svg><strong>Lvl <span id="ld-level-copy"></span></strong><small id="ld-level-title">CURRENT LEVEL</small></div>
-      <div class="ld-mini"><svg class="ld-stat-icon green"><use href="#ld-award" /></svg><strong><asp:Literal ID="litCompleted" runat="server" /></strong><small>COMPLETED COURSES</small></div>
+      <div class="ld-mini"><svg class="ld-stat-icon green"><use href="#ld-award" /></svg><strong><asp:Literal ID="litBadges" runat="server" /></strong><small>BADGES</small></div>
     </div>
   </section>
   <section class="ld-milestone">
     <div class="ld-milestone-top">
       <div class="ld-milestone-icon"><svg class="ld-icon"><use href="#ld-zap" /></svg></div>
-      <div><h2>Milestone Progression</h2><p id="ld-milestone-description">Progress toward your next level.</p></div>
+      <div><h2>Milestone Progression to Level <asp:Literal ID="litNextLevel" runat="server" /></h2><p id="ld-milestone-description">Progress toward your next level.</p></div>
       <strong id="ld-progress-text"></strong>
     </div>
     <div class="ld-progress"><div id="ld-progress-fill"></div></div>
   </section>
   <section class="ld-shortcuts">
-    <a href="<%= ResolveUrl("~/#courses") %>" class="ld-shortcut"><span class="ld-shortcut-icon pink"><svg class="ld-icon"><use href="#ld-book" /></svg></span><h3>My Courses</h3><p>Explore the curriculum and continue learning.</p><span class="ld-shortcut-foot">Enrolled: <asp:Literal ID="litEnrolled" runat="server" /> &rarr;</span></a>
-    <div class="ld-shortcut future"><span class="ld-shortcut-icon purple"><svg class="ld-icon"><use href="#ld-terminal" /></svg></span><h3>CodeLab Workspace</h3><p>Practice coding and solve challenges.</p><span class="ld-shortcut-foot">Coming soon</span></div>
-    <div class="ld-shortcut future"><span class="ld-shortcut-icon blue"><svg class="ld-icon"><use href="#ld-message" /></svg></span><h3>Discussion Forum</h3><p>Ask questions and connect with learners.</p><span class="ld-shortcut-foot">Coming soon</span></div>
-    <div class="ld-shortcut future"><span class="ld-shortcut-icon amber"><svg class="ld-icon"><use href="#ld-trophy" /></svg></span><h3>Leaderboard &amp; Badges</h3><p>Track your achievements and rankings.</p><span class="ld-shortcut-foot">Coming soon</span></div>
+    <a href="<%= ResolveUrl("~/Modules/Learner/Courses.aspx") %>" class="ld-shortcut"><span class="ld-shortcut-icon pink"><svg class="ld-icon"><use href="#ld-book" /></svg></span><h3>My Courses</h3><p><asp:Literal ID="litEnrolled" runat="server" /> enrolled courses</p></a>
+    <div class="ld-shortcut future" title="Workspace module coming later"><span class="ld-shortcut-icon purple"><svg class="ld-icon"><use href="#ld-terminal" /></svg></span><h3>CodeLab Workspace</h3><p>Interactive sandbox</p></div>
+    <div class="ld-shortcut future" title="Forum module coming later"><span class="ld-shortcut-icon blue"><svg class="ld-icon"><use href="#ld-message" /></svg></span><h3>Discussion Forum</h3><p>Q&amp;A with tutors &amp; peers</p></div>
+    <div class="ld-shortcut future" title="Leaderboard module coming later"><span class="ld-shortcut-icon amber"><svg class="ld-icon"><use href="#ld-trophy" /></svg></span><h3>Leaderboard &amp; Badges</h3><p><asp:Literal ID="litBadgesShortcut" runat="server" /> badges</p></div>
+  </section>
+  <section class="ld-jump">
+    <div class="ld-section-heading"><h2><svg class="ld-icon"><use href="#ld-terminal" /></svg> Jump Back In</h2><a href="<%= ResolveUrl("~/Modules/Learner/Courses.aspx") %>">View all curriculum &rarr;</a></div>
+    <div class="ld-empty-card">No lessons in progress yet. Enrol in a course to start learning.</div>
   </section>
   <section class="ld-learning">
-    <div class="ld-section-heading"><h2>Continue Learning</h2><span>Your enrolled courses</span></div>
-    <asp:Repeater ID="rptCourses" runat="server">
-      <ItemTemplate>
+    <div class="ld-section-heading"><h2><svg class="ld-icon"><use href="#ld-book" /></svg> Enrolled Courses &amp; Progression (<asp:Literal ID="litEnrolledHeading" runat="server" />)</h2><a href="<%= ResolveUrl("~/Modules/Learner/Courses.aspx") %>">Browse All Courses</a></div>
+    <div class="ld-course-grid">
+      <asp:Repeater ID="rptCourses" runat="server"><ItemTemplate>
         <article class="ld-course">
-          <div><h3><%#: Eval("Title") %></h3><p><%#: Eval("Category") %> &middot; <%#: Eval("Difficulty") %></p></div>
-          <div class="ld-course-progress"><b><%# Convert.ToDecimal(Eval("ProgressPercent")).ToString("0") %>%</b><div class="ld-progress"><div style='width:<%# Convert.ToDecimal(Eval("ProgressPercent")).ToString("0", System.Globalization.CultureInfo.InvariantCulture) %>%'></div></div></div>
+          <div class="ld-course-top"><span class="ld-course-category"><%#: Eval("Category") %></span><span class="ld-course-difficulty"><%#: Eval("Difficulty") %></span></div>
+          <h3><%#: Eval("Title") %></h3>
+          <div class="ld-course-progress"><div class="ld-course-progress-label"><span>Course progress</span><b><%# Convert.ToDecimal(Eval("ProgressPercent")).ToString("0") %>%</b></div><div class="ld-progress"><div style='width:<%# Convert.ToDecimal(Eval("ProgressPercent")).ToString("0", System.Globalization.CultureInfo.InvariantCulture) %>%'></div></div></div>
         </article>
-      </ItemTemplate>
-    </asp:Repeater>
-    <asp:Panel ID="pnlNoCourses" runat="server" Visible="false" CssClass="ld-empty">You haven't enrolled in a course yet. Explore available courses to get started.</asp:Panel>
+      </ItemTemplate></asp:Repeater>
+    </div>
+    <asp:Panel ID="pnlNoCourses" runat="server" Visible="false" CssClass="ld-empty-card">You haven't enrolled in a course yet. Browse available courses to get started.</asp:Panel>
   </section>
   <div hidden aria-hidden="true">
     <span id="ld-level-source"><asp:Literal ID="litLevelTitle" runat="server" /></span>
