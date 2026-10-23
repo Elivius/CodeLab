@@ -102,8 +102,10 @@
     <Content Include="About.aspx" />
     <Content Include="App_Data\Schema.sql" />
     <Content Include="App_Data\Seed.sql" />
+    <Content Include="Content\LearnerDashboard.css" />
     <Content Include="Modules\Admin\AuditLogs.aspx" />
     <Content Include="Modules\Admin\Web.config" />
+    <Content Include="Modules\Learner\Dashboard.aspx" />
     <Content Include="Modules\Learner\Web.config" />
     <Content Include="Modules\Public\Login.aspx" />
     <Content Include="Modules\Tutor\Web.config" />
@@ -192,14 +194,17 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="BLL\AuditManager.cs" />
+    <Compile Include="BLL\LearnerManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="DAL\AuditRepository.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
+    <Compile Include="DAL\LearnerRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Models\AuditLog.cs" />
+    <Compile Include="Models\LearnerDashboardData.cs" />
     <Compile Include="Models\OperationResult.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserStatuses.cs" />
@@ -210,6 +215,13 @@
     </Compile>
     <Compile Include="Modules\Admin\AuditLogs.aspx.designer.cs">
       <DependentUpon>AuditLogs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Learner\Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Learner\Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Public\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -253,12 +265,14 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

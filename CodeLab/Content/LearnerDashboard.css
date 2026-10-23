@@ -1,0 +1,474 @@
+/* Learner-only AI Studio-inspired styling. Does not change other modules. */
+.ld-wrap {
+    --ld-pink: #d43e79;
+    --ld-border: #fae1e9;
+    max-width: 1370px;
+    margin: 40px auto 75px;
+    padding: 0 18px;
+    font-family: Inter,Arial,sans-serif;
+    color: #203047
+}
+
+    .ld-wrap * {
+        box-sizing: border-box
+    }
+
+.ld-symbols {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden
+}
+
+.ld-icon, .ld-stat-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: middle
+}
+
+.ld-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid var(--ld-border);
+    border-radius: 20px;
+    padding: 9px;
+    margin-bottom: 36px;
+    flex-wrap: wrap
+}
+
+.ld-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #31445e;
+    text-decoration: none
+}
+
+    .ld-tab:hover {
+        text-decoration: none;
+        color: var(--ld-pink)
+    }
+
+    .ld-tab.selected {
+        background: var(--ld-pink);
+        color: #fff
+    }
+
+    .ld-tab.disabled {
+        opacity: .58;
+        cursor: not-allowed
+    }
+
+.ld-identity {
+    margin-left: auto;
+    background: #f7f9fc;
+    border: 1px solid #edf0f6;
+    padding: 12px;
+    border-radius: 13px;
+    font-size: 12px;
+    font-weight: 700
+}
+
+.ld-hero, .ld-milestone, .ld-shortcut, .ld-learning {
+    background: #fff;
+    border: 1px solid var(--ld-border);
+    border-radius: 25px;
+    box-shadow: 0 2px 1px rgba(100,30,60,.025)
+}
+
+.ld-hero {
+    padding: 35px;
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    align-items: center
+}
+
+.ld-kickers {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+.ld-pill {
+    font-size: 12px;
+    letter-spacing: .35px;
+    color: var(--ld-pink);
+    font-weight: 800;
+    background: #fde6ee;
+    border-radius: 6px;
+    padding: 5px 12px
+}
+
+.ld-streak {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f28a00
+}
+
+    .ld-streak .ld-icon {
+        width: 15px;
+        height: 15px
+    }
+
+.ld-hero h1 {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin: 14px 0 8px;
+    color: #203047
+}
+
+.ld-hero p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #738099;
+    max-width: 720px;
+    margin: 0
+}
+
+.ld-hero-stats {
+    display: flex;
+    gap: 16px;
+    flex-shrink: 0
+}
+
+.ld-mini {
+    border: 1px solid var(--ld-border);
+    background: #fcf9fb;
+    border-radius: 18px;
+    min-width: 125px;
+    padding: 17px 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+    .ld-mini strong {
+        font-size: 27px;
+        font-weight: 800;
+        color: #203047
+    }
+
+    .ld-mini small {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .5px;
+        color: #8390a2;
+        margin-top: 5px
+    }
+
+.ld-stat-icon {
+    color: var(--ld-pink);
+    width: 22px;
+    height: 22px
+}
+
+    .ld-stat-icon.orange {
+        color: #ff9300
+    }
+
+    .ld-stat-icon.green {
+        color: #08b87a
+    }
+
+.ld-milestone {
+    padding: 24px;
+    margin: 42px 0
+}
+
+.ld-milestone-top {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.ld-milestone-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: #fde8f0;
+    color: var(--ld-pink);
+    border-radius: 12px
+}
+
+    .ld-milestone-icon .ld-icon {
+        width: 23px;
+        height: 23px
+    }
+
+.ld-milestone h2 {
+    font-size: 16px;
+    font-weight: 750;
+    margin: 0
+}
+
+.ld-milestone p {
+    font-size: 12px;
+    color: #8c9cb8;
+    margin: 4px 0 0
+}
+
+.ld-milestone strong {
+    margin-left: auto;
+    color: var(--ld-pink);
+    font-size: 13px
+}
+
+.ld-progress {
+    background: #eef1f5;
+    border-radius: 20px;
+    height: 11px;
+    overflow: hidden;
+    margin-top: 18px
+}
+
+    .ld-progress > div {
+        height: 100%;
+        border-radius: 20px;
+        background: linear-gradient(90deg,#c22d6b,#ff9ba9);
+        width: 0
+    }
+
+.ld-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 16px
+}
+
+.ld-shortcut {
+    display: block;
+    padding: 22px 18px;
+    color: inherit;
+    text-decoration: none;
+    min-height: 188px
+}
+
+    .ld-shortcut:not(.future):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px #e9dce2;
+        text-decoration: none;
+        color: inherit
+    }
+
+    .ld-shortcut.future {
+        opacity: .83
+    }
+
+.ld-shortcut-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 13px
+}
+
+    .ld-shortcut-icon .ld-icon {
+        width: 23px;
+        height: 23px
+    }
+
+    .ld-shortcut-icon.pink {
+        background: #fde6ee;
+        color: #d43e79
+    }
+
+    .ld-shortcut-icon.purple {
+        background: #f7edff;
+        color: #a53cff
+    }
+
+    .ld-shortcut-icon.blue {
+        background: #eaf6ff;
+        color: #1593db
+    }
+
+    .ld-shortcut-icon.amber {
+        background: #fff5e5;
+        color: #ee9000
+    }
+
+.ld-shortcut h3 {
+    font-size: 15px;
+    font-weight: 800;
+    margin: 12px 0 7px
+}
+
+.ld-shortcut p {
+    font-size: 12px;
+    color: #738099;
+    line-height: 1.5;
+    margin: 0 0 10px
+}
+
+.ld-shortcut-foot {
+    font-size: 12px;
+    color: var(--ld-pink);
+    font-weight: 700
+}
+
+.ld-learning {
+    padding: 28px;
+    margin-top: 35px
+}
+
+.ld-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+    .ld-section-heading h2 {
+        font-size: 19px;
+        font-weight: 800;
+        margin: 0
+    }
+
+    .ld-section-heading span, .ld-empty {
+        color: #8190a6;
+        font-size: 13px
+    }
+
+.ld-empty {
+    padding: 28px 0
+}
+
+.ld-course {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid #f3e5eb;
+    padding: 20px 0
+}
+
+    .ld-course h3 {
+        font-size: 15px;
+        margin: 0
+    }
+
+    .ld-course p {
+        color: #8390a2;
+        font-size: 12px;
+        margin: 6px 0
+    }
+
+.ld-course-progress {
+    width: 220px
+}
+
+    .ld-course-progress b {
+        display: block;
+        text-align: right;
+        font-size: 12px
+    }
+
+    .ld-course-progress .ld-progress {
+        height: 7px;
+        margin-top: 7px
+    }
+
+@media(max-width:1150px) {
+    .ld-hero {
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .ld-hero-stats {
+        flex-wrap: wrap
+    }
+
+    .ld-shortcuts {
+        grid-template-columns: repeat(2,minmax(0,1fr))
+    }
+}
+
+@media(max-width:600px) {
+    .ld-wrap {
+        margin: 20px auto
+    }
+
+    .ld-hero {
+        padding: 22px
+    }
+
+        .ld-hero h1 {
+            font-size: 26px
+        }
+
+    .ld-mini {
+        min-width: 90px;
+        flex: 1
+    }
+
+        .ld-mini strong {
+            font-size: 20px
+        }
+
+    .ld-shortcuts {
+        grid-template-columns: 1fr
+    }
+
+    .ld-milestone-top {
+        flex-wrap: wrap
+    }
+
+    .ld-milestone strong {
+        margin-left: 0
+    }
+
+    .ld-course {
+        flex-direction: column
+    }
+
+    .ld-course-progress {
+        width: 100%
+    }
+}
+
+[data-theme=dark] .ld-wrap {
+    color: #f3f5fa
+}
+
+[data-theme=dark] .ld-tabs, [data-theme=dark] .ld-hero, [data-theme=dark] .ld-milestone, [data-theme=dark] .ld-shortcut, [data-theme=dark] .ld-learning {
+    background: #202536;
+    border-color: #4b3345
+}
+
+    [data-theme=dark] .ld-hero h1, [data-theme=dark] .ld-mini strong {
+        color: #f4f6ff
+    }
+
+[data-theme=dark] .ld-mini {
+    background: #292637;
+    border-color: #4b3345
+}
+
+[data-theme=dark] .ld-tab {
+    color: #f4f6ff
+}
+
+    [data-theme=dark] .ld-tab.selected {
+        color: #fff
+    }
