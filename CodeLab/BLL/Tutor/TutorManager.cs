@@ -270,8 +270,9 @@ namespace CodeLab.BLL
             return OperationResult.Ok("Your profile photo has been removed.");
         }
 
-        // Trims the form values, then returns the first problem with them, or null if they are valid
-        private static string CleanAndValidate(TutorProfile application)
+        // Trims the form values, then returns the first problem with them, or null if they are valid.
+        // Internal so UserManager.Register checks a tutor application with the same rules.
+        internal static string CleanAndValidate(TutorProfile application)
         {
             application.FullName = Clean(application.FullName);
             application.Specialty = Clean(application.Specialty);
