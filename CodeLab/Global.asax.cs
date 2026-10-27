@@ -17,7 +17,8 @@ namespace CodeLab
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        // Attaches the role stored in the login ticket to the request, so the
+        // 1. Read the cookie
+        // 2. Attaches the role stored in the login ticket to the request, so the
         // <allow roles="..."> rules in the Modules/*/Web.config files can see it.
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
