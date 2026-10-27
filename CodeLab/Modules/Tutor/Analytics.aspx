@@ -248,7 +248,7 @@
                             <%# LearnerHtml((string)Eval("LearnerName"), (string)Eval("LearnerAvatarUrl")) %>
                             <span class="cl-rank-score">
                                 <strong><%#: ScoreText((double)Eval("AverageScore")) %></strong>
-                                <small><%# Eval("Attempts") %> attempts · best <%# Eval("BestScore") %>%</small>
+                                <small><%# (int)Eval("Attempts") == 1 ? "1 attempt" : Eval("Attempts") + " attempts" %> · best <%# Eval("BestScore") %>%</small>
                             </span>
                         </li>
                     </ItemTemplate>
@@ -447,9 +447,9 @@
                                 labels: data.activity.labels,
                                 datasets: [
                                     { label: 'Quiz attempts', data: data.activity.quiz, borderColor: palette.pink, backgroundColor: 'rgba(201,82,125,0.12)',
-                                        fill: true, tension: 0.35, pointRadius: 3 },
+                                        fill: true, cubicInterpolationMode: 'monotone', pointRadius: 3 },
                                     { label: 'Code submissions', data: data.activity.code, borderColor: palette.blue, backgroundColor: 'rgba(59,130,246,0.10)',
-                                        fill: true, tension: 0.35, pointRadius: 3 }
+                                        fill: true, cubicInterpolationMode: 'monotone', pointRadius: 3 }
                                 ]
                             },
                             options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },

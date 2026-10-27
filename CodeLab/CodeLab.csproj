@@ -120,6 +120,7 @@
     <Content Include="Modules\Tutor\LessonEditor.aspx" />
     <Content Include="Modules\Tutor\QuizEditor.aspx" />
     <Content Include="Modules\Tutor\Analytics.aspx" />
+    <Content Include="Modules\Tutor\Forum.aspx" />
     <Content Include="Modules\Tutor\ChallengeEditor.aspx" />
     <Content Include="Scripts\tutor-writer.js" />
     <Content Include="Modules\Tutor\CourseEditor.aspx" />
@@ -225,6 +226,7 @@
     <Compile Include="BLL\Tutor\QuizManager.cs" />
     <Compile Include="BLL\Tutor\ChallengeManager.cs" />
     <Compile Include="BLL\Tutor\AnalyticsManager.cs" />
+    <Compile Include="BLL\Discussion\DiscussionManager.cs" />
     <Compile Include="DAL\Tutor\LessonRepository.cs" />
     <Compile Include="DAL\Tutor\TutorRepository.cs" />
     <Compile Include="DAL\LearnerRepository.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="DAL\Tutor\QuizRepository.cs" />
     <Compile Include="DAL\Tutor\ChallengeRepository.cs" />
     <Compile Include="DAL\Tutor\AnalyticsRepository.cs" />
+    <Compile Include="DAL\Discussion\DiscussionRepository.cs" />
     <Compile Include="Helpers\Tutor\FileUploadHelper.cs" />
     <Compile Include="Helpers\Tutor\MarkdownHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
@@ -253,6 +256,8 @@
     <Compile Include="Models\Tutor\TutorAnalytics.cs" />
     <Compile Include="Models\LearnerDashboardData.cs" />
     <Compile Include="Models\LearnerCourse.cs" />
+    <Compile Include="Models\Discussion\DiscussionPost.cs" />
+    <Compile Include="Models\Discussion\DiscussionReply.cs" />
     <Compile Include="Models\OperationResult.cs" />
     <Compile Include="Models\Tutor\TutorCourseSummary.cs" />
     <Compile Include="Models\Tutor\TutorDashboard.cs" />
@@ -365,6 +370,13 @@
     </Compile>
     <Compile Include="Modules\Tutor\Analytics.aspx.designer.cs">
       <DependentUpon>Analytics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\Forum.aspx.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\Forum.aspx.designer.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>

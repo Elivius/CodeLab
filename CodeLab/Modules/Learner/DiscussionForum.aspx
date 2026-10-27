@@ -142,7 +142,7 @@
             <div>
                 <h1>Discussion Forum</h1>
                 <p>
-                    Ask questions and share ideas in General or your course community.
+                    Ask questions and share ideas with learners and tutors in any published course.
                 </p>
             </div>
 
@@ -196,8 +196,8 @@
             <h2>No course discussions yet</h2>
 
             <p>
-                General discussions are open to signed-in learners and tutors. Course discussions are available for your enrolled,
-                published courses.
+                Discussions are grouped by course. They will appear here once a course
+                has been published.
             </p>
 
             <a class="lf-button lf-button-primary"
@@ -207,8 +207,7 @@
         </asp:Panel>
 
         <nav class="lf-section-nav" aria-label="Discussion categories">
-            <a class='<%= GeneralScope ? "is-active" : "" %>' href="<%= ResolveUrl("~/Modules/Learner/DiscussionForum.aspx?scope=general") %>">General</a>
-            <a class='<%= GeneralScope ? "" : "is-active" %>' href="<%= ResolveUrl("~/Modules/Learner/DiscussionForum.aspx?scope=courses") %>">My Courses</a>
+            <a class="is-active" href="<%= ResolveUrl("~/Modules/Learner/DiscussionForum.aspx") %>">Course Discussions</a>
         </nav>
         <asp:Panel ID="pnlForum" runat="server">
 
@@ -275,8 +274,8 @@
 
                         <h2>No discussions found</h2>
                         <p>
-                            Try another search or start a discussion
-                            in General or one of your courses.
+                            Try another search or course, or start
+                            a new discussion.
                         </p>
                     </asp:Panel>
 

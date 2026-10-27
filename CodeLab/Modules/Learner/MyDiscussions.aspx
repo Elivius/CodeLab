@@ -205,8 +205,8 @@
 
                     <h2>No posts to show</h2>
                     <p>
-                        Your general posts and posts from courses you can currently
-                        access will appear here.
+                        Discussions you start in any published course
+                        will appear here.
                     </p>
 
                     <a class="lf-button lf-button-primary"
@@ -286,8 +286,8 @@
 
                     <h2>No replies to show</h2>
                     <p>
-                        Your general replies and replies from courses you can currently
-                        access will appear here.
+                        Your replies to discussions in any published course
+                        will appear here.
                     </p>
 
                     <a class="lf-button lf-button-primary"

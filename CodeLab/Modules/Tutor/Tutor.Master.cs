@@ -136,7 +136,7 @@ namespace CodeLab.Modules.Tutor
         /// <summary>
         /// Browser URL of the user's profile photo, or null to show their initials instead.
         /// </summary>
-        protected string AvatarSrc
+        public string AvatarSrc
         {
             get
             {
@@ -145,7 +145,7 @@ namespace CodeLab.Modules.Tutor
             }
         }
 
-        protected string Initials
+        public string Initials
         {
             get
             {

@@ -85,6 +85,9 @@
                     <div class="cl-sidebar-group">Insights</div>
                     <%= NavLink("Analytics", "chart-column", "Analytics", true) %>
 
+                    <div class="cl-sidebar-group">Community</div>
+                    <%= NavLink("Forum", "messages-square", "Discussion Forum", false) %>
+
                     <div class="cl-sidebar-group">Account</div>
                     <%= NavLink("Profile", "user", "My Profile", false) %>
                 </nav>
@@ -221,6 +224,46 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && !list.hidden) { setOpen(false); button.focus(); }
             });
+        })();
+
+        // Green success messages ("saved", "deleted"...) fade out after 5 seconds on every Tutor page.
+        // Red error messages stay until the problem is fixed. Hovering a message keeps it open.
+        (function () {
+            var delay = 5000;
+            var alerts = document.querySelectorAll('.cl-alert-success, .alert-success');
+
+            alerts.forEach(function (alert) {
+                var timer = null;
+
+                function start() {
+                    timer = setTimeout(function () {
+                        alert.classList.add('cl-alert-leaving');
+                        // Remove it once the fade has finished, so the page closes the gap
+                        setTimeout(function () { alert.remove(); }, 400);
+                    }, delay);
+                }
+
+                alert.addEventListener('mouseenter', function () { clearTimeout(timer); });
+                alert.addEventListener('mouseleave', start);
+                start();
+            });
+
+            // Take the "message" part (?done=..., ?saved=1, ...) out of the address so a refresh does not
+            // show the message again. Page parameters such as id and courseId stay.
+            var messageParams = ['done', 'created', 'saved', 'submitted', 'deleted', 'photo'];
+            if (alerts.length && window.history && history.replaceState) {
+                var url = new URL(window.location.href);
+                var changed = false;
+                messageParams.forEach(function (name) {
+                    if (url.searchParams.has(name)) {
+                        url.searchParams.delete(name);
+                        changed = true;
+                    }
+                });
+                if (changed) {
+                    history.replaceState(null, '', url.pathname + url.search + url.hash);
+                }
+            }
         })();
 
         // On small screens the sidebar slides in from the left

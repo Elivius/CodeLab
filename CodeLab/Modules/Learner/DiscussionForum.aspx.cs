@@ -1,20 +1,25 @@
 using System;
-using System.Data.SqlClient;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
+using CodeLab.Models;
 
 namespace CodeLab.Modules.Learner
 {
     public partial class DiscussionForum : Page
     {
         private const int PageSize = 20;
-        protected bool GeneralScope { get { return Request.QueryString["scope"] != "courses"; } }
 
-        private readonly LearnerDiscussionManager manager =
-            new LearnerDiscussionManager();
+        // "General" discussions (no course) are not supported: DiscussionPosts.CourseId is required.
+        // Kept as a property so the page markup still compiles; it is always false.
+        protected bool GeneralScope { get { return false; } }
+
+        // Shared forum rules, the same ones the Tutor forum uses (BLL/Discussion/DiscussionManager)
+        private readonly DiscussionManager manager =
+            new DiscussionManager();
 
         private int learnerId;
         private bool canAccessForum;
@@ -73,16 +78,12 @@ namespace CodeLab.Modules.Learner
 
             BindNavigationIdentity();
 
-            try
+            if (BindCourseOptions())
             {
-                BindCourseOptions();
-
                 canAccessForum = true;
             }
-            catch (SqlException ex)
+            else
             {
-                LogDatabaseError("Loading forum courses", ex);
-
                 pnlForum.Visible = false;
                 pnlCreateAction.Visible = false;
                 pnlNoCourses.Visible = false;
@@ -104,29 +105,36 @@ namespace CodeLab.Modules.Learner
             base.OnPreRender(e);
         }
 
-        private void BindCourseOptions()
+        // Fills the course filter and the "new discussion" course list with every published course
+        // (shared rule: any learner or tutor can post in any published course). False if loading failed.
+        private bool BindCourseOptions()
         {
             // Preserve submitted selections while refreshing access.
             string selectedFilter = ddlCourse.SelectedValue;
             string selectedPostCourse = ddlPostCourse.SelectedValue;
 
-            var courses = manager.GetEnrolledCourses(learnerId);
+            OperationResult<List<Course>> result = manager.GetCourses();
+            if (!result.Success)
+            {
+                return false;
+            }
+
+            List<Course> courses = result.Data;
+            courses.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.CurrentCultureIgnoreCase));
 
             ddlCourse.Items.Clear();
-            ddlCourse.Items.Add(
-                new ListItem(GeneralScope ? "General Discussion" : "All Enrolled Courses", ""));
+            ddlCourse.Items.Add(new ListItem("All Courses", ""));
 
             ddlPostCourse.Items.Clear();
-            ddlPostCourse.Items.Add(
-                new ListItem("General Discussion", "general"));
+            ddlPostCourse.Items.Add(new ListItem("Select a course", ""));
 
-            foreach (var course in courses)
+            foreach (Course course in courses)
             {
-                string id = course.Key.ToString(
+                string id = course.Id.ToString(
                     CultureInfo.InvariantCulture);
 
-                ddlCourse.Items.Add(new ListItem(course.Value, id));
-                ddlPostCourse.Items.Add(new ListItem(course.Value, id));
+                ddlCourse.Items.Add(new ListItem(course.Title, id));
+                ddlPostCourse.Items.Add(new ListItem(course.Title, id));
             }
 
             RestoreSelection(ddlCourse, selectedFilter);
@@ -135,22 +143,24 @@ namespace CodeLab.Modules.Learner
             bool hasCourses = courses.Count > 0;
 
             pnlForum.Visible = true;
-            ddlCourse.Enabled = !GeneralScope && hasCourses;
-            pnlNoCourses.Visible = !GeneralScope && !hasCourses;
-            pnlCreateAction.Visible = true;
-            btnPublish.Enabled = true;
+            ddlCourse.Enabled = hasCourses;
+            pnlNoCourses.Visible = !hasCourses;
+            pnlCreateAction.Visible = hasCourses;
+            btnPublish.Enabled = hasCourses;
 
-            if (!hasCourses && !GeneralScope)
+            if (!hasCourses)
             {
                 CurrentPage = 1;
             }
 
-            // A removed course filter falls back to all accessible courses.
+            // A removed course filter falls back to all courses.
             if (!string.IsNullOrEmpty(selectedFilter) &&
                 ddlCourse.SelectedValue != selectedFilter)
             {
                 CurrentPage = 1;
             }
+
+            return true;
         }
 
         private static void RestoreSelection(
@@ -169,83 +179,58 @@ namespace CodeLab.Modules.Learner
 
         private void BindPosts()
         {
-            try
+            int courseId = GetSelectedCourseId();
+            string search = txtSearch.Text ?? string.Empty;
+
+            OperationResult<List<DiscussionPost>> result =
+                manager.GetPostPage(courseId, search, false, CurrentPage, PageSize);
+
+            // Recover if posts were removed while viewing a later page.
+            if (result.Success && result.Data.Count == 0 && CurrentPage > 1)
             {
-                int? courseId = GeneralScope ? null : GetSelectedCourseId();
-                string search = txtSearch.Text ?? string.Empty;
-
-                var posts = manager.GetPosts(
-                    learnerId,
-                    courseId,
-                    search,
-                    false,
-                    CurrentPage,
-                    PageSize, GeneralScope ? "general" : "courses");
-
-                // Recover if posts were removed while viewing a later page.
-                if (posts.Count == 0 && CurrentPage > 1)
-                {
-                    CurrentPage = 1;
-
-                    posts = manager.GetPosts(
-                        learnerId,
-                        courseId,
-                        search,
-                        false,
-                        CurrentPage,
-                        PageSize, GeneralScope ? "general" : "courses");
-                }
-
-                bool hasNextPage = false;
-
-                if (posts.Count == PageSize)
-                {
-                    // Fetch one record immediately after this page.
-                    // A page size of 1 makes pageNumber the row position.
-                    int nextRow = checked(CurrentPage * PageSize + 1);
-
-                    var nextRecord = manager.GetPosts(
-                        learnerId,
-                        courseId,
-                        search,
-                        false,
-                        nextRow,
-                        1, GeneralScope ? "general" : "courses");
-
-                    hasNextPage = nextRecord.Count > 0;
-                }
-
-                rptPosts.DataSource = posts;
-                rptPosts.DataBind();
-
-                pnlEmpty.Visible = posts.Count == 0;
-
-                btnPrevious.Enabled = CurrentPage > 1;
-                btnNext.Enabled = hasNextPage;
-
-                pnlPagination.Visible =
-                    CurrentPage > 1 || hasNextPage;
-
-                litPageNumber.Text = "Page " +
-                    CurrentPage.ToString(CultureInfo.InvariantCulture);
+                CurrentPage = 1;
+                result = manager.GetPostPage(courseId, search, false, CurrentPage, PageSize);
             }
-            catch (ArgumentException ex)
+
+            if (!result.Success)
             {
                 ClearResults();
-                ShowError(ex.Message);
+                ShowError(result.Message);
+                return;
             }
-            catch (SqlException ex)
+
+            List<DiscussionPost> posts = result.Data;
+            bool hasNextPage = false;
+
+            if (posts.Count == PageSize)
             {
-                LogDatabaseError("Loading forum discussions", ex);
+                // Fetch one record immediately after this page.
+                // A page size of 1 makes pageNumber the row position.
+                int nextRow = checked(CurrentPage * PageSize + 1);
 
-                ClearResults();
+                OperationResult<List<DiscussionPost>> nextRecord =
+                    manager.GetPostPage(courseId, search, false, nextRow, 1);
 
-                ShowError(
-                    "Discussions could not be loaded. Please try again.");
+                hasNextPage = nextRecord.Success && nextRecord.Data.Count > 0;
             }
+
+            rptPosts.DataSource = posts;
+            rptPosts.DataBind();
+
+            pnlEmpty.Visible = posts.Count == 0;
+
+            btnPrevious.Enabled = CurrentPage > 1;
+            btnNext.Enabled = hasNextPage;
+
+            pnlPagination.Visible =
+                CurrentPage > 1 || hasNextPage;
+
+            litPageNumber.Text = "Page " +
+                CurrentPage.ToString(CultureInfo.InvariantCulture);
         }
 
-        private int? GetSelectedCourseId()
+        // The course chosen in the filter, or 0 for all courses
+        private int GetSelectedCourseId()
         {
             int courseId;
 
@@ -255,7 +240,7 @@ namespace CodeLab.Modules.Learner
                 return courseId;
             }
 
-            return null;
+            return 0;
         }
 
         private void ClearResults()
@@ -340,46 +325,28 @@ namespace CodeLab.Modules.Learner
                 return;
             }
 
-            int courseId = 0;
+            int courseId;
 
-            if (ddlPostCourse.SelectedValue != "general" && (!int.TryParse(ddlPostCourse.SelectedValue, out courseId) ||
-                courseId <= 0))
+            if (!int.TryParse(ddlPostCourse.SelectedValue, out courseId) ||
+                courseId <= 0)
             {
-                ShowCreateError("Please select an enrolled course.");
+                ShowCreateError("Please select the course this discussion is about.");
                 return;
             }
 
-            int postId;
+            // Author identity always comes from the session (inside DiscussionManager).
+            OperationResult<int> created = manager.CreatePost(
+                courseId,
+                txtPostTitle.Text,
+                txtPostContent.Text);
 
-            try
+            if (!created.Success)
             {
-                // Author identity always comes from the session.
-                postId = manager.CreatePost(
-                    learnerId,
-                    ddlPostCourse.SelectedValue == "general" ? (int?)null : courseId,
-                    txtPostTitle.Text,
-                    txtPostContent.Text);
-            }
-            catch (ArgumentException ex)
-            {
-                ShowCreateError(ex.Message);
+                ShowCreateError(created.Message);
                 return;
             }
-            catch (InvalidOperationException ex)
-            {
-                ShowCreateError(ex.Message);
-                return;
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError("Creating a discussion", ex);
 
-                ShowCreateError(
-                    "We could not confirm whether your discussion was saved. " +
-                    "Check My Discussions before publishing it again.");
-
-                return;
-            }
+            int postId = created.Data;
 
             // Redirect after saving so refreshing does not repost.
             redirecting = true;
@@ -521,19 +488,9 @@ namespace CodeLab.Modules.Learner
             string url = ResolveUrl(
                 "~/Modules/Learner/DiscussionDetails.aspx") +
                 "?id=" + postId.ToString(CultureInfo.InvariantCulture) +
-                "&from=forum&scope=" + (GeneralScope ? "general" : "courses");
+                "&from=forum";
 
             return HttpUtility.HtmlAttributeEncode(url);
-        }
-
-        private static void LogDatabaseError(
-            string operation,
-            SqlException exception)
-        {
-            System.Diagnostics.Trace.TraceError(
-                "{0}: {1}",
-                operation,
-                exception);
         }
 
         private void BindNavigationIdentity()
