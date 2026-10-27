@@ -196,6 +196,22 @@ namespace CodeLab.BLL
                 return OperationResult.Fail("Add at least one lesson before submitting the course for review.");
             }
 
+            // The quiz is optional, but if the course has one it needs at least one question (proposal rule)
+            try
+            {
+                QuizRepository quizzes = new QuizRepository();
+                Quiz quiz = quizzes.GetByCourse(courseId);
+                if (quiz != null && quizzes.GetQuestions(quiz.Id).Count == 0)
+                {
+                    return OperationResult.Fail("The quiz has no questions. Add at least one question, or delete the quiz, before submitting.");
+                }
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("CourseManager.SubmitForReview quiz check failure", exception);
+                return OperationResult.Fail("A system error occurred while submitting the course. Please try again.");
+            }
+
             if (!_courseRepository.SubmitForReview(courseId, SessionHelper.GetCurrentUserID()))
             {
                 return OperationResult.Fail("A system error occurred while submitting the course. Please try again.");

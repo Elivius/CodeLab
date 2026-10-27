@@ -25,6 +25,11 @@ namespace CodeLab.Modules.Tutor
 
         protected int LessonCount { get; private set; }
 
+        // The quiz and coding challenge rows in the "Submit for review" card (both optional)
+        protected string QuizReadinessHtml { get; private set; }
+
+        protected string ChallengeReadinessHtml { get; private set; }
+
         // The course being edited, or 0 when creating a new one
         protected int CourseId
         {
@@ -250,8 +255,28 @@ namespace CodeLab.Modules.Tutor
                 ? (lessonCount == 1 ? "1 lesson added" : lessonCount + " lessons added")
                 : "Add at least one lesson";
 
-            btnSubmitReview.Enabled = LessonsReady;
-            btnSubmitReview.ToolTip = LessonsReady ? string.Empty : "Add at least one lesson first.";
+            // Quiz: optional, but once created it needs at least one question
+            OperationResult<Quiz> quiz = new QuizManager().GetQuiz(course.Id);
+            bool hasQuiz = quiz.Success && quiz.Data != null;
+            int questionCount = hasQuiz ? quiz.Data.Questions.Count : 0;
+            bool quizReady = !hasQuiz || questionCount > 0;
+            QuizReadinessHtml = ReadinessItem(
+                !hasQuiz ? "is-optional" : (quizReady ? "is-ready" : "is-missing"),
+                !hasQuiz ? "Quiz" : "Quiz · " + (questionCount == 1 ? "1 question" : questionCount + " questions"),
+                !hasQuiz ? "(optional)" : (quizReady ? null : "add a question"),
+                "QuizEditor", course.Id);
+
+            OperationResult<CodingChallenge> challenge = new ChallengeManager().GetChallenge(course.Id);
+            bool hasChallenge = challenge.Success && challenge.Data != null;
+            ChallengeReadinessHtml = ReadinessItem(
+                hasChallenge ? "is-ready" : "is-optional",
+                hasChallenge ? "Coding challenge added" : "Coding challenge",
+                hasChallenge ? null : "(optional)",
+                "ChallengeEditor", course.Id);
+
+            btnSubmitReview.Enabled = LessonsReady && quizReady;
+            btnSubmitReview.ToolTip = !LessonsReady ? "Add at least one lesson first."
+                : (quizReady ? string.Empty : "Add at least one question to the quiz first.");
             btnSubmitReview.Text = string.IsNullOrWhiteSpace(course.RejectionReason) ? "Submit for review" : "Submit again";
 
             if (Master.IsPageAvailable(LessonPage))
@@ -265,6 +290,21 @@ namespace CodeLab.Modules.Tutor
             }
 
             phSubmit.Visible = true;
+        }
+
+        // One row of the readiness list, linking to the page where it is set up
+        private string ReadinessItem(string state, string text, string note, string page, int courseId)
+        {
+            string icon = state == "is-ready" ? "circle-check" : (state == "is-missing" ? "circle-alert" : "circle-dashed");
+            string label = HttpUtility.HtmlEncode(text)
+                + (note == null ? string.Empty : " <small>" + HttpUtility.HtmlEncode(note) + "</small>");
+            if (Master.IsPageAvailable(page))
+            {
+                label = "<a href=\"" + HttpUtility.HtmlAttributeEncode(Master.GetPageUrl(page) + "?courseId=" + courseId) + "\">" + label + "</a>";
+            }
+
+            return "<li class=\"" + state + "\"><i data-lucide=\"" + icon + "\" class=\"cl-icon\" aria-hidden=\"true\"></i><span>"
+                + label + "</span></li>";
         }
 
         private void ShowReadOnly(Course course)

@@ -204,7 +204,7 @@
 
                             <div class="cl-writer-foot">
                                 <span><i data-lucide="file-text" class="cl-icon" aria-hidden="true"></i>Markdown supported</span>
-                                <span id="wordCount">0 words</span>
+                                <span data-word-count>0 words</span>
                             </div>
                         </div>
                         <asp:RequiredFieldValidator ID="rfvContent" runat="server" ControlToValidate="txtContent"
@@ -305,121 +305,19 @@
         </div>
     </asp:PlaceHolder>
 
-    <%-- Syntax highlighting for code in the preview --%>
+    <%-- Syntax colours for code in the preview; the writer, preview tabs and code boxes come from tutor-writer.js --%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="<%: ResolveUrl("~/Scripts/tutor-writer.js") %>"></script>
 
     <script>
-        // Colours the code blocks in the preview (and again after each preview update)
-        function clHighlight() {
-            if (!window.hljs) { return; }
-            document.querySelectorAll('#lessonPreview pre code').forEach(function (block) {
-                block.removeAttribute('data-highlighted');
-                window.hljs.highlightElement(block);
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
-            var editor = document.querySelector('.cl-md-input');
-            if (!editor) {
+            var video = document.getElementById('<%= txtVideoUrl.ClientID %>');
+            if (!video) {
                 return;
             }
 
-            // ----- Write / Preview tabs -----
-            var writer = document.getElementById('lessonWriter');
-            var preview = document.getElementById('lessonPreview');
-
-            function setMode(mode) {
-                writer.setAttribute('data-mode', mode);
-                writer.querySelectorAll('[data-writer-tab]').forEach(function (tab) {
-                    var active = tab.getAttribute('data-writer-tab') === mode;
-                    tab.classList.toggle('is-active', active);
-                    tab.setAttribute('aria-selected', active ? 'true' : 'false');
-                });
-            }
-
-            writer.querySelector('[data-writer-tab="write"]').addEventListener('click', function () {
-                setMode('write');
-                editor.focus();
-            });
-
-            // The Preview tab is the server button; show a loading message while it works
-            writer.querySelector('[data-writer-tab="preview"]').addEventListener('click', function () {
-                setMode('preview');
-                preview.setAttribute('aria-busy', 'true');
-                var panel = preview.querySelector('.cl-markdown');
-                if (panel) {
-                    panel.classList.add('is-loading');
-                } else {
-                    preview.firstElementChild.innerHTML = '<p class="cl-preview-loading">Rendering preview…</p>';
-                }
-            });
-
-            // ----- Formatting buttons: wrap the selected text, or add a prefix to each selected line -----
-            function wrap(before, after, placeholder) {
-                var start = editor.selectionStart, end = editor.selectionEnd;
-                var selected = editor.value.substring(start, end) || placeholder;
-                editor.setRangeText(before + selected + after, start, end, 'end');
-                editor.focus();
-                editor.setSelectionRange(start + before.length, start + before.length + selected.length);
-                countWords();
-            }
-
-            function prefixLines(prefix) {
-                var start = editor.selectionStart, end = editor.selectionEnd;
-                var lineStart = editor.value.lastIndexOf('\n', start - 1) + 1;
-                var block = editor.value.substring(lineStart, end) || 'Item';
-                var number = 0;
-                var result = block.split('\n').map(function (line) {
-                    number++;
-                    return (prefix === '1. ' ? number + '. ' : prefix) + line;
-                }).join('\n');
-                editor.setRangeText(result, lineStart, end, 'end');
-                editor.focus();
-                countWords();
-            }
-
-            var actions = {
-                bold: function () { wrap('**', '**', 'bold text'); },
-                italic: function () { wrap('_', '_', 'italic text'); },
-                heading: function () { prefixLines('## '); },
-                ul: function () { prefixLines('- '); },
-                ol: function () { prefixLines('1. '); },
-                quote: function () { prefixLines('> '); },
-                code: function () { wrap('`', '`', 'code'); },
-                codeblock: function () { wrap('\n```\n', '\n```\n', 'code here'); },
-                link: function () { wrap('[', '](https://)', 'link text'); }
-            };
-
-            document.querySelectorAll('.cl-md-toolbar button').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    setMode('write');
-                    var action = actions[button.getAttribute('data-md')];
-                    if (action) { action(); }
-                });
-            });
-
-            // ----- Word count -----
-            var wordCount = document.getElementById('wordCount');
-            function countWords() {
-                var words = editor.value.trim() ? editor.value.trim().split(/\s+/).length : 0;
-                var minutes = Math.max(1, Math.round(words / 200));
-                wordCount.textContent = words + (words === 1 ? ' word' : ' words') + (words ? ' · about ' + minutes + ' min read' : '');
-            }
-            editor.addEventListener('input', countWords);
-            countWords();
-
-            // Tab key in the code box adds spaces instead of leaving the box
-            var code = document.getElementById('<%= txtCode.ClientID %>');
-            code.addEventListener('keydown', function (e) {
-                if (e.key === 'Tab' && !e.shiftKey) {
-                    e.preventDefault();
-                    code.setRangeText('    ', code.selectionStart, code.selectionEnd, 'end');
-                }
-            });
-
             // ----- YouTube thumbnail -----
-            var video = document.getElementById('<%= txtVideoUrl.ClientID %>');
             var thumb = document.getElementById('videoThumb');
             var emptyThumb = thumb.innerHTML;
 
@@ -475,14 +373,6 @@
                     fileName.textContent = chosen.name;
                 }
             });
-
-            clHighlight();
-            if (window.Sys && Sys.WebForms && Sys.WebForms.PageRequestManager) {
-                Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
-                    preview.removeAttribute('aria-busy');
-                    clHighlight();
-                });
-            }
         });
     </script>
 

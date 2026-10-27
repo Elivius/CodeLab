@@ -291,10 +291,8 @@
                                 <i data-lucide="<%: LessonsReady ? "circle-check" : "circle-alert" %>" class="cl-icon" aria-hidden="true"></i>
                                 <span><asp:Literal ID="litLessonsReady" runat="server" Mode="Encode" /></span>
                             </li>
-                            <li class="is-optional">
-                                <i data-lucide="circle-dashed" class="cl-icon" aria-hidden="true"></i>
-                                <span>Quiz and coding challenge <small>(optional)</small></span>
-                            </li>
+                            <%= QuizReadinessHtml %>
+                            <%= ChallengeReadinessHtml %>
                         </ul>
 
                         <asp:HyperLink ID="hlNextStep" runat="server" CssClass="btn cl-btn-outline w-100 mt-3" />

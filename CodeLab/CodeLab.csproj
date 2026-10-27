@@ -108,6 +108,10 @@
     <Content Include="Modules\Public\Login.aspx" />
     <Content Include="Modules\Tutor\Dashboard.aspx" />
     <Content Include="Modules\Tutor\LessonEditor.aspx" />
+    <Content Include="Modules\Tutor\QuizEditor.aspx" />
+    <Content Include="Modules\Tutor\Analytics.aspx" />
+    <Content Include="Modules\Tutor\ChallengeEditor.aspx" />
+    <Content Include="Scripts\tutor-writer.js" />
     <Content Include="Modules\Tutor\CourseEditor.aspx" />
     <Content Include="Modules\Tutor\Profile.aspx" />
     <Content Include="Modules\Tutor\Tutor.Master" />
@@ -198,34 +202,45 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="BLL\AuditManager.cs" />
-    <Compile Include="BLL\CourseManager.cs" />
-    <Compile Include="BLL\LessonManager.cs" />
-    <Compile Include="BLL\TutorManager.cs" />
+    <Compile Include="BLL\Tutor\CourseManager.cs" />
+    <Compile Include="BLL\Tutor\LessonManager.cs" />
+    <Compile Include="BLL\Tutor\TutorManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="DAL\AuditRepository.cs" />
-    <Compile Include="DAL\CourseRepository.cs" />
+    <Compile Include="DAL\Tutor\CourseRepository.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
-    <Compile Include="DAL\LessonRepository.cs" />
-    <Compile Include="DAL\TutorRepository.cs" />
+    <Compile Include="BLL\Tutor\QuizManager.cs" />
+    <Compile Include="BLL\Tutor\ChallengeManager.cs" />
+    <Compile Include="BLL\Tutor\AnalyticsManager.cs" />
+    <Compile Include="DAL\Tutor\LessonRepository.cs" />
+    <Compile Include="DAL\Tutor\TutorRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
-    <Compile Include="Helpers\ImageUploadHelper.cs" />
-    <Compile Include="Helpers\FileUploadHelper.cs" />
-    <Compile Include="Helpers\MarkdownHelper.cs" />
+    <Compile Include="Helpers\Tutor\ImageUploadHelper.cs" />
+    <Compile Include="DAL\Tutor\QuizRepository.cs" />
+    <Compile Include="DAL\Tutor\ChallengeRepository.cs" />
+    <Compile Include="DAL\Tutor\AnalyticsRepository.cs" />
+    <Compile Include="Helpers\Tutor\FileUploadHelper.cs" />
+    <Compile Include="Helpers\Tutor\MarkdownHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
-    <Compile Include="Helpers\YouTubeHelper.cs" />
+    <Compile Include="Helpers\Tutor\YouTubeHelper.cs" />
     <Compile Include="Models\AuditLog.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\CourseOptions.cs" />
-    <Compile Include="Models\CourseStatuses.cs" />
-    <Compile Include="Models\Lesson.cs" />
-    <Compile Include="Models\LessonOptions.cs" />
+    <Compile Include="Models\Tutor\Course.cs" />
+    <Compile Include="Models\Tutor\CourseOptions.cs" />
+    <Compile Include="Models\Tutor\CourseStatuses.cs" />
+    <Compile Include="Models\Tutor\Lesson.cs" />
+    <Compile Include="Models\Tutor\LessonOptions.cs" />
+    <Compile Include="Models\Tutor\Quiz.cs" />
+    <Compile Include="Models\Tutor\QuizQuestion.cs" />
+    <Compile Include="Models\Tutor\CodingChallenge.cs" />
+    <Compile Include="Models\Tutor\CoursePickerItem.cs" />
+    <Compile Include="Models\Tutor\TutorAnalytics.cs" />
     <Compile Include="Models\OperationResult.cs" />
-    <Compile Include="Models\TutorCourseSummary.cs" />
-    <Compile Include="Models\TutorDashboard.cs" />
-    <Compile Include="Models\TutorProfile.cs" />
-    <Compile Include="Models\TutorStatuses.cs" />
+    <Compile Include="Models\Tutor\TutorCourseSummary.cs" />
+    <Compile Include="Models\Tutor\TutorDashboard.cs" />
+    <Compile Include="Models\Tutor\TutorProfile.cs" />
+    <Compile Include="Models\Tutor\TutorStatuses.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserStatuses.cs" />
     <Compile Include="Models\UserRoles.cs" />
@@ -263,6 +278,27 @@
     </Compile>
     <Compile Include="Modules\Tutor\LessonEditor.aspx.designer.cs">
       <DependentUpon>LessonEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\QuizEditor.aspx.cs">
+      <DependentUpon>QuizEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\QuizEditor.aspx.designer.cs">
+      <DependentUpon>QuizEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\ChallengeEditor.aspx.cs">
+      <DependentUpon>ChallengeEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\ChallengeEditor.aspx.designer.cs">
+      <DependentUpon>ChallengeEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\Analytics.aspx.cs">
+      <DependentUpon>Analytics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\Analytics.aspx.designer.cs">
+      <DependentUpon>Analytics.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
