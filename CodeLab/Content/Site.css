@@ -500,6 +500,53 @@ textarea {
     text-decoration: none;
 }
 
+/* ---------- Public course pages (catalogue and details) ---------- */
+
+.cl-page-intro {
+    margin: 8px 0 0;
+    color: var(--cl-muted);
+}
+
+.cl-course-detail-thumb {
+    height: 260px;
+    font-size: 3.5rem;
+}
+
+.cl-course-detail-title {
+    margin: 10px 0 14px;
+    font-size: 1.9rem;
+}
+
+/* The full description: no 3-line clamp, and keep the tutor's line breaks */
+.cl-course-body .cl-course-detail-description {
+    display: block;
+    overflow: visible;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    white-space: pre-line;
+    -webkit-line-clamp: unset;
+}
+
+.cl-lock-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    padding: 24px;
+}
+
+.cl-lock-box h2 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+}
+
+.cl-lock-box p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--cl-muted);
+}
+
 /* ---------- Landing page: dark panels ---------- */
 
 .cl-dark-panel {

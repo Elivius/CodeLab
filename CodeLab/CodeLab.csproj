@@ -105,6 +105,8 @@
     <Content Include="Modules\Admin\AuditLogs.aspx" />
     <Content Include="Modules\Admin\Web.config" />
     <Content Include="Modules\Learner\Web.config" />
+    <Content Include="Modules\Public\CourseDetails.aspx" />
+    <Content Include="Modules\Public\Courses.aspx" />
     <Content Include="Modules\Public\Login.aspx" />
     <Content Include="Modules\Tutor\Dashboard.aspx" />
     <Content Include="Modules\Tutor\LessonEditor.aspx" />
@@ -236,6 +238,20 @@
     </Compile>
     <Compile Include="Modules\Admin\AuditLogs.aspx.designer.cs">
       <DependentUpon>AuditLogs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\CourseDetails.aspx.cs">
+      <DependentUpon>CourseDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\CourseDetails.aspx.designer.cs">
+      <DependentUpon>CourseDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\Courses.aspx.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\Courses.aspx.designer.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Public\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
