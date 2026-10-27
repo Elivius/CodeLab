@@ -336,6 +336,12 @@ textarea {
     max-width: 520px;
 }
 
+/* Back + Create account. Not Bootstrap's d-flex: its !important would override the hidden attribute */
+.cl-register-actions {
+    display: flex;
+    gap: 8px;
+}
+
 /* The tutor application fields on Register, grouped in a tinted panel */
 .cl-application {
     margin: 8px 0 24px;
@@ -349,7 +355,7 @@ textarea {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin: 0 0 4px;
+    margin: 0 0 16px;
     font-size: 1.05rem;
 }
 

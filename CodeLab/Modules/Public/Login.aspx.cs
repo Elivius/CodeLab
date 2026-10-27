@@ -49,7 +49,24 @@ namespace CodeLab.Modules.Public
             }
 
             SessionHelper.SignIn(result.Data);
-            Response.Redirect(FormsAuthentication.GetRedirectUrl(result.Data.Username, false));
+
+            // Someone sent here from a protected page goes back to it (GetRedirectUrl only allows this site's
+            // own pages); everyone else goes to their role's home page
+            bool hasReturnUrl = !string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]);
+            Response.Redirect(hasReturnUrl
+                ? FormsAuthentication.GetRedirectUrl(result.Data.Username, false)
+                : GetHomeUrl(result.Data.Role));
+        }
+
+        private static string GetHomeUrl(string role)
+        {
+            switch (role)
+            {
+                case UserRoles.Tutor: return "~/Modules/Tutor/Dashboard";
+                case UserRoles.Learner: return "~/Modules/Learner/Dashboard";
+                case UserRoles.Admin: return "~/Modules/Admin/AuditLogs";
+                default: return "~/";
+            }
         }
     }
 }
