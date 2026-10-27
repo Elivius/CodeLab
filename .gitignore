@@ -55,3 +55,6 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+
+# Local API credentials
+AppSettings.Local.config
