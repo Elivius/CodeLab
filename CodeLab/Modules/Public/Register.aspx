@@ -61,6 +61,57 @@
                 ErrorMessage="Passwords do not match." CssClass="text-danger" Display="Dynamic" />
         </div>
 
+        <%-- Tutor tab only. Validators inside a hidden PlaceHolder do not run, so learners are never asked for these.
+             ValidateRequestMode="Disabled" lets tutors type code such as List<int>; the values are only ever shown encoded. --%>
+        <asp:PlaceHolder ID="phTutorFields" runat="server" Visible="false">
+          <div class="cl-application">
+            <h2><i data-lucide="graduation-cap" class="cl-icon" aria-hidden="true"></i>Your tutor application</h2>
+            <p class="form-text mt-0 mb-3">An administrator reviews every application. You can log in straight away, and course authoring unlocks once you are approved.</p>
+
+            <div class="mb-3">
+                <asp:Label ID="lblSpecialty" runat="server" AssociatedControlID="txtSpecialty" CssClass="form-label" Text="Specialty" />
+                <asp:TextBox ID="txtSpecialty" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" MaxLength="100"
+                    placeholder="e.g. Web Development, Python, SQL" />
+                <asp:RequiredFieldValidator ID="rfvSpecialty" runat="server" ControlToValidate="txtSpecialty"
+                    ErrorMessage="Specialty is required." CssClass="text-danger" Display="Dynamic" />
+            </div>
+
+            <div class="mb-3">
+                <asp:Label ID="lblPortfolioUrl" runat="server" AssociatedControlID="txtPortfolioUrl" CssClass="form-label" Text="Portfolio link" />
+                <asp:TextBox ID="txtPortfolioUrl" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" MaxLength="500"
+                    placeholder="https://github.com/your-name" />
+                <asp:RequiredFieldValidator ID="rfvPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl"
+                    ErrorMessage="Portfolio link is required." CssClass="text-danger" Display="Dynamic" />
+                <asp:RegularExpressionValidator ID="revPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl"
+                    ValidationExpression="^\s*https?://\S+\s*$" ErrorMessage="Portfolio link must start with http:// or https://."
+                    CssClass="text-danger" Display="Dynamic" />
+            </div>
+
+            <div class="mb-3">
+                <asp:Label ID="lblBio" runat="server" AssociatedControlID="txtBio" CssClass="form-label" Text="About you" />
+                <asp:TextBox ID="txtBio" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" TextMode="MultiLine" Rows="3"
+                    placeholder="A short introduction learners will see on your profile" />
+                <asp:RequiredFieldValidator ID="rfvBio" runat="server" ControlToValidate="txtBio"
+                    ErrorMessage="About you is required." CssClass="text-danger" Display="Dynamic" />
+            </div>
+
+            <div class="mb-3">
+                <asp:Label ID="lblPitch" runat="server" AssociatedControlID="txtPitch" CssClass="form-label" Text="Sample curriculum pitch" />
+                <asp:TextBox ID="txtPitch" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" TextMode="MultiLine" Rows="4"
+                    placeholder="Describe a course you would teach: who it is for, the main topics, and the hands-on work" />
+                <asp:RequiredFieldValidator ID="rfvPitch" runat="server" ControlToValidate="txtPitch"
+                    ErrorMessage="Sample curriculum pitch is required." CssClass="text-danger" Display="Dynamic" />
+            </div>
+
+            <div class="mb-4">
+                <asp:Label ID="lblQualifications" runat="server" AssociatedControlID="txtQualifications" CssClass="form-label" Text="Qualifications" />
+                <asp:TextBox ID="txtQualifications" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" TextMode="MultiLine" Rows="3"
+                    placeholder="Degrees, certifications and teaching experience" />
+                <asp:RequiredFieldValidator ID="rfvQualifications" runat="server" ControlToValidate="txtQualifications"
+                    ErrorMessage="Qualifications are required." CssClass="text-danger" Display="Dynamic" />
+            </div>
+        </asp:PlaceHolder>
+
         <asp:Button ID="btnRegister" runat="server" Text="Create account" CssClass="btn btn-primary" OnClick="btnRegister_Click" />
 
         <p class="cl-auth-switch">Already have an account? <a runat="server" href="~/Modules/Public/Login">Log in</a></p>

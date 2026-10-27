@@ -30,6 +30,7 @@ namespace CodeLab.Modules.Public
             }
 
             MarkActiveTab(IsTutor ? lnkTutorTab : lnkLearnerTab);
+            phTutorFields.Visible = IsTutor;
         }
 
         protected void cvUsernameTaken_ServerValidate(object source, ServerValidateEventArgs args)
@@ -57,7 +58,16 @@ namespace CodeLab.Modules.Public
                 Role = IsTutor ? UserRoles.Tutor : UserRoles.Learner
             };
 
-            OperationResult result = new UserManager().Register(account, txtPassword.Text, txtConfirm.Text, null);
+            TutorProfile application = !IsTutor ? null : new TutorProfile
+            {
+                Specialty = txtSpecialty.Text,
+                PortfolioUrl = txtPortfolioUrl.Text,
+                Bio = txtBio.Text,
+                CurriculumPitch = txtPitch.Text,
+                Qualifications = txtQualifications.Text
+            };
+
+            OperationResult result = new UserManager().Register(account, txtPassword.Text, txtConfirm.Text, application);
             if (!result.Success)
             {
                 lblMessage.Text = Server.HtmlEncode(result.Message);

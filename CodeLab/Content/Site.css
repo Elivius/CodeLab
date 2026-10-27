@@ -336,13 +336,35 @@ textarea {
     max-width: 520px;
 }
 
+/* The tutor application fields on Register, grouped in a tinted panel */
+.cl-application {
+    margin: 8px 0 24px;
+    padding: 20px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-application h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+}
+
+.cl-application h2 .cl-icon {
+    color: var(--cl-accent);
+}
+
 /* Learner / Tutor switch at the top of Register */
 .cl-tabs {
     display: flex;
     gap: 4px;
     margin-bottom: 24px;
     padding: 4px;
-    background-color: rgba(45, 52, 54, 0.06);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
     border-radius: 10px;
 }
 
@@ -363,8 +385,7 @@ textarea {
 
 .cl-tabs a.active {
     color: var(--cl-accent);
-    background-color: var(--cl-surface);
-    box-shadow: 0 1px 3px rgba(45, 52, 54, 0.12);
+    background-color: var(--cl-soft);
 }
 
 /* ---------- Landing page: hero ---------- */

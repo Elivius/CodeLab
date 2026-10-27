@@ -116,10 +116,20 @@ namespace CodeLab.BLL
                 return OperationResult.Fail("Passwords do not match.");
             }
 
-            // A tutor account is never created without its application
-            if (account.Role == UserRoles.Tutor && application == null)
+            // A tutor account is never created without a valid application
+            if (account.Role == UserRoles.Tutor)
             {
-                return OperationResult.Fail("Please fill in the tutor application.");
+                if (application == null)
+                {
+                    return OperationResult.Fail("Please fill in the tutor application.");
+                }
+
+                application.FullName = account.FullName;
+                string applicationError = TutorManager.CleanAndValidate(application);
+                if (applicationError != null)
+                {
+                    return OperationResult.Fail(applicationError);
+                }
             }
 
             string takenMessage = GetTakenMessage(account);
@@ -139,7 +149,14 @@ namespace CodeLab.BLL
                     ?? "A system error occurred while creating your account. Please try again.");
             }
 
-            new AuditManager().RecordActivity(userId, "REGISTER", "Registered as " + account.Role + ".");
+            AuditManager auditManager = new AuditManager();
+            auditManager.RecordActivity(userId, "REGISTER", "Registered as " + account.Role + ".");
+            if (account.Role == UserRoles.Tutor)
+            {
+                // Same entry TutorManager.SubmitApplication records, so admins see one kind of application entry
+                auditManager.RecordActivity(userId, "SUBMIT_TUTOR_APPLICATION",
+                    "Submitted a tutor application for review (specialty: " + application.Specialty + ").");
+            }
 
             return OperationResult.Ok("Account created.");
         }

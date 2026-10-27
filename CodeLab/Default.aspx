@@ -178,7 +178,10 @@
                         <h3>Start Your Software Engineering Journey</h3>
                         <p>Register in less than 30 seconds to unlock complete curriculums, interactive code sandboxes, and quizzes.</p>
                     </div>
-                    <a runat="server" href="~/Modules/Public/Register?role=learner" class="btn btn-primary cl-btn-lg">Register Free</a>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a runat="server" href="~/Modules/Public/Register?role=learner" class="btn btn-primary cl-btn-lg">Register Free</a>
+                        <a runat="server" href="~/Modules/Public/Register?role=tutor" class="btn cl-btn-outline cl-btn-lg">Teach on CodeLab</a>
+                    </div>
                 </div>
             </div>
         </section>
