@@ -1,5 +1,5 @@
+
 using System;
-using System.Web.Security;
 using System.Web.UI;
 using CodeLab.BLL;
 using CodeLab.Helpers;
@@ -11,10 +11,10 @@ namespace CodeLab.Modules.Public
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Someone already signed in lands here when they open a page their role cannot access
+            // Redirect users who are already logged in
             if (!IsPostBack && SessionHelper.IsLoggedIn())
             {
-                Response.Redirect("~/");
+                RedirectByRole(SessionHelper.GetCurrentRole());
             }
 
             // Register sends new users here
@@ -38,18 +38,60 @@ namespace CodeLab.Modules.Public
                 return;
             }
 
-            UserManager userManager = new UserManager();
-            OperationResult<User> result = userManager.Authenticate(txtUsername.Text.Trim(), txtPassword.Text);
+            lblMessage.Visible = false;
 
-            if (!result.Success)
+            UserManager userManager = new UserManager();
+
+            OperationResult<User> result =
+                userManager.Authenticate(
+                    txtUsername.Text.Trim(),
+                    txtPassword.Text
+                );
+
+            if (!result.Success || result.Data == null)
             {
                 lblMessage.Text = result.Message;
                 lblMessage.Visible = true;
                 return;
             }
 
+            // Create login session and authentication cookie
             SessionHelper.SignIn(result.Data);
-            Response.Redirect(FormsAuthentication.GetRedirectUrl(result.Data.Username, false));
+
+            // Use the authenticated user's role directly
+            RedirectByRole(result.Data.Role);
+        }
+
+        private void RedirectByRole(string role)
+        {
+            string destination;
+
+            switch ((role ?? "").Trim().ToLowerInvariant())
+            {
+                case "learner":
+                    destination =
+                        "~/Modules/Learner/Dashboard.aspx";
+                    break;
+
+                case "tutor":
+                    destination = "~/";
+                    break;
+
+                case "admin":
+                    destination = "~/";
+                    break;
+
+                default:
+                    destination = "~/";
+                    break;
+            }
+
+            Response.Redirect(
+                ResolveUrl(destination),
+                false
+            );
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 }

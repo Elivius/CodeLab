@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -102,8 +102,15 @@
     <Content Include="About.aspx" />
     <Content Include="App_Data\Schema.sql" />
     <Content Include="App_Data\Seed.sql" />
+    <Content Include="Content\LearnerDashboard.css" />
+    <Content Include="Content\LearnerCourses.css" />
+    <Content Include="Content\LearnerCurriculum.css" />
     <Content Include="Modules\Admin\AuditLogs.aspx" />
     <Content Include="Modules\Admin\Web.config" />
+    <Content Include="Modules\Learner\CourseDetails.aspx" />
+    <Content Include="Modules\Learner\Curriculum.aspx" />
+    <Content Include="Modules\Learner\Dashboard.aspx" />
+    <Content Include="Modules\Learner\Courses.aspx" />
     <Content Include="Modules\Learner\Web.config" />
     <Content Include="Modules\Public\CourseDetails.aspx" />
     <Content Include="Modules\Public\Courses.aspx" />
@@ -209,6 +216,8 @@
     <Compile Include="BLL\Tutor\CourseManager.cs" />
     <Compile Include="BLL\Tutor\LessonManager.cs" />
     <Compile Include="BLL\Tutor\TutorManager.cs" />
+    <Compile Include="BLL\LearnerManager.cs" />
+    <Compile Include="BLL\LearnerCourseManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="DAL\AuditRepository.cs" />
     <Compile Include="DAL\Tutor\CourseRepository.cs" />
@@ -218,6 +227,8 @@
     <Compile Include="BLL\Tutor\AnalyticsManager.cs" />
     <Compile Include="DAL\Tutor\LessonRepository.cs" />
     <Compile Include="DAL\Tutor\TutorRepository.cs" />
+    <Compile Include="DAL\LearnerRepository.cs" />
+    <Compile Include="DAL\LearnerCourseRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Helpers\Tutor\ImageUploadHelper.cs" />
     <Compile Include="DAL\Tutor\QuizRepository.cs" />
@@ -240,6 +251,8 @@
     <Compile Include="Models\Tutor\CodingChallenge.cs" />
     <Compile Include="Models\Tutor\CoursePickerItem.cs" />
     <Compile Include="Models\Tutor\TutorAnalytics.cs" />
+    <Compile Include="Models\LearnerDashboardData.cs" />
+    <Compile Include="Models\LearnerCourse.cs" />
     <Compile Include="Models\OperationResult.cs" />
     <Compile Include="Models\Tutor\TutorCourseSummary.cs" />
     <Compile Include="Models\Tutor\TutorDashboard.cs" />
@@ -268,6 +281,34 @@
     </Compile>
     <Compile Include="Modules\Public\Courses.aspx.designer.cs">
       <DependentUpon>Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Learner\CourseDetails.aspx.cs">
+      <DependentUpon>CourseDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Learner\CourseDetails.aspx.designer.cs">
+      <DependentUpon>CourseDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Learner\Courses.aspx.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Learner\Courses.aspx.designer.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Learner\Curriculum.aspx.cs">
+      <DependentUpon>Curriculum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Learner\Curriculum.aspx.designer.cs">
+      <DependentUpon>Curriculum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Learner\Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Learner\Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Public\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

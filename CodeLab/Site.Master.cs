@@ -39,6 +39,9 @@ namespace CodeLab
             phTutorNav.Visible = isTutor;
             phLearnerNav.Visible = SessionHelper.IsUserInRole(UserRoles.Learner);
 
+            // Learners use their own module links instead of the guest links
+            phPublicNav.Visible = !phLearnerNav.Visible;
+
             // Tutors navigate with their sidebar, and the logo takes them to their dashboard
             if (isTutor)
             {
