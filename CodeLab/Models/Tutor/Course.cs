@@ -22,5 +22,8 @@ namespace CodeLab.Models
         public string LockReason { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        // Only filled by CourseRepository.GetPublished; 0 everywhere else
+        public int LessonCount { get; set; }
     }
 }

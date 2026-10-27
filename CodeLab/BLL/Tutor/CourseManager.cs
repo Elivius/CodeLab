@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CodeLab.DAL;
 using CodeLab.Helpers;
 using CodeLab.Models;
@@ -220,6 +222,60 @@ namespace CodeLab.BLL
             new AuditManager().RecordActivity(SessionHelper.GetCurrentUserID(), "SUBMIT_COURSE",
                 "Submitted course '" + course.Data.Title + "' for review (" + lessonCount + " lessons).");
             return OperationResult.Ok("Your course has been submitted for review. An administrator will check it soon.");
+        }
+
+        /// <summary>
+        /// Every Published course, newest first. Public: guests use it on the course catalogue.
+        /// </summary>
+        public OperationResult<List<Course>> GetCatalogue()
+        {
+            try
+            {
+                return OperationResult<List<Course>>.Ok(_courseRepository.GetPublished());
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("CourseManager.GetCatalogue failure", exception);
+                return OperationResult<List<Course>>.Fail("Courses could not be loaded. Please try again.");
+            }
+        }
+
+        /// <summary>
+        /// Up to count Published courses in a random order, different on every call. Public: used on the landing page.
+        /// </summary>
+        public OperationResult<List<Course>> GetFeatured(int count)
+        {
+            OperationResult<List<Course>> catalogue = GetCatalogue();
+            if (!catalogue.Success)
+            {
+                return catalogue;
+            }
+
+            // shortcut: shuffles the whole published list in memory, move to ORDER BY NEWID() in SQL past a few hundred courses
+            return OperationResult<List<Course>>.Ok(catalogue.Data.OrderBy(course => Guid.NewGuid()).Take(count).ToList());
+        }
+
+        /// <summary>
+        /// One Published course for the public course details page. A missing course and an unpublished
+        /// one give the same message, so draft ids cannot be probed.
+        /// </summary>
+        public OperationResult<Course> GetPublicCourse(int courseId)
+        {
+            try
+            {
+                Course course = _courseRepository.GetById(courseId);
+                if (course == null || course.Status != CourseStatuses.Published)
+                {
+                    return OperationResult<Course>.Fail("Course not found.");
+                }
+
+                return OperationResult<Course>.Ok(course);
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("CourseManager.GetPublicCourse failure", exception);
+                return OperationResult<Course>.Fail("The course could not be loaded. Please try again.");
+            }
         }
 
         /// <summary>
