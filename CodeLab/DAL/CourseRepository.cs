@@ -54,6 +54,50 @@ namespace CodeLab.DAL
         }
 
         /// <summary>
+        /// Returns every Published course, newest first, with its lesson count.
+        /// Only the columns guests may see are read.
+        /// </summary>
+        public List<Course> GetPublished()
+        {
+            List<Course> courses = new List<Course>();
+            string query = @"SELECT c.Id, c.Title, c.Description, c.Category, c.Difficulty, c.ThumbnailUrl, c.CreatedAt,
+                                    (SELECT COUNT(*) FROM Lessons l WHERE l.CourseId = c.Id) AS LessonCount
+                             FROM Courses c
+                             WHERE c.Status = @Published
+                             ORDER BY c.CreatedAt DESC, c.Id DESC";
+
+            using (SqlConnection connection = DatabaseHelper.GetConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add("@Published", SqlDbType.NVarChar, 20).Value = CourseStatuses.Published;
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            courses.Add(new Course
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Title = reader["Title"].ToString(),
+                                Description = reader["Description"].ToString(),
+                                Category = reader["Category"].ToString(),
+                                Difficulty = reader["Difficulty"].ToString(),
+                                Status = CourseStatuses.Published,
+                                ThumbnailUrl = reader["ThumbnailUrl"] as string,
+                                CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
+                                LessonCount = Convert.ToInt32(reader["LessonCount"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            return courses;
+        }
+
+        /// <summary>
         /// Saves a new course as a Draft and returns its id, or 0 if it could not be saved.
         /// </summary>
         public int Insert(Course course)

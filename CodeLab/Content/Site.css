@@ -414,16 +414,17 @@ textarea {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.cl-thumb-frontend {
+/* Shown when the tutor has not uploaded a cover image */
+.cl-thumb-default {
     background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
 }
 
-.cl-thumb-science {
-    background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%);
-}
-
-.cl-thumb-python {
-    background: linear-gradient(135deg, #052E16 0%, #15803D 100%);
+.cl-course-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .cl-level {
@@ -480,7 +481,7 @@ textarea {
     line-height: 1.6;
     color: var(--cl-muted);
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
 }
 
 .cl-course-footer {

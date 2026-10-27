@@ -1,4 +1,5 @@
 <%@ Page Title="Master Programming on Your Terms" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CodeLab._Default" %>
+<%@ Register Src="~/UserControls/CourseGrid.ascx" TagPrefix="cl" TagName="CourseGrid" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -58,72 +59,20 @@
             </div>
         </section>
 
-        <%-- ===== Featured courses (mock data, hard-coded until the Courses module exists) ===== --%>
+        <%-- ===== Featured courses: 3 random Published courses, different on every load ===== --%>
         <section id="courses" class="cl-section">
             <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-4">
                 <div>
                     <span class="cl-eyebrow">Curated Curriculum</span>
                     <h2 class="cl-section-title">Featured Courses</h2>
                 </div>
-                <a href="#courses" class="cl-link-arrow">
-                    View all catalogue (5)
+                <a runat="server" href="~/Modules/Public/Courses" class="cl-link-arrow">
+                    View all catalogue (<asp:Literal ID="litCourseCount" runat="server" Text="0" />)
                     <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i>
                 </a>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <div class="col">
-                    <article class="cl-card cl-course">
-                        <div class="cl-course-thumb cl-thumb-frontend">
-                            &lt;/&gt;
-                            <span class="cl-level cl-level-intermediate">Intermediate</span>
-                        </div>
-                        <div class="cl-course-body">
-                            <span class="cl-course-category">Frontend Engineering</span>
-                            <h3>Modern TypeScript &amp; Scalable React Patterns</h3>
-                            <p>Master enterprise-grade TypeScript type gymnastics, React 18 concurrent rendering, custom hooks, and scalable state management.</p>
-                            <div class="cl-course-footer">
-                                <span><i data-lucide="book-open" class="cl-icon me-1" aria-hidden="true"></i>18 Lessons</span>
-                                <a href="#courses">Explore Syllabus <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="cl-card cl-course">
-                        <div class="cl-course-thumb cl-thumb-science">
-                            O(n log n)
-                            <span class="cl-level cl-level-advanced">Advanced</span>
-                        </div>
-                        <div class="cl-course-body">
-                            <span class="cl-course-category">Computer Science</span>
-                            <h3>Algorithms &amp; Discrete Math for Developers</h3>
-                            <p>Explore rigorous algorithmic principles, asymptotic complexity, graph theory, dynamic programming, and proof techniques.</p>
-                            <div class="cl-course-footer">
-                                <span><i data-lucide="book-open" class="cl-icon me-1" aria-hidden="true"></i>24 Lessons</span>
-                                <a href="#courses">Explore Syllabus <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="cl-card cl-course">
-                        <div class="cl-course-thumb cl-thumb-python">
-                            &gt;&gt;&gt; py
-                            <span class="cl-level cl-level-beginner">Beginner</span>
-                        </div>
-                        <div class="cl-course-body">
-                            <span class="cl-course-category">Programming Fundamentals</span>
-                            <h3>Python Essentials: From Zero to Automated Scripts</h3>
-                            <p>Comprehensive introduction to Python programming syntax, idiomatic data structures, file I/O operations, and task automation.</p>
-                            <div class="cl-course-footer">
-                                <span><i data-lucide="book-open" class="cl-icon me-1" aria-hidden="true"></i>14 Lessons</span>
-                                <a href="#courses">Explore Syllabus <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
+            <cl:CourseGrid ID="courseGrid" runat="server" />
         </section>
 
         <%-- ===== Sandbox panel ===== --%>
