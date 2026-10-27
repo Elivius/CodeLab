@@ -20,7 +20,7 @@
             </p>
 
             <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
-                <a runat="server" href="~/Modules/Public/Register" class="btn btn-primary cl-btn-lg">Start Learning Free</a>
+                <a runat="server" href="~/Modules/Public/Register?role=learner" class="btn btn-primary cl-btn-lg">Start Learning Free</a>
                 <a href="#courses" class="btn cl-btn-outline cl-btn-lg">
                     Browse Course Catalogue
                     <i data-lucide="arrow-right" class="cl-icon ms-1" aria-hidden="true"></i>
@@ -111,7 +111,7 @@
 
                 <div class="cl-panel-footer">
                     <span>Ready to unlock your interactive coding playground?</span>
-                    <a runat="server" href="~/Modules/Public/Register" class="btn btn-primary">Create Learner Account</a>
+                    <a runat="server" href="~/Modules/Public/Register?role=learner" class="btn btn-primary">Create Learner Account</a>
                 </div>
             </div>
         </section>
@@ -178,7 +178,7 @@
                         <h3>Start Your Software Engineering Journey</h3>
                         <p>Register in less than 30 seconds to unlock complete curriculums, interactive code sandboxes, and quizzes.</p>
                     </div>
-                    <a runat="server" href="~/Modules/Public/Register" class="btn btn-primary cl-btn-lg">Register Free</a>
+                    <a runat="server" href="~/Modules/Public/Register?role=learner" class="btn btn-primary cl-btn-lg">Register Free</a>
                 </div>
             </div>
         </section>

@@ -326,6 +326,47 @@ textarea {
     padding: 10px;
 }
 
+.cl-auth-switch {
+    margin: 16px 0 0;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.cl-register {
+    max-width: 520px;
+}
+
+/* Learner / Tutor switch at the top of Register */
+.cl-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    padding: 4px;
+    background-color: rgba(45, 52, 54, 0.06);
+    border-radius: 10px;
+}
+
+.cl-tabs a {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--cl-muted);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.cl-tabs a:hover {
+    color: var(--cl-text);
+}
+
+.cl-tabs a.active {
+    color: var(--cl-accent);
+    background-color: var(--cl-surface);
+    box-shadow: 0 1px 3px rgba(45, 52, 54, 0.12);
+}
+
 /* ---------- Landing page: hero ---------- */
 
 .cl-landing {

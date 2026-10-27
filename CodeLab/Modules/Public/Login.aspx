@@ -5,6 +5,7 @@
     <main class="cl-card cl-auth">
         <h1>Log in</h1>
 
+        <asp:Label ID="lblSuccess" runat="server" CssClass="alert alert-success d-block" Visible="false" />
         <asp:Label ID="lblMessage" runat="server" CssClass="alert alert-danger d-block" Visible="false" />
 
         <div class="mb-3">
@@ -22,6 +23,8 @@
         </div>
 
         <asp:Button ID="btnLogin" runat="server" Text="Log in" CssClass="btn btn-primary" OnClick="btnLogin_Click" />
+
+        <p class="cl-auth-switch">No account? <a runat="server" href="~/Modules/Public/Register">Register</a></p>
     </main>
 
 </asp:Content>

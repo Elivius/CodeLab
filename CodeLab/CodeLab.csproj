@@ -108,6 +108,7 @@
     <Content Include="Modules\Public\CourseDetails.aspx" />
     <Content Include="Modules\Public\Courses.aspx" />
     <Content Include="Modules\Public\Login.aspx" />
+    <Content Include="Modules\Public\Register.aspx" />
     <Content Include="Modules\Tutor\Dashboard.aspx" />
     <Content Include="Modules\Tutor\LessonEditor.aspx" />
     <Content Include="Modules\Tutor\CourseEditor.aspx" />
@@ -259,6 +260,13 @@
     </Compile>
     <Compile Include="Modules\Public\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\CourseEditor.aspx.cs">
       <DependentUpon>CourseEditor.aspx</DependentUpon>

@@ -16,6 +16,13 @@ namespace CodeLab.Modules.Public
             {
                 Response.Redirect("~/");
             }
+
+            // Register sends new users here
+            if (!IsPostBack && Request.QueryString["registered"] == "learner")
+            {
+                lblSuccess.Text = "Account created. Please log in.";
+                lblSuccess.Visible = true;
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
