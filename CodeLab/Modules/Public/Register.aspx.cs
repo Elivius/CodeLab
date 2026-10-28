@@ -30,7 +30,12 @@ namespace CodeLab.Modules.Public
             }
 
             MarkActiveTab(IsTutor ? lnkTutorTab : lnkLearnerTab);
+
+            // Tutors fill in three steps (account, background, teaching); learners only see the account step
+            phStepOne.Visible = IsTutor;
+            phNextStep.Visible = IsTutor;
             phTutorFields.Visible = IsTutor;
+            phBackStep.Visible = IsTutor;
         }
 
         protected void cvUsernameTaken_ServerValidate(object source, ServerValidateEventArgs args)
@@ -45,6 +50,14 @@ namespace CodeLab.Modules.Public
 
         protected void btnRegister_Click(object sender, EventArgs e)
         {
+            // The button skips automatic validation so each step can be checked on its own in the browser
+            Page.Validate("Account");
+            if (IsTutor)
+            {
+                Page.Validate("Background");
+                Page.Validate("Teaching");
+            }
+
             if (!Page.IsValid)
             {
                 return;

@@ -1,5 +1,5 @@
-
 using System;
+using System.Web.Security;
 using System.Web.UI;
 using CodeLab.BLL;
 using CodeLab.Helpers;
@@ -58,39 +58,34 @@ namespace CodeLab.Modules.Public
             // Create login session and authentication cookie
             SessionHelper.SignIn(result.Data);
 
-            // Use the authenticated user's role directly
-            RedirectByRole(result.Data.Role);
+            // Someone sent here from a protected page goes back to it (GetRedirectUrl only allows this site's
+            // own pages); everyone else goes to their role's home page
+            bool hasReturnUrl = !string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]);
+            RedirectTo(hasReturnUrl
+                ? FormsAuthentication.GetRedirectUrl(result.Data.Username, false)
+                : GetHomeUrl(result.Data.Role));
         }
 
+        // Someone already signed in who opens the login page goes to their role's home page
         private void RedirectByRole(string role)
         {
-            string destination;
+            RedirectTo(GetHomeUrl(role));
+        }
 
-            switch ((role ?? "").Trim().ToLowerInvariant())
+        private static string GetHomeUrl(string role)
+        {
+            switch ((role ?? string.Empty).Trim())
             {
-                case "learner":
-                    destination =
-                        "~/Modules/Learner/Dashboard.aspx";
-                    break;
-
-                case "tutor":
-                    destination = "~/";
-                    break;
-
-                case "admin":
-                    destination = "~/";
-                    break;
-
-                default:
-                    destination = "~/";
-                    break;
+                case UserRoles.Tutor: return "~/Modules/Tutor/Dashboard";
+                case UserRoles.Learner: return "~/Modules/Learner/Dashboard";
+                case UserRoles.Admin: return "~/Modules/Admin/AuditLogs";
+                default: return "~/";
             }
+        }
 
-            Response.Redirect(
-                ResolveUrl(destination),
-                false
-            );
-
+        private void RedirectTo(string url)
+        {
+            Response.Redirect(ResolveUrl(url), false);
             Context.ApplicationInstance.CompleteRequest();
         }
     }

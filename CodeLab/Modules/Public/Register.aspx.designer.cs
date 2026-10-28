@@ -42,6 +42,15 @@ namespace CodeLab.Modules.Public
         protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
+        /// phStepOne control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phStepOne;
+
+        /// <summary>
         /// lblFullName control.
         /// </summary>
         /// <remarks>
@@ -222,6 +231,15 @@ namespace CodeLab.Modules.Public
         protected global::System.Web.UI.WebControls.CompareValidator cmpConfirm;
 
         /// <summary>
+        /// phNextStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phNextStep;
+
+        /// <summary>
         /// phTutorFields control.
         /// </summary>
         /// <remarks>
@@ -373,6 +391,15 @@ namespace CodeLab.Modules.Public
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvQualifications;
+
+        /// <summary>
+        /// phBackStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phBackStep;
 
         /// <summary>
         /// btnRegister control.
