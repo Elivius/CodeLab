@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using CodeLab.BLL;
 using CodeLab.Models;
 
 namespace CodeLab.Helpers
@@ -91,6 +92,8 @@ namespace CodeLab.Helpers
 
         /// <summary>
         /// True if the signed-in user has exactly this role. Use the UserRoles constants.
+        /// See if the current page user is in a role, e.g. SessionHelper.IsUserInRole(UserRoles.Admin)
+        /// Role specific behavior
         /// </summary>
         public static bool IsUserInRole(string role)
         {
@@ -100,6 +103,7 @@ namespace CodeLab.Helpers
 
         /// <summary>
         /// Reads the role out of a login ticket. Used by Global.asax.
+        /// On every request, reads the role from the cookie and attaches it to the user
         /// </summary>
         public static string GetRoleFromTicket(FormsAuthenticationTicket ticket)
         {
@@ -142,7 +146,7 @@ namespace CodeLab.Helpers
             HttpSessionState session = context.Session;
             session[UserIdKey] = userId;
             session[UsernameKey] = identity.Name;
-            session[FullNameKey] = identity.Name;
+            session[FullNameKey] = new UserManager().GetFullName(identity.Name) ?? identity.Name;
             session[RoleKey] = parts[1];
         }
 

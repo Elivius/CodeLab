@@ -57,6 +57,23 @@ namespace CodeLab.BLL
         }
 
         /// <summary>
+        /// Returns the display name for a username, or null if it cannot be found.
+        /// </summary>
+        public string GetFullName(string username)
+        {
+            try
+            {
+                User user = _userRepository.GetByUsername(username);
+                return user == null ? null : user.FullName;
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("UserManager.GetFullName failure", exception);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Records that the given user signed out. The page clears the session afterwards.
         /// </summary>
         public void RecordLogout(int userId)
