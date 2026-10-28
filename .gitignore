@@ -7,6 +7,7 @@
 *.suo
 *.userprefs
 *.sln.docstates
+.claude
 
 ## =====================================
 ## Build Results & Binaries
@@ -40,6 +41,12 @@ UpgradeLog*.htm
 # Local database files (the schema is versioned in App_Data/Schema.sql and Seed.sql)
 *.mdf
 *.ldf
+
+## =====================================
+## User Uploads (profile photos, course covers)
+## =====================================
+# Created at run time on each machine; never commit uploaded files
+CodeLab/Uploads/
 
 ## =====================================
 ## NuGet Packages
