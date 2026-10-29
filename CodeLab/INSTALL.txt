@@ -1,1 +1,0 @@
-Copy the seven files into matching folders under D:\CodeLab\CodeLab. In Visual Studio use Add > Existing Item for each new file, including the .aspx, .cs, and CSS. Ensure CodeLab.csproj includes the files as Content/Compile. Do not overwrite your database, Site.Master, or the entire project. Rebuild solution.
