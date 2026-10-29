@@ -1,0 +1,4840 @@
+/* CodeLab Tutor module styles, loaded only by Modules/Tutor/Tutor.Master (the full-screen Tutor layout) after Site.css.
+   Uses the theme tokens from Site.css (--cl-surface, --cl-accent, ...) so light and dark mode both work.
+   Classes keep the shared "cl-" prefix so they never clash with Bootstrap. */
+
+/* ---------- Tutor app shell: full-height sidebar, top bar, full-width content ---------- */
+
+body.cl-app {
+    background-color: var(--cl-bg);
+}
+
+.cl-shell {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+/* Sidebar: runs the whole height of the window */
+.cl-shell-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 22px 16px 16px;
+    overflow-y: auto;
+    background-color: var(--cl-surface);
+    border-right: 1px solid var(--cl-border);
+}
+
+.cl-shell-brand {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 0 10px 18px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--cl-text);
+    text-decoration: none;
+}
+
+.cl-shell-brand:hover {
+    color: var(--cl-text);
+}
+
+.cl-shell-brand b {
+    font-weight: inherit;
+    color: var(--cl-cherry);
+}
+
+.cl-shell-tag {
+    margin-left: auto;
+    padding: 2px 9px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 999px;
+}
+
+.cl-shell-nav {
+    flex: 1;
+}
+
+.cl-avatar {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--cl-gradient);
+    border-radius: 50%;
+}
+
+/* Profile photo: same circle as the initials, cropped to fill it */
+img.cl-avatar {
+    object-fit: cover;
+    background: var(--cl-soft);
+}
+
+.cl-sidebar-group {
+    margin: 20px 12px 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-sidebar-link {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 3px;
+    padding: 10px 12px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--cl-text-soft);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.cl-sidebar-link .cl-icon {
+    flex: none;
+    font-size: 1.1rem;
+}
+
+.cl-sidebar-link:hover {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-sidebar-link.active {
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--cl-gradient);
+    box-shadow: 0 8px 18px rgba(201, 82, 125, 0.28);
+}
+
+.cl-sidebar-link.disabled {
+    color: var(--cl-muted);
+    background-color: transparent;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.cl-sidebar-marker,
+.cl-sidebar-tag {
+    margin-left: auto;
+}
+
+.cl-sidebar-tag {
+    padding: 1px 8px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+/* Signed-in tutor and log out, at the bottom of the sidebar */
+.cl-shell-user {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-shell-user-card {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    color: var(--cl-text);
+    text-decoration: none;
+    background-color: var(--cl-bg);
+    border-radius: 14px;
+}
+
+.cl-shell-user-card:hover {
+    color: var(--cl-text);
+    background-color: var(--cl-soft);
+}
+
+.cl-shell-user-card .cl-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 0.85rem;
+}
+
+.cl-shell-user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.cl-shell-user-text strong {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 0.88rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-shell-logout {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--cl-text-soft);
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.cl-shell-logout:hover {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.1);
+}
+
+/* Main area */
+.cl-shell-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 32px;
+    background-color: color-mix(in srgb, var(--cl-bg) 86%, transparent);
+    border-bottom: 1px solid var(--cl-border);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.cl-topbar-title {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.cl-topbar-title span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-topbar-title strong {
+    overflow: hidden;
+    font-size: 1.05rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-topbar-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.cl-topbar-cta {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+}
+
+.cl-topbar-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 1.05rem;
+    color: var(--cl-text-soft);
+    cursor: pointer;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-topbar-icon:hover {
+    color: var(--cl-accent);
+    border-color: var(--cl-coral);
+}
+
+.cl-topbar-user {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 4px 14px 4px 4px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cl-text);
+    text-decoration: none;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-topbar-user:hover {
+    color: var(--cl-accent);
+}
+
+.cl-topbar-user .cl-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.72rem;
+}
+
+.cl-topbar-user {
+    cursor: pointer;
+}
+
+.cl-user-caret {
+    font-size: 0.95rem;
+    color: var(--cl-muted);
+    transition: transform 0.15s ease;
+}
+
+/* Profile menu below the top-bar button */
+.cl-user-menu {
+    position: relative;
+}
+
+.cl-user-menu.is-open .cl-user-caret {
+    transform: rotate(180deg);
+}
+
+.cl-user-menu.is-open .cl-topbar-user {
+    border-color: var(--cl-coral);
+}
+
+.cl-user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1050;
+    width: 250px;
+    padding: 6px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(45, 52, 54, 0.16);
+}
+
+.cl-user-dropdown[hidden] {
+    display: none;
+}
+
+.cl-user-dropdown-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 4px;
+    padding: 10px 12px 12px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-user-dropdown-head strong {
+    font-size: 0.92rem;
+    color: var(--cl-text);
+    overflow-wrap: anywhere;
+}
+
+.cl-user-dropdown-head span {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--cl-accent);
+}
+
+.cl-user-dropdown-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--cl-text);
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.cl-user-dropdown-item:hover,
+.cl-user-dropdown-item:focus-visible {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-user-dropdown-item .cl-icon {
+    font-size: 1.05rem;
+    color: var(--cl-muted);
+}
+
+.cl-user-dropdown-item:hover .cl-icon {
+    color: var(--cl-accent);
+}
+
+.cl-user-dropdown-item + .cl-user-dropdown-item {
+    margin-top: 2px;
+}
+
+.cl-shell-menu,
+.cl-shell-backdrop {
+    display: none;
+}
+
+.cl-shell-content {
+    flex: 1;
+    padding: 28px 32px 48px;
+}
+
+/* Below desktop width the sidebar slides in from the left */
+@media (max-width: 991.98px) {
+    .cl-shell {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-shell-sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 280px;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+    }
+
+    .cl-shell.is-open .cl-shell-sidebar {
+        transform: none;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+    }
+
+    .cl-shell.is-open .cl-shell-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 35;
+        display: block;
+        background-color: rgba(15, 23, 42, 0.45);
+    }
+
+    .cl-shell-menu {
+        display: inline-flex;
+    }
+
+    .cl-topbar {
+        padding: 12px 16px;
+    }
+
+    .cl-shell-content {
+        padding: 20px 16px 40px;
+    }
+
+    .cl-topbar-user-name,
+    .cl-user-caret,
+    .cl-topbar-cta span {
+        display: none;
+    }
+
+    .cl-topbar-cta {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cl-topbar-title span {
+        display: none;
+    }
+
+    .cl-topbar-user {
+        padding: 4px;
+    }
+}
+
+/* ---------- Tutor pages: header, notices, numbers, tables ---------- */
+
+.cl-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.cl-page-header h1 {
+    margin: 6px 0 4px;
+    font-size: 1.75rem;
+}
+
+.cl-page-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+.cl-notice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    background-color: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 14px;
+}
+
+.cl-notice-icon {
+    flex: none;
+    font-size: 1.4rem;
+    color: #D97706;
+}
+
+.cl-notice-body {
+    flex: 1;
+    min-width: 200px;
+}
+
+.cl-notice-body p {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: var(--cl-text-soft);
+}
+
+.cl-kpi {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    height: 100%;
+    padding: 20px;
+}
+
+.cl-kpi .cl-icon-tile {
+    flex: none;
+}
+
+.cl-kpi-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+}
+
+.cl-kpi-value {
+    margin: 2px 0;
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.cl-kpi-note {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+/* position: relative keeps screen-reader-only labels inside the card, so they cannot widen the page */
+.cl-table-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.cl-table-card-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-table-card-header h2 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+}
+
+.cl-table-card-header p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-table {
+    --bs-table-bg: transparent;
+    margin: 0;
+}
+
+.cl-table th {
+    padding: 12px 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--cl-muted);
+    border-bottom-color: var(--cl-border);
+}
+
+.cl-table td {
+    padding: 14px 20px;
+    font-size: 0.875rem;
+    vertical-align: middle;
+    border-bottom-color: var(--cl-border);
+}
+
+.cl-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.cl-table-title {
+    min-width: 200px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.cl-empty {
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.cl-empty h3 {
+    margin: 16px 0 6px;
+    font-size: 1.05rem;
+}
+
+.cl-empty p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--cl-muted);
+}
+
+/* Badges: difficulty, course status, tutor status */
+
+.cl-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 999px;
+}
+
+.cl-status::before {
+    width: 6px;
+    height: 6px;
+    content: "";
+    background-color: currentColor;
+    border-radius: 50%;
+}
+
+.cl-badge-neutral {
+    color: var(--cl-text-soft);
+    background-color: rgba(107, 114, 128, 0.14);
+}
+
+.cl-badge-success {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-badge-warning {
+    color: #B45309;
+    background-color: rgba(245, 158, 11, 0.16);
+}
+
+.cl-badge-danger {
+    color: #BE123C;
+    background-color: rgba(244, 63, 94, 0.14);
+}
+
+.cl-badge-info {
+    color: #1D4ED8;
+    background-color: rgba(59, 130, 246, 0.14);
+}
+
+[data-theme="dark"] .cl-badge-success {
+    color: #34D399;
+}
+
+[data-theme="dark"] .cl-badge-warning {
+    color: #FBBF24;
+}
+
+[data-theme="dark"] .cl-badge-danger {
+    color: #FB7185;
+}
+
+[data-theme="dark"] .cl-badge-info {
+    color: #60A5FA;
+}
+
+[data-theme="dark"] .cl-notice-icon {
+    color: #FBBF24;
+}
+
+/* ---------- Tutor pages: panels and forms ---------- */
+
+.cl-panel {
+    padding: 24px;
+}
+
+.cl-break {
+    overflow-wrap: anywhere;
+}
+
+.cl-form .form-control {
+    max-width: none;
+}
+
+.cl-form-header {
+    margin-bottom: 20px;
+}
+
+.cl-form-header h2 {
+    margin: 0 0 4px;
+    font-size: 1.2rem;
+}
+
+.cl-form-header p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--cl-muted);
+}
+
+.cl-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-link-danger {
+    color: #E11D48;
+    text-decoration: none;
+}
+
+.cl-link-danger:hover {
+    color: #BE123C;
+    text-decoration: underline;
+}
+
+/* ---------- Tutor profile ---------- */
+
+/* Header card: gradient cover, overlapping photo, name and quick facts */
+.cl-profile-hero {
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.cl-profile-cover {
+    position: relative;
+    height: 140px;
+    background:
+        radial-gradient(circle at 12% 30%, rgba(255, 255, 255, 0.16) 0, transparent 38%),
+        radial-gradient(circle at 88% 0%, rgba(255, 162, 164, 0.55) 0, transparent 46%),
+        linear-gradient(120deg, #2D3436 0%, #6B2F4A 42%, #C9527D 74%, #FF8FA6 100%);
+}
+
+/* A faint dot grid that fades out towards the bottom of the cover */
+.cl-profile-cover::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+    background-size: 18px 18px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 90%);
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 90%);
+}
+
+/* Pulled up so only the photo overlaps the cover; the text starts below the cover */
+.cl-profile-hero-body {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    align-items: flex-start;
+    margin-top: -60px;
+    padding: 0 28px 24px;
+}
+
+.cl-profile-avatar-wrap {
+    position: relative;
+    flex: none;
+}
+
+.cl-avatar-xl {
+    width: 124px;
+    height: 124px;
+    font-size: 2.5rem;
+    border: 4px solid var(--cl-surface);
+    box-shadow: 0 12px 28px rgba(45, 52, 54, 0.22);
+}
+
+.cl-avatar-md {
+    width: 56px;
+    height: 56px;
+    font-size: 1.15rem;
+}
+
+.cl-avatar-camera {
+    position: absolute;
+    right: 2px;
+    bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--cl-accent);
+    cursor: pointer;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(45, 52, 54, 0.16);
+    transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+.cl-avatar-camera:hover {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+    transform: scale(1.06);
+}
+
+.cl-profile-identity {
+    flex: 1;
+    min-width: 220px;
+    padding-top: 74px;
+}
+
+.cl-profile-identity h1 {
+    margin: 0 0 2px;
+    font-size: 1.85rem;
+    letter-spacing: -0.03em;
+}
+
+.cl-profile-headline {
+    margin: 0 0 12px;
+    font-weight: 500;
+    color: var(--cl-text-soft);
+}
+
+.cl-profile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-profile-meta > span:not(.cl-badge),
+.cl-profile-meta > a {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.cl-profile-meta > a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cl-profile-actions {
+    padding-top: 78px;
+}
+
+.cl-profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-profile-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    padding: 16px 12px;
+}
+
+.cl-profile-stat + .cl-profile-stat {
+    border-left: 1px solid var(--cl-border);
+}
+
+.cl-profile-stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cl-profile-stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+/* Content cards */
+.cl-profile-section + .cl-profile-section {
+    margin-top: 24px;
+}
+
+.cl-section-heading {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cl-section-heading h2 {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+/* Keeps the line breaks a tutor typed, without allowing any HTML */
+.cl-prose {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--cl-text-soft);
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.cl-pitch {
+    margin: 0;
+    padding: 4px 0 4px 18px;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--cl-text-soft);
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    border-left: 3px solid var(--cl-accent);
+}
+
+/* Application status steps */
+.cl-timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-timeline li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 22px 40px;
+}
+
+.cl-timeline li:last-child {
+    padding-bottom: 0;
+}
+
+/* The line joining one step to the next */
+.cl-timeline li:not(:last-child)::before {
+    position: absolute;
+    top: 30px;
+    bottom: 4px;
+    left: 13px;
+    width: 2px;
+    content: "";
+    background-color: var(--cl-border);
+    border-radius: 2px;
+}
+
+.cl-timeline li.is-done:not(:last-child)::before {
+    background-color: #10B981;
+}
+
+.cl-timeline-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+    color: var(--cl-muted);
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-timeline strong {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.cl-timeline li > span:last-child {
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-timeline .is-upcoming strong {
+    color: var(--cl-muted);
+}
+
+.cl-timeline .is-done .cl-timeline-dot {
+    color: #ffffff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+.cl-timeline .is-current .cl-timeline-dot {
+    color: #D97706;
+    background-color: rgba(245, 158, 11, 0.14);
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
+}
+
+.cl-timeline .is-failed .cl-timeline-dot {
+    color: #ffffff;
+    background-color: #F43F5E;
+    border-color: #F43F5E;
+}
+
+/* Account details with an icon per row */
+.cl-info-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-info-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+}
+
+.cl-info-list li + li {
+    border-top: 1px dashed var(--cl-border);
+}
+
+.cl-info-list .cl-icon {
+    flex: none;
+    margin-top: 3px;
+    font-size: 1rem;
+    color: var(--cl-accent);
+}
+
+.cl-info-list div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-info-list span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-info-list strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Photo row at the top of the edit form */
+.cl-photo-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    background-color: var(--cl-bg);
+    border: 1px dashed var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-photo-row-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 160px;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+.cl-photo-row-text strong {
+    font-size: 0.9rem;
+    color: var(--cl-text);
+}
+
+.cl-photo-row-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+/* Dims the header while a chosen photo uploads */
+.cl-uploading .cl-profile-hero {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .cl-avatar-xl {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .cl-timeline .is-current .cl-timeline-dot {
+    color: #FBBF24;
+}
+
+[data-theme="dark"] .cl-link-danger {
+    color: #FB7185;
+}
+
+/* Checkboxes in dark mode */
+[data-theme="dark"] .form-check-input {
+    background-color: var(--cl-bg);
+    border-color: var(--cl-muted);
+}
+
+.form-check-input:checked {
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+@media (max-width: 575.98px) {
+    .cl-profile-cover {
+        height: 110px;
+    }
+
+    .cl-profile-hero-body {
+        flex-direction: column;
+        align-items: center;
+        margin-top: -56px;
+        padding: 0 18px 20px;
+        text-align: center;
+    }
+
+    .cl-profile-identity,
+    .cl-profile-actions {
+        min-width: 0;
+        padding-top: 0;
+    }
+
+    .cl-profile-meta {
+        justify-content: center;
+    }
+
+    .cl-avatar-xl {
+        width: 108px;
+        height: 108px;
+        font-size: 2.1rem;
+    }
+}
+
+/* ---------- Tutor course builder ---------- */
+
+/* Progress bar: Course > Lessons > Quiz > Challenge */
+.cl-stepper {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-stepper li {
+    position: relative;
+    display: flex;
+    flex: 1;
+    gap: 12px;
+    align-items: center;
+    min-width: 0;
+    padding: 12px 14px;
+    color: var(--cl-muted);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-step-dot {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-step-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.cl-step-text strong {
+    overflow: hidden;
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-step-text small {
+    overflow: hidden;
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-stepper li.is-current {
+    color: var(--cl-text);
+    border-color: var(--cl-accent);
+    box-shadow: 0 0 0 3px rgba(201, 82, 125, 0.12);
+}
+
+.cl-stepper li.is-current .cl-step-dot {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+@media (max-width: 767.98px) {
+    .cl-stepper {
+        overflow-x: auto;
+    }
+
+    .cl-stepper li {
+        flex: none;
+    }
+}
+
+/* Cover image preview: 16:9, the same shape learners see on the catalogue */
+.cl-cover-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%);
+    border-radius: 12px;
+}
+
+.cl-cover-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-cover-placeholder {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cl-checklist {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--cl-text-soft);
+}
+
+.cl-checklist li + li {
+    margin-top: 6px;
+}
+
+/* ---------- Tutor lessons ---------- */
+
+.cl-form .form-select {
+    max-width: none;
+}
+
+/* A finished step in the progress bar */
+.cl-stepper li.is-done {
+    color: var(--cl-text-soft);
+}
+
+.cl-stepper li.is-done .cl-step-dot {
+    color: #ffffff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+/* Syllabus: the lessons in order */
+.cl-syllabus-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cl-syllabus {
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+}
+
+.cl-lesson-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.cl-lesson-item + .cl-lesson-item {
+    margin-top: 2px;
+}
+
+.cl-lesson-item:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-lesson-item.is-selected {
+    background-color: var(--cl-soft);
+    box-shadow: inset 3px 0 0 var(--cl-accent);
+}
+
+.cl-lesson-number {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 10px;
+}
+
+.cl-lesson-item.is-selected .cl-lesson-number {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+}
+
+.cl-lesson-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-lesson-title {
+    display: block;
+    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--cl-text);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+a.cl-lesson-title:hover {
+    color: var(--cl-accent);
+}
+
+.cl-lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-size: 0.72rem;
+    color: var(--cl-muted);
+}
+
+.cl-lesson-meta span {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.cl-lesson-delete {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--cl-muted);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.cl-lesson-delete:hover {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.12);
+}
+
+/* Markdown editor: toolbar above a text box */
+.cl-md-editor {
+    overflow: hidden;
+    border: 1px solid var(--bs-border-color, var(--cl-border));
+    border-radius: 10px;
+}
+
+.cl-md-editor:focus-within {
+    border-color: var(--cl-coral);
+    box-shadow: 0 0 0 0.2rem rgba(201, 82, 125, 0.18);
+}
+
+.cl-md-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    padding: 6px;
+    background-color: var(--cl-bg);
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-md-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    color: var(--cl-text-soft);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+}
+
+.cl-md-toolbar button:hover {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-md-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 6px;
+    background-color: var(--cl-border);
+}
+
+.cl-form .cl-md-input.form-control {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.cl-code-input.form-control {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/* Preview of the lesson */
+.cl-preview {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: var(--cl-bg);
+    border: 1px dashed var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-preview-label {
+    margin-bottom: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+/* Lesson text as learners will read it */
+.cl-markdown {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--cl-text-soft);
+    overflow-wrap: anywhere;
+}
+
+.cl-markdown > :first-child {
+    margin-top: 0;
+}
+
+.cl-markdown > :last-child {
+    margin-bottom: 0;
+}
+
+.cl-markdown h3,
+.cl-markdown h4,
+.cl-markdown h5 {
+    margin: 1.4em 0 0.5em;
+    color: var(--cl-text);
+}
+
+.cl-markdown h3 {
+    font-size: 1.25rem;
+}
+
+.cl-markdown h4 {
+    font-size: 1.1rem;
+}
+
+.cl-markdown h5 {
+    font-size: 1rem;
+}
+
+.cl-markdown blockquote {
+    margin: 1em 0;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--cl-accent);
+}
+
+.cl-markdown code {
+    padding: 2px 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85em;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 6px;
+}
+
+.cl-markdown pre.cl-code code {
+    padding: 0;
+    color: inherit;
+    background: transparent;
+}
+
+/* Code block: dark in both themes, so the highlighter colours are always readable */
+pre.cl-code {
+    margin: 1em 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #ABB2BF;
+    background-color: #282C34;
+    border-radius: 12px;
+}
+
+pre.cl-code code.hljs {
+    padding: 0;
+    background: transparent;
+}
+
+pre.cl-code code {
+    font-family: Consolas, "Courier New", monospace;
+    white-space: pre;
+}
+
+.cl-attachment-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+}
+
+.cl-attachment-row .cl-icon {
+    flex: none;
+    color: var(--cl-accent);
+}
+
+/* ---------- Tutor submit for review ---------- */
+
+.cl-notice-danger {
+    background-color: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.35);
+}
+
+.cl-notice-danger .cl-notice-icon {
+    color: #E11D48;
+}
+
+[data-theme="dark"] .cl-notice-danger .cl-notice-icon {
+    color: #FB7185;
+}
+
+.cl-panel-note {
+    margin: -6px 0 14px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+/* What is ready before a course can be submitted */
+.cl-readiness {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-readiness li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.88rem;
+}
+
+.cl-readiness li + li {
+    border-top: 1px dashed var(--cl-border);
+}
+
+.cl-readiness .cl-icon {
+    flex: none;
+    font-size: 1.1rem;
+}
+
+.cl-readiness .is-ready .cl-icon {
+    color: #10B981;
+}
+
+.cl-readiness .is-missing {
+    font-weight: 600;
+}
+
+.cl-readiness .is-missing .cl-icon {
+    color: #F59E0B;
+}
+
+.cl-readiness .is-optional {
+    color: var(--cl-muted);
+}
+
+.cl-readiness small {
+    font-size: 0.75rem;
+}
+
+.cl-syllabus-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-syllabus-footer:hover {
+    background-color: var(--cl-soft);
+}
+
+/* ---------- Lesson video (YouTube player inside the page) ---------- */
+
+.cl-video {
+    position: relative;
+    margin: 0 0 1.25em;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background-color: #000000;
+    border-radius: 12px;
+}
+
+.cl-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ---------- Tutor dashboard ---------- */
+
+/* Main column plus a right-hand column on wide screens */
+.cl-dash {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 28px;
+    align-items: start;
+}
+
+.cl-dash-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.cl-dash-side {
+    position: sticky;
+    top: 92px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Welcome banner */
+.cl-hero-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 34px 36px;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(255, 162, 164, 0.55) 0, transparent 40%),
+        linear-gradient(120deg, #6B2F4A 0%, #C9527D 55%, #FF8FA6 100%);
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(201, 82, 125, 0.25);
+}
+
+.cl-hero-art {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 360px;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cl-hero-banner-body {
+    position: relative;
+    max-width: 640px;
+}
+
+.cl-hero-kicker {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cl-hero-banner h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.cl-hero-banner p {
+    margin: 0 0 22px;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.cl-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cl-hero-actions .btn {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+}
+
+.cl-btn-light {
+    --bs-btn-color: #6B2F4A;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-border-color: #ffffff;
+    --bs-btn-hover-color: #6B2F4A;
+    --bs-btn-hover-bg: #FFE5EC;
+    --bs-btn-hover-border-color: #FFE5EC;
+    --bs-btn-active-bg: #FFE5EC;
+    --bs-btn-disabled-color: #6B2F4A;
+    --bs-btn-disabled-bg: rgba(255, 255, 255, 0.7);
+    --bs-btn-disabled-border-color: transparent;
+}
+
+.cl-btn-ghost-light {
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: rgba(255, 255, 255, 0.14);
+    --bs-btn-border-color: rgba(255, 255, 255, 0.35);
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-bg: rgba(255, 255, 255, 0.24);
+    --bs-btn-hover-border-color: rgba(255, 255, 255, 0.5);
+    --bs-btn-active-color: #ffffff;
+    --bs-btn-active-bg: rgba(255, 255, 255, 0.3);
+}
+
+/* Colour tones shared by stat icons, pipeline bars and attention icons */
+.cl-tone-pink {
+    color: #C9527D;
+    background-color: rgba(201, 82, 125, 0.13);
+}
+
+.cl-tone-blue {
+    color: #2563EB;
+    background-color: rgba(59, 130, 246, 0.13);
+}
+
+.cl-tone-amber {
+    color: #D97706;
+    background-color: rgba(245, 158, 11, 0.15);
+}
+
+.cl-tone-green {
+    color: #059669;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-tone-red {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.13);
+}
+
+.cl-tone-neutral {
+    color: var(--cl-muted);
+    background-color: rgba(107, 114, 128, 0.15);
+}
+
+[data-theme="dark"] .cl-tone-pink { color: #FF8FA6; }
+[data-theme="dark"] .cl-tone-blue { color: #60A5FA; }
+[data-theme="dark"] .cl-tone-amber { color: #FBBF24; }
+[data-theme="dark"] .cl-tone-green { color: #34D399; }
+[data-theme="dark"] .cl-tone-red { color: #FB7185; }
+
+/* Stat cards */
+.cl-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cl-stat-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 18px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cl-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(45, 52, 54, 0.08);
+}
+
+.cl-stat-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    font-size: 1.3rem;
+    border-radius: 14px;
+}
+
+.cl-stat-card-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.cl-stat-card-label {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cl-stat-card-note {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+/* Section heading with filter chips */
+.cl-section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cl-section-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.cl-section-bar h2 {
+    margin: 0 0 2px;
+    font-size: 1.25rem;
+}
+
+.cl-section-bar p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--cl-muted);
+}
+
+.cl-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-chip {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+}
+
+.cl-chip span {
+    padding: 0 7px;
+    font-size: 0.7rem;
+    background-color: var(--cl-bg);
+    border-radius: 999px;
+}
+
+.cl-chip:hover {
+    color: var(--cl-accent);
+}
+
+.cl-chip.is-active {
+    color: #ffffff;
+    background: var(--cl-gradient);
+}
+
+.cl-chip.is-active span {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Course cards */
+.cl-course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.cl-course-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 18px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.cl-course-card:hover {
+    border-color: var(--cl-coral);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(45, 52, 54, 0.1);
+}
+
+.cl-course-card[hidden] {
+    display: none;
+}
+
+.cl-course-card-cover {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.cl-course-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.cl-course-card:hover .cl-course-card-cover img {
+    transform: scale(1.04);
+}
+
+.cl-course-card-letter {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.cl-cover-tone-1 { background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%); }
+.cl-cover-tone-2 { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); }
+.cl-cover-tone-3 { background: linear-gradient(135deg, #052E16 0%, #15803D 100%); }
+.cl-cover-tone-4 { background: linear-gradient(135deg, #431407 0%, #EA580C 100%); }
+
+.cl-course-card-status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--cl-surface) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cl-course-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 18px 18px;
+}
+
+.cl-course-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.cl-course-card-category {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-course-card h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    line-height: 1.35;
+}
+
+.cl-course-card h3 a {
+    color: var(--cl-text);
+    text-decoration: none;
+}
+
+.cl-course-card h3 a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-course-card-flag {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    align-self: flex-start;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.1);
+    border-radius: 8px;
+}
+
+[data-theme="dark"] .cl-course-card-flag {
+    color: #FB7185;
+}
+
+.cl-course-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 0.8rem;
+    color: var(--cl-text-soft);
+}
+
+.cl-course-card-meta span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.cl-course-card-meta .cl-icon {
+    color: var(--cl-muted);
+}
+
+.cl-course-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-course-card-footer .cl-link-arrow {
+    font-size: 0.82rem;
+    color: var(--cl-accent);
+}
+
+/* Right column cards */
+.cl-side-card {
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.cl-side-card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.cl-side-card-head h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.cl-side-card-head span {
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-pipeline-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+}
+
+.cl-pipeline-row strong {
+    margin-left: auto;
+}
+
+.cl-pipeline-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.cl-pipeline-track {
+    height: 8px;
+    overflow: hidden;
+    background-color: var(--cl-bg);
+    border-radius: 999px;
+}
+
+.cl-pipeline-track span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+}
+
+/* Bars and dots use the solid colour of their tone */
+.cl-pipeline-dot.cl-tone-neutral, .cl-pipeline-track .cl-tone-neutral { background-color: #9CA3AF; }
+.cl-pipeline-dot.cl-tone-amber, .cl-pipeline-track .cl-tone-amber { background-color: #F59E0B; }
+.cl-pipeline-dot.cl-tone-green, .cl-pipeline-track .cl-tone-green { background-color: #10B981; }
+.cl-pipeline-dot.cl-tone-red, .cl-pipeline-track .cl-tone-red { background-color: #F43F5E; }
+
+.cl-attention {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-attention a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px;
+    color: var(--cl-text);
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.cl-attention a:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-attention-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.cl-attention-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-attention-text strong {
+    overflow: hidden;
+    font-size: 0.86rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-attention-text span {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+.cl-attention-go {
+    flex: none;
+    color: var(--cl-muted);
+}
+
+.cl-all-clear {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 14px;
+    font-size: 0.86rem;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border-radius: 12px;
+}
+
+.cl-all-clear .cl-icon {
+    font-size: 1.2rem;
+    color: var(--cl-accent);
+}
+
+.cl-filter-empty[hidden] {
+    display: none;
+}
+
+@media (max-width: 1399.98px) {
+    .cl-dash {
+        grid-template-columns: minmax(0, 1fr) 300px;
+    }
+
+    .cl-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .cl-dash {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-dash-side {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-hero-banner {
+        padding: 26px 22px;
+    }
+
+    .cl-hero-art {
+        opacity: 0.5;
+    }
+
+    .cl-dash-side {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 479.98px) {
+    .cl-stat-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Tutor builder: shared by the Course and Lesson builders ---------- */
+
+/* Header: breadcrumb, big title, status badge */
+.cl-builder-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cl-builder-heading {
+    min-width: 0;
+}
+
+.cl-builder-heading h1 {
+    margin: 6px 0 4px;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+}
+
+.cl-builder-heading p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--cl-muted);
+}
+
+.cl-crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+}
+
+.cl-crumbs a {
+    color: var(--cl-muted);
+    text-decoration: none;
+}
+
+.cl-crumbs a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-crumbs .cl-icon {
+    font-size: 0.85rem;
+}
+
+.cl-crumbs span:last-child {
+    color: var(--cl-text-soft);
+}
+
+.cl-badge-lg {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+}
+
+/* Progress bar: connected steps with a line between the dots */
+.cl-steps {
+    display: flex;
+    margin: 0 0 24px;
+    padding: 18px 20px;
+    list-style: none;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 18px;
+}
+
+.cl-steps li {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+/* The line to the next step */
+.cl-steps li:not(:last-child)::after {
+    position: absolute;
+    top: 17px;
+    right: 8px;
+    left: 48px;
+    height: 2px;
+    content: "";
+    background-color: var(--cl-border);
+    border-radius: 2px;
+}
+
+.cl-steps li.is-done:not(:last-child)::after {
+    background-color: #10B981;
+}
+
+.cl-steps a,
+.cl-steps-item {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    max-width: 100%;
+    padding-right: 12px;
+    color: var(--cl-muted);
+    text-decoration: none;
+    background-color: var(--cl-surface);
+}
+
+.cl-steps a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-steps-dot {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+    transition: border-color 0.15s ease;
+}
+
+.cl-steps a:hover .cl-steps-dot {
+    border-color: var(--cl-coral);
+}
+
+.cl-steps-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.cl-steps-text strong {
+    overflow: hidden;
+    font-size: 0.86rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-steps-text small {
+    overflow: hidden;
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-steps .is-current .cl-steps-item {
+    color: var(--cl-text);
+}
+
+.cl-steps .is-current .cl-steps-dot {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+.cl-steps .is-done a,
+.cl-steps .is-done .cl-steps-item {
+    color: var(--cl-text-soft);
+}
+
+.cl-steps .is-done .cl-steps-dot {
+    color: #ffffff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+.cl-steps .is-disabled .cl-steps-item {
+    opacity: 0.6;
+}
+
+/* Alerts above the form */
+.cl-alert {
+    display: block;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 14px;
+}
+
+.cl-alert ul {
+    margin: 6px 0 0;
+    padding-left: 1.1rem;
+}
+
+.cl-alert-success {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.cl-alert-danger {
+    color: #BE123C;
+    background-color: rgba(244, 63, 94, 0.08);
+    border-color: rgba(244, 63, 94, 0.3);
+}
+
+[data-theme="dark"] .cl-alert-success { color: #34D399; }
+[data-theme="dark"] .cl-alert-danger { color: #FB7185; }
+
+/* Success messages fade out on their own (script in Tutor.Master) */
+.cl-alert-success,
+.alert-success {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.cl-alert-leaving {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+/* Admin feedback on a course that was sent back */
+.cl-feedback {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    background-color: rgba(244, 63, 94, 0.06);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    border-left: 4px solid #F43F5E;
+    border-radius: 14px;
+}
+
+.cl-feedback p {
+    margin: 4px 0 0;
+    font-size: 0.88rem;
+    color: var(--cl-text-soft);
+    white-space: pre-line;
+}
+
+/* Two columns: the form, and a sticky side column */
+.cl-builder {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 24px;
+    align-items: start;
+}
+
+.cl-builder-main,
+.cl-builder-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.cl-builder-aside {
+    position: sticky;
+    top: 92px;
+}
+
+.cl-builder-card {
+    padding: 24px;
+    border-radius: 18px;
+}
+
+.cl-builder-card-head {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.cl-builder-card-head h2 {
+    margin: 0 0 2px;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-builder-card-head p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-builder-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.15rem;
+    border-radius: 12px;
+}
+
+.cl-builder-label {
+    margin: 18px 0 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-builder-note {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--cl-text-soft);
+}
+
+/* Form fields */
+.cl-field + .cl-field,
+.cl-field + .cl-field-row,
+.cl-field-row + .cl-field {
+    margin-top: 18px;
+}
+
+.cl-field-row > .cl-field {
+    margin-top: 0;
+}
+
+.cl-field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.cl-field-label {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.cl-field .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cl-builder .form-control,
+.cl-builder .form-select,
+.cl-lesson-builder .form-control,
+.cl-lesson-builder .form-select {
+    max-width: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.cl-builder textarea.form-control {
+    line-height: 1.6;
+}
+
+.cl-input-lg {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.cl-counter {
+    font-size: 0.72rem;
+    color: var(--cl-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.cl-field-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #E11D48;
+}
+
+.cl-field-error:empty {
+    display: none;
+}
+
+[data-theme="dark"] .cl-field-error { color: #FB7185; }
+
+/* A checkbox with its label (asp:CheckBox, so the class goes on a wrapper) */
+.cl-check {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.86rem;
+    font-weight: 500;
+}
+
+.cl-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--cl-accent);
+}
+
+.cl-check label {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Site.css caps inputs at 280px; a submit button is an input, so let buttons fill their space */
+.cl-app input.btn {
+    max-width: none;
+}
+
+/* Remove button for a saved cover or file: it ticks a hidden checkbox, and the item is removed on save */
+.cl-remove-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.cl-remove-toggle input[type="checkbox"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cl-remove-btn {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0;
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #E11D48;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    background-color: rgba(244, 63, 94, 0.08);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    border-radius: 10px;
+    transition: background-color 0.15s ease;
+}
+
+.cl-remove-btn:hover {
+    background-color: rgba(244, 63, 94, 0.15);
+}
+
+.cl-remove-toggle input:focus-visible + .cl-remove-btn {
+    outline: 2px solid var(--cl-coral);
+    outline-offset: 2px;
+}
+
+.cl-remove-on,
+.cl-remove-note {
+    display: none;
+}
+
+.cl-remove-off,
+.cl-remove-on {
+    align-items: center;
+    gap: 6px;
+}
+
+.cl-remove-off {
+    display: inline-flex;
+}
+
+/* Marked for removal: the button becomes Undo */
+.cl-remove-toggle input:checked + .cl-remove-btn {
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border-color: var(--cl-border);
+}
+
+.cl-remove-toggle input:checked + .cl-remove-btn .cl-remove-off {
+    display: none;
+}
+
+.cl-remove-toggle input:checked + .cl-remove-btn .cl-remove-on {
+    display: inline-flex;
+}
+
+.cl-remove-toggle input:checked ~ .cl-remove-note {
+    display: inline;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+/* The attached file fades out once it is marked for removal */
+.cl-file-chip:has(.cl-remove-toggle input:checked) .cl-file-chip-body {
+    opacity: 0.45;
+    text-decoration: line-through;
+}
+
+[data-theme="dark"] .cl-remove-btn {
+    color: #FB7185;
+}
+
+/* Site.css only darkens text boxes; dropdowns need the same in dark mode */
+[data-theme="dark"] .cl-app .form-select {
+    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    color: var(--cl-text);
+    background-color: var(--cl-bg);
+    border-color: var(--cl-border);
+    color-scheme: dark;
+}
+
+/* Drag-and-drop upload: the real file input covers the whole zone */
+.cl-dropzone {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--cl-bg);
+    border: 2px dashed var(--cl-border);
+    border-radius: 16px;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.cl-dropzone:hover,
+.cl-dropzone.is-dragging,
+.cl-dropzone:focus-within {
+    background-color: var(--cl-soft);
+    border-color: var(--cl-coral);
+}
+
+.cl-dropzone-input {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.cl-dropzone-preview {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(45, 52, 54, 0.15);
+}
+
+.cl-dropzone-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-dropzone-preview .cl-course-card-letter {
+    font-size: 2.4rem;
+}
+
+.cl-dropzone-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-dropzone-text strong {
+    font-size: 0.95rem;
+    color: var(--cl-text);
+}
+
+.cl-dropzone-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-bottom: 4px;
+    font-size: 1.2rem;
+    color: var(--cl-accent);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-dropzone-link {
+    color: var(--cl-accent);
+    text-decoration: underline;
+}
+
+.cl-dropzone-file {
+    overflow: hidden;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Save bar: sticks to the bottom of the screen */
+.cl-action-bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px 12px 20px;
+    background-color: color-mix(in srgb, var(--cl-surface) 92%, transparent);
+    border: 1px solid var(--cl-border);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(45, 52, 54, 0.12);
+    backdrop-filter: blur(10px);
+}
+
+.cl-action-bar-note {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-action-bar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.cl-action-bar .btn {
+    min-width: 110px;
+}
+
+/* Catalogue preview: the dashboard course card, without the hover lift */
+.cl-preview-card,
+.cl-preview-card:hover {
+    border-color: var(--cl-border);
+    transform: none;
+    box-shadow: 0 10px 28px rgba(45, 52, 54, 0.08);
+}
+
+.cl-preview-card h3 {
+    overflow-wrap: anywhere;
+}
+
+.cl-preview-desc {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--cl-muted);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow-wrap: anywhere;
+}
+
+/* "What happens next" timeline */
+.cl-roadmap {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: roadmap;
+}
+
+.cl-roadmap li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 18px 42px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+    counter-increment: roadmap;
+}
+
+.cl-roadmap li:last-child {
+    padding-bottom: 0;
+}
+
+.cl-roadmap li::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--cl-text-soft);
+    content: counter(roadmap);
+    background-color: var(--cl-bg);
+    border: 2px solid var(--cl-border);
+    border-radius: 50%;
+}
+
+.cl-roadmap li:not(:last-child)::after {
+    position: absolute;
+    top: 30px;
+    bottom: 2px;
+    left: 13px;
+    width: 2px;
+    content: "";
+    background-color: var(--cl-border);
+}
+
+.cl-roadmap li.is-current::before {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+    border-color: var(--cl-accent);
+}
+
+.cl-roadmap strong {
+    font-size: 0.88rem;
+    color: var(--cl-text);
+}
+
+/* Read-only course (in review, published or locked) */
+.cl-readonly-card {
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.cl-readonly-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 21 / 8;
+    overflow: hidden;
+}
+
+.cl-readonly-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-readonly-body {
+    padding: 24px 28px 28px;
+}
+
+.cl-readonly-body h2 {
+    margin: 0 0 12px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.cl-readonly-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cl-readonly-facts span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-readonly-body .cl-prose {
+    margin: 0;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* Locked / not found: centred illustration */
+.cl-state-card {
+    max-width: 560px;
+    margin: 24px auto;
+    padding: 40px 32px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.cl-state-art {
+    width: 180px;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.cl-state-card h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.cl-state-card p {
+    margin: 0 0 20px;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+@media (max-width: 1199.98px) {
+    .cl-builder {
+        grid-template-columns: minmax(0, 1fr) 320px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cl-builder {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-builder-aside {
+        position: static;
+    }
+
+    .cl-steps {
+        overflow-x: auto;
+    }
+
+    .cl-steps li {
+        flex: none;
+        min-width: 170px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-builder-heading h1 {
+        font-size: 1.45rem;
+    }
+
+    .cl-builder-card {
+        padding: 18px;
+    }
+
+    .cl-field-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-dropzone {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cl-dropzone-preview {
+        width: 100%;
+    }
+
+    .cl-action-bar {
+        bottom: 8px;
+        padding: 12px;
+    }
+
+    .cl-action-bar-note {
+        display: none;
+    }
+
+    .cl-action-bar-buttons {
+        width: 100%;
+    }
+
+    .cl-action-bar .btn {
+        flex: 1;
+    }
+}
+
+/* ---------- Tutor lesson builder ---------- */
+
+/* Syllabus on the left, the lesson form on the right */
+.cl-lesson-builder {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.cl-lesson-builder.is-readonly {
+    grid-template-columns: minmax(0, 760px);
+}
+
+.cl-syllabus-card {
+    position: sticky;
+    top: 92px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 112px);
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.cl-lesson-builder.is-readonly .cl-syllabus-card {
+    position: static;
+    max-height: none;
+}
+
+.cl-syllabus-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 14px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-syllabus-head h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-syllabus-head p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-syllabus-card .cl-syllabus {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.cl-icon-btn {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-decoration: none;
+    background: var(--cl-gradient);
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(201, 82, 125, 0.3);
+    transition: transform 0.15s ease;
+}
+
+.cl-icon-btn:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.cl-syllabus-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    padding: 28px 20px;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+    text-align: center;
+}
+
+.cl-syllabus-empty svg {
+    width: 120px;
+    margin-bottom: 6px;
+    color: var(--cl-text);
+}
+
+.cl-syllabus-empty strong {
+    font-size: 0.92rem;
+    color: var(--cl-text);
+}
+
+/* Title row: big title box and a small order box */
+.cl-lesson-form-head {
+    margin-bottom: 18px;
+}
+
+.cl-lesson-title-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    margin-top: 8px;
+}
+
+.cl-lesson-title-row .cl-field + .cl-field {
+    margin-top: 0;
+}
+
+.cl-grow {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-order-field {
+    flex: none;
+    width: 110px;
+}
+
+.cl-lesson-builder .cl-title-input {
+    padding: 12px 16px;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* The writing area: tabs and toolbar on top, text or preview below */
+.cl-writer {
+    overflow: hidden;
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-writer:focus-within {
+    border-color: var(--cl-coral);
+    box-shadow: 0 0 0 0.2rem rgba(201, 82, 125, 0.15);
+}
+
+.cl-writer-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px;
+    background-color: var(--cl-bg);
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-writer-bar .cl-md-toolbar {
+    padding: 0;
+    background: transparent;
+    border: 0;
+}
+
+.cl-tabs {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+}
+
+.cl-tab {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+}
+
+.cl-tab:hover {
+    color: var(--cl-text);
+}
+
+.cl-tab.is-active {
+    color: #ffffff;
+    background: var(--cl-gradient);
+}
+
+.cl-writer .cl-md-input.form-control {
+    min-height: 360px;
+    padding: 18px 20px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    resize: vertical;
+}
+
+.cl-writer-preview {
+    min-height: 360px;
+    padding: 22px 24px;
+    background-color: var(--cl-surface);
+}
+
+.cl-writer[data-mode="write"] .cl-writer-preview,
+.cl-writer[data-mode="preview"] .cl-writer-write,
+.cl-writer[data-mode="preview"] .cl-md-toolbar {
+    display: none;
+}
+
+.cl-markdown.is-loading {
+    opacity: 0.45;
+}
+
+.cl-preview-loading {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+.cl-writer-foot {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+    background-color: var(--cl-bg);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-writer-foot span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+/* Code example: an editor-style box, dark in both themes */
+.cl-ide {
+    overflow: hidden;
+    background-color: #282C34;
+    border: 1px solid #1F2329;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+}
+
+.cl-ide:focus-within {
+    border-color: var(--cl-coral);
+}
+
+.cl-ide-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background-color: #21252B;
+    border-bottom: 1px solid #1B1F24;
+}
+
+.cl-ide-dots {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.cl-ide-dots i {
+    width: 11px;
+    height: 11px;
+    background-color: #FF5F57;
+    border-radius: 50%;
+}
+
+.cl-ide-dots i:nth-child(2) { background-color: #FEBC2E; }
+.cl-ide-dots i:nth-child(3) { background-color: #28C840; }
+
+.cl-ide-select {
+    padding: 4px 28px 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #D7DAE0;
+    cursor: pointer;
+    background: #2C313A url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23abb2bf' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 8px center / 12px;
+    border: 1px solid #3E4451;
+    border-radius: 8px;
+    appearance: none;
+    color-scheme: dark;
+}
+
+.cl-ide-input {
+    display: block;
+    width: 100%;
+    max-width: none;
+    min-height: 220px;
+    padding: 16px 18px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: #ABB2BF;
+    tab-size: 4;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+    outline: none;
+    resize: vertical;
+    overflow-x: auto;
+}
+
+.cl-ide-input::placeholder {
+    color: #5C6370;
+}
+
+/* Video and attachment, side by side */
+.cl-media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.cl-media-grid .cl-field + .cl-field {
+    margin-top: 0;
+}
+
+.cl-input-icon {
+    position: relative;
+}
+
+.cl-input-icon .cl-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    font-size: 1.05rem;
+    color: #FF0033;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.cl-lesson-builder .cl-input-icon .form-control {
+    padding-left: 42px;
+}
+
+.cl-video-thumb {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--cl-bg);
+    border: 2px dashed var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-video-thumb.has-video {
+    background-color: #000000;
+    border: 0;
+}
+
+.cl-video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cl-video-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    max-width: 240px;
+    padding: 12px;
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+    text-align: center;
+}
+
+.cl-video-empty .cl-icon {
+    font-size: 1.8rem;
+    color: var(--cl-accent);
+}
+
+.cl-video-empty.is-error {
+    color: #E11D48;
+}
+
+/* YouTube-style play button on the thumbnail */
+.cl-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 44px;
+    background-color: rgba(255, 0, 51, 0.92);
+    border-radius: 12px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.cl-video-play::after {
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    content: "";
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 15px solid #ffffff;
+    transform: translate(-50%, -50%);
+}
+
+/* Attachment drop zone: icon and text stacked */
+.cl-dropzone-stack {
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    text-align: center;
+}
+
+.cl-dropzone-stack .cl-dropzone-text {
+    align-items: center;
+}
+
+.cl-dropzone-stack .cl-dropzone-file {
+    max-width: 100%;
+}
+
+/* The file already attached */
+.cl-file-chip {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-file-chip .cl-builder-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+}
+
+.cl-file-chip-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cl-file-chip-body small {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--cl-muted);
+}
+
+.cl-feedback-info {
+    background-color: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.3);
+    border-left-color: #F59E0B;
+}
+
+@media (max-width: 1199.98px) {
+    .cl-lesson-builder {
+        grid-template-columns: 280px minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cl-lesson-builder,
+    .cl-lesson-builder.is-readonly {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-syllabus-card {
+        position: static;
+        max-height: none;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-media-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-lesson-title-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cl-order-field {
+        width: 100%;
+    }
+
+    .cl-lesson-builder .cl-title-input {
+        font-size: 1.1rem;
+    }
+}
+
+/* ---------- Tutor quiz and coding challenge builders ---------- */
+
+/* "Choose a course" list, shown when the page is opened from the sidebar */
+.cl-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+}
+
+.cl-picker-item {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 16px 18px;
+    color: var(--cl-text);
+    text-decoration: none;
+    border-radius: 16px;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cl-picker-item:hover {
+    color: var(--cl-text);
+    border-color: var(--cl-coral);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(45, 52, 54, 0.08);
+}
+
+.cl-picker-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-picker-body strong {
+    overflow: hidden;
+    font-size: 0.95rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-picker-body small {
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-picker-arrow {
+    flex: none;
+    color: var(--cl-muted);
+}
+
+/* Quiz page: questions on the left, the question form on the right */
+.cl-quiz-builder {
+    grid-template-columns: minmax(0, 1fr) 400px;
+}
+
+.cl-builder.is-single {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.cl-builder.is-single .cl-builder-aside:empty {
+    display: none;
+}
+
+.cl-quiz-details-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.cl-quiz-details-row + .cl-field {
+    margin-top: 18px;
+}
+
+.cl-passmark-field {
+    flex: none;
+    width: 140px;
+}
+
+/* A number box with a unit after it, e.g. "80 %" */
+.cl-input-suffix {
+    position: relative;
+}
+
+.cl-input-suffix span {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.cl-builder .cl-input-suffix .form-control {
+    padding-right: 44px;
+}
+
+/* Buttons at the bottom of a card */
+.cl-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-card-actions-left {
+    margin-right: auto;
+}
+
+.cl-link-danger {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* The list of questions with their answers */
+.cl-question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-question {
+    padding: 16px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-question.is-selected {
+    background-color: var(--cl-soft);
+    border-color: var(--cl-coral);
+}
+
+.cl-question-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.cl-question-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-question-text strong {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.cl-question-text small {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-question-action {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--cl-muted);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.cl-question-action:hover {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-answer-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 12px 0 0 44px;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-answer-list li {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+    overflow-wrap: anywhere;
+}
+
+.cl-answer-list li .cl-icon {
+    flex: none;
+    color: var(--cl-muted);
+}
+
+.cl-answer-list li.is-correct {
+    font-weight: 600;
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.cl-answer-list li.is-correct .cl-icon {
+    color: #10B981;
+}
+
+[data-theme="dark"] .cl-answer-list li.is-correct {
+    color: #34D399;
+}
+
+.cl-question-explanation {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin: 10px 0 0 44px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-question-explanation .cl-icon {
+    flex: none;
+    margin-top: 2px;
+}
+
+/* Question type: two radio buttons shown as a segmented switch */
+.cl-segmented {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-segmented input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.cl-segmented label {
+    margin: 0;
+    padding: 7px 14px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    cursor: pointer;
+    border-radius: 9px;
+}
+
+.cl-segmented input[type="radio"]:checked + label {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+}
+
+.cl-segmented input[type="radio"]:focus-visible + label {
+    outline: 2px solid var(--cl-coral);
+    outline-offset: 2px;
+}
+
+/* Answer options: a "correct answer" circle next to each box */
+.cl-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cl-option {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.cl-option input[type="radio"] {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: #10B981;
+}
+
+.cl-option .form-control[readonly] {
+    font-weight: 600;
+    background-color: var(--cl-bg);
+}
+
+.cl-options.is-true-false [data-mc-only] {
+    display: none;
+}
+
+/* Coding challenge page */
+.cl-field-row-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cl-writer .cl-md-input-sm.form-control {
+    min-height: 220px;
+}
+
+.cl-ide + .cl-field-error,
+.cl-field .cl-ide {
+    margin-top: 2px;
+}
+
+.cl-ide-label {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #ABB2BF;
+}
+
+.cl-ide-output .cl-ide-input {
+    min-height: 140px;
+    color: #98C379;
+}
+
+.cl-challenge-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(255, 162, 164, 0.25), transparent 55%),
+        var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-challenge-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.cl-challenge-card-top {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cl-challenge-points {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #D97706;
+}
+
+.cl-challenge-language {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+}
+
+.cl-challenge-readonly {
+    max-width: 900px;
+}
+
+.cl-challenge-readonly h2 {
+    margin: 12px 0 6px;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+pre.cl-output {
+    color: #98C379;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 1199.98px) {
+    .cl-quiz-builder {
+        grid-template-columns: minmax(0, 1fr) 340px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cl-quiz-builder {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-quiz-details-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cl-passmark-field {
+        width: 100%;
+    }
+
+    .cl-answer-list {
+        grid-template-columns: minmax(0, 1fr);
+        margin-left: 0;
+    }
+
+    .cl-question-explanation {
+        margin-left: 0;
+    }
+
+    .cl-field-row-3 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-picker {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Tutor analytics ---------- */
+
+/* Course filter in the page header */
+.cl-analytics-filter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.cl-analytics-filter label {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    white-space: nowrap;
+}
+
+.cl-analytics-filter .form-select {
+    min-width: 260px;
+    max-width: 360px;
+    padding: 9px 36px 9px 14px;
+    border-radius: 12px;
+}
+
+/* Six summary cards */
+.cl-stat-grid.cl-analytics-stats {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin-bottom: 24px;
+}
+
+/* Rows of cards: wide card (2 parts) and narrow card (1 part) */
+.cl-analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.cl-span-2 {
+    grid-column: span 2;
+}
+
+.cl-analytics-section {
+    margin-bottom: 20px;
+}
+
+.cl-chart-card,
+.cl-side-list {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 20px 22px;
+    border-radius: 18px;
+}
+
+.cl-chart-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.cl-chart-head h2 {
+    margin: 0 0 2px;
+    font-size: 1.02rem;
+    font-weight: 700;
+}
+
+.cl-chart-head p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+/* Fixed height: Chart.js fills its box, so a box that can grow makes the chart keep growing */
+.cl-chart-box {
+    position: relative;
+    height: 280px;
+}
+
+.cl-chart-box.is-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cl-bg);
+    border: 1px dashed var(--cl-border);
+    border-radius: 14px;
+}
+
+.cl-chart-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    max-width: 260px;
+    padding: 16px;
+    font-size: 0.84rem;
+    color: var(--cl-muted);
+    text-align: center;
+}
+
+.cl-chart-empty .cl-icon {
+    font-size: 1.8rem;
+    opacity: 0.6;
+}
+
+/* Tables */
+.cl-table-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--cl-muted);
+}
+
+.cl-code-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.75rem;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 6px;
+}
+
+.cl-empty.cl-empty-sm {
+    padding: 22px 20px;
+}
+
+/* Pass rate / solve rate: a small bar and the number */
+.cl-rate {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    min-width: 140px;
+}
+
+.cl-rate-track {
+    flex: 1;
+    height: 8px;
+    overflow: hidden;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-rate-track span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+}
+
+.cl-rate.is-good .cl-rate-track span {
+    background-color: #10B981;
+}
+
+.cl-rate.is-low .cl-rate-track span {
+    background-color: #F59E0B;
+}
+
+.cl-rate strong {
+    min-width: 38px;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+/* Learner photo and name */
+.cl-learner {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    min-width: 0;
+    font-weight: 600;
+}
+
+.cl-learner > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cl-avatar.cl-avatar-sm {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+    object-fit: cover;
+}
+
+/* Top learners */
+.cl-rank-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-rank-list li {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 8px;
+    border-radius: 12px;
+}
+
+.cl-rank-list li:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-rank {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--cl-muted);
+    background-color: var(--cl-bg);
+    border-radius: 8px;
+}
+
+.cl-rank-list li:first-child .cl-rank {
+    color: #ffffff;
+    background-color: #F59E0B;
+}
+
+.cl-rank-list .cl-learner {
+    flex: 1;
+}
+
+.cl-rank-score {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.25;
+}
+
+.cl-rank-score strong {
+    font-size: 0.95rem;
+}
+
+.cl-rank-score small {
+    font-size: 0.7rem;
+    color: var(--cl-muted);
+}
+
+/* Unanswered discussion questions */
+.cl-question-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-question-feed li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.cl-question-feed .cl-builder-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+}
+
+.cl-question-feed strong {
+    display: block;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.cl-question-feed small {
+    font-size: 0.74rem;
+    color: var(--cl-muted);
+}
+
+/* Six cards in a row only on very wide screens; three per row otherwise, so the notes do not wrap */
+@media (max-width: 1679.98px) {
+    .cl-stat-grid.cl-analytics-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .cl-analytics-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-span-2 {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-stat-grid.cl-analytics-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cl-analytics-filter {
+        width: 100%;
+    }
+
+    .cl-analytics-filter .form-select {
+        flex: 1;
+        min-width: 0;
+        max-width: none;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .cl-stat-grid.cl-analytics-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Discussion forum ---------- */
+
+/* The list of discussions, with guidelines on the side */
+.cl-forum {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 24px;
+    align-items: start;
+}
+
+.cl-forum-main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.cl-forum-aside {
+    position: sticky;
+    top: 92px;
+}
+
+/* Start a discussion */
+.cl-forum-compose {
+    padding: 22px 24px;
+    border-top: 4px solid var(--cl-accent);
+    border-radius: 18px;
+}
+
+.cl-forum-compose[hidden] {
+    display: none;
+}
+
+.cl-forum-compose .form-control,
+.cl-forum-compose .form-select {
+    max-width: none;
+    border-radius: 12px;
+}
+
+/* Filter and search bar */
+.cl-forum-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 16px;
+}
+
+.cl-forum-filter {
+    flex: 0 1 280px;
+    min-width: 0;
+}
+
+.cl-forum-filter .form-select {
+    max-width: none;
+    border-radius: 12px;
+}
+
+.cl-forum-search {
+    position: relative;
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+.cl-forum-search .cl-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    color: var(--cl-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.cl-forum-search .form-control {
+    max-width: none;
+    padding-left: 40px;
+    border-radius: 12px;
+}
+
+.cl-forum-count {
+    padding: 0 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    white-space: nowrap;
+}
+
+/* One discussion */
+.cl-post {
+    padding: 20px 22px 16px;
+    border-radius: 18px;
+    scroll-margin-top: 100px;
+}
+
+.cl-post:target,
+.cl-reply:target {
+    box-shadow: 0 0 0 3px rgba(201, 82, 125, 0.35);
+}
+
+.cl-post-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.cl-post-head .cl-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
+}
+
+.cl-post-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-post-author {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.92rem;
+}
+
+.cl-post-sub {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-post-course {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    max-width: 100%;
+    font-weight: 600;
+    color: var(--cl-accent);
+    text-decoration: none;
+}
+
+.cl-post-course:hover {
+    text-decoration: underline;
+}
+
+.cl-post-actions,
+.cl-reply-actions {
+    display: inline-flex;
+    flex: none;
+    gap: 2px;
+}
+
+.cl-reply-actions {
+    margin-left: auto;
+}
+
+.cl-icon-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--cl-muted);
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+}
+
+.cl-icon-action:hover {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-icon-action.is-danger:hover {
+    color: #E11D48;
+    background-color: rgba(244, 63, 94, 0.12);
+}
+
+.cl-post-view[hidden],
+.cl-reply-body[hidden],
+.cl-post-edit[hidden] {
+    display: none;
+}
+
+.cl-post-title {
+    margin: 14px 0 6px;
+    font-size: 1.12rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.cl-post-body,
+.cl-reply-body {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--cl-text-soft);
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* Edit a post or reply in place */
+.cl-post-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.cl-post-edit .form-control {
+    max-width: none;
+    border-radius: 12px;
+}
+
+.cl-post-edit-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.cl-alert.cl-post-error {
+    margin: 12px 0 0;
+}
+
+/* Author badges */
+.cl-role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border-radius: 999px;
+}
+
+.cl-role-badge.is-instructor {
+    color: #ffffff;
+    background-color: var(--cl-accent);
+}
+
+.cl-role-badge.is-tutor {
+    color: #1D4ED8;
+    background-color: rgba(59, 130, 246, 0.14);
+}
+
+.cl-role-badge.is-admin {
+    color: #B45309;
+    background-color: rgba(245, 158, 11, 0.16);
+}
+
+.cl-role-badge.is-you {
+    color: var(--cl-text-soft);
+    background-color: rgba(107, 114, 128, 0.14);
+}
+
+[data-theme="dark"] .cl-role-badge.is-tutor { color: #60A5FA; }
+[data-theme="dark"] .cl-role-badge.is-admin { color: #FBBF24; }
+
+/* Replies */
+.cl-replies {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-replies-head {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-reply {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: 12px;
+    scroll-margin-top: 100px;
+}
+
+.cl-reply + .cl-reply {
+    margin-top: 4px;
+}
+
+.cl-reply:hover {
+    background-color: var(--cl-bg);
+}
+
+/* Replies by tutors stand out */
+.cl-reply.is-tutor {
+    background-color: var(--cl-soft);
+    box-shadow: inset 3px 0 0 var(--cl-accent);
+}
+
+.cl-reply-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-reply-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.86rem;
+}
+
+.cl-reply-head time {
+    font-size: 0.74rem;
+    color: var(--cl-muted);
+}
+
+.cl-reply-body {
+    margin-top: 2px;
+    font-size: 0.9rem;
+}
+
+/* Write a reply */
+.cl-reply-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    margin-top: 12px;
+}
+
+.cl-reply-form .form-control {
+    flex: 1;
+    min-height: 40px;
+    max-width: none;
+    padding: 9px 14px;
+    resize: none;
+    border-radius: 20px;
+}
+
+.cl-reply-form .btn {
+    display: inline-flex;
+    flex: none;
+    gap: 6px;
+    align-items: center;
+    height: 40px;
+    border-radius: 20px;
+}
+
+@media (max-width: 1199.98px) {
+    .cl-forum {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-forum-aside {
+        position: static;
+        order: -1;
+    }
+
+    .cl-forum-aside .cl-checklist {
+        display: none;
+    }
+
+    .cl-forum-aside .cl-builder-card-head {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-forum-new {
+        width: 100%;
+    }
+
+    .cl-post {
+        padding: 16px;
+    }
+
+    .cl-forum-filter,
+    .cl-forum-search {
+        flex-basis: 100%;
+    }
+
+    .cl-reply-form .btn span {
+        display: none;
+    }
+}

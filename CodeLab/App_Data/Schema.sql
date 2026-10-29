@@ -43,6 +43,8 @@ BEGIN
                                               CONSTRAINT FK_TutorProfiles_Users REFERENCES dbo.Users (Id) ON DELETE CASCADE,
         Qualifications NVARCHAR(MAX) NOT NULL,
         PortfolioUrl   NVARCHAR(500) NOT NULL,
+        -- Sample curriculum pitch from the tutor application (required for new applications, checked in TutorManager)
+        CurriculumPitch NVARCHAR(MAX) NULL,
         Bio            NVARCHAR(MAX) NOT NULL,
         Specialty      NVARCHAR(100) NOT NULL,
         -- New tutors wait for an Admin to approve them
@@ -95,6 +97,9 @@ BEGIN
         CodeLanguage    NVARCHAR(50)      NULL CONSTRAINT DF_Lessons_CodeLanguage DEFAULT (N'javascript'),
         ThumbnailUrl    NVARCHAR(500)     NULL,
         VideoUrl        NVARCHAR(500)     NULL,
+        -- Optional file attached to the lesson: where it is stored, and the name shown to learners
+        AttachmentUrl   NVARCHAR(500)     NULL,
+        AttachmentName  NVARCHAR(255)     NULL,
         OrderIndex      INT               NOT NULL CONSTRAINT DF_Lessons_OrderIndex DEFAULT (1),
         DurationMinutes INT               NOT NULL CONSTRAINT DF_Lessons_DurationMinutes DEFAULT (15),
         CreatedAt       DATETIME2         NOT NULL CONSTRAINT DF_Lessons_CreatedAt DEFAULT (SYSUTCDATETIME())
@@ -302,4 +307,10 @@ BEGIN
 
     CREATE INDEX IX_AuditLogs_Timestamp ON dbo.AuditLogs (Timestamp DESC);
 END
+GO
+-- Preserve the question and answer snapshot for new quiz attempts.
+IF COL_LENGTH('dbo.QuizAttempts', 'AnswerReviewJson') IS NULL
+BEGIN
+    ALTER TABLE dbo.QuizAttempts ADD AnswerReviewJson NVARCHAR(MAX) NULL;
+END;
 GO

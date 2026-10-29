@@ -326,6 +326,74 @@ textarea {
     padding: 10px;
 }
 
+.cl-auth-switch {
+    margin: 16px 0 0;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.cl-register {
+    max-width: 520px;
+}
+
+/* Back + Create account. Not Bootstrap's d-flex: its !important would override the hidden attribute */
+.cl-register-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* The tutor application fields on Register, grouped in a tinted panel */
+.cl-application {
+    margin: 8px 0 24px;
+    padding: 20px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-application h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    font-size: 1.05rem;
+}
+
+.cl-application h2 .cl-icon {
+    color: var(--cl-accent);
+}
+
+/* Learner / Tutor switch at the top of Register */
+.cl-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    padding: 4px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+}
+
+.cl-tabs a {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--cl-muted);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.cl-tabs a:hover {
+    color: var(--cl-text);
+}
+
+.cl-tabs a.active {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
 /* ---------- Landing page: hero ---------- */
 
 .cl-landing {
@@ -414,16 +482,17 @@ textarea {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.cl-thumb-frontend {
+/* Shown when the tutor has not uploaded a cover image */
+.cl-thumb-default {
     background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
 }
 
-.cl-thumb-science {
-    background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%);
-}
-
-.cl-thumb-python {
-    background: linear-gradient(135deg, #052E16 0%, #15803D 100%);
+.cl-course-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .cl-level {
@@ -480,7 +549,7 @@ textarea {
     line-height: 1.6;
     color: var(--cl-muted);
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
 }
 
 .cl-course-footer {
@@ -497,6 +566,53 @@ textarea {
 .cl-course-footer a {
     font-weight: 600;
     text-decoration: none;
+}
+
+/* ---------- Public course pages (catalogue and details) ---------- */
+
+.cl-page-intro {
+    margin: 8px 0 0;
+    color: var(--cl-muted);
+}
+
+.cl-course-detail-thumb {
+    height: 260px;
+    font-size: 3.5rem;
+}
+
+.cl-course-detail-title {
+    margin: 10px 0 14px;
+    font-size: 1.9rem;
+}
+
+/* The full description: no 3-line clamp, and keep the tutor's line breaks */
+.cl-course-body .cl-course-detail-description {
+    display: block;
+    overflow: visible;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    white-space: pre-line;
+    -webkit-line-clamp: unset;
+}
+
+.cl-lock-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    padding: 24px;
+}
+
+.cl-lock-box h2 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+}
+
+.cl-lock-box p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--cl-muted);
 }
 
 /* ---------- Landing page: dark panels ---------- */
