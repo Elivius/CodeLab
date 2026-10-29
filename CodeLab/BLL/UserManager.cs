@@ -136,6 +136,23 @@ namespace CodeLab.BLL
         }
 
         /// <summary>
+        /// Returns the display name for a username, or null if it cannot be found.
+        /// </summary>
+        public string GetFullName(string username)
+        {
+            try
+            {
+                User user = _userRepository.GetByUsername(username);
+                return user == null ? null : user.FullName;
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("UserManager.GetFullName failure", exception);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Creates a Learner or Tutor account. account carries FullName, Username, Email and Role;
         /// application is the tutor application (null for learners). Tutors start Pending but can log in.
         /// </summary>
