@@ -27,11 +27,11 @@ namespace CodeLab.Modules.Tutor
         {
             // This page explains the locked state itself
             Master.HideApprovalNotice = true;
-            litHeading.Text = "Coding challenge results";
+            litHeading.Text = "Coding Results";
 
             if (!Master.IsApproved)
             {
-                litCrumbs.Text = "<span>Coding challenge results</span>";
+                litCrumbs.Text = "<span>Coding Results</span>";
                 litSubheading.Text = "Learner results unlock once your tutor application is approved.";
                 phLocked.Visible = true;
                 return;
@@ -58,7 +58,7 @@ namespace CodeLab.Modules.Tutor
 
         private void ShowOverview()
         {
-            litCrumbs.Text = "<span>Coding challenge results</span>";
+            litCrumbs.Text = "<span>Coding Results</span>";
             litSubheading.Text = "How learners are doing in the coding challenges of your published courses.";
 
             OperationResult<List<ChallengeResultSummary>> result = _manager.GetChallenges();
@@ -100,7 +100,7 @@ namespace CodeLab.Modules.Tutor
 
             litHeading.Text = c.Title;
             litSubheading.Text = c.CourseTitle + " · " + TutorDisplayHelper.LanguageName(c.Language) + " · " + c.Difficulty;
-            litCrumbs.Text = TutorDisplayHelper.Crumb("Coding challenge results", ChallengeUrl(0)) + "<span>" + HttpUtility.HtmlEncode(c.Title) + "</span>";
+            litCrumbs.Text = TutorDisplayHelper.Crumb("Coding Results", ChallengeUrl(0)) + "<span>" + HttpUtility.HtmlEncode(c.Title) + "</span>";
 
             litLearners.Text = c.EnrolledCount.ToString("N0");
             litLearnersNote.Text = c.LearnerCount == 0
@@ -148,7 +148,7 @@ namespace CodeLab.Modules.Tutor
 
             litHeading.Text = s.LearnerName + "'s submission";
             litSubheading.Text = s.ChallengeTitle + " · " + s.CourseTitle;
-            litCrumbs.Text = TutorDisplayHelper.Crumb("Coding challenge results", ChallengeUrl(0))
+            litCrumbs.Text = TutorDisplayHelper.Crumb("Coding Results", ChallengeUrl(0))
                 + TutorDisplayHelper.Crumb(s.ChallengeTitle, ChallengeUrl(s.ChallengeId))
                 + "<span>" + HttpUtility.HtmlEncode(s.LearnerName) + "</span>";
 

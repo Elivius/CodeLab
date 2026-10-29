@@ -31,7 +31,7 @@
                 <path d="M80 62V48a20 20 0 0 1 40 0v14" fill="none" stroke="url(#lockGrad)" stroke-width="9" stroke-linecap="round" />
                 <circle cx="100" cy="84" r="7" fill="#fff" /><rect x="97" y="86" width="6" height="14" rx="3" fill="#fff" />
             </svg>
-            <h2>Quiz results are locked</h2>
+            <h2>Quiz Results are locked</h2>
             <p>You can see learner results once an administrator approves your tutor application.</p>
             <a class="btn btn-primary" href="<%: Master.GetPageUrl("Profile") %>">View my application</a>
         </section>

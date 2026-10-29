@@ -82,7 +82,7 @@
 
                     <div class="cl-sidebar-group">Insights</div>
                     <%= NavLink("QuizResults", "list-checks", "Quiz Results", true) %>
-                    <%= NavLink("ChallengeResults", "code", "Challenge Results", true) %>
+                    <%= NavLink("ChallengeResults", "code", "Coding Results", true) %>
 
                     <div class="cl-sidebar-group">Community</div>
                     <%= NavLink("Forum", "messages-square", "Discussion Forum", false) %>

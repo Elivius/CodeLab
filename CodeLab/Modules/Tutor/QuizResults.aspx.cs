@@ -25,11 +25,11 @@ namespace CodeLab.Modules.Tutor
         {
             // This page explains the locked state itself
             Master.HideApprovalNotice = true;
-            litHeading.Text = "Quiz results";
+            litHeading.Text = "Quiz Results";
 
             if (!Master.IsApproved)
             {
-                litCrumbs.Text = "<span>Quiz results</span>";
+                litCrumbs.Text = "<span>Quiz Results</span>";
                 litSubheading.Text = "Learner results unlock once your tutor application is approved.";
                 phLocked.Visible = true;
                 return;
@@ -56,7 +56,7 @@ namespace CodeLab.Modules.Tutor
 
         private void ShowOverview()
         {
-            litCrumbs.Text = "<span>Quiz results</span>";
+            litCrumbs.Text = "<span>Quiz Results</span>";
             litSubheading.Text = "How learners are doing in the quizzes of your published courses.";
 
             OperationResult<List<QuizResultSummary>> result = _manager.GetQuizzes();
@@ -96,7 +96,7 @@ namespace CodeLab.Modules.Tutor
             QuizId = q.QuizId;
             litHeading.Text = q.QuizTitle;
             litSubheading.Text = q.CourseTitle + " · " + Plural(q.QuestionCount, "question") + " · pass mark " + q.PassMark + "%";
-            litCrumbs.Text = TutorDisplayHelper.Crumb("Quiz results", QuizUrl(0)) + "<span>" + HttpUtility.HtmlEncode(q.QuizTitle) + "</span>";
+            litCrumbs.Text = TutorDisplayHelper.Crumb("Quiz Results", QuizUrl(0)) + "<span>" + HttpUtility.HtmlEncode(q.QuizTitle) + "</span>";
 
             litLearners.Text = q.EnrolledCount.ToString("N0");
             litLearnersNote.Text = q.LearnerCount == 0
@@ -140,7 +140,7 @@ namespace CodeLab.Modules.Tutor
 
             litHeading.Text = attempt.LearnerName + "'s attempt";
             litSubheading.Text = attempt.QuizTitle + " · " + attempt.CourseTitle;
-            litCrumbs.Text = TutorDisplayHelper.Crumb("Quiz results", QuizUrl(0))
+            litCrumbs.Text = TutorDisplayHelper.Crumb("Quiz Results", QuizUrl(0))
                 + TutorDisplayHelper.Crumb(attempt.QuizTitle, QuizUrl(attempt.QuizId))
                 + "<span>" + HttpUtility.HtmlEncode(attempt.LearnerName) + "</span>";
 

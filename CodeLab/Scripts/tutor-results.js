@@ -1,5 +1,5 @@
 /*
- * Shared by the Tutor results pages (Quiz results, Coding challenge results). Read-only: nothing is posted.
+ * Shared by the Tutor results pages (Quiz Results, Coding Results). Read-only: nothing is posted.
  *
  * 1. Table filters inside [data-results-table]: learner search [data-filter-search], result select
  *    [data-filter-result]. Rows carry data-name and data-result.

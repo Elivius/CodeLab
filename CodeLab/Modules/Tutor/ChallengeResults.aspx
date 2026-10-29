@@ -1,4 +1,4 @@
-<%@ Page Title="Challenge Results"Language="C#" MasterPageFile="~/Modules/Tutor/Tutor.Master" AutoEventWireup="true" CodeBehind="ChallengeResults.aspx.cs" Inherits="CodeLab.Modules.Tutor.ChallengeResults" %>
+<%@ Page Title="Coding Results" Language="C#" MasterPageFile="~/Modules/Tutor/Tutor.Master" AutoEventWireup="true" CodeBehind="ChallengeResults.aspx.cs" Inherits="CodeLab.Modules.Tutor.ChallengeResults" %>
 <%@ MasterType VirtualPath="~/Modules/Tutor/Tutor.Master" %>
 <%@ Import Namespace="CodeLab.Models" %>
 <%@ Import Namespace="CodeLab.Helpers" %>
@@ -30,7 +30,7 @@
                 <path d="M80 62V48a20 20 0 0 1 40 0v14" fill="none" stroke="url(#lockGrad)" stroke-width="9" stroke-linecap="round" />
                 <circle cx="100" cy="84" r="7" fill="#fff" /><rect x="97" y="86" width="6" height="14" rx="3" fill="#fff" />
             </svg>
-            <h2>Challenge results are locked</h2>
+            <h2>Coding Results are locked</h2>
             <p>You can see learner results once an administrator approves your tutor application.</p>
             <a class="btn btn-primary" href="<%: Master.GetPageUrl("Profile") %>">View my application</a>
         </section>

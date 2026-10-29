@@ -93,7 +93,7 @@ Uses the existing `DiscussionPosts` and `DiscussionReplies` tables; no schema ch
 
 ## 7. Learner results (quizzes and coding challenges)
 
-Pages: Quiz results (`QuizResults`) and Challenge results (`ChallengeResults`), under **Insights** in the sidebar.
+Pages: Quiz results (`QuizResults`) and Coding Results (`ChallengeResults`), under **Insights** in the sidebar.
 
 | # | Prototype | CodeLab | Decided by |
 |---|---|---|---|
