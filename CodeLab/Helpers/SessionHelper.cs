@@ -85,6 +85,18 @@ namespace CodeLab.Helpers
             return GetValue(FullNameKey) as string;
         }
 
+        /// <summary>
+        /// Updates the name shown in the header after the signed-in user changes their full name.
+        /// </summary>
+        public static void UpdateFullName(string fullName)
+        {
+            HttpContext context = HttpContext.Current;
+            if (context != null && context.Session != null && !string.IsNullOrEmpty(fullName))
+            {
+                context.Session[FullNameKey] = fullName;
+            }
+        }
+
         public static string GetCurrentRole()
         {
             return GetValue(RoleKey) as string;

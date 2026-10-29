@@ -11,10 +11,23 @@ namespace CodeLab.Modules.Public
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Someone already signed in lands here when they open a page their role cannot access
+            // Redirect users who are already logged in
             if (!IsPostBack && SessionHelper.IsLoggedIn())
             {
-                Response.Redirect("~/");
+                RedirectByRole(SessionHelper.GetCurrentRole());
+            }
+
+            // Register sends new users here
+            string registered = IsPostBack ? null : Request.QueryString["registered"];
+            if (registered == "learner")
+            {
+                lblSuccess.Text = "Account created. Please log in.";
+                lblSuccess.Visible = true;
+            }
+            else if (registered == "tutor")
+            {
+                lblSuccess.Text = "Account created. Your tutor application is waiting for admin review. Log in to track its status.";
+                lblSuccess.Visible = true;
             }
         }
 
@@ -25,18 +38,55 @@ namespace CodeLab.Modules.Public
                 return;
             }
 
-            UserManager userManager = new UserManager();
-            OperationResult<User> result = userManager.Authenticate(txtUsername.Text.Trim(), txtPassword.Text);
+            lblMessage.Visible = false;
 
-            if (!result.Success)
+            UserManager userManager = new UserManager();
+
+            OperationResult<User> result =
+                userManager.Authenticate(
+                    txtUsername.Text.Trim(),
+                    txtPassword.Text
+                );
+
+            if (!result.Success || result.Data == null)
             {
                 lblMessage.Text = result.Message;
                 lblMessage.Visible = true;
                 return;
             }
 
+            // Create login session and authentication cookie
             SessionHelper.SignIn(result.Data);
-            Response.Redirect(FormsAuthentication.GetRedirectUrl(result.Data.Username, false));
+
+            // Someone sent here from a protected page goes back to it (GetRedirectUrl only allows this site's
+            // own pages); everyone else goes to their role's home page
+            bool hasReturnUrl = !string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]);
+            RedirectTo(hasReturnUrl
+                ? FormsAuthentication.GetRedirectUrl(result.Data.Username, false)
+                : GetHomeUrl(result.Data.Role));
+        }
+
+        // Someone already signed in who opens the login page goes to their role's home page
+        private void RedirectByRole(string role)
+        {
+            RedirectTo(GetHomeUrl(role));
+        }
+
+        private static string GetHomeUrl(string role)
+        {
+            switch ((role ?? string.Empty).Trim())
+            {
+                case UserRoles.Tutor: return "~/Modules/Tutor/Dashboard";
+                case UserRoles.Learner: return "~/Modules/Learner/Dashboard";
+                case UserRoles.Admin: return "~/Modules/Admin/AuditLogs";
+                default: return "~/";
+            }
+        }
+
+        private void RedirectTo(string url)
+        {
+            Response.Redirect(ResolveUrl(url), false);
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 }

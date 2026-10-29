@@ -7,6 +7,7 @@
 *.suo
 *.userprefs
 *.sln.docstates
+.claude
 
 ## =====================================
 ## Build Results & Binaries
@@ -42,6 +43,12 @@ UpgradeLog*.htm
 *.ldf
 
 ## =====================================
+## User Uploads (profile photos, course covers)
+## =====================================
+# Created at run time on each machine; never commit uploaded files
+CodeLab/Uploads/
+
+## =====================================
 ## NuGet Packages
 ## =====================================
 packages/
@@ -55,3 +62,6 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+
+# Local API credentials
+AppSettings.Local.config

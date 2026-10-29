@@ -63,7 +63,7 @@
 
         <nav class="navbar navbar-expand-md navbar-light sticky-top cl-navbar">
             <div class="container">
-                <a class="cl-brand" runat="server" href="~/">
+                <a id="lnkBrand" class="cl-brand" runat="server" href="~/">
                     <img src="~/Content/Images/logo.png" runat="server" alt="CodeLab Logo" class="cl-logo" />
                     <span>Code<b>Lab</b></span>
                 </a>
@@ -73,14 +73,18 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav align-items-md-center gap-md-2">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Landing</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/#courses">Courses</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/#about">About</a></li>
+                        <%-- Guest links; hidden for tutors (they use their sidebar) and learners (they use their module links) --%>
+                        <asp:PlaceHolder ID="phPublicNav" runat="server">
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/">Landing</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/#courses">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/#about">About</a></li>
+                        </asp:PlaceHolder>
 
                         <%-- Add the links for your module inside the PlaceHolder for its role --%>
                         <asp:PlaceHolder ID="phAdminNav" runat="server" Visible="false">
                             <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Admin/AuditLogs">Audit Logs</a></li>
                         </asp:PlaceHolder>
+                        <%-- Empty on purpose: Tutor pages have their own sidebar (Modules/Tutor/Tutor.Master) --%>
                         <asp:PlaceHolder ID="phTutorNav" runat="server" Visible="false">
                         </asp:PlaceHolder>
                         <asp:PlaceHolder ID="phLearnerNav" runat="server" Visible="false">
@@ -118,7 +122,7 @@
         <footer class="cl-footer">
             <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
                 <div class="d-flex align-items-center gap-3">
-                    <a class="cl-brand" runat="server" href="~/">
+                    <a id="lnkFooterBrand" class="cl-brand" runat="server" href="~/">
                         <img src="~/Content/Images/logo.png" runat="server" alt="CodeLab Logo" class="cl-logo" />
                         <span>Code<b>Lab</b></span>
                     </a>
