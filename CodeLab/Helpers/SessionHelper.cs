@@ -114,6 +114,21 @@ namespace CodeLab.Helpers
         }
 
         /// <summary>
+        /// The page a user with this role starts on, or "~/" for an unknown role.
+        /// Takes the role as a parameter because on the login request itself GetCurrentRole() is still null.
+        /// </summary>
+        public static string GetHomeUrl(string role)
+        {
+            switch ((role ?? string.Empty).Trim())
+            {
+                case UserRoles.Tutor: return "~/Modules/Tutor/Dashboard";
+                case UserRoles.Learner: return "~/Modules/Learner/Dashboard";
+                case UserRoles.Admin: return "~/Modules/Admin/AuditLogs";
+                default: return "~/";
+            }
+        }
+
+        /// <summary>
         /// Reads the role out of a login ticket. Used by Global.asax.
         /// On every request, reads the role from the cookie and attaches it to the user
         /// </summary>

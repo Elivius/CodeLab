@@ -8,15 +8,15 @@ namespace CodeLab
 {
     public partial class SiteMaster : MasterPage
     {
-        private const string TutorHome = "~/Modules/Tutor/Dashboard";
-
         protected void Page_Init(object sender, EventArgs e)
         {
-            // A signed-in tutor works inside the Tutor area: the landing page and other guest
-            // pages (including Login) send them to their dashboard instead
-            if (SessionHelper.IsUserInRole(UserRoles.Tutor) && IsGuestPage())
+            // A signed-in user works inside their own module: the landing page and other guest
+            // pages (including Login and Register) send them to their role's home page.
+            // An unknown role gets "~/", which is a guest page itself, so it must not redirect.
+            string homeUrl = SessionHelper.GetHomeUrl(SessionHelper.GetCurrentRole());
+            if (homeUrl != "~/" && IsGuestPage())
             {
-                Response.Redirect(TutorHome);
+                Response.Redirect(homeUrl);
             }
         }
 
@@ -33,22 +33,16 @@ namespace CodeLab
 
             lblCurrentUser.Text = Server.HtmlEncode(SessionHelper.GetCurrentFullName() + " (" + SessionHelper.GetCurrentRole() + ")");
 
-            bool isTutor = SessionHelper.IsUserInRole(UserRoles.Tutor);
-
             phAdminNav.Visible = SessionHelper.IsUserInRole(UserRoles.Admin);
-            phTutorNav.Visible = isTutor;
+            phTutorNav.Visible = SessionHelper.IsUserInRole(UserRoles.Tutor);
             phLearnerNav.Visible = SessionHelper.IsUserInRole(UserRoles.Learner);
 
-            // Learners use their own module links instead of the guest links
-            phPublicNav.Visible = !phLearnerNav.Visible;
-
-            // Tutors navigate with their sidebar, and the logo takes them to their dashboard
-            if (isTutor)
-            {
-                phPublicNav.Visible = false;
-                lnkBrand.HRef = TutorHome;
-                lnkFooterBrand.HRef = TutorHome;
-            }
+            // The guest links all lead to the landing page, which only sends a signed-in user
+            // back to their home page, so hide them and point the logo straight there
+            phPublicNav.Visible = false;
+            string homeUrl = SessionHelper.GetHomeUrl(SessionHelper.GetCurrentRole());
+            lnkBrand.HRef = homeUrl;
+            lnkFooterBrand.HRef = homeUrl;
         }
 
         // Pages outside Modules/, plus Modules/Public/ (Login, Register)
