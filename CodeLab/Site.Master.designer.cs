@@ -24,6 +24,24 @@ namespace CodeLab
         protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
 
         /// <summary>
+        /// lnkBrand control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkBrand;
+
+        /// <summary>
+        /// phPublicNav control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phPublicNav;
+
+        /// <summary>
         /// phAdminNav control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,14 @@ namespace CodeLab
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
-        protected global::System.Web.UI.WebControls.PlaceHolder phPublicNav;
+
+        /// <summary>
+        /// lnkFooterBrand control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkFooterBrand;
     }
 }

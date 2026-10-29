@@ -2,10 +2,9 @@ using CodeLab.BLL;
 using CodeLab.Helpers;
 using CodeLab.Models;
 using System;
-using System.Data.SqlClient;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
-using WebGrease.Activities;
 
 namespace CodeLab.Modules.Learner
 {
@@ -13,14 +12,15 @@ namespace CodeLab.Modules.Learner
     {
         private const int PageSize = 20;
 
-        private readonly LearnerDiscussionManager manager =
-            new LearnerDiscussionManager();
+        // Shared forum rules, the same ones the Tutor forum uses (BLL/Discussion/DiscussionManager)
+        private readonly DiscussionManager manager =
+            new DiscussionManager();
 
         private int learnerId;
         private int postId;
         private bool canAccessDiscussion;
         private bool redirecting;
-        private LearnerDiscussionPost currentPost;
+        protected DiscussionPost currentPost;
 
         private int CurrentPage
         {
@@ -89,27 +89,14 @@ namespace CodeLab.Modules.Learner
                 return;
             }
 
-            try
+            OperationResult<DiscussionPost> loaded = manager.GetPost(postId);
+            if (!loaded.Success)
             {
-                currentPost = manager.GetPost(learnerId, postId);
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError("Loading a discussion", ex);
-
-                ShowError(
-                    "This discussion could not be loaded. " +
-                    "Please try again.");
+                ShowError(loaded.Message);
                 return;
             }
 
-            if (currentPost == null)
-            {
-                ShowError(
-                    "This discussion is unavailable. It may have been " +
-                    "deleted, or you may no longer have access to its course.");
-                return;
-            }
+            currentPost = loaded.Data;
 
             canAccessDiscussion = true;
             pnlDiscussion.Visible = true;
@@ -165,7 +152,7 @@ namespace CodeLab.Modules.Learner
             else
             {
                 lnkBack.NavigateUrl =
-                    "~/Modules/Learner/DiscussionForum.aspx?scope=" + (Request.QueryString["scope"] == "courses" ? "courses" : "general");
+                    "~/Modules/Learner/DiscussionForum.aspx";
 
                 lnkBack.Text = "← Back to Discussion Forum";
             }
@@ -177,6 +164,7 @@ namespace CodeLab.Modules.Learner
 
             litAuthorInitial.Text = GetInitial(currentPost.AuthorName);
             litAuthorName.Text = currentPost.AuthorName;
+            litAuthorName.Visible=currentPost.AuthorRole!="Tutor";
             litAuthorUsername.Text = currentPost.AuthorUsername;
             litAuthorRole.Text = currentPost.AuthorRole;
             litCreatedAt.Text = FormatDate(currentPost.CreatedAt);
@@ -207,11 +195,11 @@ namespace CodeLab.Modules.Learner
             }
 
             txtReply.Attributes["maxlength"] =
-                LearnerDiscussionManager.MaximumReplyLength.ToString(
+                DiscussionManager.MaxReplyLength.ToString(
                     CultureInfo.InvariantCulture);
 
             txtEditContent.Attributes["maxlength"] =
-                LearnerDiscussionManager.MaximumPostLength.ToString(
+                DiscussionManager.MaxPostLength.ToString(
                     CultureInfo.InvariantCulture);
         }
 
@@ -224,48 +212,43 @@ namespace CodeLab.Modules.Learner
 
         private void BindReplies()
         {
-            try
+            int lastPage = GetLastReplyPage(currentPost.ReplyCount);
+
+            CurrentPage = Math.Min(CurrentPage, lastPage);
+
+            OperationResult<List<DiscussionReply>> result =
+                manager.GetReplyPage(postId, CurrentPage, PageSize);
+
+            if (!result.Success)
             {
-                int lastPage = GetLastReplyPage(currentPost.ReplyCount);
-
-                CurrentPage = Math.Min(CurrentPage, lastPage);
-
-                var replies = manager.GetReplies(
-                    learnerId,
-                    postId,
-                    CurrentPage,
-                    PageSize);
-
-                rptReplies.DataSource = replies;
-                rptReplies.DataBind();
-
-                pnlNoReplies.Visible =
-                    currentPost.ReplyCount == 0 && replies.Count == 0;
-
-                btnPrevious.Enabled = CurrentPage > 1;
-                btnNext.Enabled = CurrentPage < lastPage;
-
-                pnlPagination.Visible = lastPage > 1;
-
-                litPageNumber.Text =
-                    "Page " +
-                    CurrentPage.ToString(CultureInfo.InvariantCulture) +
-                    " of " +
-                    lastPage.ToString(CultureInfo.InvariantCulture);
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError("Loading discussion replies", ex);
-
                 rptReplies.DataSource = null;
                 rptReplies.DataBind();
 
                 pnlNoReplies.Visible = false;
                 pnlPagination.Visible = false;
 
-                ShowError(
-                    "Replies could not be loaded. Please reload the page.");
+                ShowError(result.Message);
+                return;
             }
+
+            List<DiscussionReply> replies = result.Data;
+
+            rptReplies.DataSource = replies;
+            rptReplies.DataBind();
+
+            pnlNoReplies.Visible =
+                currentPost.ReplyCount == 0 && replies.Count == 0;
+
+            btnPrevious.Enabled = CurrentPage > 1;
+            btnNext.Enabled = CurrentPage < lastPage;
+
+            pnlPagination.Visible = lastPage > 1;
+
+            litPageNumber.Text =
+                "Page " +
+                CurrentPage.ToString(CultureInfo.InvariantCulture) +
+                " of " +
+                lastPage.ToString(CultureInfo.InvariantCulture);
         }
 
         protected void btnPrevious_Click(object sender, EventArgs e)
@@ -300,53 +283,26 @@ namespace CodeLab.Modules.Learner
                 return;
             }
 
-            int replyId;
+            OperationResult<int> created = manager.CreateReply(
+                postId,
+                txtReply.Text);
 
-            try
+            if (!created.Success)
             {
-                replyId = manager.CreateReply(
-                    learnerId,
-                    postId,
-                    txtReply.Text);
-            }
-            catch (ArgumentException ex)
-            {
-                ShowReplyError(ex.Message);
+                ShowReplyError(created.Message);
                 return;
             }
-            catch (InvalidOperationException ex)
-            {
-                ShowReplyError(ex.Message);
-                return;
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError("Posting a discussion reply", ex);
 
-                ShowReplyError(
-                    "We could not confirm whether your reply was saved. " +
-                    "Check the conversation or My Replies before trying again.");
-                return;
-            }
+            int replyId = created.Data;
 
             // Saving succeeded. A subsequent read failure must not
             // be presented as a failed submission.
             int replyCount = currentPost.ReplyCount + 1;
 
-            try
+            OperationResult<DiscussionPost> updatedPost = manager.GetPost(postId);
+            if (updatedPost.Success)
             {
-                var updatedPost = manager.GetPost(learnerId, postId);
-
-                if (updatedPost != null)
-                {
-                    replyCount = updatedPost.ReplyCount;
-                }
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError(
-                    "Refreshing the count after saving a reply",
-                    ex);
+                replyCount = updatedPost.Data.ReplyCount;
             }
 
             Session[FlashKey] = "Your reply was posted.";
@@ -370,31 +326,14 @@ namespace CodeLab.Modules.Learner
                 return;
             }
 
-            try
-            {
-                manager.UpdatePost(
-                    learnerId,
-                    postId,
-                    txtEditTitle.Text,
-                    txtEditContent.Text);
-            }
-            catch (ArgumentException ex)
-            {
-                ShowEditError(ex.Message);
-                return;
-            }
-            catch (InvalidOperationException ex)
-            {
-                ShowEditError(ex.Message);
-                return;
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError("Updating a discussion", ex);
+            OperationResult updated = manager.UpdatePost(
+                postId,
+                txtEditTitle.Text,
+                txtEditContent.Text);
 
-                ShowEditError(
-                    "We could not confirm whether your changes were saved. " +
-                    "Check the discussion before trying again.");
+            if (!updated.Success)
+            {
+                ShowEditError(updated.Message);
                 return;
             }
 
@@ -412,27 +351,10 @@ namespace CodeLab.Modules.Learner
                 return;
             }
 
-            try
+            OperationResult deleted = manager.DeletePost(postId);
+            if (!deleted.Success)
             {
-                manager.DeletePost(learnerId, postId);
-            }
-            catch (ArgumentException ex)
-            {
-                ShowDeleteError(ex.Message);
-                return;
-            }
-            catch (InvalidOperationException ex)
-            {
-                ShowDeleteError(ex.Message);
-                return;
-            }
-            catch (SqlException ex)
-            {
-                LogDatabaseError("Deleting a discussion", ex);
-
-                ShowDeleteError(
-                    "We could not confirm whether the discussion was deleted. " +
-                    "Check the discussion list before trying again.");
+                ShowDeleteError(deleted.Message);
                 return;
             }
 
@@ -465,7 +387,7 @@ namespace CodeLab.Modules.Learner
             }
             else
             {
-                url += "&from=forum&scope=" + (Request.QueryString["scope"] == "courses" ? "courses" : "general");
+                url += "&from=forum";
             }
 
             return url;
@@ -606,16 +528,6 @@ namespace CodeLab.Modules.Learner
                 DateTimeKind.Utc);
 
             return utc.ToString("o", CultureInfo.InvariantCulture);
-        }
-
-        private static void LogDatabaseError(
-            string operation,
-            SqlException exception)
-        {
-            System.Diagnostics.Trace.TraceError(
-                "{0}: {1}",
-                operation,
-                exception);
         }
 
         private void BindNavigationIdentity()

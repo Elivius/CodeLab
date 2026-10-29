@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
 using CodeLab.Helpers;
+using CodeLab.Models;
 
 namespace CodeLab.Modules.Learner
 {
     public partial class MyDiscussions : Page
     {
         private const int PageSize = 20;
-        private readonly LearnerDiscussionManager manager = new LearnerDiscussionManager();
+
+        // Shared forum rules, the same ones the Tutor forum uses (BLL/Discussion/DiscussionManager)
+        private readonly DiscussionManager manager = new DiscussionManager();
         private int learnerId;
         private bool canAccess;
         private bool ShowingReplies { get { return Request.QueryString["tab"] == "replies"; } }
@@ -66,19 +68,14 @@ namespace CodeLab.Modules.Learner
         {
             if (canAccess)
             {
-                try
+                bool loaded = ShowingReplies
+                    ? BindActivity(rptReplies, pnlNoReplies,
+                        (page, size) => manager.GetMyReplies(page, size))
+                    : BindActivity(rptPosts, pnlNoPosts,
+                        (page, size) => manager.GetPostPage(0, null, true, page, size));
+
+                if (!loaded)
                 {
-                    if (ShowingReplies)
-                        BindActivity(rptReplies, pnlNoReplies,
-                            (page, size) => manager.GetMyReplies(learnerId, page, size));
-                    else
-                        BindActivity(rptPosts, pnlNoPosts,
-                            (page, size) => manager.GetPosts(learnerId,
-                                onlyMine: true, pageNumber: page, pageSize: size));
-                }
-                catch (SqlException ex)
-                {
-                    System.Diagnostics.Trace.TraceError("Loading my discussions: {0}", ex);
                     pnlMyDiscussions.Visible = false;
                     litError.Text = "Your discussions could not be loaded. Please try again.";
                     pnlError.Visible = true;
@@ -87,18 +84,29 @@ namespace CodeLab.Modules.Learner
             base.OnPreRender(e);
         }
 
-        private void BindActivity<T>(Repeater repeater, Panel emptyPanel,
-            Func<int, int, List<T>> load)
+        // Binds one page of posts or replies; false when loading failed
+        private bool BindActivity<T>(Repeater repeater, Panel emptyPanel,
+            Func<int, int, OperationResult<List<T>>> load)
         {
-            var items = load(CurrentPage, PageSize);
-            // Deleted discussions or changed course access can empty a later page.
-            if (items.Count == 0 && CurrentPage > 1)
+            OperationResult<List<T>> result = load(CurrentPage, PageSize);
+            // Deleted discussions or unpublished courses can empty a later page.
+            if (result.Success && result.Data.Count == 0 && CurrentPage > 1)
             {
                 CurrentPage = 1;
-                items = load(CurrentPage, PageSize);
+                result = load(CurrentPage, PageSize);
             }
-            bool hasNext = items.Count == PageSize &&
-                load(checked(CurrentPage * PageSize + 1), 1).Count > 0;
+
+            if (!result.Success)
+            {
+                return false;
+            }
+
+            List<T> items = result.Data;
+            OperationResult<List<T>> next = items.Count == PageSize
+                ? load(checked(CurrentPage * PageSize + 1), 1)
+                : null;
+            bool hasNext = next != null && next.Success && next.Data.Count > 0;
+
             repeater.DataSource = items;
             repeater.DataBind();
             emptyPanel.Visible = items.Count == 0;
@@ -106,6 +114,7 @@ namespace CodeLab.Modules.Learner
             btnNext.Enabled = hasNext;
             pnlPagination.Visible = CurrentPage > 1 || hasNext;
             litPageNumber.Text = "Page " + CurrentPage.ToString(CultureInfo.InvariantCulture);
+            return true;
         }
 
         protected void btnPrevious_Click(object sender, EventArgs e)

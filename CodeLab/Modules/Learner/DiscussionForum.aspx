@@ -1,4 +1,4 @@
-<%@ Page Title="Discussion Forum"
+﻿<%@ Page Title="Discussion Forum"
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
@@ -90,23 +90,19 @@
                 Discussion Forum
             </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Leaderboard") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-trophy" />
                 </svg>
                 Leaderboard &amp; Badges
-            </span>
+            </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Profile") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-user" />
                 </svg>
-                Profile &amp; Security
-            </span>
+                My Profile
+            </a>
 
             <span class="ld-identity">
                 <span class="ld-avatar">
@@ -142,7 +138,7 @@
             <div>
                 <h1>Discussion Forum</h1>
                 <p>
-                    Ask questions and share ideas in General or your course community.
+                    Ask questions and share ideas with learners and tutors in any published course.
                 </p>
             </div>
 
@@ -196,8 +192,7 @@
             <h2>No course discussions yet</h2>
 
             <p>
-                General discussions are open to signed-in learners and tutors. Course discussions are available for your enrolled,
-                published courses.
+                General discussions are available now. Course discussions appear when courses are published.
             </p>
 
             <a class="lf-button lf-button-primary"
@@ -206,11 +201,7 @@
             </a>
         </asp:Panel>
 
-        <nav class="lf-section-nav" aria-label="Discussion categories">
-            <a class='<%= GeneralScope ? "is-active" : "" %>' href="<%= ResolveUrl("~/Modules/Learner/DiscussionForum.aspx?scope=general") %>">General</a>
-            <a class='<%= GeneralScope ? "" : "is-active" %>' href="<%= ResolveUrl("~/Modules/Learner/DiscussionForum.aspx?scope=courses") %>">My Courses</a>
-        </nav>
-        <asp:Panel ID="pnlForum" runat="server">
+<asp:Panel ID="pnlForum" runat="server">
 
             <!-- Outside results panel to retain search focus -->
             <asp:Panel ID="pnlFilters"
@@ -275,8 +266,8 @@
 
                         <h2>No discussions found</h2>
                         <p>
-                            Try another search or start a discussion
-                            in General or one of your courses.
+                            Try another search or course, or start
+                            a new discussion.
                         </p>
                     </asp:Panel>
 
@@ -295,7 +286,7 @@
                                             <div class="lf-author-info">
                                                 <div class="lf-author-heading">
                                                     <strong>
-                                                        <%#: Eval("AuthorName") %>
+                                                        <asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) == "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) != "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrEmpty(Eval("AuthorBadgeName") as string) %>'><span class='cl-earned-badge tier-<%#: Eval("AuthorBadgeTier") %>' title="Featured earned badge">&#9733; <%#: Eval("AuthorBadgeName") %></span></asp:PlaceHolder>
                                                     </strong>
 
                                                     <span class="lf-role">

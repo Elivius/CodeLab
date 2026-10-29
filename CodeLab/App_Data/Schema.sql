@@ -43,6 +43,8 @@ BEGIN
                                               CONSTRAINT FK_TutorProfiles_Users REFERENCES dbo.Users (Id) ON DELETE CASCADE,
         Qualifications NVARCHAR(MAX) NOT NULL,
         PortfolioUrl   NVARCHAR(500) NOT NULL,
+        -- Sample curriculum pitch from the tutor application (required for new applications, checked in TutorManager)
+        CurriculumPitch NVARCHAR(MAX) NULL,
         Bio            NVARCHAR(MAX) NOT NULL,
         Specialty      NVARCHAR(100) NOT NULL,
         -- New tutors wait for an Admin to approve them
@@ -95,6 +97,9 @@ BEGIN
         CodeLanguage    NVARCHAR(50)      NULL CONSTRAINT DF_Lessons_CodeLanguage DEFAULT (N'javascript'),
         ThumbnailUrl    NVARCHAR(500)     NULL,
         VideoUrl        NVARCHAR(500)     NULL,
+        -- Optional file attached to the lesson: where it is stored, and the name shown to learners
+        AttachmentUrl   NVARCHAR(500)     NULL,
+        AttachmentName  NVARCHAR(255)     NULL,
         OrderIndex      INT               NOT NULL CONSTRAINT DF_Lessons_OrderIndex DEFAULT (1),
         DurationMinutes INT               NOT NULL CONSTRAINT DF_Lessons_DurationMinutes DEFAULT (15),
         CreatedAt       DATETIME2         NOT NULL CONSTRAINT DF_Lessons_CreatedAt DEFAULT (SYSUTCDATETIME())
@@ -303,77 +308,55 @@ BEGIN
     CREATE INDEX IX_AuditLogs_Timestamp ON dbo.AuditLogs (Timestamp DESC);
 END
 GO
+-- Preserve the question and answer snapshot for new quiz attempts.
+IF COL_LENGTH('dbo.QuizAttempts', 'AnswerReviewJson') IS NULL
+BEGIN
+    ALTER TABLE dbo.QuizAttempts ADD AnswerReviewJson NVARCHAR(MAX) NULL;
+END;
+GO
 
--- =====================================
--- 16. Curriculum modules and assessments
--- =====================================
--- CodeLab curriculum upgrade: non-destructive and rerunnable on SQL Server LocalDB
+-- General discussions have no course. Existing course posts keep their course ID.
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID(N'dbo.DiscussionPosts') AND name=N'CourseId' AND is_nullable=0)
+BEGIN
+    ALTER TABLE dbo.DiscussionPosts ALTER COLUMN CourseId INT NULL;
+END;
+GO
+
+-- Permanent badge catalog and learner awards.
 SET XACT_ABORT ON;
-BEGIN TRY
 BEGIN TRANSACTION;
-
-IF OBJECT_ID(N'dbo.CourseModules', N'U') IS NULL
+IF OBJECT_ID('dbo.Badges', 'U') IS NULL
 BEGIN
- CREATE TABLE dbo.CourseModules (
-  Id INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_CourseModules PRIMARY KEY,
-  CourseId INT NOT NULL CONSTRAINT FK_CourseModules_Courses REFERENCES dbo.Courses(Id) ON DELETE CASCADE,
-  Title NVARCHAR(200) NOT NULL,
-  Description NVARCHAR(MAX) NULL,
-  OrderIndex INT NOT NULL,
-  CONSTRAINT UQ_CourseModules_CourseOrder UNIQUE(CourseId, OrderIndex)
- );
+    CREATE TABLE dbo.Badges (
+        Id INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_Badges PRIMARY KEY,
+        Code VARCHAR(50) NOT NULL CONSTRAINT UQ_Badges_Code UNIQUE,
+        Name NVARCHAR(100) NOT NULL,
+        Description NVARCHAR(300) NOT NULL,
+        Icon VARCHAR(30) NOT NULL,
+        Category VARCHAR(20) NOT NULL,
+        Metric VARCHAR(20) NOT NULL CONSTRAINT CK_Badges_Metric CHECK (Metric IN ('lessons','quizzes','challenges','points')),
+        Target INT NOT NULL CONSTRAINT CK_Badges_Target CHECK (Target > 0),
+        SortOrder INT NOT NULL
+    );
 END;
-
-IF COL_LENGTH(N'dbo.Lessons', N'ModuleId') IS NULL
- ALTER TABLE dbo.Lessons ADD ModuleId INT NULL;
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name=N'FK_Lessons_CourseModules')
- ALTER TABLE dbo.Lessons ADD CONSTRAINT FK_Lessons_CourseModules FOREIGN KEY(ModuleId) REFERENCES dbo.CourseModules(Id);
-
-IF COL_LENGTH(N'dbo.Quizzes', N'ModuleId') IS NULL
- ALTER TABLE dbo.Quizzes ADD ModuleId INT NULL;
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name=N'FK_Quizzes_CourseModules')
- ALTER TABLE dbo.Quizzes ADD CONSTRAINT FK_Quizzes_CourseModules FOREIGN KEY(ModuleId) REFERENCES dbo.CourseModules(Id);
-
-IF OBJECT_ID(N'dbo.CourseAssessments', N'U') IS NULL
+IF OBJECT_ID('dbo.LearnerBadges', 'U') IS NULL
 BEGIN
- CREATE TABLE dbo.CourseAssessments (
-  Id INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_CourseAssessments PRIMARY KEY,
-  CourseId INT NOT NULL CONSTRAINT FK_CourseAssessments_Courses REFERENCES dbo.Courses(Id) ON DELETE CASCADE,
-  QuizId INT NOT NULL CONSTRAINT FK_CourseAssessments_Quizzes REFERENCES dbo.Quizzes(Id),
-  Title NVARCHAR(200) NOT NULL,
-  AssessmentType NVARCHAR(20) NOT NULL CONSTRAINT CK_CourseAssessments_Type CHECK(AssessmentType IN(N'Midterm',N'Final')),
-  AfterModuleOrder INT NOT NULL,
-  TimeLimitMinutes INT NOT NULL CONSTRAINT DF_CourseAssessments_TimeLimit DEFAULT(45),
-  MaxAttempts INT NOT NULL CONSTRAINT DF_CourseAssessments_MaxAttempts DEFAULT(2),
-  WeightPercent INT NOT NULL CONSTRAINT DF_CourseAssessments_Weight DEFAULT(0),
-  CONSTRAINT CK_CourseAssessments_Time CHECK(TimeLimitMinutes > 0),
-  CONSTRAINT CK_CourseAssessments_Attempts CHECK(MaxAttempts > 0),
-  CONSTRAINT CK_CourseAssessments_Weight CHECK(WeightPercent BETWEEN 0 AND 100),
-  CONSTRAINT UQ_CourseAssessments_CourseType UNIQUE(CourseId, AssessmentType),
-  CONSTRAINT UQ_CourseAssessments_Quiz UNIQUE(QuizId)
- );
+    CREATE TABLE dbo.LearnerBadges (
+        LearnerId INT NOT NULL CONSTRAINT FK_LearnerBadges_Users REFERENCES dbo.Users(Id),
+        BadgeId INT NOT NULL CONSTRAINT FK_LearnerBadges_Badges REFERENCES dbo.Badges(Id),
+        EarnedAtUtc DATETIME2 NOT NULL CONSTRAINT DF_LearnerBadges_EarnedAtUtc DEFAULT SYSUTCDATETIME(),
+        CONSTRAINT PK_LearnerBadges PRIMARY KEY (LearnerId, BadgeId)
+    );
 END;
+COMMIT;
+GO
 
--- Store the learner's per-question answers for assessments (QuizAttempts holds score).
-IF OBJECT_ID(N'dbo.AssessmentResponses', N'U') IS NULL
-BEGIN
- CREATE TABLE dbo.AssessmentResponses (
-  Id INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_AssessmentResponses PRIMARY KEY,
-  AssessmentId INT NOT NULL CONSTRAINT FK_AssessmentResponses_Assessments REFERENCES dbo.CourseAssessments(Id) ON DELETE CASCADE,
-  QuizAttemptId INT NOT NULL CONSTRAINT FK_AssessmentResponses_QuizAttempts REFERENCES dbo.QuizAttempts(Id) ON DELETE CASCADE,
-  QuestionId INT NOT NULL CONSTRAINT FK_AssessmentResponses_Questions REFERENCES dbo.QuizQuestions(Id),
-  SelectedOptionIndex INT NOT NULL,
-  CONSTRAINT UQ_AssessmentResponses_AttemptQuestion UNIQUE(QuizAttemptId,QuestionId)
- );
-END;
-
-COMMIT TRANSACTION;
-PRINT N'Curriculum schema migration completed.';
-END TRY
-BEGIN CATCH
- IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
- THROW;
-END CATCH;
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_NULLS ON;
+IF COL_LENGTH('dbo.LearnerBadges','IsFeatured') IS NULL
+    ALTER TABLE dbo.LearnerBadges ADD IsFeatured BIT NOT NULL CONSTRAINT DF_LearnerBadges_IsFeatured DEFAULT 0;
+GO
+IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE object_id=OBJECT_ID('dbo.LearnerBadges') AND name='UX_LearnerBadges_Featured')
+    CREATE UNIQUE INDEX UX_LearnerBadges_Featured ON dbo.LearnerBadges(LearnerId) WHERE IsFeatured=1;
+GO
 

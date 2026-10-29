@@ -24,7 +24,7 @@
       <h2>Course Curriculum</h2>
       <asp:Repeater ID="rptLessons" runat="server" OnItemCommand="rptLessons_ItemCommand">
         <ItemTemplate>
-          <article class="lc-lesson">
+          <article class="lc-lesson" id='lesson-<%# Eval("Id") %>'>
             <div class="lc-lesson-top">
               <div><span class="lc-lesson-index">Lesson <%# Container.ItemIndex + 1 %></span><h3><%#: Eval("Title") %></h3>
               <p><%# Eval("DurationMinutes") %> min &bull; <%#: Eval("CodeLanguage") %></p></div>

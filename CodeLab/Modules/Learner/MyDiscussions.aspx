@@ -1,4 +1,4 @@
-<%@ Page Title="My Discussions"
+﻿<%@ Page Title="My Discussions"
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
@@ -90,23 +90,19 @@
                 Discussion Forum
             </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Leaderboard") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-trophy" />
                 </svg>
                 Leaderboard &amp; Badges
-            </span>
+            </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Profile") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-user" />
                 </svg>
-                Profile &amp; Security
-            </span>
+                My Profile
+            </a>
 
             <span class="ld-identity">
                 <span class="ld-avatar">
@@ -205,8 +201,8 @@
 
                     <h2>No posts to show</h2>
                     <p>
-                        Your general posts and posts from courses you can currently
-                        access will appear here.
+                        Discussions you start in any published course
+                        will appear here.
                     </p>
 
                     <a class="lf-button lf-button-primary"
@@ -286,8 +282,8 @@
 
                     <h2>No replies to show</h2>
                     <p>
-                        Your general replies and replies from courses you can currently
-                        access will appear here.
+                        Your replies to discussions in any published course
+                        will appear here.
                     </p>
 
                     <a class="lf-button lf-button-primary"

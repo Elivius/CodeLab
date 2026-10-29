@@ -11,6 +11,7 @@ namespace CodeLab.Modules.Learner
     public partial class CourseDetails : Page
     {
         private readonly LearnerCourseManager manager = new LearnerCourseManager();
+        protected int InstructorId { get; private set; }
         protected bool IsEnrolled { get; private set; }
         private int CourseId { get { int id; return int.TryParse(Request.QueryString["id"], out id) ? id : 0; } }
         protected void Page_Load(object sender, EventArgs e)
@@ -38,6 +39,7 @@ namespace CodeLab.Modules.Learner
                 }
                 pnlCourse.Visible = true;
                 IsEnrolled = course.IsEnrolled;
+                InstructorId=course.InstructorId;
                 litTitle.Text = HttpUtility.HtmlEncode(course.Title);
                 litCategory.Text = HttpUtility.HtmlEncode(course.Category);
                 litDifficulty.Text = HttpUtility.HtmlEncode(course.Difficulty);
