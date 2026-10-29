@@ -128,7 +128,7 @@ CodeLab/                          # Repository root
     ├── Modules/                  # Role-based feature pages
     │   ├── Admin/                # Admin only (AuditLogs)
     │   ├── Tutor/                # Tutor & Admin (CourseEditor, LessonEditor, QuizEditor, ChallengeEditor, Profile, ...)
-    │   ├── Learner/              # Learner, Tutor, Admin (Dashboard, Courses, Curriculum, Discussion pages, ...)
+    │   ├── Learner/              # Learner only (Dashboard, Courses, Curriculum, Discussion pages, ...)
     │   └── Public/               # Anonymous (Login, Register, Courses, CourseDetails)
     ├── UserControls/             # Reusable ASCX components
     ├── Site.Master               # Shared application layout
