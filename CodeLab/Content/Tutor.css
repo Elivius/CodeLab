@@ -4834,3 +4834,64 @@ pre.cl-output {
         width: 100%;
     }
 }
+
+/* ---------- Course builder: back / next step bar ---------- */
+
+/* At the end of every builder step: "Back: Details" on the left, "Next: Quiz" on the right */
+.cl-step-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 14px 16px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 16px;
+}
+
+.cl-step-nav .btn {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    min-width: 150px;
+    justify-content: center;
+}
+
+.cl-step-nav-next {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+/* Why Next is disabled, e.g. "Add at least one lesson to continue." */
+.cl-step-nav-next small {
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+/* Step 5: why the course cannot be submitted yet */
+.cl-submit-blocked {
+    display: block;
+    margin-top: 12px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    color: #B45309;
+    background-color: rgba(245, 158, 11, 0.1);
+    border-radius: 10px;
+}
+
+[data-theme="dark"] .cl-submit-blocked {
+    color: #FBBF24;
+}
+
+@media (max-width: 575.98px) {
+    .cl-step-nav .btn,
+    .cl-step-nav-next {
+        width: 100%;
+    }
+}

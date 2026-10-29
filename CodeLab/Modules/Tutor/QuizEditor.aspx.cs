@@ -18,6 +18,9 @@ namespace CodeLab.Modules.Tutor
         // A Draft course's quiz can be changed; any other status is read-only
         protected bool CanEdit { get; private set; }
 
+        // The bar at the bottom of the page: back to the previous step, on to the next one
+        protected string StepNavHtml { get; private set; }
+
         protected int CourseId
         {
             get
@@ -223,6 +226,9 @@ namespace CodeLab.Modules.Tutor
             phMain.Visible = true;
             phReadOnlyNote.Visible = !CanEdit;
             litReadOnlyText.Text = "This course is " + course.Status + ". The quiz can only be changed while the course is a Draft.";
+
+            // The quiz is optional: without one, the tutor can skip this step
+            StepNavHtml = Master.StepNav(3, course.Id, CanEdit && quiz == null ? "Skip the quiz" : null);
 
             if (quiz == null)
             {

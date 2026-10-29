@@ -14,6 +14,9 @@ namespace CodeLab.Modules.Tutor
         private const string EditorUrl = "~/Modules/Tutor/ChallengeEditor";
         private const string CourseEditorUrl = "~/Modules/Tutor/CourseEditor";
 
+        // The bar at the bottom of the page: back to the previous step, on to the next one
+        protected string StepNavHtml { get; private set; }
+
         protected int CourseId
         {
             get
@@ -159,6 +162,9 @@ namespace CodeLab.Modules.Tutor
             phMain.Visible = true;
             phReadOnlyNote.Visible = !canEdit;
             litReadOnlyText.Text = "This course is " + course.Status + ". The coding challenge can only be changed while the course is a Draft.";
+
+            // The challenge is optional: without one, the tutor can skip this step
+            StepNavHtml = Master.StepNav(4, course.Id, canEdit && challenge == null ? "Skip the challenge" : "Next: Review & submit");
 
             if (!canEdit)
             {

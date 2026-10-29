@@ -111,5 +111,5 @@ Pages: Quiz results (`QuizResults`) and Challenge results (`ChallengeResults`), 
 These change how pages look, not what they do:
 
 - The prototype shows the tutor area as tabs on one page. CodeLab uses separate pages (Dashboard, Course builder, Lessons, Profile) with a sidebar.
-- The prototype's guided builder is one long 5-step wizard that saves everything at the end. CodeLab saves each step on its own page (course details first, then lessons), with a progress bar linking the steps.
+- The prototype's guided builder is one long 5-step wizard that saves everything at the end. CodeLab saves each step on its own page (course details first, then lessons), with a progress bar linking the steps. Every step also has a **Back / Next** bar at the bottom; Details has **Save & continue** (a new course: **Create & continue**). The quiz and challenge steps say **Skip** when there is none. Step 5 is a **Review & submit** view with the content checklist and the only **Submit for review** button; Lessons cannot move on until there is a lesson.
 - A profile dropdown in the top bar with My profile and Sign out.

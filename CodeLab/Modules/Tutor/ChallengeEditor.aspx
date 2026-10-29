@@ -335,6 +335,9 @@
                 <p>This course was submitted without a coding challenge.</p>
             </section>
         </asp:PlaceHolder>
+
+        <%-- Back / next step --%>
+        <%= StepNavHtml %>
     </asp:PlaceHolder>
 
     <%-- Syntax colours for code in the preview; the writer, preview tab and code boxes come from tutor-writer.js --%>

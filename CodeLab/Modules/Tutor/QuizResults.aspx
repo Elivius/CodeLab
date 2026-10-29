@@ -1,4 +1,4 @@
-<%@ Page Title="Quiz results" Language="C#" MasterPageFile="~/Modules/Tutor/Tutor.Master" AutoEventWireup="true" CodeBehind="QuizResults.aspx.cs" Inherits="CodeLab.Modules.Tutor.QuizResults" %>
+<%@ Page Title="Quiz Results"Language="C#" MasterPageFile="~/Modules/Tutor/Tutor.Master" AutoEventWireup="true" CodeBehind="QuizResults.aspx.cs" Inherits="CodeLab.Modules.Tutor.QuizResults" %>
 <%@ MasterType VirtualPath="~/Modules/Tutor/Tutor.Master" %>
 <%@ Import Namespace="CodeLab.Models" %>
 <%@ Import Namespace="CodeLab.Helpers" %>

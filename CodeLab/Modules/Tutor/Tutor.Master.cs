@@ -66,6 +66,26 @@ namespace CodeLab.Modules.Tutor
             }
         }
 
+        // The course builder steps: name, short description, page, and the query string before the course id.
+        // Step 5 (Review & submit) is a view of the course page.
+        private static readonly string[][] Steps =
+        {
+            new[] { "Details", "Title, category, cover", "CourseEditor", "?id=", "" },
+            new[] { "Lessons", "Notes, code, video", "LessonEditor", "?courseId=", "" },
+            new[] { "Quiz", "Check understanding", "QuizEditor", "?courseId=", "" },
+            new[] { "Challenge", "Hands-on coding", "ChallengeEditor", "?courseId=", "" },
+            new[] { "Submit", "Review and send", "CourseEditor", "?id=", "&step=submit" }
+        };
+
+        /// <summary>
+        /// Browser URL of a course builder step (1-5) for a course, or null if that page does not exist yet.
+        /// </summary>
+        public string StepUrl(int number, int courseId)
+        {
+            string[] step = Steps[number - 1];
+            return courseId > 0 && IsPageAvailable(step[2]) ? GetPageUrl(step[2]) + step[3] + courseId + step[4] : null;
+        }
+
         /// <summary>
         /// The course builder's progress bar: Details > Lessons > Quiz > Challenge > Submit.
         /// current is the step this page is (1-5). Steps link to their page once the course exists;
@@ -73,22 +93,14 @@ namespace CodeLab.Modules.Tutor
         /// </summary>
         public string BuilderSteps(int current, int courseId)
         {
-            string[][] steps =
-            {
-                new[] { "Details", "Title, category, cover", "CourseEditor", "?id=" },
-                new[] { "Lessons", "Notes, code, video", "LessonEditor", "?courseId=" },
-                new[] { "Quiz", "Check understanding", "QuizEditor", "?courseId=" },
-                new[] { "Challenge", "Hands-on coding", "ChallengeEditor", "?courseId=" },
-                new[] { "Submit", "Send for review", "CourseEditor", "?id=" }
-            };
+            string[][] steps = Steps;
 
             System.Text.StringBuilder html = new System.Text.StringBuilder("<ol class=\"cl-steps\" aria-label=\"Course builder steps\">");
             for (int i = 0; i < steps.Length; i++)
             {
                 int number = i + 1;
                 string state = number == current ? "is-current" : (number < current ? "is-done" : string.Empty);
-                bool available = courseId > 0 && IsPageAvailable(steps[i][2]);
-                string url = available ? GetPageUrl(steps[i][2]) + steps[i][3] + courseId + (number == 5 ? "#submit" : string.Empty) : null;
+                string url = StepUrl(number, courseId);
                 string dot = number < current
                     ? "<i data-lucide=\"check\" class=\"cl-icon\" aria-hidden=\"true\"></i>"
                     : number.ToString();
@@ -111,6 +123,50 @@ namespace CodeLab.Modules.Tutor
             }
 
             return html.Append("</ol>").ToString();
+        }
+
+        /// <summary>
+        /// The bar at the bottom of a course builder step: "Back" to the previous step and "Next" to the
+        /// following one. nextText replaces the default "Next: ..." label (e.g. "Skip quiz");
+        /// blockedReason, when set, disables Next and shows why.
+        /// </summary>
+        public string StepNav(int current, int courseId, string nextText = null, string blockedReason = null)
+        {
+            System.Text.StringBuilder html = new System.Text.StringBuilder("<nav class=\"cl-step-nav\" aria-label=\"Course builder navigation\">");
+
+            string backUrl = current > 1 ? StepUrl(current - 1, courseId) : null;
+            if (backUrl != null)
+            {
+                html.Append("<a class=\"btn cl-btn-outline\" href=\"").Append(HttpUtility.HtmlAttributeEncode(backUrl)).Append("\">")
+                    .Append("<i data-lucide=\"arrow-left\" class=\"cl-icon\" aria-hidden=\"true\"></i>")
+                    .Append("<span>Back: ").Append(HttpUtility.HtmlEncode(Steps[current - 2][0])).Append("</span></a>");
+            }
+            else
+            {
+                html.Append("<span></span>");
+            }
+
+            string nextUrl = current < Steps.Length ? StepUrl(current + 1, courseId) : null;
+            if (nextUrl != null)
+            {
+                string label = HttpUtility.HtmlEncode(nextText ?? "Next: " + Steps[current][0]);
+                string arrow = "<i data-lucide=\"arrow-right\" class=\"cl-icon\" aria-hidden=\"true\"></i>";
+                html.Append("<div class=\"cl-step-nav-next\">");
+                if (blockedReason != null)
+                {
+                    html.Append("<small>").Append(HttpUtility.HtmlEncode(blockedReason)).Append("</small>")
+                        .Append("<span class=\"btn btn-primary disabled\" aria-disabled=\"true\"><span>").Append(label).Append("</span>").Append(arrow).Append("</span>");
+                }
+                else
+                {
+                    html.Append("<a class=\"btn btn-primary\" href=\"").Append(HttpUtility.HtmlAttributeEncode(nextUrl)).Append("\"><span>")
+                        .Append(label).Append("</span>").Append(arrow).Append("</a>");
+                }
+
+                html.Append("</div>");
+            }
+
+            return html.Append("</nav>").ToString();
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)
