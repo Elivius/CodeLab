@@ -198,7 +198,7 @@ namespace CodeLab.Modules.Tutor
         {
             bool isAdmin = SessionHelper.IsUserInRole(UserRoles.Admin);
 
-            Initials = GetInitials(profile.FullName);
+            Initials = TutorDisplayHelper.Initials(profile.FullName, "T");
             AvatarSrc = string.IsNullOrEmpty(profile.AvatarUrl) ? null : ResolveUrl(profile.AvatarUrl);
             btnRemoveAvatar.Visible = AvatarSrc != null;
 
@@ -368,23 +368,6 @@ namespace CodeLab.Modules.Tutor
             lblSuccess.Visible = false;
             lblMessage.Text = HttpUtility.HtmlEncode(message);
             lblMessage.Visible = true;
-        }
-
-        private static string GetInitials(string fullName)
-        {
-            string[] words = (fullName ?? string.Empty).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (words.Length == 0)
-            {
-                return "T";
-            }
-
-            string initials = words[0].Substring(0, 1);
-            if (words.Length > 1)
-            {
-                initials += words[words.Length - 1].Substring(0, 1);
-            }
-
-            return initials.ToUpperInvariant();
         }
 
         // One step of the application timeline (public so the Repeater can read its properties)

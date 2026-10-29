@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
+using CodeLab.Helpers;
 using CodeLab.Models;
 
 namespace CodeLab.Modules.Tutor
@@ -370,7 +371,7 @@ namespace CodeLab.Modules.Tutor
                     Id = course.Id,
                     Title = course.Title,
                     Status = course.Status,
-                    StatusCss = StatusCss(course.Status),
+                    StatusCss = TutorDisplayHelper.CourseStatusCss(course.Status),
                     HasItem = hasQuiz,
                     Note = !hasQuiz ? "No quiz yet" : (questions == 1 ? "Quiz · 1 question" : "Quiz · " + questions + " questions"),
                     Url = ResolveUrl(EditorUrl) + "?courseId=" + course.Id
@@ -423,17 +424,6 @@ namespace CodeLab.Modules.Tutor
                 ? string.Empty
                 : "<p class=\"cl-question-explanation\"><i data-lucide=\"info\" class=\"cl-icon\" aria-hidden=\"true\"></i>"
                     + HttpUtility.HtmlEncode(question.Explanation) + "</p>";
-        }
-
-        private static string StatusCss(string status)
-        {
-            switch (status)
-            {
-                case CourseStatuses.Published: return "cl-badge-success";
-                case CourseStatuses.PendingReview: return "cl-badge-warning";
-                case CourseStatuses.Locked: return "cl-badge-danger";
-                default: return "cl-badge-neutral";
-            }
         }
 
         private void ShowSuccess(string message)

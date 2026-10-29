@@ -147,22 +147,7 @@ namespace CodeLab.Modules.Tutor
 
         public string Initials
         {
-            get
-            {
-                string[] words = TutorName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (words.Length == 0)
-                {
-                    return "T";
-                }
-
-                string initials = words[0].Substring(0, 1);
-                if (words.Length > 1)
-                {
-                    initials += words[words.Length - 1].Substring(0, 1);
-                }
-
-                return initials.ToUpperInvariant();
-            }
+            get { return TutorDisplayHelper.Initials(TutorName, "T"); }
         }
 
         protected string StatusText

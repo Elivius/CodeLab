@@ -194,18 +194,6 @@ namespace CodeLab.Modules.Tutor
             return string.IsNullOrEmpty(course.ThumbnailUrl) ? CoverTones[course.Id % CoverTones.Length] : string.Empty;
         }
 
-        // Traffic-light colours from the proposal: green = live, amber = waiting, red = blocked
-        protected string StatusCss(string status)
-        {
-            switch (status)
-            {
-                case CourseStatuses.Published: return "cl-badge-success";
-                case CourseStatuses.PendingReview: return "cl-badge-warning";
-                case CourseStatuses.Locked: return "cl-badge-danger";
-                default: return "cl-badge-neutral";
-            }
-        }
-
         protected string DifficultyCss(string difficulty)
         {
             switch (difficulty)

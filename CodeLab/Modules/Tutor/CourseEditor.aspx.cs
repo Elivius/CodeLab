@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
+using CodeLab.Helpers;
 using CodeLab.Models;
 
 namespace CodeLab.Modules.Tutor
@@ -215,7 +216,7 @@ namespace CodeLab.Modules.Tutor
             LessonCount = lessons.Success ? lessons.Data.Count : 0;
 
             lblCourseStatus.Text = course.Status;
-            lblCourseStatus.CssClass = "cl-badge cl-status cl-badge-lg " + StatusCss(course.Status);
+            lblCourseStatus.CssClass = "cl-badge cl-status cl-badge-lg " + TutorDisplayHelper.CourseStatusCss(course.Status);
             lblCourseStatus.Visible = true;
         }
 
@@ -348,18 +349,6 @@ namespace CodeLab.Modules.Tutor
         private static string GetLetter(string title)
         {
             return string.IsNullOrWhiteSpace(title) ? "C" : title.Trim().Substring(0, 1).ToUpperInvariant();
-        }
-
-        // Traffic-light colours: green = live, amber = waiting, red = blocked
-        private static string StatusCss(string status)
-        {
-            switch (status)
-            {
-                case CourseStatuses.Published: return "cl-badge-success";
-                case CourseStatuses.PendingReview: return "cl-badge-warning";
-                case CourseStatuses.Locked: return "cl-badge-danger";
-                default: return "cl-badge-neutral";
-            }
         }
 
         private void ShowSuccess(string message)

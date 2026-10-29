@@ -8,7 +8,7 @@ This file lists every place where it does something different, and why, so the t
 - **Edwin**: Edwin asked for it.
 - **Built-in**: added while building and accepted by Edwin. It is open to change if the team disagrees.
 
-Last updated: 22 Oct 2026.
+Last updated: 29 Oct 2026.
 
 ## 1. Course status and editing
 
@@ -65,7 +65,48 @@ Built on the Quiz page (`QuizEditor`) and the Coding challenge page (`ChallengeE
 | 5.9 | Challenge languages: TypeScript, JavaScript, Python, Go, Rust. | Uses the same language list as lesson code (item 4.5). **Agree the list with the team once the code runner is decided.** | Built-in |
 | 5.10 | — | The challenge also stores `Difficulty` (defaults to the course's) and `PointsReward` (default 50, 0 to 1000), because the schema has these columns. | Built-in |
 
-## 6. Layout and look only
+## 6. Discussion forum
+
+One set of forum rules for every role, in the shared `BLL/Discussion/DiscussionManager`,
+`DAL/Discussion/DiscussionRepository` and `Models/Discussion/`. Each role keeps its own screens:
+
+- **Tutor:** `Modules/Tutor/Forum.aspx` (Edwin).
+- **Learner:** `Modules/Learner/DiscussionForum.aspx`, `DiscussionDetails.aspx`, `MyDiscussions.aspx` (Joanne).
+  Her own forum logic (`LearnerDiscussionManager`, `LearnerDiscussionRepository`, `LearnerDiscussionPost`,
+  `LearnerDiscussionReply`) was removed; her pages now call the shared manager. The shared manager gained the
+  paged methods her pages use (`GetPostPage`, `GetPost`, `GetReplyPage`, `GetMyReplies`).
+
+Uses the existing `DiscussionPosts` and `DiscussionReplies` tables; no schema change.
+
+| # | Prototype | CodeLab | Decided by |
+|---|---|---|---|
+| 6.1 | One board for all courses, filtered by course, with search. | Same: course filter and search (title, message or author name). | Edwin |
+| 6.2 | Anyone can post in any course and reply to any post; no enrolment check. | Same: any **Learner or Tutor** can post in any course and reply to any post, enrolled or not, course owner or not. Admins can read but not post. | Edwin |
+| 6.3 | The course list includes every course, including drafts. | **Published courses only**, for the board, the filter and the "new post" list. Posts in a course that is no longer Published are hidden. | Edwin |
+| 6.4 | Replies are a flat list under each post. | Same: **flat replies**; a reply cannot be replied to. Nested replies would need a `ParentReplyId` column. | Edwin |
+| 6.5 | Only the author can edit or delete their own post; replies cannot be edited or deleted. | Only the author can edit or delete their own **post or reply**. Deleting a post deletes its replies. | Built-in |
+| 6.6 | Tutor badge on tutor posts. | Badges: **Instructor** (the course's own tutor), **Tutor**, **Admin**, and **You** on your own posts. Replies by tutors are highlighted. | Built-in |
+| 6.7 | Edited posts show "(edited)". | **Not shown**: the table has no `UpdatedAt` column. | Built-in |
+| 6.8 | — | The proposal's extras (Needs Help flag, Accepted Answer, pin / lock threads, Office Hours) are **not built**; they need schema changes. | Open |
+| 6.9 | — | **No "General" discussions** (posts without a course). The Learner pages had them, but `DiscussionPosts.CourseId` is NOT NULL, so they could not be saved; the "General" tab was removed. | Edwin |
+| 6.10 | — | Joanne's earlier rule "only enrolled learners can see and post in a course" was replaced by the shared rule (6.2), so learners and tutors have the same access. | Edwin |
+
+## 7. Learner results (quizzes and coding challenges)
+
+Pages: Quiz results (`QuizResults`) and Challenge results (`ChallengeResults`), under **Insights** in the sidebar.
+
+| # | Prototype | CodeLab | Decided by |
+|---|---|---|---|
+| 7.1 | The tutor sees quiz and challenge numbers only as totals in an analytics tab. CodeLab has **no Analytics page**; it was built and then removed in favour of these pages. | Two **read-only** results pages: all quizzes (or challenges) → every attempt at one → a single attempt. They only read data; nothing can be changed there. Only the tutor's **Published** courses are listed, since those are the only courses learners can take. | Edwin |
+| 7.2 | — | "Completed" for a quiz means the learner **passed at least one attempt**. "Solved" for a challenge means at least one submission has status `Passed`. Both are shown as "**5 out of 10**": learners who completed, out of learners enrolled in the course. No percentages. | Built-in |
+| 7.3 | — | Attempts are numbered per learner (1st, 2nd, 3rd…) by time. The list can be searched by learner and filtered by result (Passed / Failed, plus Error for code). | Built-in |
+| 7.4 | — | A quiz attempt shows each question with the correct answer in green, the learner's pick in red when it was wrong, and the tutor's explanation. This is read from `QuizAttempts.AnswerReviewJson`, a snapshot saved when the learner submits, so later edits to the quiz do not change old attempts. Attempts without a snapshot show the score only. | Edwin (schema approved) |
+| 7.5 | — | A code submission shows the learner's code, their output and the challenge's expected output side by side. | Built-in |
+| 7.6 | Quizzes and challenges have their own authoring tabs. | The sidebar no longer links to the Quiz and Coding challenge editors. Tutors reach them from a course on the Dashboard (course builder steps 3 and 4). | Edwin |
+| 7.7 | — | Each quiz shows four cards: **Enrolled learners**, **Completed**, **Not taken yet** (enrolled, no attempt) and **Average score** with the pass mark. Each challenge shows **Enrolled learners**, **Solved**, **Not tried yet** and **Submissions** (passed / failed / error counts). | Edwin |
+| 7.8 | — | The Dashboard's quiz cards were replaced by **Course completions** ("6 out of 16 completed", counted per enrolment) and **Forum posts** (posts in the tutor's Published courses). | Edwin |
+
+## 8. Layout and look only
 
 These change how pages look, not what they do:
 
