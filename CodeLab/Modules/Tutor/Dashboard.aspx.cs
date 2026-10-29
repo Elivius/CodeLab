@@ -61,21 +61,11 @@ namespace CodeLab.Modules.Tutor
             litCourseCount.Text = dashboard.CourseCount.ToString();
             litPublishedNote.Text = dashboard.PublishedCount + " published";
             litStudentCount.Text = dashboard.StudentCount.ToString();
-            litQuizCount.Text = dashboard.QuizCount.ToString();
-            litAttemptNote.Text = dashboard.QuizAttemptCount == 1
-                ? "1 learner attempt"
-                : dashboard.QuizAttemptCount + " learner attempts";
-
-            if (dashboard.AverageQuizScore.HasValue)
-            {
-                litAverageScore.Text = Math.Round(dashboard.AverageQuizScore.Value) + "%";
-                litPassRateNote.Text = "Pass rate " + Math.Round(dashboard.QuizPassRate ?? 0) + "%";
-            }
-            else
-            {
-                litAverageScore.Text = "–";
-                litPassRateNote.Text = "No attempts yet";
-            }
+            litCompletedCount.Text = dashboard.CompletedCount.ToString();
+            litCompletedNote.Text = dashboard.EnrollmentCount == 0
+                ? "No enrolments yet"
+                : dashboard.CompletedCount + " out of " + dashboard.EnrollmentCount + " completed";
+            litForumPostCount.Text = dashboard.ForumPostCount.ToString();
 
             // Counts per status, for the filter chips, the pipeline and the banner
             int drafts = courses.FindAll(c => c.Status == CourseStatuses.Draft).Count;

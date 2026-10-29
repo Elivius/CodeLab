@@ -79,10 +79,10 @@
 
                     <div class="cl-sidebar-group">Authoring</div>
                     <%= NavLink("CourseEditor", "book-plus", "Create Course", true) %>
-                    <%= NavLink("QuizEditor", "list-checks", "Quizzes", true) %>
-                    <%= NavLink("ChallengeEditor", "code", "Coding Challenges", true) %>
 
                     <div class="cl-sidebar-group">Insights</div>
+                    <%= NavLink("QuizResults", "list-checks", "Quiz Results", true) %>
+                    <%= NavLink("ChallengeResults", "code", "Challenge Results", true) %>
 
                     <div class="cl-sidebar-group">Community</div>
                     <%= NavLink("Forum", "messages-square", "Discussion Forum", false) %>

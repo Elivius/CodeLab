@@ -96,40 +96,31 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.Literal litStudentCount;
 
         /// <summary>
-        /// litQuizCount control.
+        /// litCompletedCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litQuizCount;
+        protected global::System.Web.UI.WebControls.Literal litCompletedCount;
 
         /// <summary>
-        /// litAttemptNote control.
+        /// litCompletedNote control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAttemptNote;
+        protected global::System.Web.UI.WebControls.Literal litCompletedNote;
 
         /// <summary>
-        /// litAverageScore control.
+        /// litForumPostCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAverageScore;
-
-        /// <summary>
-        /// litPassRateNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPassRateNote;
+        protected global::System.Web.UI.WebControls.Literal litForumPostCount;
 
         /// <summary>
         /// litCountAll control.

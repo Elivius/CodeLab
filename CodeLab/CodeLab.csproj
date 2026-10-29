@@ -119,9 +119,12 @@
     <Content Include="Modules\Tutor\Dashboard.aspx" />
     <Content Include="Modules\Tutor\LessonEditor.aspx" />
     <Content Include="Modules\Tutor\QuizEditor.aspx" />
+    <Content Include="Modules\Tutor\QuizResults.aspx" />
+    <Content Include="Modules\Tutor\ChallengeResults.aspx" />
     <Content Include="Modules\Tutor\Forum.aspx" />
     <Content Include="Modules\Tutor\ChallengeEditor.aspx" />
     <Content Include="Scripts\tutor-writer.js" />
+    <Content Include="Scripts\tutor-results.js" />
     <Content Include="Modules\Tutor\CourseEditor.aspx" />
     <Content Include="Modules\Tutor\Profile.aspx" />
     <Content Include="Modules\Tutor\Tutor.Master" />
@@ -224,6 +227,7 @@
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="BLL\Tutor\QuizManager.cs" />
     <Compile Include="BLL\Tutor\ChallengeManager.cs" />
+    <Compile Include="BLL\Tutor\LearnerResultsManager.cs" />
     <Compile Include="BLL\Discussion\DiscussionManager.cs" />
     <Compile Include="DAL\Tutor\LessonRepository.cs" />
     <Compile Include="DAL\Tutor\TutorRepository.cs" />
@@ -233,9 +237,11 @@
     <Compile Include="Helpers\Tutor\ImageUploadHelper.cs" />
     <Compile Include="DAL\Tutor\QuizRepository.cs" />
     <Compile Include="DAL\Tutor\ChallengeRepository.cs" />
+    <Compile Include="DAL\Tutor\LearnerResultsRepository.cs" />
     <Compile Include="DAL\Discussion\DiscussionRepository.cs" />
     <Compile Include="Helpers\Tutor\FileUploadHelper.cs" />
     <Compile Include="Helpers\Tutor\MarkdownHelper.cs" />
+    <Compile Include="Helpers\Tutor\TutorDisplayHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
@@ -250,6 +256,8 @@
     <Compile Include="Models\Tutor\QuizQuestion.cs" />
     <Compile Include="Models\Tutor\CodingChallenge.cs" />
     <Compile Include="Models\Tutor\CoursePickerItem.cs" />
+    <Compile Include="Models\Tutor\LearnerResults.cs" />
+    <Compile Include="Models\Tutor\QuizAnswerReview.cs" />
     <Compile Include="Models\LearnerDashboardData.cs" />
     <Compile Include="Models\LearnerCourse.cs" />
     <Compile Include="Models\Discussion\DiscussionPost.cs" />
@@ -359,6 +367,20 @@
     </Compile>
     <Compile Include="Modules\Tutor\ChallengeEditor.aspx.designer.cs">
       <DependentUpon>ChallengeEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\QuizResults.aspx.cs">
+      <DependentUpon>QuizResults.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\QuizResults.aspx.designer.cs">
+      <DependentUpon>QuizResults.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tutor\ChallengeResults.aspx.cs">
+      <DependentUpon>ChallengeResults.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Tutor\ChallengeResults.aspx.designer.cs">
+      <DependentUpon>ChallengeResults.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\Forum.aspx.cs">
       <DependentUpon>Forum.aspx</DependentUpon>

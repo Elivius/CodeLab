@@ -3745,6 +3745,11 @@ pre.cl-code code {
     align-items: flex-start;
 }
 
+/* Side by side: the row's gap spaces the fields, so no top margin on Pass mark */
+.cl-quiz-details-row .cl-field + .cl-field {
+    margin-top: 0;
+}
+
 .cl-quiz-details-row + .cl-field {
     margin-top: 18px;
 }
@@ -4117,7 +4122,7 @@ pre.cl-output {
     }
 }
 
-/* ---------- Tables, learner list and rate bar ---------- */
+/* ---------- Results tables (shared by Quiz results and Challenge results) ---------- */
 
 .cl-chart-head {
     display: flex;
@@ -4161,43 +4166,6 @@ pre.cl-output {
 
 .cl-empty.cl-empty-sm {
     padding: 22px 20px;
-}
-
-/* Pass rate / solve rate: a small bar and the number */
-.cl-rate {
-    display: inline-flex;
-    gap: 10px;
-    align-items: center;
-    min-width: 140px;
-}
-
-.cl-rate-track {
-    flex: 1;
-    height: 8px;
-    overflow: hidden;
-    background-color: var(--cl-bg);
-    border: 1px solid var(--cl-border);
-    border-radius: 999px;
-}
-
-.cl-rate-track span {
-    display: block;
-    height: 100%;
-    border-radius: 999px;
-}
-
-.cl-rate.is-good .cl-rate-track span {
-    background-color: #10B981;
-}
-
-.cl-rate.is-low .cl-rate-track span {
-    background-color: #F59E0B;
-}
-
-.cl-rate strong {
-    min-width: 38px;
-    font-size: 0.85rem;
-    text-align: right;
 }
 
 /* Learner photo and name */
@@ -4613,5 +4581,533 @@ pre.cl-output {
 
     .cl-reply-form .btn span {
         display: none;
+    }
+}
+
+/* ==========================================================================
+   Learner results (Quiz results, Coding challenge results)
+   ========================================================================== */
+
+.cl-results-stats {
+    margin-bottom: 20px;
+}
+
+.cl-results-table td {
+    vertical-align: middle;
+}
+
+.cl-row-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cl-row-link:hover {
+    color: var(--cl-raspberry);
+    text-decoration: underline;
+}
+
+/* Learner photo, name and username on two lines */
+.cl-learner-2line > span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.cl-learner-2line small {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--cl-muted);
+}
+
+.cl-completed {
+    white-space: nowrap;
+}
+
+.cl-attempt-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+/* Filters above the attempts table */
+.cl-results-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.cl-results-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.cl-results-search {
+    position: relative;
+    margin: 0;
+}
+
+.cl-results-search .cl-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    color: var(--cl-muted);
+    transform: translateY(-50%);
+}
+
+.cl-results-search .form-control {
+    width: 220px;
+    padding: 8px 12px 8px 36px;
+    border-radius: 12px;
+}
+
+.cl-results-filters .form-select {
+    width: auto;
+    padding: 8px 36px 8px 12px;
+    border-radius: 12px;
+}
+
+/* One attempt: main column and the learner's other attempts */
+.cl-results-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+.cl-results-main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.cl-results-aside {
+    position: sticky;
+    top: 90px;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.cl-attempt-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    border-radius: 18px;
+}
+
+.cl-attempt-who {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cl-attempt-who .cl-avatar.cl-avatar-sm {
+    width: 42px;
+    height: 42px;
+    font-size: 0.85rem;
+}
+
+.cl-attempt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-attempt-meta span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.cl-attempt-score {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.cl-attempt-score p {
+    margin: 6px 0 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+/* Score as a ring; --score is 0 to 100 */
+.cl-score-ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    background: conic-gradient(var(--cl-raspberry) calc(var(--score) * 1%), var(--cl-border) 0);
+    border-radius: 50%;
+}
+
+.cl-score-ring span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    font-size: 1rem;
+    font-weight: 800;
+    background-color: var(--cl-surface);
+    border-radius: 50%;
+}
+
+/* Answers: filter buttons */
+.cl-review-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cl-review-toolbar h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-review-filter {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-review-filter button {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    background: transparent;
+    border: 0;
+    border-radius: 9px;
+}
+
+.cl-review-filter button span {
+    padding: 0 7px;
+    font-size: 0.72rem;
+    background-color: var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-review-filter button.is-active {
+    color: var(--cl-text);
+    background-color: var(--cl-surface);
+    box-shadow: 0 1px 4px rgba(45, 52, 54, 0.12);
+}
+
+/* Answers: one card per question */
+.cl-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-review-item {
+    padding: 18px 20px;
+    border-left: 4px solid var(--cl-border);
+    border-radius: 16px;
+}
+
+.cl-review-item.is-correct {
+    border-left-color: #10B981;
+}
+
+.cl-review-item.is-wrong {
+    border-left-color: #F43F5E;
+}
+
+.cl-review-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.cl-review-number {
+    flex: none;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+}
+
+.cl-review-question {
+    flex: 1;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.45;
+    white-space: pre-wrap;
+}
+
+.cl-review-badge {
+    display: inline-flex;
+    flex: none;
+    gap: 5px;
+    align-items: center;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 999px;
+}
+
+.cl-review-badge.is-correct {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-review-badge.is-wrong {
+    color: #BE123C;
+    background-color: rgba(244, 63, 94, 0.14);
+}
+
+[data-theme="dark"] .cl-review-badge.is-correct { color: #34D399; }
+[data-theme="dark"] .cl-review-badge.is-wrong { color: #FB7185; }
+
+.cl-review-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-review-options li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-review-options li.is-answer {
+    background-color: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.5);
+}
+
+.cl-review-options li.is-picked-wrong {
+    background-color: rgba(244, 63, 94, 0.08);
+    border-color: rgba(244, 63, 94, 0.5);
+}
+
+.cl-review-letter {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+}
+
+.cl-review-options li.is-answer .cl-review-letter {
+    color: #fff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+.cl-review-options li.is-picked-wrong .cl-review-letter {
+    color: #fff;
+    background-color: #F43F5E;
+    border-color: #F43F5E;
+}
+
+.cl-review-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.cl-review-tag {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    padding: 2px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 999px;
+}
+
+.cl-review-tag.is-answer {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+[data-theme="dark"] .cl-review-tag.is-answer { color: #34D399; }
+
+.cl-review-explain {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 12px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: var(--cl-text-soft);
+    background-color: rgba(245, 158, 11, 0.08);
+    border-radius: 12px;
+}
+
+.cl-review-explain .cl-icon {
+    flex: none;
+    margin-top: 2px;
+    color: #F59E0B;
+}
+
+.cl-review-explain p {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* The learner's other attempts */
+.cl-attempt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-attempt-list a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 12px;
+}
+
+.cl-attempt-list a:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-attempt-list a.is-current {
+    background-color: var(--cl-bg);
+    border-color: var(--cl-coral);
+}
+
+.cl-attempt-list-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.cl-attempt-list-text small {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+/* Submitted code and output */
+.cl-results-code {
+    padding: 20px 22px;
+    border-radius: 18px;
+}
+
+.cl-ide-code {
+    max-height: 520px;
+    margin: 0;
+    overflow: auto;
+}
+
+.cl-ide-code code,
+.cl-ide-code code.hljs {
+    display: block;
+    padding: 16px 18px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: #ABB2BF;
+    tab-size: 4;
+    white-space: pre;
+    background: transparent;
+}
+
+.cl-output-compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cl-output-box {
+    min-height: 120px;
+    max-height: 320px;
+    margin: 0;
+    padding: 14px 16px;
+    overflow: auto;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: #E5E7EB;
+    white-space: pre-wrap;
+    background-color: #282C34;
+    border-radius: 12px;
+}
+
+.cl-output-box.is-expected {
+    color: #98C379;
+}
+
+@media (max-width: 1199.98px) {
+    .cl-results-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-results-aside {
+        position: static;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-output-compare {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-results-filters,
+    .cl-results-search,
+    .cl-results-search .form-control {
+        width: 100%;
     }
 }

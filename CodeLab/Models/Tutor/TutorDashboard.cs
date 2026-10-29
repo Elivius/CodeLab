@@ -13,12 +13,12 @@ namespace CodeLab.Models
         // Distinct learners enrolled in any of the tutor's courses
         public int StudentCount { get; set; }
 
-        public int QuizCount { get; set; }
-        public int QuizAttemptCount { get; set; }
+        // Enrolments in the tutor's courses (a learner in two courses counts twice), and how many are finished
+        public int EnrollmentCount { get; set; }
+        public int CompletedCount { get; set; }
 
-        // Null when no learner has attempted the tutor's quizzes yet
-        public decimal? AverageQuizScore { get; set; }
-        public decimal? QuizPassRate { get; set; }
+        // Discussion posts in the tutor's published courses
+        public int ForumPostCount { get; set; }
 
         public List<TutorCourseSummary> Courses { get; set; } = new List<TutorCourseSummary>();
     }
