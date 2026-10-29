@@ -81,6 +81,10 @@ namespace CodeLab.BLL
             {
                 LogHelper.LogError("UserManager.GetFullName failure", exception);
                 return null;
+            }
+        }
+
+        /// <summary>
         /// Creates a Learner or Tutor account. account carries FullName, Username, Email and Role;
         /// application is the tutor application (null for learners). Tutors start Pending but can log in.
         /// </summary>
