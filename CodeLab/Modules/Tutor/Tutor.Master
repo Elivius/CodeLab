@@ -83,7 +83,6 @@
                     <%= NavLink("ChallengeEditor", "code", "Coding Challenges", true) %>
 
                     <div class="cl-sidebar-group">Insights</div>
-                    <%= NavLink("Analytics", "chart-column", "Analytics", true) %>
 
                     <div class="cl-sidebar-group">Community</div>
                     <%= NavLink("Forum", "messages-square", "Discussion Forum", false) %>
