@@ -9,12 +9,14 @@ namespace CodeLab
     public partial class SiteMaster : MasterPage
     {
         protected string AccountAvatar;
+        public string LearnerAvatarUrl { get { return AccountAvatar; } }
         protected string AccountInitial { get { string name=SessionHelper.GetCurrentFullName(); return string.IsNullOrWhiteSpace(name)?"?":System.Globalization.StringInfo.GetNextTextElement(name).ToUpperInvariant(); } }
         protected string AccountProfileUrl { get { return ResolveUrl(SessionHelper.IsUserInRole(UserRoles.Tutor)?"~/Modules/Tutor/Profile":SessionHelper.IsUserInRole(UserRoles.Admin)?"~/Modules/Admin/Dashboard":"~/Modules/Learner/Profile"); } }
         private const string TutorHome = "~/Modules/Tutor/Dashboard";
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            new LearnerManager().RecordDailyActivity();
             // A signed-in tutor works inside the Tutor area: the landing page and other guest
             // pages (including Login) send them to their dashboard instead
             if (SessionHelper.IsUserInRole(UserRoles.Tutor) && IsGuestPage())

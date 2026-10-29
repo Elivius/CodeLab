@@ -815,3 +815,4 @@ textarea {
 .cl-navbar .cl-theme-toggle:focus-visible{outline:2px solid #c9527d;outline-offset:3px}
 [data-theme=dark] .cl-navbar .cl-theme-toggle{border-color:#493044}
 [data-theme=dark] .cl-navbar .cl-theme-toggle .cl-icon{color:#cbd5e1}
+.ld-identity .ld-avatar{position:relative;overflow:hidden;flex-shrink:0}.ld-identity-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}

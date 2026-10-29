@@ -5,6 +5,33 @@ namespace CodeLab.DAL
 {
     public class LearnerRepository
     {
+        public void RecordDailyActivity(int learnerId, System.DateTime today)
+        {
+            const string sql = @"
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+IF EXISTS(SELECT 1 FROM dbo.Users WHERE Id=@id AND Role=N'Learner' AND Status=N'Active')
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM dbo.LearnerStats WITH (UPDLOCK,HOLDLOCK) WHERE LearnerId=@id)
+        INSERT dbo.LearnerStats(LearnerId,StreakDays,LastActiveDate) VALUES(@id,1,@today);
+    ELSE
+        UPDATE dbo.LearnerStats
+        SET StreakDays=CASE WHEN StreakDays<=0 THEN 1
+                           WHEN LastActiveDate=@today THEN StreakDays
+                           WHEN LastActiveDate=DATEADD(day,-1,@today) THEN StreakDays+1
+                           ELSE 1 END,
+            LastActiveDate=@today
+        WHERE LearnerId=@id AND LastActiveDate<=@today;
+END;
+COMMIT TRANSACTION;";
+            using(var connection=DatabaseHelper.GetConnection())
+            using(var command=new SqlCommand(sql,connection))
+            {
+                command.Parameters.Add("@id",SqlDbType.Int).Value=learnerId;
+                command.Parameters.Add("@today",SqlDbType.Date).Value=today.Date;
+                connection.Open();command.ExecuteNonQuery();
+            }
+        }
         public LearnerDashboardData GetDashboard(int learnerId)
         {
             var data = new LearnerDashboardData { Level = 1, LevelTitle = "Novice Coder", Milestone = 500, Courses = new DataTable() };

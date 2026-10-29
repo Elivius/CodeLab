@@ -102,7 +102,7 @@
     </a>
 
     <span class="ld-identity">
-        <span class="ld-avatar">
+        <span class="ld-avatar"><% if(!string.IsNullOrEmpty(((CodeLab.SiteMaster)Master).LearnerAvatarUrl)){ %><img class="ld-identity-photo" src="<%: ((CodeLab.SiteMaster)Master).LearnerAvatarUrl %>" alt="" referrerpolicy="no-referrer" onerror="this.remove()" /><% } %>
             <asp:Literal ID="litNavInitial"
                 runat="server" Mode="Encode" />
         </span>

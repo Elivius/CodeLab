@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CodeLab.DAL;
 using CodeLab.Models;
 namespace CodeLab.BLL
@@ -26,6 +26,16 @@ namespace CodeLab.BLL
             return Levels[0];
         }
         private readonly LearnerRepository repository = new LearnerRepository();
+        public void RecordDailyActivity()
+        {
+            if(!CodeLab.Helpers.SessionHelper.IsLoggedIn() || !CodeLab.Helpers.SessionHelper.IsUserInRole("Learner")) return;
+            try {
+                var today=TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time")).Date;
+                repository.RecordDailyActivity(CodeLab.Helpers.SessionHelper.GetCurrentUserID(),today);
+            } catch(System.Data.SqlClient.SqlException ex) {
+                CodeLab.Helpers.LogHelper.LogError("Recording learner daily streak",ex);
+            }
+        }
         public LearnerDashboardData GetDashboard(int learnerId)
         {
             if (learnerId <= 0) throw new ArgumentException("Invalid learner ID", "learnerId");

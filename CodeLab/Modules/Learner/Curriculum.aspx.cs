@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -29,7 +29,7 @@ namespace CodeLab.Modules.Learner
         private bool quizMode;
         private bool quizPassed;
 
-        private string courseTitle;
+        protected string courseTitle;
         private string courseCoverUrl;
 
         private LessonRow selectedLesson;
@@ -269,6 +269,10 @@ if (activeQuiz != null &&
                 }
             }
 
+            if(!redirecting && ready && enrolled && AllLessonsCompleted && quizPassed && Session["CourseCongratulations."+LearnerId+"."+CourseId] is bool) {
+                Session.Remove("CourseCongratulations."+LearnerId+"."+CourseId);
+                ScriptManager.RegisterStartupScript(this,GetType(),"courseCongratulations","var d=document.getElementById('curriculumCompletedDialog');if(d&&!d.open)d.showModal();",true);
+            }
             base.OnPreRender(e);
         }
 
@@ -990,6 +994,7 @@ END;
                 // Changing lesson completion invalidates an unfinished quiz.
                 Session.Remove(QuizSessionKey);
 
+                bool wasCourseCompleted=AllLessonsCompleted && quizPassed;
                 int currentLessonId = selectedLesson.Id;
 
                 // Reload saved completion and progress without redirecting.
@@ -1017,6 +1022,7 @@ END;
                 lblError.Text = string.Empty;
                 lblError.Visible = false;
 
+                if(!wasCourseCompleted && AllLessonsCompleted && quizPassed) Session["CourseCongratulations."+LearnerId+"."+CourseId]=true;
                 // The UpdatePanels send only the changing sections to the browser.
                 BindLessonLists();
                 RenderPage();
@@ -1394,6 +1400,7 @@ SELECT @newAttempt;", transaction))
 
                 // Normal refresh/back-button resubmissions reuse
                 // this result instead of inserting another attempt.
+                if(passed && !quizPassed) Session["CourseCongratulations."+LearnerId+"."+CourseId]=true;
                 activeQuiz.SubmittedAttemptId = attemptId;
                 Session[QuizSessionKey] = activeQuiz;
 

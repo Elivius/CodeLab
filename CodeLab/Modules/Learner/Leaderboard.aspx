@@ -36,7 +36,7 @@
     </a>   
     <a class="ld-tab selected" aria-current="page" href="<%= ResolveUrl("~/Modules/Learner/Leaderboard") %>"><svg class="ld-icon"><use href="#ld-trophy" /></svg>Leaderboard &amp; Badges</a>
     <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Profile") %>"><svg class="ld-icon"><use href="#ld-user" /></svg>My Profile</a>
-    <span class="ld-identity"><span class="ld-avatar"><%: Initial(Board != null ? Board.Me.Name : LearnerName) %></span><span class="ld-user-meta"><b><%: Board != null ? Board.Me.Name : LearnerName %></b><small>Level <%: Board != null ? Board.Me.Level.ToString() : "�" %> &bull; <%: Board != null ? Board.Me.Points.ToString("N0") : "�" %> XP</small></span></span>
+    <span class="ld-identity"><span class="ld-avatar"><% if(!string.IsNullOrEmpty(((CodeLab.SiteMaster)Master).LearnerAvatarUrl)){ %><img class="ld-identity-photo" src="<%: ((CodeLab.SiteMaster)Master).LearnerAvatarUrl %>" alt="" referrerpolicy="no-referrer" onerror="this.remove()" /><% } %><%: Initial(Board != null ? Board.Me.Name : LearnerName) %></span><span class="ld-user-meta"><b><%: Board != null ? Board.Me.Name : LearnerName %></b><small>Level <%: Board != null ? Board.Me.Level.ToString() : "�" %> &bull; <%: Board != null ? Board.Me.Points.ToString("N0") : "�" %> XP</small></span></span>
   </nav>
 <div class="lb-wrap">
 <% if (Board == null) { %>

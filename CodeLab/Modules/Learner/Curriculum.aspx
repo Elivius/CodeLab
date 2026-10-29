@@ -1,4 +1,4 @@
-<%@ Page Title="Course Curriculum"
+﻿<%@ Page Title="Course Curriculum"
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
@@ -20,6 +20,7 @@
     runat="server">
 
     <div class="cc-wrap">
+
 
         <a class="cc-back"
             href="<%= ResolveUrl("~/Modules/Learner/Courses.aspx") %>">
@@ -856,5 +857,15 @@
         </asp:Panel>
 
     </div>
+
+<style>
+.course-done{width:min(480px,calc(100% - 32px));padding:36px 28px;border:1px solid #ffdce7;border-radius:24px;background:var(--cl-surface,#fff);color:var(--cl-text,#0f172a);text-align:center;box-shadow:0 20px 70px #34142633}.course-done::backdrop{background:#0f172a66;backdrop-filter:blur(4px)}.course-done-close{position:absolute;right:14px;top:10px;border:0;background:transparent;color:inherit;font-size:26px;width:32px;height:32px;cursor:pointer}.course-done-icon{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;background:#fff0f5;color:#c9527d;border-radius:50%}.course-done h2{font-size:24px;margin:0 0 14px}.course-done p{line-height:1.6;color:#64748b}.course-done-actions{display:flex;flex-direction:column;gap:10px;margin-top:24px}.course-done-actions a,.course-done-actions button{padding:12px 16px;border-radius:12px;font:inherit;font-weight:600;text-decoration:none}.course-done-actions a{color:#fff;background:linear-gradient(90deg,#b93b69,#d64578)}.course-done-actions button{border:1px solid #e2e8f0;background:transparent;color:inherit}.course-done :focus-visible{outline:3px solid #c9527d;outline-offset:3px}
+</style>
+<dialog id="curriculumCompletedDialog" class="course-done" aria-labelledby="courseCompletedTitle" aria-describedby="courseCompletedMessage">
+<button type="button" class="course-done-close" aria-label="Close congratulations" onclick="document.getElementById('curriculumCompletedDialog').close()">&times;</button>
+<div class="course-done-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 3h10v7a5 5 0 0 1-10 0V3ZM7 5H3v3a4 4 0 0 0 4 4M17 5h4v3a4 4 0 0 1-4 4M12 15v5M8 21h8"/></svg></div>
+<h2 id="courseCompletedTitle">Congratulations!</h2><p id="courseCompletedMessage">You've completed <strong><%: courseTitle %></strong>. Put what you've learned into practice with this course's coding challenges.</p>
+<div class="course-done-actions"><a href="<%: ResolveUrl("~/Modules/Learner/Workspace")+"?courseId="+CourseId %>" autofocus>Go to Coding Challenges &rarr;</a><button type="button" onclick="document.getElementById('curriculumCompletedDialog').close()">Back to Course</button></div>
+</dialog>
 
 </asp:Content>

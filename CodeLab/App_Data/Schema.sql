@@ -252,8 +252,8 @@ BEGIN
         CurrentLevel        INT          NOT NULL CONSTRAINT DF_LearnerStats_CurrentLevel DEFAULT (1),
         LevelTitle          NVARCHAR(50) NOT NULL CONSTRAINT DF_LearnerStats_LevelTitle DEFAULT (N'Novice Coder'),
         NextMilestonePoints INT          NOT NULL CONSTRAINT DF_LearnerStats_NextMilestonePoints DEFAULT (500),
-        StreakDays          INT          NOT NULL CONSTRAINT DF_LearnerStats_StreakDays DEFAULT (1),
-        LastActiveDate      DATE         NOT NULL CONSTRAINT DF_LearnerStats_LastActiveDate DEFAULT (CAST(SYSUTCDATETIME() AS DATE))
+        StreakDays          INT          NOT NULL CONSTRAINT DF_LearnerStats_StreakDays DEFAULT (0),
+        LastActiveDate      DATE         NOT NULL CONSTRAINT DF_LearnerStats_LastActiveDate DEFAULT (CAST(DATEADD(hour,8,SYSUTCDATETIME()) AS DATE))
     );
 END
 GO

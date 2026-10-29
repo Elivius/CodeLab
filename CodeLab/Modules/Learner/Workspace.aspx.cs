@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -129,6 +129,11 @@ namespace CodeLab.Modules.Learner
                                 CultureInfo.InvariantCulture)));
                     }
 
+                    int requestedCourse;
+                    if(int.TryParse(Request.QueryString["courseId"],out requestedCourse)) {
+                        var selected=ddlCourse.Items.FindByValue(requestedCourse.ToString(CultureInfo.InvariantCulture));
+                        if(selected!=null) ddlCourse.SelectedValue=selected.Value;
+                    }
                     ddlLanguage.Items.Clear();
                     ddlLanguage.Items.Add(
                         new ListItem("All Languages", string.Empty));

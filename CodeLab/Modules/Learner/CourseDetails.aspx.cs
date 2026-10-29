@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.UI;
@@ -11,6 +11,9 @@ namespace CodeLab.Modules.Learner
     public partial class CourseDetails : Page
     {
         private readonly LearnerCourseManager manager = new LearnerCourseManager();
+        protected bool ShowCompletion { get; private set; }
+        protected string CompletedCourseTitle { get; private set; }
+        protected string ChallengeUrl { get { return ResolveUrl("~/Modules/Learner/Workspace")+"?courseId="+CourseId; } }
         protected int InstructorId { get; private set; }
         protected bool IsEnrolled { get; private set; }
         private int CourseId { get { int id; return int.TryParse(Request.QueryString["id"], out id) ? id : 0; } }
@@ -79,6 +82,11 @@ namespace CodeLab.Modules.Learner
                 var lesson = course.Lessons.Find(l => l.Id == lessonId);
                 if (lesson == null) { ShowError("Lesson not found."); return; }
                 manager.CompleteLesson(SessionHelper.GetCurrentUserID(), CourseId, lessonId, !lesson.IsCompleted);
+                if(!course.IsCompleted && !lesson.IsCompleted) {
+                    var updated=manager.Details(SessionHelper.GetCurrentUserID(),CourseId);
+                    ShowCompletion=updated!=null && updated.IsCompleted;
+                    if(ShowCompletion) CompletedCourseTitle=updated.Title;
+                }
                 LoadCourse();
             }
             catch (SqlException) { ShowError("Unable to save lesson progress."); }
