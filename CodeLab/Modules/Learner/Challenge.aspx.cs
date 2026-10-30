@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ namespace CodeLab.Modules.Learner
 {
     public partial class Challenge : Page
     {
+        protected string AiFeedback { get; private set; }
         private readonly LearnerChallengeDetailManager manager =
             new LearnerChallengeDetailManager();
 
@@ -413,6 +414,7 @@ namespace CodeLab.Modules.Learner
                 return;
             }
 
+            AiFeedback = result.AiFeedback;
             bool passed = result.Status == "Passed";
 
             string message;
@@ -433,8 +435,7 @@ namespace CodeLab.Modules.Learner
                 lblExecutionStatus.Text = result.Status;
 
                 message =
-                    "Your submission was saved, but the output did not match. " +
-                    "Check Expected Output and try again.";
+                    result.Status == "Pending review" ? "Your output matched, but AI approval is pending. No XP was awarded. Submit again to retry the review." : "Your submission did not pass the output check or AI review. Read the feedback below and try again.";
             }
 
             litOutput.Text =
@@ -450,7 +451,7 @@ namespace CodeLab.Modules.Learner
             // A saved attempt gets a result popup, not a saving-error popup.
             ShowSubmissionPopup(
                 passed ? "passed" : "failed",
-                passed ? "Challenge completed!" : "Keep practising",
+                passed ? "Challenge completed!" : result.Status == "Pending review" ? "Review pending" : "Keep practising",
                 message);
 
             try

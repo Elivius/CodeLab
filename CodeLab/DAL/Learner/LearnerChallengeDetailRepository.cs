@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -111,7 +111,7 @@ SELECT
     s.ChallengeId,
     s.SubmittedCode,
     s.Status,
-    s.OutputResult,
+    s.OutputResult, s.AiFeedback,
     s.SubmittedAt
 FROM dbo.CodeSubmissions AS s
 INNER JOIN dbo.CodingChallenges AS ch
@@ -149,7 +149,7 @@ ORDER BY s.SubmittedAt DESC, s.Id DESC;";
                             ChallengeId = Convert.ToInt32(reader["ChallengeId"]),
                             SubmittedCode =
                                 Convert.ToString(reader["SubmittedCode"]),
-                            Status = Convert.ToString(reader["Status"]),
+                            Status = Convert.ToString(reader["Status"]), AiFeedback = Convert.ToString(reader["AiFeedback"]),
                             OutputResult =
                                 reader["OutputResult"] == DBNull.Value
                                     ? string.Empty
@@ -206,7 +206,7 @@ ORDER BY s.SubmittedAt DESC, s.Id DESC;";
     int challengeId,
     string submittedCode,
     string status,
-    string output)
+    string output, string aiFeedback = "")
         {
             ValidateIds(learnerId, challengeId);
 
@@ -220,7 +220,7 @@ ORDER BY s.SubmittedAt DESC, s.Id DESC;";
 
             if (status != "Passed" &&
                 status != "Failed" &&
-                status != "Error")
+                status != "Error" && status != "Pending review")
             {
                 throw new ArgumentException(
                     "Invalid submission status.",
@@ -291,7 +291,7 @@ INSERT INTO dbo.CodeSubmissions
     ChallengeId,
     SubmittedCode,
     Status,
-    OutputResult,
+    OutputResult, AiFeedback,
     SubmittedAt
 )
 VALUES
@@ -300,7 +300,7 @@ VALUES
     @ChallengeId,
     @SubmittedCode,
     @Status,
-    @Output,
+    @Output, @AiFeedback,
     SYSUTCDATETIME()
 );
 
@@ -346,6 +346,7 @@ SELECT
                             transaction))
                         {
                             AddParameters(command, learnerId, challengeId);
+                            command.Parameters.Add("@AiFeedback",SqlDbType.NVarChar,-1).Value=aiFeedback ?? "";
 
                             command.Parameters.Add(
                                 "@SubmittedCode",

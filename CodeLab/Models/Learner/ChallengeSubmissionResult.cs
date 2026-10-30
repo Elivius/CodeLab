@@ -1,8 +1,9 @@
-﻿namespace CodeLab.Models
+namespace CodeLab.Models
 {
     public sealed class ChallengeSubmissionResult
     {
         // True only after the submission is saved successfully.
+        public string AiFeedback { get; set; } = string.Empty;
         public bool Saved { get; set; }
 
         public int? SubmissionId { get; set; }

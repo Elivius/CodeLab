@@ -2,14 +2,17 @@
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
-    Async="true"
+    Async="true" AsyncTimeout="65"
     CodeBehind="Challenge.aspx.cs"
     Inherits="CodeLab.Modules.Learner.Challenge" %>
 
 <asp:Content ID="Head" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= ResolveUrl("~/Content/LearnerChallenge.css") %>?v=6"
           rel="stylesheet" />
-</asp:Content>
+<style>.ch-run-action{position:relative}.ch-run-action .ch-button-run{padding-left:34px}.ch-run-play{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;fill:none;stroke:#00e6ac;stroke-width:1.8;stroke-linejoin:round;pointer-events:none;z-index:1}.ch-review-tabs{padding:0!important;overflow:hidden;border-radius:24px!important;border:1px solid #ffe0eb!important;box-shadow:0 2px 4px #00000005}
+.ch-review-tabs .ch-output-heading{padding:12px 20px;margin:0;background:#f8fafc;border-bottom:1px solid #ffe0eb;gap:12px;flex-wrap:wrap}
+.ch-result-tabs{display:flex;gap:8px}.ch-result-tabs button{display:inline-flex;align-items:center;gap:8px;background:transparent;border:0;border-radius:999px;padding:7px 14px;color:#64748b;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.ch-result-tabs button[aria-selected=true]{background:#fff;color:#d64578;box-shadow:0 1px 3px #0000000d}.ch-result-tabs .ch-icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.ch-review-tabs [role=tabpanel]{padding:16px}.ch-review-tabs [hidden]{display:none!important}.ch-review-tabs .ch-console{margin:0;border-radius:16px;background:#020617;color:#e2e8f0;min-height:80px}.ch-review-copy{padding:16px;border-radius:16px;background:#020617;color:#e2e8f0;white-space:pre-wrap;overflow-wrap:anywhere;font-family:Consolas,"Courier New",monospace;line-height:1.8;font-size:12px;min-height:80px}.ch-result-tabs button:focus-visible{outline:2px solid #c9527d;outline-offset:2px}[data-theme=dark] .ch-review-tabs .ch-output-heading{background:#0f172a}[data-theme=dark] .ch-result-tabs button[aria-selected=true]{background:#293548;color:#ffa2a4}
+.ch-ai-review{padding:20px;margin-top:16px;border:1px solid #e9d5ff;border-radius:16px;background:var(--cl-surface,#fff);color:var(--cl-text)}.ch-ai-review h3{font-size:16px;color:#9333ea}.ch-ai-review p,.ch-ai-notice{font-size:12px;color:#64748b}.ch-ai-notice{margin-top:12px}</style></asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
     <main class="ch-wrap">
@@ -129,7 +132,7 @@
                         Reset
                     </button>
 
-                    <span class="ch-action-wrapper">
+                    <span class="ch-action-wrapper ch-run-action"><svg class="ch-run-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5a1 1 0 0 1 1.5-.86l12 7.5a1 1 0 0 1 0 1.72l-12 7.5A1 1 0 0 1 7 19.5Z" /></svg>
                         <asp:Button ID="btnRun"
                             runat="server"
                             Text="Run Code"
@@ -320,7 +323,7 @@
                                         <h3>Submitted Code</h3>
                                         <pre class="ch-submitted-code"><code><%#: Eval("SubmittedCode") %></code></pre>
 
-                                        <h3>Output</h3>
+                                        <h3>AI review</h3><pre class="ch-submitted-output"><%#: string.IsNullOrWhiteSpace(Convert.ToString(Eval("AiFeedback"))) ? "No AI review recorded for this older submission." : Convert.ToString(Eval("AiFeedback")) %></pre><h3>Output</h3>
                                         <pre class="ch-submitted-output"><%#: string.IsNullOrEmpty(Convert.ToString(Eval("OutputResult"))) ? "(No output)" : Convert.ToString(Eval("OutputResult")) %></pre>
                                     </div>
                                 </details>
@@ -402,31 +405,29 @@
                         role="status"
                         aria-live="polite"></span>
 
-                    <section class="ch-output-panel"
-                        aria-labelledby="ch-output-heading">
+                    <section class="ch-output-panel ch-review-tabs" aria-label="Code execution and AI review">
                         <div class="ch-output-heading">
-                            <h2 id="ch-output-heading">
-                                <svg class="ch-icon" aria-hidden="true">
-                                    <use href="#ch-terminal" />
-                                </svg>
-                                Output
-                            </h2>
-
-                            <asp:Label ID="lblExecutionStatus"
-                                runat="server"
-                                CssClass="ch-execution-status"
-                                Text="Not run" />
+                            <div class="ch-result-tabs" role="tablist" aria-label="Submission feedback">
+                                <button type="button" id="chOutputTab" role="tab" aria-selected="true" aria-controls="chOutputContent"><svg class="ch-icon" aria-hidden="true"><use href="#ch-terminal" /></svg>Output</button>
+                                <button type="button" id="chReviewTab" role="tab" aria-selected="false" aria-controls="chReviewContent" tabindex="-1"><svg class="ch-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2 6 6 3-6 2-2 7-2-7-6-2 6-3Z" /></svg>AI Review</button>
+                            </div>
+                            <asp:Label ID="lblExecutionStatus" runat="server" CssClass="ch-execution-status" Text="Not run" />
                         </div>
-
-                        <pre class="ch-console"
-                            role="status"
-                            aria-live="polite"><asp:Literal
-                                ID="litOutput"
-                                runat="server"
-                                Mode="Encode"
-                                Text="Code execution is not connected yet." /></pre>
+                        <div id="chOutputContent" role="tabpanel" aria-labelledby="chOutputTab" tabindex="0">
+                            <pre class="ch-console" role="status" aria-live="polite"><asp:Literal ID="litOutput" runat="server" Mode="Encode" Text="Run your code to see its output. Submit for validation and AI review." /></pre>
+                        </div>
+                        <div id="chReviewContent" role="tabpanel" aria-labelledby="chReviewTab" tabindex="0" hidden>
+                            <div class="ch-review-copy" role="status" aria-live="polite"><%: string.IsNullOrEmpty(AiFeedback) ? "Submit your code to receive an AI review with feedback and suggested improvements." : AiFeedback %></div>
+                        </div>
                     </section>
-
+                    <script>
+                    (function(){
+                        var tabs=[document.getElementById('chOutputTab'),document.getElementById('chReviewTab')];
+                        function select(index){tabs.forEach(function(tab,i){var active=i===index;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;document.getElementById(tab.getAttribute('aria-controls')).hidden=!active;});}
+                        tabs.forEach(function(tab,i){tab.addEventListener('click',function(){select(i);});tab.addEventListener('keydown',function(e){var next;if(e.key==='ArrowRight'||e.key==='ArrowLeft')next=1-i;else if(e.key==='Home')next=0;else if(e.key==='End')next=1;else return;e.preventDefault();select(next);tabs[next].focus();});});
+                    }());
+                    </script>
+                    <p class="ch-ai-notice">Submitting sends your code and the challenge details to Google Gemini for feedback.</p>
                     <!-- Starter code is populated by the code-behind. -->
                     <asp:HiddenField ID="hdnStarterCode"
                         runat="server"

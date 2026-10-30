@@ -360,3 +360,13 @@ IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE object_id=OBJECT_ID('dbo.LearnerBa
     CREATE UNIQUE INDEX UX_LearnerBadges_Featured ON dbo.LearnerBadges(LearnerId) WHERE IsFeatured=1;
 GO
 
+
+-- AI challenge review: preserve older attempts and require explicit pending status.
+IF COL_LENGTH('dbo.CodeSubmissions','AiFeedback') IS NULL
+    ALTER TABLE dbo.CodeSubmissions ADD AiFeedback NVARCHAR(MAX) NULL;
+GO
+IF EXISTS(SELECT 1 FROM sys.check_constraints WHERE name=N'CK_CodeSubmissions_Status' AND parent_object_id=OBJECT_ID(N'dbo.CodeSubmissions'))
+    ALTER TABLE dbo.CodeSubmissions DROP CONSTRAINT CK_CodeSubmissions_Status;
+ALTER TABLE dbo.CodeSubmissions WITH CHECK ADD CONSTRAINT CK_CodeSubmissions_Status
+    CHECK(Status IN(N'Passed',N'Failed',N'Error',N'Pending review'));
+GO

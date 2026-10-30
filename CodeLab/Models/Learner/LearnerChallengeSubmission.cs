@@ -14,6 +14,7 @@ namespace CodeLab.Models
 
         public string Status { get; set; }
 
+        public string AiFeedback { get; set; }
         public string OutputResult { get; set; }
 
         // The repository will load this as UTC.

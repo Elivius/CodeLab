@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -118,16 +118,22 @@ namespace CodeLab.BLL
                     NormaliseOutput(challenge.ExpectedOutput),
                     StringComparison.Ordinal);
 
-                string status = matches ? "Passed" : "Failed";
+                var review = await new GeminiCodeReviewService().EvaluateAsync(challenge,submittedCode,actualOutput,matches?"Passed":"Failed");
+                string status = GeminiCodeReviewService.FinalStatus(matches,review);
+                var reviewedChallenge=repository.GetChallenge(learnerId,challengeId);
+                if(reviewedChallenge==null || reviewedChallenge.Description!=challenge.Description || reviewedChallenge.ExpectedOutput!=challenge.ExpectedOutput || reviewedChallenge.Language!=challenge.Language || reviewedChallenge.PointsReward!=challenge.PointsReward)
+                    return NotSaved("The challenge or your access changed during review. Refresh and submit again.",actualOutput);
 
                 // The repository saves the attempt and awards first-pass XP
                 // together in one database transaction.
-                return repository.SaveSubmission(
+                var saved = repository.SaveSubmission(
                     learnerId,
                     challengeId,
                     submittedCode,
                     status,
-                    actualOutput);
+                    actualOutput, review.Feedback);
+                if(saved.Saved) saved.AiFeedback = review.Feedback;
+                return saved;
             }
             catch (SqlException ex)
             {
