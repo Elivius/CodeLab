@@ -2,7 +2,6 @@ using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
-using CodeLab.Helpers;
 using CodeLab.Models;
 
 namespace CodeLab.Modules.Public
@@ -22,13 +21,9 @@ namespace CodeLab.Modules.Public
             revPassword.ValidationExpression = UserManager.PasswordPattern;
         }
 
+        // Someone already signed in never gets this far: Site.Master sends them to their home page
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack && SessionHelper.IsLoggedIn())
-            {
-                Response.Redirect("~/");
-            }
-
             MarkActiveTab(IsTutor ? lnkTutorTab : lnkLearnerTab);
 
             // Tutors fill in three steps (account, background, teaching); learners only see the account step

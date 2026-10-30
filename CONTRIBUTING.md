@@ -62,7 +62,7 @@ CodeLab/                          # Repository root
     │   │   └── Web.config        # Role lockdown (Admin only)
     │   ├── Learner/
     │   │   ├── CodeLab.aspx / .aspx.cs / .aspx.designer.cs
-    │   │   └── Web.config        # Role lockdown (Learner, Tutor, Admin)
+    │   │   └── Web.config        # Role lockdown (Learner only)
     │   ├── Tutor/
     │   │   ├── ConfigureQuiz.aspx / .aspx.cs / .aspx.designer.cs
     │   │   └── Web.config        # Role lockdown (Tutor, Admin)

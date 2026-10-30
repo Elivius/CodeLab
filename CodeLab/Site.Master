@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - CodeLab</title>
+    <title>CodeLab - <%: Page.Title %></title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -73,7 +73,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav align-items-md-center gap-md-2">
-                        <%-- Guest links; hidden for tutors (they use their sidebar) and learners (they use their module links) --%>
+                        <%-- Guest links; hidden for every signed-in user (they use their module links, tutors their sidebar) --%>
                         <asp:PlaceHolder ID="phPublicNav" runat="server">
                             <li class="nav-item"><a class="nav-link" runat="server" href="~/">Landing</a></li>
                             <li class="nav-item"><a class="nav-link" runat="server" href="~/#courses">Courses</a></li>

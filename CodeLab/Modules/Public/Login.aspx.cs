@@ -9,14 +9,9 @@ namespace CodeLab.Modules.Public
 {
     public partial class Login : Page
     {
+        // Someone already signed in never gets this far: Site.Master sends them to their home page
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Redirect users who are already logged in
-            if (!IsPostBack && SessionHelper.IsLoggedIn())
-            {
-                RedirectByRole(SessionHelper.GetCurrentRole());
-            }
-
             // Register sends new users here
             string registered = IsPostBack ? null : Request.QueryString["registered"];
             if (registered == "learner")
@@ -63,24 +58,7 @@ namespace CodeLab.Modules.Public
             bool hasReturnUrl = !string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]);
             RedirectTo(hasReturnUrl
                 ? FormsAuthentication.GetRedirectUrl(result.Data.Username, false)
-                : GetHomeUrl(result.Data.Role));
-        }
-
-        // Someone already signed in who opens the login page goes to their role's home page
-        private void RedirectByRole(string role)
-        {
-            RedirectTo(GetHomeUrl(role));
-        }
-
-        private static string GetHomeUrl(string role)
-        {
-            switch ((role ?? string.Empty).Trim())
-            {
-                case UserRoles.Tutor: return "~/Modules/Tutor/Dashboard";
-                case UserRoles.Learner: return "~/Modules/Learner/Dashboard";
-                case UserRoles.Admin: return "~/Modules/Admin/AuditLogs";
-                default: return "~/";
-            }
+                : SessionHelper.GetHomeUrl(result.Data.Role));
         }
 
         private void RedirectTo(string url)
