@@ -196,6 +196,7 @@
     <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
     <Content Include="Scripts\LearnerChallenge.js" />
     <Content Include="Scripts\LearnerForum.js" />
+    <Content Include="Scripts\site-ui.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
     <Content Include="Scripts\WebForms\Focus.js" />

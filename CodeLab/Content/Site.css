@@ -816,3 +816,7 @@ textarea {
 [data-theme=dark] .cl-navbar .cl-theme-toggle{border-color:#493044}
 [data-theme=dark] .cl-navbar .cl-theme-toggle .cl-icon{color:#cbd5e1}
 .ld-identity .ld-avatar{position:relative;overflow:hidden;flex-shrink:0}.ld-identity-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+/* Back-to-top button, shared by Site.Master and Tutor.Master. */
+.cl-back-top{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:1040;width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #f6b6cd;border-radius:50%;background:linear-gradient(135deg,#b93b69,#d64578);color:#fff;box-shadow:0 4px 16px #b93b6933;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.cl-back-top[hidden]{display:none!important}.cl-back-top:hover{transform:translateY(-3px);box-shadow:0 6px 20px #b93b6944}.cl-back-top:focus-visible{outline:3px solid #c9527d;outline-offset:4px}.cl-back-top svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}@media(max-width:640px){.cl-back-top{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}}@media(prefers-reduced-motion:reduce){.cl-back-top{transition:none}}

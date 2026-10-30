@@ -166,33 +166,7 @@
             try { localStorage.setItem('codelab-theme', theme); } catch (e) { }
         });
     </script>
-<script>
-(function(){
-    var button=document.getElementById('accountMenuToggle'),panel=document.getElementById('accountMenuPanel');
-    if(!button || !panel)return;
-    function close(restoreFocus){panel.hidden=true;button.setAttribute('aria-expanded','false');if(restoreFocus)button.focus();}
-    function open(){panel.hidden=false;button.setAttribute('aria-expanded','true');}
-    button.addEventListener('click',function(){if(panel.hidden)open();else close(false);});
-    button.addEventListener('keydown',function(e){if(e.key==='ArrowDown'){e.preventDefault();open();panel.querySelector('a').focus();}});
-    document.addEventListener('click',function(e){if(!panel.contains(e.target) && !button.contains(e.target))close(false);});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape' && !panel.hidden){e.preventDefault();close(true);}});
-    document.addEventListener('focusin',function(e){if(!panel.contains(e.target) && !button.contains(e.target))close(false);});
-}());
-</script>
-    <style>
-        .cl-back-top{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:1040;width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #f6b6cd;border-radius:50%;background:linear-gradient(135deg,#b93b69,#d64578);color:#fff;box-shadow:0 4px 16px #b93b6933;cursor:pointer;transition:transform .15s,box-shadow .15s}
-        .cl-back-top[hidden]{display:none!important}.cl-back-top:hover{transform:translateY(-3px);box-shadow:0 6px 20px #b93b6944}.cl-back-top:focus-visible{outline:3px solid #c9527d;outline-offset:4px}.cl-back-top svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}@media(max-width:640px){.cl-back-top{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}}@media(prefers-reduced-motion:reduce){.cl-back-top{transition:none}}
-    </style>
     <button type="button" id="clBackToTop" class="cl-back-top" aria-label="Back to top" title="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7M12 5v15" /></svg></button>
-    <script>
-        (function(){
-            var button=document.getElementById('clBackToTop');
-            function update(){button.hidden=window.scrollY<300;}
-            window.addEventListener('scroll',update,{passive:true});
-            window.addEventListener('pageshow',update);
-            button.addEventListener('click',function(){window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
-            update();
-        })();
-    </script>
+    <script src="<%= ResolveUrl("~/Scripts/site-ui.js") %>?v=<%= System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Scripts/site-ui.js")).Ticks %>"></script>
 </body>
 </html>
