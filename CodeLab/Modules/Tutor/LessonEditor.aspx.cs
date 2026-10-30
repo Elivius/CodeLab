@@ -18,6 +18,9 @@ namespace CodeLab.Modules.Tutor
         // A Draft course's lessons can be changed; any other status is read-only
         protected bool CanEdit { get; private set; }
 
+        // The bar at the bottom of the page: back to the previous step, on to the next one
+        protected string StepNavHtml { get; private set; }
+
         protected int CourseId
         {
             get
@@ -64,6 +67,16 @@ namespace CodeLab.Modules.Tutor
             else if (Request.QueryString["deleted"] == "1")
             {
                 ShowSuccess("The lesson has been deleted.");
+            }
+            else if (Request.QueryString["courseCreated"] == "1")
+            {
+                // Arrived from step 1 with "Create & continue"
+                ShowSuccess("Your course has been created as a draft. Now add your first lesson.");
+            }
+            else if (Request.QueryString["detailsSaved"] == "1")
+            {
+                // Arrived from step 1 with "Save & continue"
+                ShowSuccess("Course details saved.");
             }
 
             LoadPage(true);
@@ -212,9 +225,13 @@ namespace CodeLab.Modules.Tutor
             rptLessons.DataSource = lessons;
             rptLessons.DataBind();
 
-            // Once there is a lesson, point the tutor to the submit button on the course page
+            // Once there is a lesson, point the tutor to the Review & submit step
             hlSubmitHint.Visible = CanEdit && lessons.Count > 0;
-            hlSubmitHint.NavigateUrl = CourseEditorUrl + "?id=" + course.Id;
+            hlSubmitHint.NavigateUrl = Master.StepUrl(5, course.Id);
+
+            // A course needs a lesson before it can be submitted, so a Draft cannot move on without one
+            StepNavHtml = Master.StepNav(2, course.Id, null,
+                CanEdit && lessons.Count == 0 ? "Add at least one lesson to continue." : null);
 
             if (!CanEdit)
             {

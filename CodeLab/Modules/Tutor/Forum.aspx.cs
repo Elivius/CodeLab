@@ -329,13 +329,6 @@ namespace CodeLab.Modules.Tutor
             return count == 0 ? "No replies yet" : (count == 1 ? "1 reply" : count + " replies");
         }
 
-        protected string AvatarHtml(string name, string avatarUrl)
-        {
-            return string.IsNullOrEmpty(avatarUrl)
-                ? "<span class=\"cl-avatar cl-avatar-sm\" aria-hidden=\"true\">" + HttpUtility.HtmlEncode(Initials(name)) + "</span>"
-                : "<img class=\"cl-avatar cl-avatar-sm\" src=\"" + HttpUtility.HtmlAttributeEncode(ResolveUrl(avatarUrl)) + "\" alt=\"\" />";
-        }
-
         // The signed-in user's photo next to the reply box
         protected string MyAvatarHtml
         {
@@ -345,31 +338,6 @@ namespace CodeLab.Modules.Tutor
                     ? "<img class=\"cl-avatar cl-avatar-sm\" src=\"" + HttpUtility.HtmlAttributeEncode(Master.AvatarSrc) + "\" alt=\"\" />"
                     : "<span class=\"cl-avatar cl-avatar-sm\" aria-hidden=\"true\">" + HttpUtility.HtmlEncode(Master.Initials) + "</span>";
             }
-        }
-
-        // e.g. "5 min ago", "3 days ago", "12 Oct 2026". Times are stored in UTC.
-        protected static string TimeAgo(DateTime utc)
-        {
-            TimeSpan age = DateTime.UtcNow - DateTime.SpecifyKind(utc, DateTimeKind.Utc);
-            if (age.TotalMinutes < 1) return "Just now";
-            if (age.TotalHours < 1) return (int)age.TotalMinutes + " min ago";
-            if (age.TotalDays < 1) return (int)age.TotalHours + (age.TotalHours < 2 ? " hour ago" : " hours ago");
-            if (age.TotalDays < 7) return (int)age.TotalDays + (age.TotalDays < 2 ? " day ago" : " days ago");
-            return DateTime.SpecifyKind(utc, DateTimeKind.Utc).ToLocalTime().ToString("d MMM yyyy");
-        }
-
-        protected static string FullDate(DateTime utc)
-        {
-            return DateTime.SpecifyKind(utc, DateTimeKind.Utc).ToLocalTime().ToString("d MMM yyyy, h:mm tt");
-        }
-
-        private static string Initials(string name)
-        {
-            string[] words = (name ?? string.Empty).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (words.Length == 0) return "?";
-            string initials = words[0].Substring(0, 1);
-            if (words.Length > 1) initials += words[words.Length - 1].Substring(0, 1);
-            return initials.ToUpperInvariant();
         }
 
         private void ShowSuccess(string message)
