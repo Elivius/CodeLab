@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CodeLab.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CodeLab.SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -29,6 +29,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Content/Site.css") %>?v=<%= System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Content/Site.css")).Ticks %>" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
@@ -86,6 +87,7 @@
                         </asp:PlaceHolder>
                         <%-- Empty on purpose: Tutor pages have their own sidebar (Modules/Tutor/Tutor.Master) --%>
                         <asp:PlaceHolder ID="phTutorNav" runat="server" Visible="false">
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Learner/DiscussionForum?scope=general">Discussion Forum</a></li>
                         </asp:PlaceHolder>
                         <asp:PlaceHolder ID="phLearnerNav" runat="server" Visible="false">
                         </asp:PlaceHolder>
@@ -95,18 +97,24 @@
                             <li class="nav-item"><a class="btn btn-primary" runat="server" href="~/Modules/Public/Register">Register</a></li>
                         </asp:PlaceHolder>
                         <asp:PlaceHolder ID="phSignedIn" runat="server" Visible="false">
-                            <li class="nav-item ms-md-3"><span class="cl-nav-user"><asp:Label ID="lblCurrentUser" runat="server" /></span></li>
-                            <li class="nav-item">
-                                <asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" Text="Log out" CausesValidation="false" OnClick="btnLogout_Click" />
-                            </li>
-                        </asp:PlaceHolder>
+                            <li class="nav-item dropdown cl-account-nav ms-md-3">
+                                <button type="button" class="cl-account-toggle" id="accountMenuToggle" aria-controls="accountMenuPanel" aria-expanded="false" aria-label="Open account menu">
+                                    <span class="cl-account-avatar"><% if(!string.IsNullOrEmpty(AccountAvatar)){ %><img src="<%: AccountAvatar %>" alt="" referrerpolicy="no-referrer" /><% }else{ %><%: AccountInitial %><% } %></span>
+                                    <span class="cl-account-name"><%: CodeLab.Helpers.SessionHelper.GetCurrentFullName() %></span><svg class="cl-account-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                                </button>
+                                <div id="accountMenuPanel" class="cl-account-menu" hidden>
+                                    <div class="cl-account-heading"><strong><asp:Label ID="lblCurrentUser" runat="server" /></strong><small>ACTIVE ROLE: <%: CodeLab.Helpers.SessionHelper.GetCurrentRole() %></small></div>
+                                    <a class="dropdown-item" href="<%: AccountProfileUrl %>"><svg class="cl-account-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> My Profile</a>
+                                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="dropdown-item" CausesValidation="false" OnClick="btnLogout_Click"><svg class="cl-account-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v16h5M10 12h11m-4-4 4 4-4 4" /></svg>Sign out</asp:LinkButton>
+                                </div>
+                            </li>                        </asp:PlaceHolder>
 
                         <li class="nav-item ms-md-2">
-                            <button type="button" id="btnThemeToggle" class="cl-theme-toggle" title="Switch between light and dark mode">
+                            <button type="button" id="btnThemeToggle" class="cl-theme-toggle" title="Switch between light and dark mode" aria-label="Switch between light and dark mode">
                                 <svg class="cl-icon cl-theme-light" aria-hidden="true"><use href="#cl-moon" /></svg>
                                 <svg class="cl-icon cl-theme-dark" aria-hidden="true"><use href="#cl-sun" /></svg>
-                                <span class="cl-theme-light">LIGHT</span>
-                                <span class="cl-theme-dark">DARK</span>
+                                
+                                
                             </button>
                         </li>
                     </ul>
@@ -158,5 +166,7 @@
             try { localStorage.setItem('codelab-theme', theme); } catch (e) { }
         });
     </script>
+    <button type="button" id="clBackToTop" class="cl-back-top" aria-label="Back to top" title="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7M12 5v15" /></svg></button>
+    <script src="<%= ResolveUrl("~/Scripts/site-ui.js") %>?v=<%= System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Scripts/site-ui.js")).Ticks %>"></script>
 </body>
 </html>

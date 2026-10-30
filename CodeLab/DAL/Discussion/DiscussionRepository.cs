@@ -13,6 +13,21 @@ namespace CodeLab.DAL
     /// </summary>
     public class DiscussionRepository
     {
+        private readonly int viewerId;
+        public DiscussionRepository(int viewerId) { this.viewerId = viewerId; }
+
+        // Read access is open to active forum users across all published courses.
+        private const string BrowseAccessSql = @"EXISTS (SELECT 1 FROM Users viewer
+            WHERE viewer.Id=@ViewerId AND viewer.Status=N'Active'
+              AND viewer.Role IN (N'Learner',N'Tutor',N'Admin')
+              AND (p.CourseId IS NULL OR c.Status=@Published))";
+        // General is shared. Learners retain enrolment-based course access; tutors use published boards.
+        private const string AccessSql = @"EXISTS (SELECT 1 FROM Users viewer
+            WHERE viewer.Id=@ViewerId AND viewer.Status=N'Active'
+              AND viewer.Role IN (N'Learner',N'Tutor',N'Admin')
+              AND (p.CourseId IS NULL OR (c.Status=@Published AND
+                   (viewer.Role IN (N'Tutor',N'Admin') OR EXISTS
+                    (SELECT 1 FROM CourseEnrollments e WHERE e.CourseId=c.Id AND e.LearnerId=@ViewerId)))))";
         /// <summary>
         /// Posts in published courses, newest first, each with its replies (oldest first).
         /// courseId 0 means every published course. search (optional) matches the title, the text or the
@@ -27,23 +42,23 @@ DECLARE @Posts TABLE (Id INT PRIMARY KEY);
 INSERT INTO @Posts (Id)
 SELECT p.Id
   FROM DiscussionPosts p
-  JOIN Courses c ON c.Id = p.CourseId
+  LEFT JOIN Courses c ON c.Id = p.CourseId
   JOIN Users u ON u.Id = p.AuthorId
- WHERE c.Status = @Published
-   AND (@CourseId = 0 OR p.CourseId = @CourseId)
+ WHERE " + BrowseAccessSql + @"
+   AND (@CourseId = 0 OR (@CourseId = -1 AND p.CourseId IS NULL) OR (@CourseId = -2 AND p.CourseId IS NOT NULL) OR p.CourseId = @CourseId)
    AND (@Search IS NULL OR p.Title LIKE @Search OR p.Content LIKE @Search OR u.FullName LIKE @Search);
 
 SELECT p.Id, p.CourseId, p.AuthorId, p.Title, p.Content, p.CreatedAt,
-       c.Title AS CourseTitle, c.InstructorId AS CourseInstructorId,
-       u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl
+       COALESCE(c.Title, N'General Discussion') AS CourseTitle, COALESCE(c.InstructorId, 0) AS CourseInstructorId,
+       (SELECT b.Name FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeName, (SELECT CASE WHEN b.Metric='points' THEN CASE WHEN b.Target>=10000 THEN 'legend' WHEN b.Target>=5000 THEN 'expert' WHEN b.Target>=3000 THEN 'skilled' ELSE 'starter' END ELSE CASE WHEN b.Target>=50 THEN 'legend' WHEN b.Target>=25 THEN 'expert' WHEN b.Target>=10 THEN 'skilled' ELSE 'starter' END END FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeTier, u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl
   FROM DiscussionPosts p
   JOIN @Posts f ON f.Id = p.Id
-  JOIN Courses c ON c.Id = p.CourseId
+  LEFT JOIN Courses c ON c.Id = p.CourseId
   JOIN Users u ON u.Id = p.AuthorId
  ORDER BY p.CreatedAt DESC, p.Id DESC;
 
 SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
-       u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl
+       (SELECT b.Name FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeName, (SELECT CASE WHEN b.Metric='points' THEN CASE WHEN b.Target>=10000 THEN 'legend' WHEN b.Target>=5000 THEN 'expert' WHEN b.Target>=3000 THEN 'skilled' ELSE 'starter' END ELSE CASE WHEN b.Target>=50 THEN 'legend' WHEN b.Target>=25 THEN 'expert' WHEN b.Target>=10 THEN 'skilled' ELSE 'starter' END END FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeTier, u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl
   FROM DiscussionReplies r
   JOIN @Posts f ON f.Id = r.PostId
   JOIN Users u ON u.Id = r.AuthorId
@@ -56,6 +71,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.Add("@ViewerId", SqlDbType.Int).Value = viewerId;
                     command.Parameters.Add("@Published", SqlDbType.NVarChar, 20).Value = CourseStatuses.Published;
                     command.Parameters.Add("@CourseId", SqlDbType.Int).Value = courseId;
                     command.Parameters.Add("@Search", SqlDbType.NVarChar, 210).Value =
@@ -99,8 +115,8 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         // Used with "FROM DiscussionPosts p JOIN Courses c ... JOIN Users u ..."
         private const string PostSummaryColumns = @"
        p.Id, p.CourseId, p.AuthorId, p.Title, p.Content, p.CreatedAt,
-       c.Title AS CourseTitle, c.InstructorId AS CourseInstructorId,
-       u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl,
+       COALESCE(c.Title, N'General Discussion') AS CourseTitle, COALESCE(c.InstructorId, 0) AS CourseInstructorId,
+       (SELECT b.Name FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeName, (SELECT CASE WHEN b.Metric='points' THEN CASE WHEN b.Target>=10000 THEN 'legend' WHEN b.Target>=5000 THEN 'expert' WHEN b.Target>=3000 THEN 'skilled' ELSE 'starter' END ELSE CASE WHEN b.Target>=50 THEN 'legend' WHEN b.Target>=25 THEN 'expert' WHEN b.Target>=10 THEN 'skilled' ELSE 'starter' END END FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeTier, u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl,
        (SELECT COUNT(*) FROM DiscussionReplies r WHERE r.PostId = p.Id) AS ReplyCount,
        (SELECT MAX(r.CreatedAt) FROM DiscussionReplies r WHERE r.PostId = p.Id) AS LastReplyAt,
        CASE WHEN EXISTS (SELECT 1 FROM DiscussionReplies r JOIN Users ru ON ru.Id = r.AuthorId
@@ -114,10 +130,10 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         {
             string query = "SELECT " + PostSummaryColumns + @"
   FROM DiscussionPosts p
-  JOIN Courses c ON c.Id = p.CourseId
+  LEFT JOIN Courses c ON c.Id = p.CourseId
   JOIN Users u ON u.Id = p.AuthorId
- WHERE c.Status = @Published
-   AND (@CourseId = 0 OR p.CourseId = @CourseId)
+ WHERE " + BrowseAccessSql + @"
+   AND (@CourseId = 0 OR (@CourseId = -1 AND p.CourseId IS NULL) OR (@CourseId = -2 AND p.CourseId IS NOT NULL) OR p.CourseId = @CourseId)
    AND (@AuthorId = 0 OR p.AuthorId = @AuthorId)
    AND (@Search IS NULL OR p.Title LIKE @Search OR p.Content LIKE @Search OR u.FullName LIKE @Search)
  ORDER BY p.CreatedAt DESC, p.Id DESC
@@ -128,6 +144,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.Add("@ViewerId", SqlDbType.Int).Value = viewerId;
                     AddReadParameters(command);
                     command.Parameters.Add("@CourseId", SqlDbType.Int).Value = courseId;
                     command.Parameters.Add("@AuthorId", SqlDbType.Int).Value = authorId;
@@ -156,14 +173,15 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         {
             string query = "SELECT " + PostSummaryColumns + @"
   FROM DiscussionPosts p
-  JOIN Courses c ON c.Id = p.CourseId
+  LEFT JOIN Courses c ON c.Id = p.CourseId
   JOIN Users u ON u.Id = p.AuthorId
- WHERE p.Id = @PostId AND c.Status = @Published;";
+ WHERE p.Id = @PostId AND " + BrowseAccessSql + @";";
 
             using (SqlConnection connection = DatabaseHelper.GetConnection())
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.Add("@ViewerId", SqlDbType.Int).Value = viewerId;
                     AddReadParameters(command);
                     command.Parameters.Add("@PostId", SqlDbType.Int).Value = postId;
 
@@ -183,13 +201,13 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         {
             string query = @"
 SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
-       u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl,
-       p.Title AS PostTitle, c.Id AS CourseId, c.Title AS CourseTitle
+       (SELECT b.Name FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeName, (SELECT CASE WHEN b.Metric='points' THEN CASE WHEN b.Target>=10000 THEN 'legend' WHEN b.Target>=5000 THEN 'expert' WHEN b.Target>=3000 THEN 'skilled' ELSE 'starter' END ELSE CASE WHEN b.Target>=50 THEN 'legend' WHEN b.Target>=25 THEN 'expert' WHEN b.Target>=10 THEN 'skilled' ELSE 'starter' END END FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeTier, u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl,
+       p.Title AS PostTitle, c.Id AS CourseId, COALESCE(c.Title, N'General Discussion') AS CourseTitle
   FROM DiscussionReplies r
   JOIN DiscussionPosts p ON p.Id = r.PostId
-  JOIN Courses c ON c.Id = p.CourseId
+  LEFT JOIN Courses c ON c.Id = p.CourseId
   JOIN Users u ON u.Id = r.AuthorId
- WHERE r.PostId = @PostId AND c.Status = @Published
+ WHERE r.PostId = @PostId AND " + BrowseAccessSql + @"
  ORDER BY r.CreatedAt, r.Id
  OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
 
@@ -207,13 +225,13 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         {
             string query = @"
 SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
-       u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl,
-       p.Title AS PostTitle, c.Id AS CourseId, c.Title AS CourseTitle
+       (SELECT b.Name FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeName, (SELECT CASE WHEN b.Metric='points' THEN CASE WHEN b.Target>=10000 THEN 'legend' WHEN b.Target>=5000 THEN 'expert' WHEN b.Target>=3000 THEN 'skilled' ELSE 'starter' END ELSE CASE WHEN b.Target>=50 THEN 'legend' WHEN b.Target>=25 THEN 'expert' WHEN b.Target>=10 THEN 'skilled' ELSE 'starter' END END FROM dbo.LearnerBadges lb JOIN dbo.Badges b ON b.Id=lb.BadgeId WHERE lb.LearnerId=u.Id AND lb.IsFeatured=1) AS AuthorBadgeTier, u.FullName AS AuthorName, u.Username AS AuthorUsername, u.Role AS AuthorRole, u.AvatarUrl AS AuthorAvatarUrl,
+       p.Title AS PostTitle, c.Id AS CourseId, COALESCE(c.Title, N'General Discussion') AS CourseTitle
   FROM DiscussionReplies r
   JOIN DiscussionPosts p ON p.Id = r.PostId
-  JOIN Courses c ON c.Id = p.CourseId
+  LEFT JOIN Courses c ON c.Id = p.CourseId
   JOIN Users u ON u.Id = r.AuthorId
- WHERE r.AuthorId = @AuthorId AND c.Status = @Published
+ WHERE r.AuthorId = @AuthorId AND " + BrowseAccessSql + @"
  ORDER BY r.CreatedAt DESC, r.Id DESC
  OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
 
@@ -224,13 +242,14 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
             });
         }
 
-        private static List<DiscussionReply> ReadReplies(string query, Action<SqlCommand> addParameters)
+        private List<DiscussionReply> ReadReplies(string query, Action<SqlCommand> addParameters)
         {
             List<DiscussionReply> replies = new List<DiscussionReply>();
             using (SqlConnection connection = DatabaseHelper.GetConnection())
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.Add("@ViewerId", SqlDbType.Int).Value = viewerId;
                     command.Parameters.Add("@Published", SqlDbType.NVarChar, 20).Value = CourseStatuses.Published;
                     addParameters(command);
 
@@ -241,7 +260,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
                         {
                             DiscussionReply reply = ReadReply(reader);
                             reply.PostTitle = reader["PostTitle"].ToString();
-                            reply.CourseId = Convert.ToInt32(reader["CourseId"]);
+                            reply.CourseId = reader["CourseId"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["CourseId"]);
                             reply.CourseTitle = reader["CourseTitle"].ToString();
                             replies.Add(reply);
                         }
@@ -271,13 +290,15 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
             DiscussionPost post = new DiscussionPost
             {
                 Id = Convert.ToInt32(reader["Id"]),
-                CourseId = Convert.ToInt32(reader["CourseId"]),
+                CourseId = reader["CourseId"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["CourseId"]),
                 AuthorId = Convert.ToInt32(reader["AuthorId"]),
                 Title = reader["Title"].ToString(),
                 Content = reader["Content"].ToString(),
                 CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                 CourseTitle = reader["CourseTitle"].ToString(),
                 CourseInstructorId = Convert.ToInt32(reader["CourseInstructorId"]),
+                AuthorBadgeName = reader["AuthorBadgeName"] as string,
+                AuthorBadgeTier = reader["AuthorBadgeTier"] as string,
                 AuthorName = reader["AuthorName"].ToString(),
                 AuthorUsername = reader["AuthorUsername"].ToString(),
                 AuthorRole = reader["AuthorRole"].ToString(),
@@ -316,11 +337,12 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
             string query = @"INSERT INTO DiscussionPosts (CourseId, AuthorId, Title, Content)
                              OUTPUT INSERTED.Id
                              SELECT @CourseId, @AuthorId, @Title, @Content
-                              WHERE EXISTS (SELECT 1 FROM Courses WHERE Id = @CourseId AND Status = @Published)";
+                              FROM (SELECT @CourseId AS CourseId) p LEFT JOIN Courses c ON c.Id=p.CourseId
+                              WHERE @AuthorId=@ViewerId AND " + AccessSql + @"";
 
             return InsertAndReturnId(query, "DiscussionRepository.InsertPost failure", command =>
             {
-                command.Parameters.Add("@CourseId", SqlDbType.Int).Value = post.CourseId;
+                command.Parameters.Add("@CourseId", SqlDbType.Int).Value = (object)post.CourseId ?? DBNull.Value;
                 command.Parameters.Add("@AuthorId", SqlDbType.Int).Value = post.AuthorId;
                 command.Parameters.Add("@Title", SqlDbType.NVarChar, 250).Value = post.Title;
                 command.Parameters.Add("@Content", SqlDbType.NVarChar, -1).Value = post.Content;
@@ -333,7 +355,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         /// </summary>
         public bool UpdatePost(DiscussionPost post)
         {
-            return Execute("UPDATE DiscussionPosts SET Title = @Title, Content = @Content WHERE Id = @Id AND AuthorId = @AuthorId",
+            return Execute("UPDATE DiscussionPosts SET Title = @Title, Content = @Content WHERE Id = @Id AND AuthorId = @AuthorId AND @AuthorId=@ViewerId AND EXISTS (SELECT 1 FROM DiscussionPosts p LEFT JOIN Courses c ON c.Id=p.CourseId WHERE p.Id=DiscussionPosts.Id AND " + AccessSql + ")",
                 "DiscussionRepository.UpdatePost failure", command =>
                 {
                     command.Parameters.Add("@Id", SqlDbType.Int).Value = post.Id;
@@ -348,7 +370,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         /// </summary>
         public bool DeletePost(int postId, int authorId)
         {
-            return Execute("DELETE FROM DiscussionPosts WHERE Id = @Id AND AuthorId = @AuthorId",
+            return Execute("DELETE FROM DiscussionPosts WHERE Id = @Id AND AuthorId = @AuthorId AND @AuthorId=@ViewerId AND EXISTS (SELECT 1 FROM DiscussionPosts p LEFT JOIN Courses c ON c.Id=p.CourseId WHERE p.Id=DiscussionPosts.Id AND " + AccessSql + ")",
                 "DiscussionRepository.DeletePost failure", command =>
                 {
                     command.Parameters.Add("@Id", SqlDbType.Int).Value = postId;
@@ -366,8 +388,8 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
                              OUTPUT INSERTED.Id
                              SELECT p.Id, @AuthorId, @Content
                                FROM DiscussionPosts p
-                               JOIN Courses c ON c.Id = p.CourseId
-                              WHERE p.Id = @PostId AND c.Status = @Published";
+                               LEFT JOIN Courses c ON c.Id = p.CourseId
+                              WHERE p.Id = @PostId AND @AuthorId=@ViewerId AND " + AccessSql + @"";
 
             return InsertAndReturnId(query, "DiscussionRepository.InsertReply failure", command =>
             {
@@ -383,7 +405,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         /// </summary>
         public bool UpdateReply(DiscussionReply reply)
         {
-            return Execute("UPDATE DiscussionReplies SET Content = @Content WHERE Id = @Id AND AuthorId = @AuthorId",
+            return Execute("UPDATE DiscussionReplies SET Content = @Content WHERE Id = @Id AND AuthorId = @AuthorId AND @AuthorId=@ViewerId AND EXISTS (SELECT 1 FROM DiscussionPosts p LEFT JOIN Courses c ON c.Id=p.CourseId WHERE p.Id=DiscussionReplies.PostId AND " + AccessSql + ")",
                 "DiscussionRepository.UpdateReply failure", command =>
                 {
                     command.Parameters.Add("@Id", SqlDbType.Int).Value = reply.Id;
@@ -397,7 +419,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         /// </summary>
         public bool DeleteReply(int replyId, int authorId)
         {
-            return Execute("DELETE FROM DiscussionReplies WHERE Id = @Id AND AuthorId = @AuthorId",
+            return Execute("DELETE FROM DiscussionReplies WHERE Id = @Id AND AuthorId = @AuthorId AND @AuthorId=@ViewerId AND EXISTS (SELECT 1 FROM DiscussionPosts p LEFT JOIN Courses c ON c.Id=p.CourseId WHERE p.Id=DiscussionReplies.PostId AND " + AccessSql + ")",
                 "DiscussionRepository.DeleteReply failure", command =>
                 {
                     command.Parameters.Add("@Id", SqlDbType.Int).Value = replyId;
@@ -406,7 +428,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         }
 
         // Runs an INSERT ... OUTPUT INSERTED.Id; 0 when no row was inserted or the database failed
-        private static int InsertAndReturnId(string query, string errorContext, Action<SqlCommand> addParameters)
+        private int InsertAndReturnId(string query, string errorContext, Action<SqlCommand> addParameters)
         {
             try
             {
@@ -414,6 +436,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
                 {
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                    command.Parameters.Add("@ViewerId", SqlDbType.Int).Value = viewerId;
                         addParameters(command);
                         connection.Open();
                         object id = command.ExecuteScalar();
@@ -429,7 +452,7 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
         }
 
         // Runs an UPDATE or DELETE; true when at least one row changed
-        private static bool Execute(string query, string errorContext, Action<SqlCommand> addParameters)
+        private bool Execute(string query, string errorContext, Action<SqlCommand> addParameters)
         {
             try
             {
@@ -437,7 +460,9 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
                 {
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                    command.Parameters.Add("@ViewerId", SqlDbType.Int).Value = viewerId;
                         addParameters(command);
+                        command.Parameters.Add("@Published", SqlDbType.NVarChar, 20).Value = CourseStatuses.Published;
                         connection.Open();
                         return command.ExecuteNonQuery() > 0;
                     }
@@ -465,6 +490,8 @@ SELECT r.Id, r.PostId, r.AuthorId, r.Content, r.CreatedAt,
                 AuthorId = Convert.ToInt32(reader["AuthorId"]),
                 Content = reader["Content"].ToString(),
                 CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
+                AuthorBadgeName = reader["AuthorBadgeName"] as string,
+                AuthorBadgeTier = reader["AuthorBadgeTier"] as string,
                 AuthorName = reader["AuthorName"].ToString(),
                 AuthorUsername = reader["AuthorUsername"].ToString(),
                 AuthorRole = reader["AuthorRole"].ToString(),

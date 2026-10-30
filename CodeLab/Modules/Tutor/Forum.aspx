@@ -14,7 +14,7 @@
                 <span>Discussion forum</span>
             </nav>
             <h1>Discussion forum</h1>
-            <p>Ask questions, share tips and help learners in any published course.</p>
+            <p>Ask questions, share tips and help learners in General or a published course.</p>
         </div>
         <% if (CanPost) { %>
             <button type="button" class="btn btn-primary cl-forum-new" data-compose-open>
@@ -34,7 +34,7 @@
                 <section class="cl-card cl-forum-compose" id="compose" <%= ComposeOpen ? "" : "hidden" %>>
                     <div class="cl-builder-card-head">
                         <span class="cl-builder-icon cl-tone-pink"><i data-lucide="message-square-plus" class="cl-icon" aria-hidden="true"></i></span>
-                        <div><h2>Start a discussion</h2><p>Everyone in the forum can read and reply to it.</p></div>
+                        <div><h2>Start a discussion</h2><p>General discussions are shared. Course discussions are available to learners enrolled in that course and tutors.</p></div>
                     </div>
 
                     <asp:ValidationSummary ID="vsPost" runat="server" ValidationGroup="Post" CssClass="cl-alert cl-alert-danger"
@@ -42,10 +42,10 @@
 
                     <%-- ValidateRequestMode="Disabled" lets people type code such as List<int>; posts are always shown encoded --%>
                     <div class="cl-field">
-                        <asp:Label ID="lblCourse" runat="server" AssociatedControlID="ddlCourse" CssClass="form-label" Text="Course" />
+                        <asp:Label ID="lblCourse" runat="server" AssociatedControlID="ddlCourse" CssClass="form-label" Text="Discussion area" />
                         <asp:DropDownList ID="ddlCourse" runat="server" CssClass="form-select" />
                         <asp:RequiredFieldValidator ID="rfvCourse" runat="server" ControlToValidate="ddlCourse" InitialValue=""
-                            ErrorMessage="Choose the course this discussion is about." CssClass="cl-field-error" Display="Dynamic" ValidationGroup="Post" />
+                            ErrorMessage="Choose General Discussion or a published course." CssClass="cl-field-error" Display="Dynamic" ValidationGroup="Post" />
                     </div>
                     <div class="cl-field">
                         <asp:Label ID="lblTitle" runat="server" AssociatedControlID="txtTitle" CssClass="form-label" Text="Title" />
@@ -72,7 +72,7 @@
             <%-- ===== Filter and search ===== --%>
             <div class="cl-card cl-forum-toolbar">
                 <div class="cl-forum-filter">
-                    <label for="forumCourse" class="visually-hidden">Course</label>
+                    <label for="forumCourse" class="visually-hidden">Discussion area</label>
                     <select id="forumCourse" class="form-select">
                         <asp:Literal ID="litCourseOptions" runat="server" Mode="PassThrough" />
                     </select>
@@ -94,11 +94,11 @@
                             <%# TutorDisplayHelper.AvatarHtml((string)Eval("AuthorName"), (string)Eval("AuthorAvatarUrl")) %>
                             <div class="cl-post-meta">
                                 <div class="cl-post-author">
-                                    <strong><%#: Eval("AuthorName") %></strong>
+                                    <strong><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) == "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) != "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrEmpty(Eval("AuthorBadgeName") as string) %>'><span class='cl-earned-badge tier-<%#: Eval("AuthorBadgeTier") %>' title="Featured earned badge">&#9733; <%#: Eval("AuthorBadgeName") %></span></asp:PlaceHolder></strong>
                                     <%# BadgesHtml((int)Eval("AuthorId"), (string)Eval("AuthorRole"), (int)Eval("CourseInstructorId")) %>
                                 </div>
                                 <div class="cl-post-sub">
-                                    <a class="cl-post-course" href="<%#: CourseFilterUrl((int)Eval("CourseId")) %>">
+                                    <a class="cl-post-course" href="<%#: CourseFilterUrl((int?)Eval("CourseId")) %>">
                                         <i data-lucide="book-open" class="cl-icon" aria-hidden="true"></i><%#: Eval("CourseTitle") %>
                                     </a>
                                     <span>·</span>
@@ -153,7 +153,7 @@
                                         <%# TutorDisplayHelper.AvatarHtml((string)Eval("AuthorName"), (string)Eval("AuthorAvatarUrl")) %>
                                         <div class="cl-reply-main">
                                             <div class="cl-reply-head">
-                                                <strong><%#: Eval("AuthorName") %></strong>
+                                                <strong><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) == "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) != "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrEmpty(Eval("AuthorBadgeName") as string) %>'><span class='cl-earned-badge tier-<%#: Eval("AuthorBadgeTier") %>' title="Featured earned badge">&#9733; <%#: Eval("AuthorBadgeName") %></span></asp:PlaceHolder></strong>
                                                 <%# BadgesHtml((int)Eval("AuthorId"), (string)Eval("AuthorRole"), CurrentInstructorId) %>
                                                 <time title="<%#: TutorDisplayHelper.LocalDateTime((DateTime)Eval("CreatedAt")) %>"><%#: TutorDisplayHelper.TimeAgo((DateTime)Eval("CreatedAt")) %></time>
                                                 <asp:PlaceHolder ID="phReplyActions" runat="server" Visible='<%# IsMine((int)Eval("AuthorId")) %>'>
@@ -227,7 +227,7 @@
                     <div><h2>Forum guidelines</h2><p>Keep it helpful and friendly.</p></div>
                 </div>
                 <ul class="cl-checklist">
-                    <li>Pick the course your question is about, so others can find it.</li>
+                    <li>Choose General for community topics, or the course your question is about.</li>
                     <li>Give your discussion a clear title and include any error message or code.</li>
                     <li>Reply to help others. Your replies show a <strong>Tutor</strong> badge, or <strong>Instructor</strong> in your own courses.</li>
                     <li>You can edit or delete only your own posts and replies.</li>

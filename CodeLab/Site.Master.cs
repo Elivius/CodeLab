@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Web.UI;
 using CodeLab.BLL;
 using CodeLab.Helpers;
@@ -8,8 +8,15 @@ namespace CodeLab
 {
     public partial class SiteMaster : MasterPage
     {
+        protected string AccountAvatar;
+        public string LearnerAvatarUrl { get { return AccountAvatar; } }
+        protected string AccountInitial { get { string name=SessionHelper.GetCurrentFullName(); return string.IsNullOrWhiteSpace(name)?"?":System.Globalization.StringInfo.GetNextTextElement(name).ToUpperInvariant(); } }
+        protected string AccountProfileUrl { get { return ResolveUrl(SessionHelper.IsUserInRole(UserRoles.Tutor)?"~/Modules/Tutor/Profile":SessionHelper.IsUserInRole(UserRoles.Admin)?"~/Modules/Admin/Dashboard":"~/Modules/Learner/Profile"); } }
+
         protected void Page_Init(object sender, EventArgs e)
         {
+            new LearnerManager().RecordDailyActivity();
+            
             // A signed-in user works inside their own module: the landing page and other guest
             // pages (including Login and Register) send them to their role's home page.
             // An unknown role gets "~/", which is a guest page itself, so it must not redirect.
@@ -31,7 +38,16 @@ namespace CodeLab
                 return;
             }
 
-            lblCurrentUser.Text = Server.HtmlEncode(SessionHelper.GetCurrentFullName() + " (" + SessionHelper.GetCurrentRole() + ")");
+            lblCurrentUser.Text = Server.HtmlEncode(SessionHelper.GetCurrentFullName());
+
+            if(SessionHelper.IsUserInRole(UserRoles.Learner)) {
+                var result=new UserManager().GetLearnerProfile();
+                if(result.Success && result.Data!=null) {
+                    string avatar=result.Data.AvatarUrl; Uri uri;
+                    if(!string.IsNullOrEmpty(avatar) && avatar.StartsWith("~/Uploads/Avatars/") && !avatar.Contains("..") && !avatar.Contains("\\")) AccountAvatar=ResolveUrl(avatar);
+                    else if(Uri.TryCreate(avatar,UriKind.Absolute,out uri) && (uri.Scheme=="https" || uri.Scheme=="http")) AccountAvatar=uri.AbsoluteUri;
+                }
+            }
 
             phAdminNav.Visible = SessionHelper.IsUserInRole(UserRoles.Admin);
             phTutorNav.Visible = SessionHelper.IsUserInRole(UserRoles.Tutor);

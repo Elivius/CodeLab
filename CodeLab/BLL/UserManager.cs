@@ -26,6 +26,74 @@ namespace CodeLab.BLL
         /// <summary>
         /// Checks a username and password. On success, Data holds the matching user.
         /// </summary>
+        public OperationResult<User> GetLearnerProfile()
+        {
+            if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult<User>.Fail("Learner access required.");
+            try {
+                var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
+                if(user==null) return OperationResult<User>.Fail("Account unavailable.");
+                user.PasswordHash=null;
+                return OperationResult<User>.Ok(user);
+            } catch(Exception ex) { LogHelper.LogError("Loading learner profile",ex); return OperationResult<User>.Fail("Profile temporarily unavailable."); }
+        }
+        public OperationResult SaveLearnerProfile(string name,string username,string email)
+        {
+            if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult.Fail("Learner access required.");
+            name=(name??"").Trim(); username=(username??"").Trim(); email=(email??"").Trim();
+            if(name.Length==0 || name.Length>120 || !Regex.IsMatch(username,@"^[a-zA-Z0-9_]{3,50}$") || email.Length>255 || !Regex.IsMatch(email,EmailPattern)) return OperationResult.Fail("Check your name, username, email and field lengths.");
+            try {
+                var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
+                if(user==null) return OperationResult.Fail("Account unavailable.");
+
+                user.FullName=name;user.Username=username;user.Email=email;
+                if(!_userRepository.SaveLearnerProfile(user,user.PasswordHash)) return OperationResult.Fail("Account changed. Please sign in again.");
+                SessionHelper.SignIn(user);
+                return OperationResult.Ok();
+            } catch(System.Data.SqlClient.SqlException ex) {
+                if(ex.Number==2601 || ex.Number==2627) return OperationResult.Fail("That username or email is already in use.");
+                LogHelper.LogError("Saving learner profile",ex);return OperationResult.Fail("Profile could not be saved.");
+            }
+        }
+        public OperationResult ChangeLearnerPassword(string current,string password,string confirm)
+        {
+            if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult.Fail("Learner access required.");
+            if(string.IsNullOrEmpty(password) || password.Length>128 || !Regex.IsMatch(password,PasswordPattern) || password!=confirm) return OperationResult.Fail("Use 8–128 characters with a number and matching confirmation.");
+            try {
+                var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
+                if(user==null || !PasswordHelper.VerifyPassword(current,user.PasswordHash)) return OperationResult.Fail("Current password is incorrect.");
+                return _userRepository.ChangeLearnerPassword(user.Id,user.PasswordHash,PasswordHelper.HashPassword(password)) ? OperationResult.Ok() : OperationResult.Fail("Account changed. Please sign in again.");
+            } catch(Exception ex) { LogHelper.LogError("Changing learner password",ex);return OperationResult.Fail("Password could not be updated."); }
+        }
+        public OperationResult UploadLearnerAvatar(string fileName,int length,System.IO.Stream stream)
+        {
+            if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult.Fail("Learner access required.");
+            byte[] data;string extension;
+            string error=ImageUploadHelper.ReadValidatedImage(fileName,length,stream,2*1024*1024,"photo",out data,out extension);
+            if(error!=null) return OperationResult.Fail(error);
+            string newUrl=null;
+            try {
+                var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
+                if(user==null) return OperationResult.Fail("Account unavailable.");
+                newUrl=ImageUploadHelper.SaveImage(data,extension,ImageUploadHelper.AvatarFolder,"u"+user.Id);
+                if(!_userRepository.UpdateAvatarUrl(user.Id,newUrl)) { ImageUploadHelper.DeleteImage(newUrl,ImageUploadHelper.AvatarFolder);return OperationResult.Fail("Photo could not be saved."); }
+                ImageUploadHelper.DeleteImage(user.AvatarUrl,ImageUploadHelper.AvatarFolder);
+                return OperationResult.Ok();
+            } catch(Exception ex) { if(newUrl!=null) ImageUploadHelper.DeleteImage(newUrl,ImageUploadHelper.AvatarFolder);LogHelper.LogError("Uploading learner avatar",ex);return OperationResult.Fail("Photo could not be uploaded. Please try again."); }
+        }
+        public OperationResult SetLearnerAvatar(int preset)
+        {
+            if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult.Fail("Learner access required.");
+            string[] photos={"photo-1535713875002-d1d0cf377fde","photo-1570295999919-56ceb5ecca61","photo-1534528741775-53994a69daeb","photo-1507003211169-0a1dd7228f2d","photo-1580489944761-15a19d654956","photo-1500648767791-00dcc994a43e"};
+            if(preset<0 || preset>photos.Length) return OperationResult.Fail("Choose a valid avatar.");
+            try {
+                var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
+                if(user==null) return OperationResult.Fail("Account unavailable.");
+                string url=preset==0 ? null : "https://images.unsplash.com/"+photos[preset-1]+"?w=150&auto=format&fit=crop&q=80";
+                if(!_userRepository.UpdateAvatarUrl(user.Id,url)) return OperationResult.Fail("Avatar could not be saved.");
+                ImageUploadHelper.DeleteImage(user.AvatarUrl,ImageUploadHelper.AvatarFolder);
+                return OperationResult.Ok();
+            } catch(Exception ex) { LogHelper.LogError("Saving learner avatar",ex);return OperationResult.Fail("Avatar could not be saved."); }
+        }
         public OperationResult<User> Authenticate(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password))

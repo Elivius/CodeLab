@@ -20,7 +20,7 @@ namespace CodeLab.Modules.Learner
         private int postId;
         private bool canAccessDiscussion;
         private bool redirecting;
-        private DiscussionPost currentPost;
+        protected DiscussionPost currentPost;
 
         private int CurrentPage
         {
@@ -164,6 +164,7 @@ namespace CodeLab.Modules.Learner
 
             litAuthorInitial.Text = GetInitial(currentPost.AuthorName);
             litAuthorName.Text = currentPost.AuthorName;
+            litAuthorName.Visible=currentPost.AuthorRole!="Tutor";
             litAuthorUsername.Text = currentPost.AuthorUsername;
             litAuthorRole.Text = currentPost.AuthorRole;
             litCreatedAt.Text = FormatDate(currentPost.CreatedAt);

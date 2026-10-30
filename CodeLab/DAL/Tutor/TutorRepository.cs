@@ -11,6 +11,22 @@ namespace CodeLab.DAL
         /// <summary>
         /// Returns the tutor's application status (TutorStatuses), or null if they have not applied.
         /// </summary>
+        // Explicit public projection: never load email or application/review details.
+        public TutorProfile GetPublicProfile(int userId)
+        {
+            using(var connection=DatabaseHelper.GetConnection())
+            using(var command=new SqlCommand(@"SELECT u.Id,u.FullName,u.AvatarUrl,t.Specialty,t.Qualifications,t.PortfolioUrl,t.Bio
+FROM dbo.Users u JOIN dbo.TutorProfiles t ON t.UserId=u.Id
+WHERE u.Id=@Id AND u.Role=N'Tutor' AND u.Status=N'Active' AND t.Status=N'Approved';",connection))
+            {
+                command.Parameters.Add("@Id",SqlDbType.Int).Value=userId;
+                connection.Open();
+                using(var reader=command.ExecuteReader()) {
+                    if(!reader.Read()) return null;
+                    return new TutorProfile { UserId=reader.GetInt32(0),FullName=reader.GetString(1),AvatarUrl=reader.IsDBNull(2)?null:reader.GetString(2),Specialty=reader.GetString(3),Qualifications=reader.GetString(4),PortfolioUrl=reader.GetString(5),Bio=reader.GetString(6) };
+                }
+            }
+        }
         public string GetApplicationStatus(int userId)
         {
             string query = @"SELECT Status FROM TutorProfiles WHERE UserId = @UserId";

@@ -8,8 +8,8 @@ namespace CodeLab.BLL
 {
     /// <summary>
     /// The course discussion forum, shared by the Tutor and Learner pages. Rules (follow the prototype):
-    /// - One board for every Published course; anyone signed in can read it.
-    /// - Any Learner or Tutor can start a post in any Published course, and reply to any post.
+    /// - General discussions plus published course boards; learners require enrolment for course boards.
+    /// - Learners and tutors can participate in boards they can access.
     /// - Replies are flat: a post has many replies, a reply has no replies of its own.
     /// - Only the author can edit or delete their own post or reply. Deleting a post removes its replies.
     /// </summary>
@@ -23,7 +23,12 @@ namespace CodeLab.BLL
         /// <summary>Largest page the paged methods return.</summary>
         public const int MaxPageSize = 100;
 
-        private readonly DiscussionRepository _discussionRepository = new DiscussionRepository();
+        // Pages construct managers before ASP.NET attaches session state.
+        // Resolve the viewer at operation time, after authentication checks.
+        private DiscussionRepository _discussionRepository
+        {
+            get { return new DiscussionRepository(SessionHelper.GetCurrentUserID()); }
+        }
 
         /// <summary>
         /// Posts with their replies, newest post first. courseId 0 shows every published course.
@@ -43,7 +48,7 @@ namespace CodeLab.BLL
 
             try
             {
-                return OperationResult<List<DiscussionPost>>.Ok(_discussionRepository.GetPosts(Math.Max(0, courseId), cleanSearch));
+                return OperationResult<List<DiscussionPost>>.Ok(_discussionRepository.GetPosts(Math.Max(-2, courseId), cleanSearch));
             }
             catch (Exception exception)
             {
@@ -72,7 +77,7 @@ namespace CodeLab.BLL
             {
                 int authorId = onlyMine ? SessionHelper.GetCurrentUserID() : 0;
                 return OperationResult<List<DiscussionPost>>.Ok(
-                    _discussionRepository.GetPostPage(Math.Max(0, courseId), CleanSearch(search), authorId, pageNumber, pageSize));
+                    _discussionRepository.GetPostPage(Math.Max(-2, courseId), CleanSearch(search), authorId, pageNumber, pageSize));
             }
             catch (Exception exception)
             {
@@ -181,11 +186,33 @@ namespace CodeLab.BLL
         /// <summary>
         /// The courses a post can be filed under: every Published course.
         /// </summary>
-        public OperationResult<List<Course>> GetCourses()
+        // Browsing includes every published course, independently of enrolment.
+        public OperationResult<List<Course>> GetBrowseCourses()
         {
             try
             {
                 return OperationResult<List<Course>>.Ok(new CourseRepository().GetPublished());
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("DiscussionManager.GetBrowseCourses failure", exception);
+                return OperationResult<List<Course>>.Fail("The courses could not be loaded. Please try again.");
+            }
+        }
+
+        public OperationResult<List<Course>> GetCourses()
+        {
+            try
+            {
+                var courses = new CourseRepository().GetPublished();
+                if (SessionHelper.IsUserInRole(UserRoles.Learner))
+                {
+                    var enrolled = new LearnerCourseRepository().GetCourses(SessionHelper.GetCurrentUserID(), true, "", "");
+                    var ids = new HashSet<int>();
+                    foreach (var course in enrolled) ids.Add(course.Id);
+                    courses.RemoveAll(course => !ids.Contains(course.Id));
+                }
+                return OperationResult<List<Course>>.Ok(courses);
             }
             catch (Exception exception)
             {
@@ -207,7 +234,7 @@ namespace CodeLab.BLL
 
             DiscussionPost post = new DiscussionPost
             {
-                CourseId = courseId,
+                CourseId = courseId == -1 ? (int?)null : courseId,
                 AuthorId = SessionHelper.GetCurrentUserID(),
                 Title = Clean(title),
                 Content = CleanText(content)
@@ -219,7 +246,7 @@ namespace CodeLab.BLL
                 return OperationResult<int>.Fail(error);
             }
 
-            if (courseId <= 0)
+            if (courseId <= 0 && courseId != -1)
             {
                 return OperationResult<int>.Fail("Choose the course this discussion is about.");
             }
@@ -227,7 +254,9 @@ namespace CodeLab.BLL
             int postId = _discussionRepository.InsertPost(post);
             if (postId == 0)
             {
-                return OperationResult<int>.Fail("That course is not open for discussion. Choose a published course and try again.");
+                return OperationResult<int>.Fail(courseId == -1
+                    ? "Your general discussion could not be saved. Please reload the page and try again."
+                    : "That course is not open for discussion. Choose an accessible published course and try again.");
             }
 
             new AuditManager().RecordActivity(post.AuthorId, "CREATE_DISCUSSION_POST", "Started a discussion: '" + post.Title + "'.");

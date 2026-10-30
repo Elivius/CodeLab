@@ -10,7 +10,7 @@ namespace CodeLab.Models
     public class DiscussionPost
     {
         public int Id { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
         public int AuthorId { get; set; }
         public string Title { get; set; }
 
@@ -26,6 +26,8 @@ namespace CodeLab.Models
         // The course's tutor, so their posts can show an "Instructor" badge
         public int CourseInstructorId { get; set; }
 
+        public string AuthorBadgeTier { get; set; }
+        public string AuthorBadgeName { get; set; }
         public string AuthorName { get; set; }
         public string AuthorUsername { get; set; }
         public string AuthorRole { get; set; }
