@@ -1,4 +1,4 @@
-<%@ Page Title="My Discussions"
+﻿<%@ Page Title="My Discussions"
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
@@ -90,26 +90,22 @@
                 Discussion Forum
             </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Leaderboard") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-trophy" />
                 </svg>
                 Leaderboard &amp; Badges
-            </span>
+            </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Profile") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-user" />
                 </svg>
-                Profile &amp; Security
-            </span>
+                My Profile
+            </a>
 
             <span class="ld-identity">
-                <span class="ld-avatar">
+                <span class="ld-avatar"><% if(!string.IsNullOrEmpty(((CodeLab.SiteMaster)Master).LearnerAvatarUrl)){ %><img class="ld-identity-photo" src="<%: ((CodeLab.SiteMaster)Master).LearnerAvatarUrl %>" alt="" referrerpolicy="no-referrer" onerror="this.remove()" /><% } %>
                     <asp:Literal ID="litNavInitial"
                         runat="server"
                         Mode="Encode" />

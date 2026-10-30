@@ -8,6 +8,49 @@ namespace CodeLab.DAL
 {
     public class LearnerCourseRepository
     {
+        public void SaveAttemptReview(SqlTransaction transaction, int learnerId,
+            int courseId, int attemptId, string reviewJson)
+        {
+            const string sql = @"
+UPDATE a SET AnswerReviewJson = @review
+FROM dbo.QuizAttempts a
+JOIN dbo.Quizzes q ON q.Id = a.QuizId
+WHERE a.Id = @attempt AND a.LearnerId = @learner AND q.CourseId = @course
+  AND a.AnswerReviewJson IS NULL;";
+            using (var command = new SqlCommand(sql, transaction.Connection, transaction))
+            {
+                command.Parameters.Add("@review", SqlDbType.NVarChar, -1).Value = reviewJson;
+                command.Parameters.Add("@attempt", SqlDbType.Int).Value = attemptId;
+                command.Parameters.Add("@learner", SqlDbType.Int).Value = learnerId;
+                command.Parameters.Add("@course", SqlDbType.Int).Value = courseId;
+                if (command.ExecuteNonQuery() != 1)
+                    throw new InvalidOperationException("The attempt review could not be saved.");
+            }
+        }
+
+        public string GetAttemptReview(int learnerId, int courseId, int attemptId)
+        {
+            const string sql = @"
+SELECT a.AnswerReviewJson FROM dbo.QuizAttempts a
+JOIN dbo.Quizzes q ON q.Id = a.QuizId
+JOIN dbo.Courses c ON c.Id = q.CourseId
+WHERE a.Id = @attempt AND a.LearnerId = @learner AND c.Id = @course
+  AND c.Status = N'Published'
+  AND EXISTS (SELECT 1 FROM dbo.CourseEnrollments e
+              WHERE e.CourseId = c.Id AND e.LearnerId = @learner)
+  AND EXISTS (SELECT 1 FROM dbo.Users u WHERE u.Id = @learner
+              AND u.Role = N'Learner' AND u.Status = N'Active');";
+            using (var connection = DatabaseHelper.GetConnection())
+            using (var command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.Add("@attempt", SqlDbType.Int).Value = attemptId;
+                command.Parameters.Add("@learner", SqlDbType.Int).Value = learnerId;
+                command.Parameters.Add("@course", SqlDbType.Int).Value = courseId;
+                connection.Open();
+                return Convert.ToString(command.ExecuteScalar());
+            }
+        }
+
         private const string CourseSelect = @"
 SELECT c.Id, c.Title, c.Description, c.Category, c.Difficulty,
        u.FullName AS Instructor, c.ThumbnailUrl,
@@ -15,6 +58,7 @@ SELECT c.Id, c.Title, c.Description, c.Category, c.Difficulty,
        CASE WHEN e.Id IS NULL THEN CAST(0 AS bit) ELSE CAST(1 AS bit) END AS IsEnrolled,
        ISNULL(e.IsCompleted,0) AS IsCompleted,
        ISNULL(e.ProgressPercent,0) AS ProgressPercent
+ ,c.InstructorId
 FROM dbo.Courses c
 INNER JOIN dbo.Users u ON u.Id=c.InstructorId
 LEFT JOIN dbo.CourseEnrollments e ON e.CourseId=c.Id AND e.LearnerId=@learner
@@ -172,7 +216,7 @@ WHERE LearnerId=@learner AND CourseId=@course;", conn, tx))
         {
             return new LearnerCourse {
                 Id=r.GetInt32(0), Title=r.GetString(1), Description=r.GetString(2),
-                Category=r.GetString(3), Difficulty=r.GetString(4), Instructor=r.GetString(5),
+                InstructorId=Convert.ToInt32(r["InstructorId"]), Category=r.GetString(3), Difficulty=r.GetString(4), Instructor=r.GetString(5),
                 ThumbnailUrl=r.IsDBNull(6) ? "" : r.GetString(6), LessonCount=r.GetInt32(7),
                 IsEnrolled=r.GetBoolean(8), IsCompleted=r.GetBoolean(9), ProgressPercent=r.GetDecimal(10)
             };

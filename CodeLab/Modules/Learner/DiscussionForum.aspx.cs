@@ -13,9 +13,6 @@ namespace CodeLab.Modules.Learner
     {
         private const int PageSize = 20;
 
-        // "General" discussions (no course) are not supported: DiscussionPosts.CourseId is required.
-        // Kept as a property so the page markup still compiles; it is always false.
-        protected bool GeneralScope { get { return false; } }
 
         // Shared forum rules, the same ones the Tutor forum uses (BLL/Discussion/DiscussionManager)
         private readonly DiscussionManager manager =
@@ -113,8 +110,9 @@ namespace CodeLab.Modules.Learner
             string selectedFilter = ddlCourse.SelectedValue;
             string selectedPostCourse = ddlPostCourse.SelectedValue;
 
-            OperationResult<List<Course>> result = manager.GetCourses();
-            if (!result.Success)
+            OperationResult<List<Course>> result = manager.GetBrowseCourses();
+            var postingCourses = manager.GetCourses();
+            if (!result.Success || !postingCourses.Success)
             {
                 return false;
             }
@@ -123,10 +121,11 @@ namespace CodeLab.Modules.Learner
             courses.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.CurrentCultureIgnoreCase));
 
             ddlCourse.Items.Clear();
-            ddlCourse.Items.Add(new ListItem("All Courses", ""));
+            ddlCourse.Items.Add(new ListItem("All discussions", "0"));
+            ddlCourse.Items.Add(new ListItem("General Discussion", "-1"));
 
             ddlPostCourse.Items.Clear();
-            ddlPostCourse.Items.Add(new ListItem("Select a course", ""));
+            ddlPostCourse.Items.Add(new ListItem("General Discussion", "-1"));
 
             foreach (Course course in courses)
             {
@@ -134,8 +133,11 @@ namespace CodeLab.Modules.Learner
                     CultureInfo.InvariantCulture);
 
                 ddlCourse.Items.Add(new ListItem(course.Title, id));
-                ddlPostCourse.Items.Add(new ListItem(course.Title, id));
+
             }
+
+            foreach (Course course in postingCourses.Data)
+                ddlPostCourse.Items.Add(new ListItem(course.Title, course.Id.ToString(CultureInfo.InvariantCulture)));
 
             RestoreSelection(ddlCourse, selectedFilter);
             RestoreSelection(ddlPostCourse, selectedPostCourse);
@@ -143,10 +145,10 @@ namespace CodeLab.Modules.Learner
             bool hasCourses = courses.Count > 0;
 
             pnlForum.Visible = true;
-            ddlCourse.Enabled = hasCourses;
-            pnlNoCourses.Visible = !hasCourses;
-            pnlCreateAction.Visible = hasCourses;
-            btnPublish.Enabled = hasCourses;
+            ddlCourse.Enabled = true;
+            pnlNoCourses.Visible = false;
+            pnlCreateAction.Visible = true;
+            btnPublish.Enabled = true;
 
             if (!hasCourses)
             {
@@ -235,7 +237,7 @@ namespace CodeLab.Modules.Learner
             int courseId;
 
             if (int.TryParse(ddlCourse.SelectedValue, out courseId) &&
-                courseId > 0)
+                (courseId >= 0 || courseId == -1))
             {
                 return courseId;
             }
@@ -328,7 +330,7 @@ namespace CodeLab.Modules.Learner
             int courseId;
 
             if (!int.TryParse(ddlPostCourse.SelectedValue, out courseId) ||
-                courseId <= 0)
+                (courseId <= 0 && courseId != -1))
             {
                 ShowCreateError("Please select the course this discussion is about.");
                 return;
@@ -436,7 +438,7 @@ namespace CodeLab.Modules.Learner
                 length--;
             }
 
-            return text.Substring(0, length).TrimEnd() + "â€¦";
+            return text.Substring(0, length).TrimEnd() + "…";
         }
 
         protected string FormatReplyCount(object count)
@@ -507,8 +509,8 @@ namespace CodeLab.Modules.Learner
                     .GetNextTextElement(name)
                     .ToUpperInvariant();
 
-            litNavLevel.Text = "â€”";
-            litNavPoints.Text = "â€”";
+            litNavLevel.Text = "—";
+            litNavPoints.Text = "—";
 
             if (CodeLab.Helpers.SessionHelper.IsUserInRole("Tutor")) return;
             try

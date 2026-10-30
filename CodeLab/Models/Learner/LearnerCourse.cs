@@ -11,12 +11,29 @@ namespace CodeLab.Models
         public string Category { get; set; }
         public string Difficulty { get; set; }
         public string Instructor { get; set; }
+        public int InstructorId { get; set; }
         public string ThumbnailUrl { get; set; }
         public int LessonCount { get; set; }
         public bool IsEnrolled { get; set; }
         public bool IsCompleted { get; set; }
         public decimal ProgressPercent { get; set; }
         public List<LearnerLesson> Lessons { get; set; } = new List<LearnerLesson>();
+    }
+
+    public sealed class QuizAttemptReview
+    {
+        public int PassMark { get; set; }
+        public List<QuizAttemptAnswer> Answers { get; set; } = new List<QuizAttemptAnswer>();
+    }
+
+    public sealed class QuizAttemptAnswer
+    {
+        public string QuestionText { get; set; }
+        public List<string> Options { get; set; }
+        public int SelectedOptionIndex { get; set; }
+        public int CorrectOptionIndex { get; set; }
+        public string Explanation { get; set; }
+        public bool IsCorrect { get { return SelectedOptionIndex == CorrectOptionIndex; } }
     }
 
     public class LearnerLesson

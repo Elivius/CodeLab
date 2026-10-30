@@ -32,7 +32,7 @@ namespace CodeLab.Modules.Tutor
             get
             {
                 int id;
-                return int.TryParse(Request.QueryString["courseId"], out id) && id > 0 ? id : 0;
+                return int.TryParse(Request.QueryString["courseId"], out id) && (id > 0 || id == -1 || id == -2) ? id : 0;
             }
         }
 
@@ -201,7 +201,10 @@ namespace CodeLab.Modules.Tutor
             List<Course> list = courses.Success ? courses.Data.OrderBy(c => c.Title).ToList() : new List<Course>();
 
             // Filter: all courses, or one
-            StringBuilder options = new StringBuilder("<option value=\"\">All course discussions</option>");
+            StringBuilder options = new StringBuilder();
+            options.Append("<option value=\"\"").Append(CourseFilter == 0 ? " selected" : "").Append(">All discussions</option>");
+            options.Append("<option value=\"-1\"").Append(CourseFilter == -1 ? " selected" : "").Append(">General Discussion</option>");
+            options.Append("<option value=\"-2\"").Append(CourseFilter == -2 ? " selected" : "").Append(">All course discussions</option>");
             foreach (Course course in list)
             {
                 options.Append("<option value=\"").Append(course.Id).Append('"')
@@ -213,7 +216,7 @@ namespace CodeLab.Modules.Tutor
 
             // New post: the published courses, starting with the one being filtered
             ddlCourse.Items.Clear();
-            ddlCourse.Items.Add(new ListItem("Select a course", string.Empty));
+            ddlCourse.Items.Add(new ListItem("General Discussion", "-1"));
             foreach (Course course in list)
             {
                 ListItem item = new ListItem(course.Title, course.Id.ToString());
@@ -239,7 +242,7 @@ namespace CodeLab.Modules.Tutor
 
             if (posts.Count == 0)
             {
-                if (CourseFilter > 0 || SearchText.Length > 0)
+                if (CourseFilter != 0 || SearchText.Length > 0)
                 {
                     ShowEmpty("No discussions match", "Try another course or search, or start a new discussion.");
                 }
@@ -277,7 +280,7 @@ namespace CodeLab.Modules.Tutor
         private void RedirectBack(string done, string anchor)
         {
             List<string> query = new List<string>();
-            if (CourseFilter > 0) query.Add("courseId=" + CourseFilter);
+            if (CourseFilter != 0) query.Add("courseId=" + CourseFilter);
             if (SearchText.Length > 0) query.Add("q=" + HttpUtility.UrlEncode(SearchText));
             query.Add("done=" + done);
             Response.Redirect(ResolveUrl(ForumUrl) + "?" + string.Join("&", query) + (anchor == null ? string.Empty : "#" + anchor));
@@ -288,9 +291,9 @@ namespace CodeLab.Modules.Tutor
             return authorId == SessionHelper.GetCurrentUserID();
         }
 
-        protected string CourseFilterUrl(int courseId)
+        protected string CourseFilterUrl(int? courseId)
         {
-            return ResolveUrl(ForumUrl) + "?courseId=" + courseId;
+            return ResolveUrl(ForumUrl) + "?courseId=" + (courseId ?? -1).ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
 
         // "Instructor" for the course's own tutor, otherwise "Tutor" or "Admin"; plus "You" on your own posts

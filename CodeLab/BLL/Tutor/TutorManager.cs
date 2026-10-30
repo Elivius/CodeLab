@@ -8,6 +8,19 @@ namespace CodeLab.BLL
 {
     public class TutorManager
     {
+        public OperationResult<TutorProfile> GetPublicProfile(int id)
+        {
+            if(id<=0) return OperationResult<TutorProfile>.Ok(null);
+            try { return OperationResult<TutorProfile>.Ok(_tutorRepository.GetPublicProfile(id)); }
+            catch(Exception ex) { LogHelper.LogError("Loading public tutor profile",ex); return OperationResult<TutorProfile>.Fail("The tutor profile is temporarily unavailable."); }
+        }
+        public OperationResult<System.Collections.Generic.List<Course>> GetPublicCourses(int id)
+        {
+            try {
+                if(_tutorRepository.GetPublicProfile(id)==null) return OperationResult<System.Collections.Generic.List<Course>>.Ok(new System.Collections.Generic.List<Course>());
+                return OperationResult<System.Collections.Generic.List<Course>>.Ok(_courseRepository.GetPublished().FindAll(c=>c.InstructorId==id));
+            } catch(Exception ex) { LogHelper.LogError("Loading public tutor courses",ex); return OperationResult<System.Collections.Generic.List<Course>>.Fail("Courses are temporarily unavailable."); }
+        }
         private const int MaxFullNameLength = 120;
         private const int MaxSpecialtyLength = 100;
         private const int MaxUrlLength = 500;

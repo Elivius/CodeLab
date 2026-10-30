@@ -11,6 +11,39 @@ namespace CodeLab.DAL
         /// <summary>
         /// Returns the user with the given username, or null if there is none.
         /// </summary>
+        public User GetLearnerProfile(int id)
+        {
+            using(var c=DatabaseHelper.GetConnection())
+            using(var cmd=new SqlCommand("SELECT Id,FullName,Username,Email,PasswordHash,AvatarUrl,JoinedDate FROM dbo.Users WHERE Id=@Id AND Role=N'Learner' AND Status=N'Active'",c)) {
+                cmd.Parameters.Add("@Id",SqlDbType.Int).Value=id; c.Open();
+                using(var d=cmd.ExecuteReader()) {
+                    if(!d.Read()) return null;
+                    return new User { Id=d.GetInt32(0),FullName=d.GetString(1),Username=d.GetString(2),Email=d.GetString(3),PasswordHash=d.GetString(4),AvatarUrl=d.IsDBNull(5)?null:d.GetString(5),JoinedDate=d.GetDateTime(6),Role="Learner",Status="Active" };
+                }
+            }
+        }
+        public bool SaveLearnerProfile(User user,string expectedHash)
+        {
+            using(var c=DatabaseHelper.GetConnection())
+            using(var cmd=new SqlCommand("UPDATE dbo.Users SET FullName=@Name,Username=@Username,Email=@Email WHERE Id=@Id AND Role=N'Learner' AND Status=N'Active' AND PasswordHash=@Hash",c)) {
+                cmd.Parameters.Add("@Id",SqlDbType.Int).Value=user.Id;
+                cmd.Parameters.Add("@Name",SqlDbType.NVarChar,120).Value=user.FullName;
+                cmd.Parameters.Add("@Username",SqlDbType.NVarChar,50).Value=user.Username;
+                cmd.Parameters.Add("@Email",SqlDbType.NVarChar,255).Value=user.Email;
+                cmd.Parameters.Add("@Hash",SqlDbType.NVarChar,255).Value=expectedHash;
+                c.Open();return cmd.ExecuteNonQuery()==1;
+            }
+        }
+        public bool ChangeLearnerPassword(int id,string expectedHash,string newHash)
+        {
+            using(var c=DatabaseHelper.GetConnection())
+            using(var cmd=new SqlCommand("UPDATE dbo.Users SET PasswordHash=@New WHERE Id=@Id AND PasswordHash=@Old AND Role=N'Learner' AND Status=N'Active'",c)) {
+                cmd.Parameters.Add("@Id",SqlDbType.Int).Value=id;
+                cmd.Parameters.Add("@Old",SqlDbType.NVarChar,255).Value=expectedHash;
+                cmd.Parameters.Add("@New",SqlDbType.NVarChar,255).Value=newHash;
+                c.Open();return cmd.ExecuteNonQuery()==1;
+            }
+        }
         public User GetByUsername(string username)
         {
             string query = @"SELECT Id, FullName, Username, Email, PasswordHash, Role, Status, AvatarUrl, JoinedDate, LastLogin
