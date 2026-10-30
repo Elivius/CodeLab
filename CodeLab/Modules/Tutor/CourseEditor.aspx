@@ -18,8 +18,8 @@
     </div>
 
     <%-- ===== Progress: Details > Lessons > Quiz > Challenge > Submit ===== --%>
-    <% if (phForm.Visible || phReadOnly.Visible) { %>
-        <%= Master.BuilderSteps(1, CourseId) %>
+    <% if (phForm.Visible || phSummary.Visible) { %>
+        <%= Master.BuilderSteps(IsSubmitStep ? 5 : 1, CourseId) %>
     <% } %>
 
     <asp:Label ID="lblSuccess" runat="server" CssClass="cl-alert cl-alert-success" Visible="false" />
@@ -59,8 +59,19 @@
         </section>
     </asp:PlaceHolder>
 
-    <%-- ===== Course can no longer be edited (not a Draft) ===== --%>
-    <asp:PlaceHolder ID="phReadOnly" runat="server" Visible="false">
+    <%-- ===== Admin feedback on a course sent back to Draft (Details and Review steps) ===== --%>
+    <asp:PlaceHolder ID="phRejected" runat="server" Visible="false">
+        <div class="cl-feedback" role="status">
+            <span class="cl-builder-icon cl-tone-red"><i data-lucide="message-square-warning" class="cl-icon" aria-hidden="true"></i></span>
+            <div>
+                <strong>Changes requested by an administrator</strong>
+                <p><asp:Literal ID="litRejectedReason" runat="server" Mode="Encode" /></p>
+            </div>
+        </div>
+    </asp:PlaceHolder>
+
+    <%-- ===== Course summary: step 5 (Review & submit), or a course that can no longer be edited ===== --%>
+    <asp:PlaceHolder ID="phSummary" runat="server" Visible="false">
         <div class="cl-builder">
             <div class="cl-builder-main">
                 <section class="cl-card cl-readonly-card">
@@ -82,37 +93,58 @@
                         <p class="cl-prose"><asp:Literal ID="litReadOnlyDescription" runat="server" Mode="Encode" /></p>
                     </div>
                 </section>
+
+                <%-- Step 5: everything the course contains, each linking to its step --%>
+                <asp:PlaceHolder ID="phChecklist" runat="server" Visible="false">
+                    <section class="cl-card cl-builder-card">
+                        <div class="cl-builder-card-head">
+                            <span class="cl-builder-icon cl-tone-green"><i data-lucide="list-checks" class="cl-icon" aria-hidden="true"></i></span>
+                            <div><h2>Course content</h2><p>Check everything is ready. Click an item to go back and change it.</p></div>
+                        </div>
+                        <ul class="cl-readiness">
+                            <%= DetailsReadinessHtml %>
+                            <%= LessonsReadinessHtml %>
+                            <%= QuizReadinessHtml %>
+                            <%= ChallengeReadinessHtml %>
+                        </ul>
+                    </section>
+                </asp:PlaceHolder>
             </div>
 
             <aside class="cl-builder-aside">
-                <section class="cl-card cl-builder-card">
-                    <div class="cl-builder-card-head">
-                        <span class="cl-builder-icon cl-tone-amber"><i data-lucide="shield-check" class="cl-icon" aria-hidden="true"></i></span>
-                        <div><h2>Editing is closed</h2><p>This course is read-only right now.</p></div>
-                    </div>
-                    <p class="cl-builder-note"><asp:Literal ID="litReadOnlyNote" runat="server" Mode="Encode" /></p>
-                    <% if (Master.IsPageAvailable("LessonEditor")) { %>
-                        <a class="btn cl-btn-outline w-100 mt-3" href="<%: Master.GetPageUrl("LessonEditor") + "?courseId=" + CourseId %>">View lessons</a>
-                    <% } %>
-                    <asp:HyperLink ID="hlBackToDashboard" runat="server" NavigateUrl="~/Modules/Tutor/Dashboard" CssClass="btn btn-primary w-100 mt-2"
-                        Text="Back to dashboard" />
-                </section>
+                <%-- Step 5 for a Draft: send it to an administrator --%>
+                <asp:PlaceHolder ID="phSubmit" runat="server" Visible="false">
+                    <section class="cl-card cl-builder-card" id="submit">
+                        <div class="cl-builder-card-head">
+                            <span class="cl-builder-icon cl-tone-pink"><i data-lucide="send" class="cl-icon" aria-hidden="true"></i></span>
+                            <div><h2>Submit for review</h2><p>An admin checks every course before learners see it.</p></div>
+                        </div>
+                        <p class="cl-builder-note">You cannot edit the course while it is being reviewed. If the admin asks for changes, it comes back to you as a draft.</p>
+                        <asp:Label ID="lblSubmitBlocked" runat="server" CssClass="cl-submit-blocked" Visible="false" />
+                        <asp:Button ID="btnSubmitReview" runat="server" Text="Submit for review" CssClass="btn btn-primary w-100 mt-3"
+                            CausesValidation="false" OnClick="btnSubmitReview_Click"
+                            OnClientClick="return confirm('Submit this course for review? You cannot edit it while an administrator reviews it.');" />
+                    </section>
+                </asp:PlaceHolder>
+
+                <%-- A course that is not a Draft --%>
+                <asp:PlaceHolder ID="phEditingClosed" runat="server" Visible="false">
+                    <section class="cl-card cl-builder-card">
+                        <div class="cl-builder-card-head">
+                            <span class="cl-builder-icon cl-tone-amber"><i data-lucide="shield-check" class="cl-icon" aria-hidden="true"></i></span>
+                            <div><h2>Editing is closed</h2><p>This course is read-only right now.</p></div>
+                        </div>
+                        <p class="cl-builder-note"><asp:Literal ID="litReadOnlyNote" runat="server" Mode="Encode" /></p>
+                        <asp:HyperLink ID="hlBackToDashboard" runat="server" NavigateUrl="~/Modules/Tutor/Dashboard" CssClass="btn cl-btn-outline w-100 mt-3"
+                            Text="Back to dashboard" />
+                    </section>
+                </asp:PlaceHolder>
             </aside>
         </div>
     </asp:PlaceHolder>
 
     <%-- ===== Create / edit a Draft (including one sent back with admin feedback) ===== --%>
     <asp:PlaceHolder ID="phForm" runat="server" Visible="false">
-        <asp:PlaceHolder ID="phRejected" runat="server" Visible="false">
-            <div class="cl-feedback" role="status">
-                <span class="cl-builder-icon cl-tone-red"><i data-lucide="message-square-warning" class="cl-icon" aria-hidden="true"></i></span>
-                <div>
-                    <strong>Changes requested by an administrator</strong>
-                    <p><asp:Literal ID="litRejectedReason" runat="server" Mode="Encode" /></p>
-                </div>
-            </div>
-        </asp:PlaceHolder>
-
         <div class="cl-builder">
             <div class="cl-builder-main">
                 <asp:ValidationSummary ID="vsCourse" runat="server" ValidationGroup="Course" CssClass="cl-alert cl-alert-danger"
@@ -222,7 +254,9 @@
                     </span>
                     <div class="cl-action-bar-buttons">
                         <asp:HyperLink ID="hlCancel" runat="server" NavigateUrl="~/Modules/Tutor/Dashboard" CssClass="btn cl-btn-outline" Text="Cancel" />
-                        <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary" ValidationGroup="Course" OnClick="btnSave_Click" />
+                        <asp:Button ID="btnSave" runat="server" CssClass="btn cl-btn-outline" Text="Save" ValidationGroup="Course" OnClick="btnSave_Click" />
+                        <%-- Saves, then moves on to step 2 (Lessons) --%>
+                        <asp:Button ID="btnSaveContinue" runat="server" CssClass="btn btn-primary" ValidationGroup="Course" OnClick="btnSaveContinue_Click" />
                     </div>
                 </div>
             </div>
@@ -273,37 +307,12 @@
                         </ol>
                     </section>
                 </asp:PlaceHolder>
-
-                <%-- Lessons and submit for review (existing course) --%>
-                <asp:PlaceHolder ID="phSubmit" runat="server" Visible="false">
-                    <section class="cl-card cl-builder-card" id="submit">
-                        <div class="cl-builder-card-head">
-                            <span class="cl-builder-icon cl-tone-pink"><i data-lucide="send" class="cl-icon" aria-hidden="true"></i></span>
-                            <div><h2>Submit for review</h2><p>An admin checks every course before learners see it.</p></div>
-                        </div>
-
-                        <ul class="cl-readiness">
-                            <li class="is-ready">
-                                <i data-lucide="circle-check" class="cl-icon" aria-hidden="true"></i>
-                                <span>Course details</span>
-                            </li>
-                            <li class="<%: LessonsReady ? "is-ready" : "is-missing" %>">
-                                <i data-lucide="<%: LessonsReady ? "circle-check" : "circle-alert" %>" class="cl-icon" aria-hidden="true"></i>
-                                <span><asp:Literal ID="litLessonsReady" runat="server" Mode="Encode" /></span>
-                            </li>
-                            <%= QuizReadinessHtml %>
-                            <%= ChallengeReadinessHtml %>
-                        </ul>
-
-                        <asp:HyperLink ID="hlNextStep" runat="server" CssClass="btn cl-btn-outline w-100 mt-3" />
-                        <asp:Button ID="btnSubmitReview" runat="server" Text="Submit for review" CssClass="btn btn-primary w-100 mt-2"
-                            CausesValidation="false" OnClick="btnSubmitReview_Click"
-                            OnClientClick="return confirm('Submit this course for review? You cannot edit it while an administrator reviews it.');" />
-                    </section>
-                </asp:PlaceHolder>
             </aside>
         </div>
     </asp:PlaceHolder>
+
+    <%-- Back / next step (step 5, and courses that can no longer be edited) --%>
+    <%= StepNavHtml %>
 
     <%-- Live preview, character counters, and the cover check. The server checks the cover again in CourseManager. --%>
     <script>

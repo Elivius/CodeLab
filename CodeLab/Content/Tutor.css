@@ -486,26 +486,6 @@ img.cl-avatar {
 
 /* ---------- Tutor pages: header, notices, numbers, tables ---------- */
 
-.cl-page-header {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 24px;
-}
-
-.cl-page-header h1 {
-    margin: 6px 0 4px;
-    font-size: 1.75rem;
-}
-
-.cl-page-header p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--cl-muted);
-}
-
 .cl-notice {
     display: flex;
     flex-wrap: wrap;
@@ -533,36 +513,6 @@ img.cl-avatar {
     margin: 2px 0 0;
     font-size: 0.85rem;
     color: var(--cl-text-soft);
-}
-
-.cl-kpi {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    height: 100%;
-    padding: 20px;
-}
-
-.cl-kpi .cl-icon-tile {
-    flex: none;
-}
-
-.cl-kpi-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--cl-text-soft);
-}
-
-.cl-kpi-value {
-    margin: 2px 0;
-    font-size: 1.75rem;
-    font-weight: 800;
-    line-height: 1.15;
-}
-
-.cl-kpi-note {
-    font-size: 0.75rem;
-    color: var(--cl-muted);
 }
 
 /* position: relative keeps screen-reader-only labels inside the card, so they cannot widen the page */
@@ -1170,110 +1120,6 @@ img.cl-avatar {
 
 /* ---------- Tutor course builder ---------- */
 
-/* Progress bar: Course > Lessons > Quiz > Challenge */
-.cl-stepper {
-    display: flex;
-    gap: 8px;
-    margin: 0 0 24px;
-    padding: 0;
-    list-style: none;
-}
-
-.cl-stepper li {
-    position: relative;
-    display: flex;
-    flex: 1;
-    gap: 12px;
-    align-items: center;
-    min-width: 0;
-    padding: 12px 14px;
-    color: var(--cl-muted);
-    background-color: var(--cl-surface);
-    border: 1px solid var(--cl-border);
-    border-radius: 14px;
-}
-
-.cl-step-dot {
-    display: inline-flex;
-    flex: none;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    background-color: var(--cl-bg);
-    border: 2px solid var(--cl-border);
-    border-radius: 50%;
-}
-
-.cl-step-text {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    line-height: 1.3;
-}
-
-.cl-step-text strong {
-    overflow: hidden;
-    font-size: 0.85rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.cl-step-text small {
-    overflow: hidden;
-    font-size: 0.72rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.cl-stepper li.is-current {
-    color: var(--cl-text);
-    border-color: var(--cl-accent);
-    box-shadow: 0 0 0 3px rgba(201, 82, 125, 0.12);
-}
-
-.cl-stepper li.is-current .cl-step-dot {
-    color: #ffffff;
-    background-color: var(--cl-accent);
-    border-color: var(--cl-accent);
-}
-
-@media (max-width: 767.98px) {
-    .cl-stepper {
-        overflow-x: auto;
-    }
-
-    .cl-stepper li {
-        flex: none;
-    }
-}
-
-/* Cover image preview: 16:9, the same shape learners see on the catalogue */
-.cl-cover-preview {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background: linear-gradient(135deg, #2D3436 0%, #C9527D 100%);
-    border-radius: 12px;
-}
-
-.cl-cover-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.cl-cover-placeholder {
-    font-family: Consolas, "Courier New", monospace;
-    font-size: 3rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
-}
-
 .cl-checklist {
     margin: 0;
     padding-left: 1.1rem;
@@ -1290,25 +1136,6 @@ img.cl-avatar {
 
 .cl-form .form-select {
     max-width: none;
-}
-
-/* A finished step in the progress bar */
-.cl-stepper li.is-done {
-    color: var(--cl-text-soft);
-}
-
-.cl-stepper li.is-done .cl-step-dot {
-    color: #ffffff;
-    background-color: #10B981;
-    border-color: #10B981;
-}
-
-/* Syllabus: the lessons in order */
-.cl-syllabus-header {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .cl-syllabus {
@@ -1409,18 +1236,6 @@ a.cl-lesson-title:hover {
     background-color: rgba(244, 63, 94, 0.12);
 }
 
-/* Markdown editor: toolbar above a text box */
-.cl-md-editor {
-    overflow: hidden;
-    border: 1px solid var(--bs-border-color, var(--cl-border));
-    border-radius: 10px;
-}
-
-.cl-md-editor:focus-within {
-    border-color: var(--cl-coral);
-    box-shadow: 0 0 0 0.2rem rgba(201, 82, 125, 0.18);
-}
-
 .cl-md-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -1461,31 +1276,6 @@ a.cl-lesson-title:hover {
     border: 0;
     border-radius: 0;
     box-shadow: none;
-}
-
-.cl-code-input.form-control {
-    font-family: Consolas, "Courier New", monospace;
-    font-size: 0.85rem;
-    white-space: pre;
-    overflow-x: auto;
-}
-
-/* Preview of the lesson */
-.cl-preview {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: var(--cl-bg);
-    border: 1px dashed var(--cl-border);
-    border-radius: 14px;
-}
-
-.cl-preview-label {
-    margin-bottom: 12px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cl-muted);
 }
 
 /* Lesson text as learners will read it */
@@ -1566,43 +1356,7 @@ pre.cl-code code {
     white-space: pre;
 }
 
-.cl-attachment-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 10px;
-    padding: 10px 14px;
-    font-size: 0.85rem;
-    background-color: var(--cl-bg);
-    border: 1px solid var(--cl-border);
-    border-radius: 10px;
-}
-
-.cl-attachment-row .cl-icon {
-    flex: none;
-    color: var(--cl-accent);
-}
-
 /* ---------- Tutor submit for review ---------- */
-
-.cl-notice-danger {
-    background-color: rgba(244, 63, 94, 0.1);
-    border-color: rgba(244, 63, 94, 0.35);
-}
-
-.cl-notice-danger .cl-notice-icon {
-    color: #E11D48;
-}
-
-[data-theme="dark"] .cl-notice-danger .cl-notice-icon {
-    color: #FB7185;
-}
-
-.cl-panel-note {
-    margin: -6px 0 14px;
-    font-size: 0.82rem;
-    color: var(--cl-muted);
-}
 
 /* What is ready before a course can be submitted */
 .cl-readiness {
@@ -2679,28 +2433,6 @@ pre.cl-code code {
 
 [data-theme="dark"] .cl-field-error { color: #FB7185; }
 
-/* A checkbox with its label (asp:CheckBox, so the class goes on a wrapper) */
-.cl-check {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    font-size: 0.86rem;
-    font-weight: 500;
-}
-
-.cl-check input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    cursor: pointer;
-    accent-color: var(--cl-accent);
-}
-
-.cl-check label {
-    margin: 0;
-    cursor: pointer;
-}
-
 /* Site.css caps inputs at 280px; a submit button is an input, so let buttons fill their space */
 .cl-app input.btn {
     max-width: none;
@@ -3287,11 +3019,6 @@ pre.cl-code code {
     min-width: 0;
 }
 
-.cl-order-field {
-    flex: none;
-    width: 110px;
-}
-
 .cl-lesson-builder .cl-title-input {
     padding: 12px 16px;
     font-size: 1.3rem;
@@ -3666,10 +3393,6 @@ pre.cl-code code {
         align-items: stretch;
     }
 
-    .cl-order-field {
-        width: 100%;
-    }
-
     .cl-lesson-builder .cl-title-input {
         font-size: 1.1rem;
     }
@@ -3743,6 +3466,11 @@ pre.cl-code code {
     display: flex;
     gap: 16px;
     align-items: flex-start;
+}
+
+/* Side by side: the row's gap spaces the fields, so no top margin on Pass mark */
+.cl-quiz-details-row .cl-field + .cl-field {
+    margin-top: 0;
 }
 
 .cl-quiz-details-row + .cl-field {
@@ -4117,63 +3845,7 @@ pre.cl-output {
     }
 }
 
-/* ---------- Tutor analytics ---------- */
-
-/* Course filter in the page header */
-.cl-analytics-filter {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.cl-analytics-filter label {
-    display: inline-flex;
-    gap: 6px;
-    align-items: center;
-    margin: 0;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--cl-muted);
-    white-space: nowrap;
-}
-
-.cl-analytics-filter .form-select {
-    min-width: 260px;
-    max-width: 360px;
-    padding: 9px 36px 9px 14px;
-    border-radius: 12px;
-}
-
-/* Six summary cards */
-.cl-stat-grid.cl-analytics-stats {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    margin-bottom: 24px;
-}
-
-/* Rows of cards: wide card (2 parts) and narrow card (1 part) */
-.cl-analytics-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.cl-span-2 {
-    grid-column: span 2;
-}
-
-.cl-analytics-section {
-    margin-bottom: 20px;
-}
-
-.cl-chart-card,
-.cl-side-list {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding: 20px 22px;
-    border-radius: 18px;
-}
+/* ---------- Results tables (shared by Quiz results and Challenge results) ---------- */
 
 .cl-chart-head {
     display: flex;
@@ -4193,38 +3865,6 @@ pre.cl-output {
     margin: 0;
     font-size: 0.8rem;
     color: var(--cl-muted);
-}
-
-/* Fixed height: Chart.js fills its box, so a box that can grow makes the chart keep growing */
-.cl-chart-box {
-    position: relative;
-    height: 280px;
-}
-
-.cl-chart-box.is-empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--cl-bg);
-    border: 1px dashed var(--cl-border);
-    border-radius: 14px;
-}
-
-.cl-chart-empty {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-    max-width: 260px;
-    padding: 16px;
-    font-size: 0.84rem;
-    color: var(--cl-muted);
-    text-align: center;
-}
-
-.cl-chart-empty .cl-icon {
-    font-size: 1.8rem;
-    opacity: 0.6;
 }
 
 /* Tables */
@@ -4251,43 +3891,6 @@ pre.cl-output {
     padding: 22px 20px;
 }
 
-/* Pass rate / solve rate: a small bar and the number */
-.cl-rate {
-    display: inline-flex;
-    gap: 10px;
-    align-items: center;
-    min-width: 140px;
-}
-
-.cl-rate-track {
-    flex: 1;
-    height: 8px;
-    overflow: hidden;
-    background-color: var(--cl-bg);
-    border: 1px solid var(--cl-border);
-    border-radius: 999px;
-}
-
-.cl-rate-track span {
-    display: block;
-    height: 100%;
-    border-radius: 999px;
-}
-
-.cl-rate.is-good .cl-rate-track span {
-    background-color: #10B981;
-}
-
-.cl-rate.is-low .cl-rate-track span {
-    background-color: #F59E0B;
-}
-
-.cl-rate strong {
-    min-width: 38px;
-    font-size: 0.85rem;
-    text-align: right;
-}
-
 /* Learner photo and name */
 .cl-learner {
     display: inline-flex;
@@ -4308,141 +3911,6 @@ pre.cl-output {
     height: 30px;
     font-size: 0.7rem;
     object-fit: cover;
-}
-
-/* Top learners */
-.cl-rank-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.cl-rank-list li {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    padding: 10px 8px;
-    border-radius: 12px;
-}
-
-.cl-rank-list li:hover {
-    background-color: var(--cl-bg);
-}
-
-.cl-rank {
-    display: inline-flex;
-    flex: none;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    font-size: 0.78rem;
-    font-weight: 800;
-    color: var(--cl-muted);
-    background-color: var(--cl-bg);
-    border-radius: 8px;
-}
-
-.cl-rank-list li:first-child .cl-rank {
-    color: #ffffff;
-    background-color: #F59E0B;
-}
-
-.cl-rank-list .cl-learner {
-    flex: 1;
-}
-
-.cl-rank-score {
-    display: flex;
-    flex: none;
-    flex-direction: column;
-    align-items: flex-end;
-    line-height: 1.25;
-}
-
-.cl-rank-score strong {
-    font-size: 0.95rem;
-}
-
-.cl-rank-score small {
-    font-size: 0.7rem;
-    color: var(--cl-muted);
-}
-
-/* Unanswered discussion questions */
-.cl-question-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.cl-question-feed li {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.cl-question-feed .cl-builder-icon {
-    width: 34px;
-    height: 34px;
-    font-size: 1rem;
-}
-
-.cl-question-feed strong {
-    display: block;
-    font-size: 0.88rem;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-}
-
-.cl-question-feed small {
-    font-size: 0.74rem;
-    color: var(--cl-muted);
-}
-
-/* Six cards in a row only on very wide screens; three per row otherwise, so the notes do not wrap */
-@media (max-width: 1679.98px) {
-    .cl-stat-grid.cl-analytics-stats {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 1199.98px) {
-    .cl-analytics-grid {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .cl-span-2 {
-        grid-column: auto;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .cl-stat-grid.cl-analytics-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .cl-analytics-filter {
-        width: 100%;
-    }
-
-    .cl-analytics-filter .form-select {
-        flex: 1;
-        min-width: 0;
-        max-width: none;
-    }
-}
-
-@media (max-width: 479.98px) {
-    .cl-stat-grid.cl-analytics-stats {
-        grid-template-columns: minmax(0, 1fr);
-    }
 }
 
 /* ---------- Discussion forum ---------- */
@@ -4836,5 +4304,594 @@ pre.cl-output {
 
     .cl-reply-form .btn span {
         display: none;
+    }
+}
+
+/* ==========================================================================
+   Learner results (Quiz results, Coding challenge results)
+   ========================================================================== */
+
+.cl-results-stats {
+    margin-bottom: 20px;
+}
+
+.cl-results-table td {
+    vertical-align: middle;
+}
+
+.cl-row-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cl-row-link:hover {
+    color: var(--cl-raspberry);
+    text-decoration: underline;
+}
+
+/* Learner photo, name and username on two lines */
+.cl-learner-2line > span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.cl-learner-2line small {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--cl-muted);
+}
+
+.cl-completed {
+    white-space: nowrap;
+}
+
+.cl-attempt-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 999px;
+}
+
+/* Filters above the attempts table */
+.cl-results-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.cl-results-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.cl-results-search {
+    position: relative;
+    margin: 0;
+}
+
+.cl-results-search .cl-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    color: var(--cl-muted);
+    transform: translateY(-50%);
+}
+
+.cl-results-search .form-control {
+    width: 220px;
+    padding: 8px 12px 8px 36px;
+    border-radius: 12px;
+}
+
+.cl-results-filters .form-select {
+    width: auto;
+    padding: 8px 36px 8px 12px;
+    border-radius: 12px;
+}
+
+/* One attempt: main column and the learner's other attempts */
+.cl-results-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+.cl-results-main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.cl-results-aside {
+    position: sticky;
+    top: 90px;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.cl-attempt-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    border-radius: 18px;
+}
+
+.cl-attempt-who {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cl-attempt-who .cl-avatar.cl-avatar-sm {
+    width: 42px;
+    height: 42px;
+    font-size: 0.85rem;
+}
+
+.cl-attempt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-attempt-meta span {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.cl-attempt-score {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.cl-attempt-score p {
+    margin: 6px 0 0;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+/* Score as a ring; --score is 0 to 100 */
+.cl-score-ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    background: conic-gradient(var(--cl-raspberry) calc(var(--score) * 1%), var(--cl-border) 0);
+    border-radius: 50%;
+}
+
+.cl-score-ring span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    font-size: 1rem;
+    font-weight: 800;
+    background-color: var(--cl-surface);
+    border-radius: 50%;
+}
+
+/* Answers: filter buttons */
+.cl-review-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cl-review-toolbar h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-review-filter {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-review-filter button {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    background: transparent;
+    border: 0;
+    border-radius: 9px;
+}
+
+.cl-review-filter button span {
+    padding: 0 7px;
+    font-size: 0.72rem;
+    background-color: var(--cl-border);
+    border-radius: 999px;
+}
+
+.cl-review-filter button.is-active {
+    color: var(--cl-text);
+    background-color: var(--cl-surface);
+    box-shadow: 0 1px 4px rgba(45, 52, 54, 0.12);
+}
+
+/* Answers: one card per question */
+.cl-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-review-item {
+    padding: 18px 20px;
+    border-left: 4px solid var(--cl-border);
+    border-radius: 16px;
+}
+
+.cl-review-item.is-correct {
+    border-left-color: #10B981;
+}
+
+.cl-review-item.is-wrong {
+    border-left-color: #F43F5E;
+}
+
+.cl-review-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.cl-review-number {
+    flex: none;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+}
+
+.cl-review-question {
+    flex: 1;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.45;
+    white-space: pre-wrap;
+}
+
+.cl-review-badge {
+    display: inline-flex;
+    flex: none;
+    gap: 5px;
+    align-items: center;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 999px;
+}
+
+.cl-review-badge.is-correct {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-review-badge.is-wrong {
+    color: #BE123C;
+    background-color: rgba(244, 63, 94, 0.14);
+}
+
+[data-theme="dark"] .cl-review-badge.is-correct { color: #34D399; }
+[data-theme="dark"] .cl-review-badge.is-wrong { color: #FB7185; }
+
+.cl-review-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-review-options li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-review-options li.is-answer {
+    background-color: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.5);
+}
+
+.cl-review-options li.is-picked-wrong {
+    background-color: rgba(244, 63, 94, 0.08);
+    border-color: rgba(244, 63, 94, 0.5);
+}
+
+.cl-review-letter {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+}
+
+.cl-review-options li.is-answer .cl-review-letter {
+    color: #fff;
+    background-color: #10B981;
+    border-color: #10B981;
+}
+
+.cl-review-options li.is-picked-wrong .cl-review-letter {
+    color: #fff;
+    background-color: #F43F5E;
+    border-color: #F43F5E;
+}
+
+.cl-review-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.cl-review-tag {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    padding: 2px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 999px;
+}
+
+.cl-review-tag.is-answer {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+[data-theme="dark"] .cl-review-tag.is-answer { color: #34D399; }
+
+.cl-review-explain {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 12px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: var(--cl-text-soft);
+    background-color: rgba(245, 158, 11, 0.08);
+    border-radius: 12px;
+}
+
+.cl-review-explain .cl-icon {
+    flex: none;
+    margin-top: 2px;
+    color: #F59E0B;
+}
+
+.cl-review-explain p {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* The learner's other attempts */
+.cl-attempt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-attempt-list a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 12px;
+}
+
+.cl-attempt-list a:hover {
+    background-color: var(--cl-bg);
+}
+
+.cl-attempt-list a.is-current {
+    background-color: var(--cl-bg);
+    border-color: var(--cl-coral);
+}
+
+.cl-attempt-list-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.cl-attempt-list-text small {
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+}
+
+/* Submitted code and output */
+.cl-results-code {
+    padding: 20px 22px;
+    border-radius: 18px;
+}
+
+.cl-ide-code {
+    max-height: 520px;
+    margin: 0;
+    overflow: auto;
+}
+
+.cl-ide-code code,
+.cl-ide-code code.hljs {
+    display: block;
+    padding: 16px 18px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: #ABB2BF;
+    tab-size: 4;
+    white-space: pre;
+    background: transparent;
+}
+
+.cl-output-compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cl-output-box {
+    min-height: 120px;
+    max-height: 320px;
+    margin: 0;
+    padding: 14px 16px;
+    overflow: auto;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: #E5E7EB;
+    white-space: pre-wrap;
+    background-color: #282C34;
+    border-radius: 12px;
+}
+
+.cl-output-box.is-expected {
+    color: #98C379;
+}
+
+@media (max-width: 1199.98px) {
+    .cl-results-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-results-aside {
+        position: static;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cl-output-compare {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-results-filters,
+    .cl-results-search,
+    .cl-results-search .form-control {
+        width: 100%;
+    }
+}
+
+/* ---------- Course builder: back / next step bar ---------- */
+
+/* At the end of every builder step: "Back: Details" on the left, "Next: Quiz" on the right */
+.cl-step-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 14px 16px;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: 16px;
+}
+
+.cl-step-nav .btn {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    min-width: 150px;
+    justify-content: center;
+}
+
+.cl-step-nav-next {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+/* Why Next is disabled, e.g. "Add at least one lesson to continue." */
+.cl-step-nav-next small {
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+/* Step 5: why the course cannot be submitted yet */
+.cl-submit-blocked {
+    display: block;
+    margin-top: 12px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    color: #B45309;
+    background-color: rgba(245, 158, 11, 0.1);
+    border-radius: 10px;
+}
+
+[data-theme="dark"] .cl-submit-blocked {
+    color: #FBBF24;
+}
+
+@media (max-width: 575.98px) {
+    .cl-step-nav .btn,
+    .cl-step-nav-next {
+        width: 100%;
     }
 }

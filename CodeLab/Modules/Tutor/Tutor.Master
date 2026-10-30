@@ -12,7 +12,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - CodeLab Tutor</title>
+    <title>CodeLab<%: string.IsNullOrEmpty(Page.Title) ? "" : " - " + Page.Title %></title>
 
     <%-- Applies the saved theme before the page paints, so there is no flash of the wrong colours --%>
     <script>
@@ -79,11 +79,10 @@
 
                     <div class="cl-sidebar-group">Authoring</div>
                     <%= NavLink("CourseEditor", "book-plus", "Create Course", true) %>
-                    <%= NavLink("QuizEditor", "list-checks", "Quizzes", true) %>
-                    <%= NavLink("ChallengeEditor", "code", "Coding Challenges", true) %>
 
                     <div class="cl-sidebar-group">Insights</div>
-                    <%= NavLink("Analytics", "chart-column", "Analytics", true) %>
+                    <%= NavLink("QuizResults", "list-checks", "Quiz Results", true) %>
+                    <%= NavLink("ChallengeResults", "code", "Coding Results", true) %>
 
                     <div class="cl-sidebar-group">Community</div>
                     <%= NavLink("Forum", "messages-square", "Discussion Forum", false) %>
@@ -250,7 +249,7 @@
 
             // Take the "message" part (?done=..., ?saved=1, ...) out of the address so a refresh does not
             // show the message again. Page parameters such as id and courseId stay.
-            var messageParams = ['done', 'created', 'saved', 'submitted', 'deleted', 'photo'];
+            var messageParams = ['done', 'created', 'saved', 'submitted', 'deleted', 'photo', 'courseCreated', 'detailsSaved'];
             if (alerts.length && window.history && history.replaceState) {
                 var url = new URL(window.location.href);
                 var changed = false;

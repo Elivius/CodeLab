@@ -173,19 +173,18 @@ namespace CodeLab.DAL
                                    FROM CourseEnrollments e
                                    INNER JOIN Courses c ON c.Id = e.CourseId
                                   WHERE c.InstructorId = @TutorId) AS StudentCount,
-                                (SELECT COUNT(*) FROM Quizzes WHERE CreatedByUserId = @TutorId) AS QuizCount,
                                 (SELECT COUNT(*)
-                                   FROM QuizAttempts a
-                                   INNER JOIN Quizzes q ON q.Id = a.QuizId
-                                  WHERE q.CreatedByUserId = @TutorId) AS QuizAttemptCount,
-                                (SELECT AVG(CAST(a.ScorePercent AS DECIMAL(5,2)))
-                                   FROM QuizAttempts a
-                                   INNER JOIN Quizzes q ON q.Id = a.QuizId
-                                  WHERE q.CreatedByUserId = @TutorId) AS AverageQuizScore,
-                                (SELECT AVG(CASE WHEN a.Passed = 1 THEN 100.0 ELSE 0.0 END)
-                                   FROM QuizAttempts a
-                                   INNER JOIN Quizzes q ON q.Id = a.QuizId
-                                  WHERE q.CreatedByUserId = @TutorId) AS QuizPassRate";
+                                   FROM CourseEnrollments e
+                                   INNER JOIN Courses c ON c.Id = e.CourseId
+                                  WHERE c.InstructorId = @TutorId) AS EnrollmentCount,
+                                (SELECT COUNT(*)
+                                   FROM CourseEnrollments e
+                                   INNER JOIN Courses c ON c.Id = e.CourseId
+                                  WHERE c.InstructorId = @TutorId AND e.IsCompleted = 1) AS CompletedCount,
+                                (SELECT COUNT(*)
+                                   FROM DiscussionPosts p
+                                   INNER JOIN Courses c ON c.Id = p.CourseId
+                                  WHERE c.InstructorId = @TutorId AND c.Status = @Published) AS ForumPostCount";
 
             using (SqlConnection connection = DatabaseHelper.GetConnection())
             {
@@ -203,21 +202,15 @@ namespace CodeLab.DAL
                             dashboard.CourseCount = Convert.ToInt32(reader["CourseCount"]);
                             dashboard.PublishedCount = Convert.ToInt32(reader["PublishedCount"]);
                             dashboard.StudentCount = Convert.ToInt32(reader["StudentCount"]);
-                            dashboard.QuizCount = Convert.ToInt32(reader["QuizCount"]);
-                            dashboard.QuizAttemptCount = Convert.ToInt32(reader["QuizAttemptCount"]);
-                            dashboard.AverageQuizScore = ReadNullableDecimal(reader["AverageQuizScore"]);
-                            dashboard.QuizPassRate = ReadNullableDecimal(reader["QuizPassRate"]);
+                            dashboard.EnrollmentCount = Convert.ToInt32(reader["EnrollmentCount"]);
+                            dashboard.CompletedCount = Convert.ToInt32(reader["CompletedCount"]);
+                            dashboard.ForumPostCount = Convert.ToInt32(reader["ForumPostCount"]);
                         }
 
                         return dashboard;
                     }
                 }
             }
-        }
-
-        private static decimal? ReadNullableDecimal(object value)
-        {
-            return value == DBNull.Value ? (decimal?)null : Convert.ToDecimal(value);
         }
 
         private static string ReadNullableString(object value)

@@ -1,6 +1,7 @@
 <%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Modules/Tutor/Tutor.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="CodeLab.Modules.Tutor.Dashboard" %>
 <%@ MasterType VirtualPath="~/Modules/Tutor/Tutor.Master" %>
 <%@ Import Namespace="CodeLab.Models" %>
+<%@ Import Namespace="CodeLab.Helpers" %>
 
 <asp:Content ID="DashboardContent" ContentPlaceHolderID="TutorContent" runat="server">
 
@@ -52,19 +53,19 @@
                     </div>
                 </div>
                 <div class="cl-stat-card">
-                    <span class="cl-stat-icon cl-tone-amber"><i data-lucide="list-checks" class="cl-icon" aria-hidden="true"></i></span>
+                    <span class="cl-stat-icon cl-tone-green"><i data-lucide="graduation-cap" class="cl-icon" aria-hidden="true"></i></span>
                     <div>
-                        <div class="cl-stat-card-value"><asp:Literal ID="litQuizCount" runat="server" Text="0" /></div>
-                        <div class="cl-stat-card-label">Quizzes</div>
-                        <div class="cl-stat-card-note"><asp:Literal ID="litAttemptNote" runat="server" Mode="Encode" /></div>
+                        <div class="cl-stat-card-value"><asp:Literal ID="litCompletedCount" runat="server" Text="0" /></div>
+                        <div class="cl-stat-card-label">Course completions</div>
+                        <div class="cl-stat-card-note"><asp:Literal ID="litCompletedNote" runat="server" Mode="Encode" /></div>
                     </div>
                 </div>
                 <div class="cl-stat-card">
-                    <span class="cl-stat-icon cl-tone-green"><i data-lucide="target" class="cl-icon" aria-hidden="true"></i></span>
+                    <span class="cl-stat-icon cl-tone-amber"><i data-lucide="messages-square" class="cl-icon" aria-hidden="true"></i></span>
                     <div>
-                        <div class="cl-stat-card-value"><asp:Literal ID="litAverageScore" runat="server" Mode="Encode" /></div>
-                        <div class="cl-stat-card-label">Average quiz score</div>
-                        <div class="cl-stat-card-note"><asp:Literal ID="litPassRateNote" runat="server" Mode="Encode" /></div>
+                        <div class="cl-stat-card-value"><asp:Literal ID="litForumPostCount" runat="server" Text="0" /></div>
+                        <div class="cl-stat-card-label">Forum posts</div>
+                        <div class="cl-stat-card-note">In your published courses</div>
                     </div>
                 </div>
             </div>
@@ -90,7 +91,7 @@
                         <article class="cl-course-card" data-status="<%#: Eval("Status") %>">
                             <a class="cl-course-card-cover <%# CoverToneCss((TutorCourseSummary)Container.DataItem) %>" href="<%#: CourseUrl((int)Eval("Id")) %>">
                                 <%# CoverHtml((TutorCourseSummary)Container.DataItem) %>
-                                <span class="cl-badge cl-status cl-course-card-status <%# StatusCss((string)Eval("Status")) %>"><%#: Eval("Status") %></span>
+                                <span class="cl-badge cl-status cl-course-card-status <%# TutorDisplayHelper.CourseStatusCss((string)Eval("Status")) %>"><%#: Eval("Status") %></span>
                             </a>
                             <div class="cl-course-card-body">
                                 <div class="cl-course-card-tags">

@@ -323,6 +323,9 @@
                 </asp:PlaceHolder>
             </aside>
         </div>
+
+        <%-- Back / next step --%>
+        <%= StepNavHtml %>
     </asp:PlaceHolder>
 
     <%-- Question form: True / False fills in the two answers and hides the other two --%>
