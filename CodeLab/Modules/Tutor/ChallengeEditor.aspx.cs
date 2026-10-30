@@ -14,6 +14,9 @@ namespace CodeLab.Modules.Tutor
         private const string EditorUrl = "~/Modules/Tutor/ChallengeEditor";
         private const string CourseEditorUrl = "~/Modules/Tutor/CourseEditor";
 
+        // The bar at the bottom of the page: back to the previous step, on to the next one
+        protected string StepNavHtml { get; private set; }
+
         protected int CourseId
         {
             get
@@ -160,6 +163,9 @@ namespace CodeLab.Modules.Tutor
             phReadOnlyNote.Visible = !canEdit;
             litReadOnlyText.Text = "This course is " + course.Status + ". The coding challenge can only be changed while the course is a Draft.";
 
+            // The challenge is optional: without one, the tutor can skip this step
+            StepNavHtml = Master.StepNav(4, course.Id, canEdit && challenge == null ? "Skip the challenge" : "Next: Review & submit");
+
             if (!canEdit)
             {
                 if (challenge == null)
@@ -207,7 +213,7 @@ namespace CodeLab.Modules.Tutor
             litRoTitle.Text = challenge.Title;
             litRoDifficulty.Text = challenge.Difficulty;
             litRoPoints.Text = challenge.PointsReward.ToString();
-            litRoLanguage.Text = LanguageName(challenge.Language);
+            litRoLanguage.Text = TutorDisplayHelper.LanguageName(challenge.Language);
             litRoDescription.Text = MarkdownHelper.ToHtml(challenge.Description);
             litRoStarterCode.Text = string.IsNullOrWhiteSpace(challenge.StarterCode)
                 ? "<p class=\"cl-builder-note\">No starter code.</p>"
@@ -237,7 +243,7 @@ namespace CodeLab.Modules.Tutor
                     Id = course.Id,
                     Title = course.Title,
                     Status = course.Status,
-                    StatusCss = StatusCss(course.Status),
+                    StatusCss = TutorDisplayHelper.CourseStatusCss(course.Status),
                     HasItem = hasChallenge,
                     Note = hasChallenge ? "Coding challenge added" : "No coding challenge yet",
                     Url = ResolveUrl(EditorUrl) + "?courseId=" + course.Id
@@ -250,12 +256,6 @@ namespace CodeLab.Modules.Tutor
             phNoCourses.Visible = items.Count == 0;
         }
 
-        private static string LanguageName(string key)
-        {
-            KeyValuePair<string, string> language = LessonOptions.CodeLanguages.Find(l => l.Key == key);
-            return language.Key != null ? language.Value : key;
-        }
-
         private static void SelectIfPresent(DropDownList list, string value)
         {
             ListItem item = list.Items.FindByValue(value ?? string.Empty);
@@ -263,17 +263,6 @@ namespace CodeLab.Modules.Tutor
             {
                 list.ClearSelection();
                 item.Selected = true;
-            }
-        }
-
-        private static string StatusCss(string status)
-        {
-            switch (status)
-            {
-                case CourseStatuses.Published: return "cl-badge-success";
-                case CourseStatuses.PendingReview: return "cl-badge-warning";
-                case CourseStatuses.Locked: return "cl-badge-danger";
-                default: return "cl-badge-neutral";
             }
         }
 

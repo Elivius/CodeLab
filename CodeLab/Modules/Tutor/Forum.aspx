@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Discussion Forum" Language="C#" MasterPageFile="~/Modules/Tutor/Tutor.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="CodeLab.Modules.Tutor.Forum" %>
 <%@ MasterType VirtualPath="~/Modules/Tutor/Tutor.Master" %>
 <%@ Import Namespace="CodeLab.Models" %>
+<%@ Import Namespace="CodeLab.Helpers" %>
 
 <asp:Content ID="ForumContent" ContentPlaceHolderID="TutorContent" runat="server">
 
@@ -90,7 +91,7 @@
                 <ItemTemplate>
                     <article class="cl-card cl-post<%# IsMine((int)Eval("AuthorId")) ? " is-mine" : "" %>" id="post-<%# Eval("Id") %>">
                         <header class="cl-post-head">
-                            <%# AvatarHtml((string)Eval("AuthorName"), (string)Eval("AuthorAvatarUrl")) %>
+                            <%# TutorDisplayHelper.AvatarHtml((string)Eval("AuthorName"), (string)Eval("AuthorAvatarUrl")) %>
                             <div class="cl-post-meta">
                                 <div class="cl-post-author">
                                     <strong><%#: Eval("AuthorName") %></strong>
@@ -101,7 +102,7 @@
                                         <i data-lucide="book-open" class="cl-icon" aria-hidden="true"></i><%#: Eval("CourseTitle") %>
                                     </a>
                                     <span>·</span>
-                                    <time title="<%#: FullDate((DateTime)Eval("CreatedAt")) %>"><%#: TimeAgo((DateTime)Eval("CreatedAt")) %></time>
+                                    <time title="<%#: TutorDisplayHelper.LocalDateTime((DateTime)Eval("CreatedAt")) %>"><%#: TutorDisplayHelper.TimeAgo((DateTime)Eval("CreatedAt")) %></time>
                                 </div>
                             </div>
                             <asp:PlaceHolder ID="phPostActions" runat="server" Visible='<%# IsMine((int)Eval("AuthorId")) %>'>
@@ -149,12 +150,12 @@
                             <asp:Repeater ID="rptReplies" runat="server" OnItemCommand="rptReplies_ItemCommand">
                                 <ItemTemplate>
                                     <div class="cl-reply<%# ReplyCss((int)Eval("AuthorId"), (string)Eval("AuthorRole")) %>" id="reply-<%# Eval("Id") %>">
-                                        <%# AvatarHtml((string)Eval("AuthorName"), (string)Eval("AuthorAvatarUrl")) %>
+                                        <%# TutorDisplayHelper.AvatarHtml((string)Eval("AuthorName"), (string)Eval("AuthorAvatarUrl")) %>
                                         <div class="cl-reply-main">
                                             <div class="cl-reply-head">
                                                 <strong><%#: Eval("AuthorName") %></strong>
                                                 <%# BadgesHtml((int)Eval("AuthorId"), (string)Eval("AuthorRole"), CurrentInstructorId) %>
-                                                <time title="<%#: FullDate((DateTime)Eval("CreatedAt")) %>"><%#: TimeAgo((DateTime)Eval("CreatedAt")) %></time>
+                                                <time title="<%#: TutorDisplayHelper.LocalDateTime((DateTime)Eval("CreatedAt")) %>"><%#: TutorDisplayHelper.TimeAgo((DateTime)Eval("CreatedAt")) %></time>
                                                 <asp:PlaceHolder ID="phReplyActions" runat="server" Visible='<%# IsMine((int)Eval("AuthorId")) %>'>
                                                     <span class="cl-reply-actions">
                                                         <button type="button" class="cl-icon-action" data-toggle-edit="edit-reply-<%# Eval("Id") %>" title="Edit reply">

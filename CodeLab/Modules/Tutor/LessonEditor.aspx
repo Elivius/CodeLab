@@ -303,6 +303,9 @@
                 </div>
             </asp:PlaceHolder>
         </div>
+
+        <%-- Back / next step --%>
+        <%= StepNavHtml %>
     </asp:PlaceHolder>
 
     <%-- Syntax colours for code in the preview; the writer, preview tabs and code boxes come from tutor-writer.js --%>

@@ -96,13 +96,31 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.HyperLink hlNotFoundBack;
 
         /// <summary>
-        /// phReadOnly control.
+        /// phRejected control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phReadOnly;
+        protected global::System.Web.UI.WebControls.PlaceHolder phRejected;
+
+        /// <summary>
+        /// litRejectedReason control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litRejectedReason;
+
+        /// <summary>
+        /// phSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phSummary;
 
         /// <summary>
         /// litReadOnlyTitle control.
@@ -141,6 +159,51 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.Literal litReadOnlyDescription;
 
         /// <summary>
+        /// phChecklist control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phChecklist;
+
+        /// <summary>
+        /// phSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phSubmit;
+
+        /// <summary>
+        /// lblSubmitBlocked control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSubmitBlocked;
+
+        /// <summary>
+        /// btnSubmitReview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmitReview;
+
+        /// <summary>
+        /// phEditingClosed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phEditingClosed;
+
+        /// <summary>
         /// litReadOnlyNote control.
         /// </summary>
         /// <remarks>
@@ -166,24 +229,6 @@ namespace CodeLab.Modules.Tutor
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder phForm;
-
-        /// <summary>
-        /// phRejected control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phRejected;
-
-        /// <summary>
-        /// litRejectedReason control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litRejectedReason;
 
         /// <summary>
         /// vsCourse control.
@@ -357,6 +402,15 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
+        /// btnSaveContinue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveContinue;
+
+        /// <summary>
         /// phNextSteps control.
         /// </summary>
         /// <remarks>
@@ -364,42 +418,6 @@ namespace CodeLab.Modules.Tutor
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder phNextSteps;
-
-        /// <summary>
-        /// phSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phSubmit;
-
-        /// <summary>
-        /// litLessonsReady control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLessonsReady;
-
-        /// <summary>
-        /// hlNextStep control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlNextStep;
-
-        /// <summary>
-        /// btnSubmitReview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmitReview;
 
         /// <summary>
         /// Master property.

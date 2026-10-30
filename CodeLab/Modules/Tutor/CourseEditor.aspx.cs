@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
+using CodeLab.Helpers;
 using CodeLab.Models;
 
 namespace CodeLab.Modules.Tutor
 {
+    /// <summary>
+    /// The course builder's step 1 (Details: create or edit a Draft) and step 5 (Review & submit,
+    /// CourseEditor?id=1&amp;step=submit). A course that is no longer a Draft is shown read-only.
+    /// </summary>
     public partial class CourseEditor : Page
     {
         private const string EditorUrl = "~/Modules/Tutor/CourseEditor";
-        private const string LessonPage = "LessonEditor";
 
         // Browser URL of the cover image, or null to show the default placeholder
         protected string CoverSrc { get; private set; }
@@ -20,15 +25,19 @@ namespace CodeLab.Modules.Tutor
         // Background colour behind the cover letter, picked by course id like on the dashboard
         protected string CoverToneCss { get; private set; } = "cl-cover-tone-1";
 
-        // True once the course has at least one lesson, which it needs before it can be submitted
-        protected bool LessonsReady { get; private set; }
-
         protected int LessonCount { get; private set; }
 
-        // The quiz and coding challenge rows in the "Submit for review" card (both optional)
+        // The rows of the "Course content" checklist on step 5
+        protected string DetailsReadinessHtml { get; private set; }
+
+        protected string LessonsReadinessHtml { get; private set; }
+
         protected string QuizReadinessHtml { get; private set; }
 
         protected string ChallengeReadinessHtml { get; private set; }
+
+        // The bar at the bottom of the page: back to the previous step, on to the next one
+        protected string StepNavHtml { get; private set; }
 
         // The course being edited, or 0 when creating a new one
         protected int CourseId
@@ -38,6 +47,12 @@ namespace CodeLab.Modules.Tutor
                 int id;
                 return int.TryParse(Request.QueryString["id"], out id) && id > 0 ? id : 0;
             }
+        }
+
+        // True on step 5 (Review & submit) of an existing course
+        protected bool IsSubmitStep
+        {
+            get { return CourseId > 0 && Request.QueryString["step"] == "submit"; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -52,11 +67,7 @@ namespace CodeLab.Modules.Tutor
 
             BindOptions();
 
-            if (Request.QueryString["created"] == "1")
-            {
-                ShowSuccess("Your course has been created as a draft. Fill in the rest, then add lessons.");
-            }
-            else if (Request.QueryString["saved"] == "1")
+            if (Request.QueryString["saved"] == "1")
             {
                 ShowSuccess("Your changes have been saved.");
             }
@@ -69,6 +80,20 @@ namespace CodeLab.Modules.Tutor
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveCourse(false);
+        }
+
+        protected void btnSaveContinue_Click(object sender, EventArgs e)
+        {
+            SaveCourse(true);
+        }
+
+        /// <summary>
+        /// Creates or updates the course. A new course always continues to step 2 (Lessons);
+        /// an existing one stays on this page unless continueToLessons is true.
+        /// </summary>
+        private void SaveCourse(bool continueToLessons)
         {
             Page.Validate("Course");
             if (!Page.IsValid)
@@ -103,8 +128,8 @@ namespace CodeLab.Modules.Tutor
                     return;
                 }
 
-                // Reload on the new course so a refresh cannot create it twice
-                Response.Redirect(EditorUrl + "?id=" + created.Data + "&created=1");
+                // Redirect so a refresh cannot create the course twice
+                Response.Redirect(Master.StepUrl(2, created.Data) + "&courseCreated=1");
                 return;
             }
 
@@ -116,7 +141,9 @@ namespace CodeLab.Modules.Tutor
                 return;
             }
 
-            Response.Redirect(EditorUrl + "?id=" + CourseId + "&saved=1");
+            Response.Redirect(continueToLessons
+                ? Master.StepUrl(2, CourseId) + "&detailsSaved=1"
+                : EditorUrl + "?id=" + CourseId + "&saved=1");
         }
 
         protected void btnSubmitReview_Click(object sender, EventArgs e)
@@ -129,8 +156,8 @@ namespace CodeLab.Modules.Tutor
                 return;
             }
 
-            // The course is now Pending Review, so the page reloads as a read-only summary
-            Response.Redirect(EditorUrl + "?id=" + CourseId + "&submitted=1");
+            // The course is now Pending Review, so step 5 reloads as a read-only summary
+            Response.Redirect(EditorUrl + "?id=" + CourseId + "&step=submit&submitted=1");
         }
 
         private void BindOptions()
@@ -149,8 +176,9 @@ namespace CodeLab.Modules.Tutor
 
         /// <summary>
         /// Decides what the page shows: the locked notice, the create form, the edit form for a Draft,
-        /// or a read-only summary for a course that is no longer a Draft. fillForm copies the saved
-        /// values into the form; it is false after a failed save so what the tutor typed is kept.
+        /// step 5 (Review & submit), or a read-only summary for a course that is no longer a Draft.
+        /// fillForm copies the saved values into the form; it is false after a failed save so what the
+        /// tutor typed is kept.
         /// </summary>
         private void LoadPage(bool fillForm)
         {
@@ -184,14 +212,31 @@ namespace CodeLab.Modules.Tutor
             }
 
             ShowCourseHeader(course);
+            bool editable = CourseStatuses.IsEditable(course.Status);
 
-            if (CourseStatuses.IsEditable(course.Status))
+            if (IsSubmitStep)
+            {
+                ShowSummary(course);
+                if (editable)
+                {
+                    ShowReview(course);
+                }
+                else
+                {
+                    ShowEditingClosed(course);
+                }
+
+                StepNavHtml = Master.StepNav(5, course.Id);
+            }
+            else if (editable)
             {
                 ShowEditForm(course, fillForm);
             }
             else
             {
-                ShowReadOnly(course);
+                ShowSummary(course);
+                ShowEditingClosed(course);
+                StepNavHtml = Master.StepNav(1, course.Id);
             }
         }
 
@@ -199,7 +244,8 @@ namespace CodeLab.Modules.Tutor
         {
             litHeading.Text = "Create a new course";
             litSubheading.Text = "Start with the basics. You can change them any time while the course is a draft.";
-            btnSave.Text = "Create course";
+            btnSave.Visible = false;
+            btnSaveContinue.Text = "Create & continue";
             phForm.Visible = true;
             phNextSteps.Visible = true;
         }
@@ -211,18 +257,18 @@ namespace CodeLab.Modules.Tutor
             PlaceholderLetter = GetLetter(course.Title);
             CoverToneCss = "cl-cover-tone-" + (course.Id % 4 + 1);
 
-            OperationResult<System.Collections.Generic.List<Lesson>> lessons = new LessonManager().GetLessons(course.Id);
+            OperationResult<List<Lesson>> lessons = new LessonManager().GetLessons(course.Id);
             LessonCount = lessons.Success ? lessons.Data.Count : 0;
 
             lblCourseStatus.Text = course.Status;
-            lblCourseStatus.CssClass = "cl-badge cl-status cl-badge-lg " + StatusCss(course.Status);
+            lblCourseStatus.CssClass = "cl-badge cl-status cl-badge-lg " + TutorDisplayHelper.CourseStatusCss(course.Status);
             lblCourseStatus.Visible = true;
         }
 
         private void ShowEditForm(Course course, bool fillForm)
         {
             litSubheading.Text = "Edit your draft. Last updated " + course.UpdatedAt.ToLocalTime().ToString("d MMM yyyy") + ".";
-            btnSave.Text = "Save changes";
+            btnSaveContinue.Text = "Save & continue";
             phForm.Visible = true;
 
             phRemoveCover.Visible = CoverSrc != null;
@@ -235,25 +281,51 @@ namespace CodeLab.Modules.Tutor
                 SelectIfPresent(ddlDifficulty, course.Difficulty);
             }
 
-            // An admin rejected the course: it is back in Draft with their feedback attached
-            if (!string.IsNullOrWhiteSpace(course.RejectionReason))
+            if (ShowRejection(course))
             {
                 litSubheading.Text = "An administrator asked for changes. Fix them, then submit the course again.";
-                litRejectedReason.Text = course.RejectionReason;
-                phRejected.Visible = true;
             }
-
-            ShowSubmitCard(course);
         }
 
-        // The "Submit for review" card: what is ready, a link to the lessons, and the submit button
-        private void ShowSubmitCard(Course course)
+        // An admin rejected the course: it is back in Draft with their feedback attached
+        private bool ShowRejection(Course course)
         {
-            int lessonCount = LessonCount;
-            LessonsReady = lessonCount > 0;
-            litLessonsReady.Text = LessonsReady
-                ? (lessonCount == 1 ? "1 lesson added" : lessonCount + " lessons added")
-                : "Add at least one lesson";
+            if (string.IsNullOrWhiteSpace(course.RejectionReason))
+            {
+                return false;
+            }
+
+            litRejectedReason.Text = course.RejectionReason;
+            phRejected.Visible = true;
+            return true;
+        }
+
+        // The course card shown on step 5 and for courses that can no longer be edited
+        private void ShowSummary(Course course)
+        {
+            litReadOnlyTitle.Text = course.Title;
+            litReadOnlyCategory.Text = course.Category;
+            litReadOnlyDifficulty.Text = course.Difficulty;
+            litReadOnlyDescription.Text = course.Description;
+            phSummary.Visible = true;
+        }
+
+        /// <summary>
+        /// Step 5 for a Draft: the content checklist and the Submit for review button.
+        /// The course needs a lesson, and a quiz (if it has one) needs a question.
+        /// </summary>
+        private void ShowReview(Course course)
+        {
+            litSubheading.Text = ShowRejection(course)
+                ? "Check the admin's feedback has been dealt with, then submit the course again."
+                : "Check everything is ready, then send the course to an administrator.";
+
+            DetailsReadinessHtml = ReadinessItem("is-ready", "Course details", null, 1, course.Id);
+
+            bool lessonsReady = LessonCount > 0;
+            LessonsReadinessHtml = ReadinessItem(lessonsReady ? "is-ready" : "is-missing",
+                lessonsReady ? (LessonCount == 1 ? "1 lesson added" : LessonCount + " lessons added") : "Add at least one lesson",
+                null, 2, course.Id);
 
             // Quiz: optional, but once created it needs at least one question
             OperationResult<Quiz> quiz = new QuizManager().GetQuiz(course.Id);
@@ -264,7 +336,7 @@ namespace CodeLab.Modules.Tutor
                 !hasQuiz ? "is-optional" : (quizReady ? "is-ready" : "is-missing"),
                 !hasQuiz ? "Quiz" : "Quiz · " + (questionCount == 1 ? "1 question" : questionCount + " questions"),
                 !hasQuiz ? "(optional)" : (quizReady ? null : "add a question"),
-                "QuizEditor", course.Id);
+                3, course.Id);
 
             OperationResult<CodingChallenge> challenge = new ChallengeManager().GetChallenge(course.Id);
             bool hasChallenge = challenge.Success && challenge.Data != null;
@@ -272,48 +344,39 @@ namespace CodeLab.Modules.Tutor
                 hasChallenge ? "is-ready" : "is-optional",
                 hasChallenge ? "Coding challenge added" : "Coding challenge",
                 hasChallenge ? null : "(optional)",
-                "ChallengeEditor", course.Id);
+                4, course.Id);
 
-            btnSubmitReview.Enabled = LessonsReady && quizReady;
-            btnSubmitReview.ToolTip = !LessonsReady ? "Add at least one lesson first."
-                : (quizReady ? string.Empty : "Add at least one question to the quiz first.");
+            string blocked = !lessonsReady ? "Add at least one lesson before submitting."
+                : (quizReady ? null : "Add at least one question to the quiz, or delete the quiz, before submitting.");
+            btnSubmitReview.Enabled = blocked == null;
             btnSubmitReview.Text = string.IsNullOrWhiteSpace(course.RejectionReason) ? "Submit for review" : "Submit again";
+            lblSubmitBlocked.Text = HttpUtility.HtmlEncode(blocked ?? string.Empty);
+            lblSubmitBlocked.Visible = blocked != null;
 
-            if (Master.IsPageAvailable(LessonPage))
-            {
-                hlNextStep.Text = LessonsReady ? "Manage lessons" : "Add lessons";
-                hlNextStep.NavigateUrl = Master.GetPageUrl(LessonPage) + "?courseId=" + course.Id;
-            }
-            else
-            {
-                hlNextStep.Visible = false;
-            }
-
+            phChecklist.Visible = true;
             phSubmit.Visible = true;
         }
 
-        // One row of the readiness list, linking to the page where it is set up
-        private string ReadinessItem(string state, string text, string note, string page, int courseId)
+        // One row of the checklist, linking to the builder step where it is set up
+        private string ReadinessItem(string state, string text, string note, int step, int courseId)
         {
             string icon = state == "is-ready" ? "circle-check" : (state == "is-missing" ? "circle-alert" : "circle-dashed");
             string label = HttpUtility.HtmlEncode(text)
                 + (note == null ? string.Empty : " <small>" + HttpUtility.HtmlEncode(note) + "</small>");
-            if (Master.IsPageAvailable(page))
+            string url = Master.StepUrl(step, courseId);
+            if (url != null)
             {
-                label = "<a href=\"" + HttpUtility.HtmlAttributeEncode(Master.GetPageUrl(page) + "?courseId=" + courseId) + "\">" + label + "</a>";
+                label = "<a href=\"" + HttpUtility.HtmlAttributeEncode(url) + "\">" + label + "</a>";
             }
 
             return "<li class=\"" + state + "\"><i data-lucide=\"" + icon + "\" class=\"cl-icon\" aria-hidden=\"true\"></i><span>"
                 + label + "</span></li>";
         }
 
-        private void ShowReadOnly(Course course)
+        // The "Editing is closed" card for a course that is not a Draft
+        private void ShowEditingClosed(Course course)
         {
             litSubheading.Text = "This course can no longer be edited.";
-            litReadOnlyTitle.Text = course.Title;
-            litReadOnlyCategory.Text = course.Category;
-            litReadOnlyDifficulty.Text = course.Difficulty;
-            litReadOnlyDescription.Text = course.Description;
 
             switch (course.Status)
             {
@@ -332,7 +395,7 @@ namespace CodeLab.Modules.Tutor
                     break;
             }
 
-            phReadOnly.Visible = true;
+            phEditingClosed.Visible = true;
         }
 
         private static void SelectIfPresent(DropDownList list, string value)
@@ -348,18 +411,6 @@ namespace CodeLab.Modules.Tutor
         private static string GetLetter(string title)
         {
             return string.IsNullOrWhiteSpace(title) ? "C" : title.Trim().Substring(0, 1).ToUpperInvariant();
-        }
-
-        // Traffic-light colours: green = live, amber = waiting, red = blocked
-        private static string StatusCss(string status)
-        {
-            switch (status)
-            {
-                case CourseStatuses.Published: return "cl-badge-success";
-                case CourseStatuses.PendingReview: return "cl-badge-warning";
-                case CourseStatuses.Locked: return "cl-badge-danger";
-                default: return "cl-badge-neutral";
-            }
         }
 
         private void ShowSuccess(string message)

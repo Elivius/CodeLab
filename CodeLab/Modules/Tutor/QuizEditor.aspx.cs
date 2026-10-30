@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeLab.BLL;
+using CodeLab.Helpers;
 using CodeLab.Models;
 
 namespace CodeLab.Modules.Tutor
@@ -16,6 +17,9 @@ namespace CodeLab.Modules.Tutor
 
         // A Draft course's quiz can be changed; any other status is read-only
         protected bool CanEdit { get; private set; }
+
+        // The bar at the bottom of the page: back to the previous step, on to the next one
+        protected string StepNavHtml { get; private set; }
 
         protected int CourseId
         {
@@ -223,6 +227,9 @@ namespace CodeLab.Modules.Tutor
             phReadOnlyNote.Visible = !CanEdit;
             litReadOnlyText.Text = "This course is " + course.Status + ". The quiz can only be changed while the course is a Draft.";
 
+            // The quiz is optional: without one, the tutor can skip this step
+            StepNavHtml = Master.StepNav(3, course.Id, CanEdit && quiz == null ? "Skip the quiz" : null);
+
             if (quiz == null)
             {
                 if (CanEdit)
@@ -370,7 +377,7 @@ namespace CodeLab.Modules.Tutor
                     Id = course.Id,
                     Title = course.Title,
                     Status = course.Status,
-                    StatusCss = StatusCss(course.Status),
+                    StatusCss = TutorDisplayHelper.CourseStatusCss(course.Status),
                     HasItem = hasQuiz,
                     Note = !hasQuiz ? "No quiz yet" : (questions == 1 ? "Quiz · 1 question" : "Quiz · " + questions + " questions"),
                     Url = ResolveUrl(EditorUrl) + "?courseId=" + course.Id
@@ -423,17 +430,6 @@ namespace CodeLab.Modules.Tutor
                 ? string.Empty
                 : "<p class=\"cl-question-explanation\"><i data-lucide=\"info\" class=\"cl-icon\" aria-hidden=\"true\"></i>"
                     + HttpUtility.HtmlEncode(question.Explanation) + "</p>";
-        }
-
-        private static string StatusCss(string status)
-        {
-            switch (status)
-            {
-                case CourseStatuses.Published: return "cl-badge-success";
-                case CourseStatuses.PendingReview: return "cl-badge-warning";
-                case CourseStatuses.Locked: return "cl-badge-danger";
-                default: return "cl-badge-neutral";
-            }
         }
 
         private void ShowSuccess(string message)

@@ -11,8 +11,26 @@ namespace CodeLab.Modules.Tutor
 {
 
 
-    public partial class Analytics
+    public partial class ChallengeResults
     {
+
+        /// <summary>
+        /// litCrumbs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCrumbs;
+
+        /// <summary>
+        /// litHeading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litHeading;
 
         /// <summary>
         /// litSubheading control.
@@ -22,24 +40,6 @@ namespace CodeLab.Modules.Tutor
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litSubheading;
-
-        /// <summary>
-        /// phFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phFilter;
-
-        /// <summary>
-        /// litCourseOptions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litCourseOptions;
 
         /// <summary>
         /// lblMessage control.
@@ -60,157 +60,13 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.PlaceHolder phLocked;
 
         /// <summary>
-        /// phMain control.
+        /// phOverview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phMain;
-
-        /// <summary>
-        /// phNoActivity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phNoActivity;
-
-        /// <summary>
-        /// litStudents control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litStudents;
-
-        /// <summary>
-        /// litStudentsNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litStudentsNote;
-
-        /// <summary>
-        /// litCompletion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litCompletion;
-
-        /// <summary>
-        /// litCompletionNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litCompletionNote;
-
-        /// <summary>
-        /// litAverageScore control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAverageScore;
-
-        /// <summary>
-        /// litAverageScoreNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAverageScoreNote;
-
-        /// <summary>
-        /// litPassRate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPassRate;
-
-        /// <summary>
-        /// litPassRateNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPassRateNote;
-
-        /// <summary>
-        /// litSubmissions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litSubmissions;
-
-        /// <summary>
-        /// litSubmissionsNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litSubmissionsNote;
-
-        /// <summary>
-        /// litUnanswered control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUnanswered;
-
-        /// <summary>
-        /// litProgressTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litProgressTitle;
-
-        /// <summary>
-        /// litProgressNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litProgressNote;
-
-        /// <summary>
-        /// rptQuizzes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptQuizzes;
-
-        /// <summary>
-        /// phNoQuizzes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phNoQuizzes;
+        protected global::System.Web.UI.WebControls.PlaceHolder phOverview;
 
         /// <summary>
         /// rptChallenges control.
@@ -231,40 +87,94 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.PlaceHolder phNoChallenges;
 
         /// <summary>
-        /// rptAttempts control.
+        /// phChallenge control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptAttempts;
+        protected global::System.Web.UI.WebControls.PlaceHolder phChallenge;
 
         /// <summary>
-        /// phNoAttempts control.
+        /// litLearners control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phNoAttempts;
+        protected global::System.Web.UI.WebControls.Literal litLearners;
 
         /// <summary>
-        /// rptTopLearners control.
+        /// litLearnersNote control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptTopLearners;
+        protected global::System.Web.UI.WebControls.Literal litLearnersNote;
 
         /// <summary>
-        /// phNoTopLearners control.
+        /// litSolved control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phNoTopLearners;
+        protected global::System.Web.UI.WebControls.Literal litSolved;
+
+        /// <summary>
+        /// litSolvedNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSolvedNote;
+
+        /// <summary>
+        /// litNotTried control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litNotTried;
+
+        /// <summary>
+        /// litNotTriedNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litNotTriedNote;
+
+        /// <summary>
+        /// litSubmissions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSubmissions;
+
+        /// <summary>
+        /// litSubmissionsNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSubmissionsNote;
+
+        /// <summary>
+        /// phSubmissionFilters control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phSubmissionFilters;
 
         /// <summary>
         /// rptSubmissions control.
@@ -285,31 +195,112 @@ namespace CodeLab.Modules.Tutor
         protected global::System.Web.UI.WebControls.PlaceHolder phNoSubmissions;
 
         /// <summary>
-        /// rptUnanswered control.
+        /// phSubmission control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptUnanswered;
+        protected global::System.Web.UI.WebControls.PlaceHolder phSubmission;
 
         /// <summary>
-        /// phAllAnswered control.
+        /// litSubmissionLearner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phAllAnswered;
+        protected global::System.Web.UI.WebControls.Literal litSubmissionLearner;
 
         /// <summary>
-        /// litChartJson control.
+        /// litSubmissionNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litChartJson;
+        protected global::System.Web.UI.WebControls.Literal litSubmissionNumber;
+
+        /// <summary>
+        /// litSubmissionDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSubmissionDate;
+
+        /// <summary>
+        /// litSubmissionBadge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSubmissionBadge;
+
+        /// <summary>
+        /// litSubmissionNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSubmissionNote;
+
+        /// <summary>
+        /// litLanguage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litLanguage;
+
+        /// <summary>
+        /// litCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCode;
+
+        /// <summary>
+        /// litOutputMatch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litOutputMatch;
+
+        /// <summary>
+        /// litOutput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litOutput;
+
+        /// <summary>
+        /// litExpected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litExpected;
+
+        /// <summary>
+        /// rptLearnerSubmissions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptLearnerSubmissions;
 
         /// <summary>
         /// Master property.
