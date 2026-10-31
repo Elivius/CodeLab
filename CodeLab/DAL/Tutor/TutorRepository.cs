@@ -52,7 +52,7 @@ WHERE u.Id=@Id AND u.Role=N'Tutor' AND u.Status=N'Active' AND t.Status=N'Approve
         {
             string query = @"SELECT u.Id, u.FullName, u.Username, u.Email, u.JoinedDate, u.AvatarUrl,
                                     t.Specialty, t.Qualifications, t.PortfolioUrl, t.Bio, t.CurriculumPitch,
-                                    t.Status, t.ApprovedDate
+                                    t.Status, t.ApprovedDate, t.RejectionReason
                              FROM Users u
                              LEFT JOIN TutorProfiles t ON t.UserId = u.Id
                              WHERE u.Id = @UserId";
@@ -87,7 +87,8 @@ WHERE u.Id=@Id AND u.Role=N'Tutor' AND u.Status=N'Active' AND t.Status=N'Approve
                             Status = ReadNullableString(reader["Status"]),
                             ApprovedDate = reader["ApprovedDate"] == DBNull.Value
                                 ? (DateTime?)null
-                                : Convert.ToDateTime(reader["ApprovedDate"])
+                                : Convert.ToDateTime(reader["ApprovedDate"]),
+                            RejectionReason = ReadNullableString(reader["RejectionReason"])
                         };
                     }
                 }
@@ -96,8 +97,8 @@ WHERE u.Id=@Id AND u.Role=N'Tutor' AND u.Status=N'Active' AND t.Status=N'Approve
 
         /// <summary>
         /// Saves a tutor application as Pending, and the tutor's full name. Creates the TutorProfiles
-        /// row, or replaces a Rejected one. Never overwrites an application that is Pending or Approved.
-        /// Returns false if nothing was saved.
+        /// row, or replaces a Rejected one (clearing the admin's old rejection reason). Never overwrites
+        /// an application that is Pending or Approved. Returns false if nothing was saved.
         /// </summary>
         public bool SaveApplication(TutorProfile application)
         {
@@ -105,7 +106,7 @@ WHERE u.Id=@Id AND u.Role=N'Tutor' AND u.Status=N'Active' AND t.Status=N'Approve
                                  UPDATE TutorProfiles
                                     SET Specialty = @Specialty, Qualifications = @Qualifications,
                                         PortfolioUrl = @PortfolioUrl, Bio = @Bio, CurriculumPitch = @CurriculumPitch,
-                                        Status = @Pending, ApprovedDate = NULL
+                                        Status = @Pending, ApprovedDate = NULL, RejectionReason = NULL
                                   WHERE UserId = @UserId AND Status = @Rejected
                              ELSE
                                  INSERT INTO TutorProfiles (UserId, Specialty, Qualifications, PortfolioUrl, Bio, CurriculumPitch, Status)
