@@ -188,4 +188,15 @@
 
     </main>
 
+    <script>
+        // The navbar's Courses/About links arrive here as /#courses or /#about, but the page loads at the top,
+        // so jump to the section once everything (course cards, icons) has rendered
+        window.addEventListener('load', function () {
+            var target = location.hash && document.getElementById(location.hash.substring(1));
+            if (target) {
+                target.scrollIntoView({ behavior: 'instant' });
+            }
+        });
+    </script>
+
 </asp:Content>

@@ -22,8 +22,11 @@ namespace CodeLab.BLL
         /// </summary>
         public const string EmailPattern = @"^[A-Za-z0-9_%+-]+(\.[A-Za-z0-9_%+-]+)*@([A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$";
 
-        /// <summary>Password rule from the proposal: at least 8 characters with at least one number.</summary>
-        public const string PasswordPattern = @"^(?=.*\d).{8,}$";
+        /// <summary>Password rule: at least 8 characters with a letter, a number and a symbol (spaces do not count as a symbol).</summary>
+        public const string PasswordPattern = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,}$";
+
+        /// <summary>Tutor portfolio link on Register: a GitHub profile or repository, e.g. https://github.com/your-name.</summary>
+        public const string GitHubPattern = @"^https://(www\.)?github\.com/[A-Za-z0-9-]+(/\S*)?$";
 
         // Checked when a username does not exist, so that takes as long as a wrong password
         // and the response time does not reveal which usernames exist
@@ -65,7 +68,7 @@ namespace CodeLab.BLL
         public OperationResult ChangeLearnerPassword(string current,string password,string confirm)
         {
             if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult.Fail("Learner access required.");
-            if(string.IsNullOrEmpty(password) || password.Length>128 || !Regex.IsMatch(password,PasswordPattern) || password!=confirm) return OperationResult.Fail("Use 8–128 characters with a number and matching confirmation.");
+            if(string.IsNullOrEmpty(password) || password.Length>128 || !Regex.IsMatch(password,PasswordPattern) || password!=confirm) return OperationResult.Fail("Use 8–128 characters with a letter, a number, a symbol and matching confirmation.");
             try {
                 var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
                 if(user==null || !PasswordHelper.VerifyPassword(current,user.PasswordHash)) return OperationResult.Fail("Current password is incorrect.");
@@ -230,7 +233,7 @@ namespace CodeLab.BLL
 
             if (!Regex.IsMatch(password, PasswordPattern))
             {
-                return OperationResult.Fail("Password must be at least 8 characters and contain at least one number.");
+                return OperationResult.Fail("Password must be at least 8 characters and include a letter, a number and a symbol.");
             }
 
             if (password != confirmPassword)
@@ -251,6 +254,11 @@ namespace CodeLab.BLL
                 if (applicationError != null)
                 {
                     return OperationResult.Fail(applicationError);
+                }
+
+                if (!Regex.IsMatch(application.PortfolioUrl, GitHubPattern, RegexOptions.IgnoreCase))
+                {
+                    return OperationResult.Fail("Enter your GitHub profile link, e.g. https://github.com/your-name.");
                 }
             }
 
