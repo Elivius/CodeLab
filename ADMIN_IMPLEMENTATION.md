@@ -15,8 +15,8 @@ Today nobody can do either, so only the seeded tutor and courses work.
 |---|---|---|---|
 | 0 | `fix/session-authorization-redirection` | Signed-in users are sent from guest pages to their home page | Done |
 | 1 | `feat/admin-module` | Admin pages layout + approve or reject tutor applications | Done |
-| 2 | `feat/admin-module` | Review, approve, reject, lock, unlock and delete courses | Built, in review |
-| 3 | `feat/admin-3-users` | List, search, create, edit, suspend and delete users | |
+| 2 | `feat/course-moderation` | Review, approve, reject, lock, unlock and delete courses | Done |
+| 3 | `feat/course-moderation` | List, search, create, edit, suspend and delete users | Built, in review |
 | 4 | `feat/admin-4-overview-audit` | Stat cards, Overview tab, searchable audit logs | |
 | 5 | `feat/admin-5-backups` | Database backups with download (optional) | |
 
@@ -273,7 +273,7 @@ Before deleting, read the cover and lesson attachment paths. After the transacti
 
 ## Phase 3: Users
 
-**Branch:** `feat/admin-3-users`
+**Branch:** `feat/course-moderation`
 **Goal:** an admin can find, create and edit users, change roles, and suspend accounts in a way that actually takes effect.
 
 ### New files
@@ -281,19 +281,19 @@ Before deleting, read the cover and lesson attachment paths. After the transacti
 | File | Contents |
 |---|---|
 | `Models/Admin/AdminUserRow.cs` | The `User` fields plus `HasActivity` (true if the user has anything that blocks deleting) |
-| `DAL/Admin/UserAdminRepository.cs` | `Search(string text, string role, string status)`, `GetById`, `UpdateDetails(id, fullName, email, role)`, `SetStatus(id, status)`, `HasActivity(id)`, `Delete(id)`, `CountActiveAdmins()`, `GetAccountState(id)` (status + role) |
+| `DAL/Admin/UserAdminRepository.cs` | `GetUsers(string search)`, `GetById`, `IsEmailTakenByOther`, `UpdateDetails(id, fullName, email, role)`, `Suspend(id)`, `Reactivate(id)`, `Delete(id)`. `HasActivity` is worked out in the shared SELECT. The role and status filters run on the page |
 | `BLL/Admin/UserAdminManager.cs` | The rules below, plus audit entries |
 | `Modules/Admin/Users.aspx` | Search (name, username or email), role and status filters, and the table from the prototype. Actions: Edit, Suspend or Reactivate, Delete (disabled with an explanation when the user has activity). |
 | `Modules/Admin/UserEdit.aspx` | With no `id`: create a user (full name, username, email, role, temporary password). With `?id=`: view and edit (full name, email, role) plus Suspend or Reactivate. |
 
 **Creating a user** reuses what Register already uses: `UserManager.EmailPattern`, `PasswordPattern`, `IsUsernameTaken`, `IsEmailTaken`, `PasswordHelper.HashPassword`, and `UserRepository.Insert(user, null)` (passing `null` means no tutor application). A tutor created by an admin still fills in the tutor application, then an admin approves it like any other.
 
-**`HasActivity`** is true if any of these exist for the user: courses they teach, enrollments, lesson completions, quizzes they created, quiz attempts, code submissions, discussion posts or replies, audit entries. `TutorProfiles` and `LearnerStats` are deleted with the user automatically (cascade), so they do not count.
+**`HasActivity`** is true if any of these exist for the user: courses they teach, enrollments, lesson completions, quizzes they created, quiz attempts, code submissions, discussion posts or replies, badges, audit entries. `TutorProfiles` and `LearnerStats` are deleted with the user automatically (cascade), so they do not count. A new table that points at `Users` without a cascade must be added to this check.
 
 ### Rules (in `UserAdminManager`)
 
-- An admin cannot suspend, delete or change the role of **their own** account.
-- The **last active Admin** cannot be suspended, deleted or changed to another role.
+- An admin cannot suspend, delete or change the role of **their own** account. This also protects the **last active Admin**: whoever makes the change is an active admin, and they stay one, so no separate count is needed.
+- A **tutor who still teaches courses** cannot change role, because those courses would be left without a tutor.
 - **Delete** only works when `HasActivity` is false. Otherwise the message suggests Suspend.
 - Username and email must stay unique, and use the same patterns as Register.
 
@@ -323,7 +323,8 @@ protected void Application_PostAcquireRequestState(object sender, EventArgs e)
 | File | Change |
 |---|---|
 | `Global.asax.cs` | The check above |
-| `BLL/UserManager.cs` | `GetAccountState(int userId)` for `Global.asax` |
+| `BLL/UserManager.cs`, `DAL/UserRepository.cs` | `IsLoginStillValid(userId, role)` for `Global.asax`, reading `GetAccountState(userId)`. If the database fails, the user stays logged in, because a database problem must not sign everyone out |
+| `Helpers/SessionHelper.cs` | `GetUserIdFromTicket` |
 | `Modules/Public/Login.aspx(.cs)` | The `?reason=changed` message |
 | `Modules/Admin/Admin.Master` | Adds the "Users" tab |
 | `Modules/Admin/Dashboard.aspx` | Adds the "Recent users" panel (newest 5, with a "Manage all users" link) |

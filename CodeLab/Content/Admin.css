@@ -647,6 +647,50 @@
 /* Site.css caps every input, select and textarea at 280px, which leaves a gap on the right of
    controls that are meant to fill their panel (the decision buttons and the reason box). */
 .cl-admin-panel input.w-100,
-.cl-admin-panel .form-control {
+.cl-admin-panel .form-control,
+.cl-admin-panel .form-select {
     max-width: 100%;
+}
+
+/* ---------- Users ---------- */
+
+.cl-admin-badge-accent {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
+.cl-admin-badge-info {
+    color: #1D4ED8;
+    background-color: rgba(59, 130, 246, 0.14);
+}
+
+[data-theme="dark"] .cl-admin-badge-info {
+    color: #93C5FD;
+}
+
+/* The role filters and the status filters side by side */
+.cl-admin-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.cl-admin-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+/* ---------- Disabled actions ---------- */
+
+/* A disabled action sits in a wrapper that carries the tooltip. Bootstrap's .disabled turns off pointer
+   events on the button itself, so the "not allowed" cursor has to be set on the wrapper. */
+.cl-admin-disabled-action {
+    cursor: not-allowed;
+}
+
+.cl-admin-disabled-action .btn.disabled {
+    opacity: 0.45;
 }

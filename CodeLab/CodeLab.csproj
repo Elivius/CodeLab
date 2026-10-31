@@ -117,6 +117,8 @@
     <Content Include="Modules\Admin\Dashboard.aspx" />
     <Content Include="Modules\Admin\TutorApplication.aspx" />
     <Content Include="Modules\Admin\TutorApplications.aspx" />
+    <Content Include="Modules\Admin\UserEdit.aspx" />
+    <Content Include="Modules\Admin\Users.aspx" />
     <Content Include="Modules\Learner\CourseDetails.aspx" />
     <Content Include="Modules\Learner\Challenge.aspx" />
     <Content Include="Modules\Learner\Curriculum.aspx" />
@@ -235,6 +237,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="BLL\Admin\CourseModerationManager.cs" />
     <Compile Include="BLL\Admin\TutorApprovalManager.cs" />
+    <Compile Include="BLL\Admin\UserAdminManager.cs" />
     <Compile Include="BLL\AuditManager.cs" />
     <Compile Include="BLL\Learner\LeaderboardManager.cs" />
     <Compile Include="BLL\Learner\LearnerChallengeDetailManager.cs" />
@@ -247,6 +250,7 @@
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="DAL\Admin\CourseModerationRepository.cs" />
     <Compile Include="DAL\Admin\TutorApprovalRepository.cs" />
+    <Compile Include="DAL\Admin\UserAdminRepository.cs" />
     <Compile Include="DAL\AuditRepository.cs" />
     <Compile Include="DAL\Learner\LeaderboardRepository.cs" />
     <Compile Include="DAL\Learner\LearnerChallengeDetailRepository.cs" />
@@ -276,6 +280,7 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\Tutor\YouTubeHelper.cs" />
     <Compile Include="Models\Admin\AdminCourseRow.cs" />
+    <Compile Include="Models\Admin\AdminUserRow.cs" />
     <Compile Include="Models\Admin\CourseReviewDetails.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Learner\ChallengeSubmissionResult.cs" />
@@ -359,6 +364,20 @@
     </Compile>
     <Compile Include="Modules\Admin\TutorApplications.aspx.designer.cs">
       <DependentUpon>TutorApplications.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Admin\UserEdit.aspx.cs">
+      <DependentUpon>UserEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\UserEdit.aspx.designer.cs">
+      <DependentUpon>UserEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Admin\Users.aspx.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\Users.aspx.designer.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Public\CourseDetails.aspx.cs">
       <DependentUpon>CourseDetails.aspx</DependentUpon>

@@ -15,8 +15,12 @@ namespace CodeLab.BLL
         private const int MaxUsernameLength = 50;
         private const int MaxEmailLength = 255;
 
-        /// <summary>Email format check, shared by the Register page's validators and Register().</summary>
-        public const string EmailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        /// <summary>
+        /// Email format check, shared by the Register and admin UserEdit validators, Register(), the learner
+        /// profile and UserAdminManager. Letters, numbers and . _ % + - before the @, no dots at the start or
+        /// end or side by side, then a domain ending in a letters-only part of at least 2, such as .com.
+        /// </summary>
+        public const string EmailPattern = @"^[A-Za-z0-9_%+-]+(\.[A-Za-z0-9_%+-]+)*@([A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$";
 
         /// <summary>Password rule from the proposal: at least 8 characters with at least one number.</summary>
         public const string PasswordPattern = @"^(?=.*\d).{8,}$";
@@ -149,6 +153,27 @@ namespace CodeLab.BLL
             {
                 LogHelper.LogError("UserManager.GetFullName failure", exception);
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// False if an admin has suspended or deleted this account, or changed its role, since the login
+        /// cookie was issued. role is the role in the cookie. Global.asax calls this on every page request.
+        /// </summary>
+        public bool IsLoginStillValid(int userId, string role)
+        {
+            try
+            {
+                User account = _userRepository.GetAccountState(userId);
+                return account != null
+                    && account.Status == UserStatuses.Active
+                    && string.Equals(account.Role, role, StringComparison.OrdinalIgnoreCase);
+            }
+            catch (Exception exception)
+            {
+                // A database problem must not sign everyone out; the page itself will report it
+                LogHelper.LogError("UserManager.IsLoginStillValid failure", exception);
+                return true;
             }
         }
 

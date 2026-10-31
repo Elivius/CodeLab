@@ -16,9 +16,27 @@ namespace CodeLab.Modules.Admin
         {
             if (!IsPostBack)
             {
+                BindUsers();
                 BindPendingTutors();
                 BindCourses();
             }
+        }
+
+        private void BindUsers()
+        {
+            OperationResult<List<AdminUserRow>> result = new UserAdminManager().GetUsers(null);
+            if (!result.Success)
+            {
+                lblMessage.Text = result.Message;
+                lblMessage.Visible = true;
+                litUserSummary.Text = "Could not be loaded.";
+                return;
+            }
+
+            int count = result.Data.Count;
+            litUserSummary.Text = count + (count == 1 ? " account" : " accounts") + ", newest first.";
+            rptUsers.DataSource = result.Data.Take(PendingPreviewCount);
+            rptUsers.DataBind();
         }
 
         // The courses that need an admin: waiting for review first, then locked
