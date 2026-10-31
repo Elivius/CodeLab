@@ -129,7 +129,7 @@
                 <asp:RequiredFieldValidator ID="rfvPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl" ValidationGroup="Teaching"
                     ErrorMessage="Portfolio link is required." CssClass="text-danger" Display="Dynamic" />
                 <asp:RegularExpressionValidator ID="revPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl" ValidationGroup="Teaching"
-                    ValidationExpression="^\s*https?://\S+\s*$" ErrorMessage="Portfolio link must start with http:// or https://."
+                    ErrorMessage="Enter your GitHub profile link, e.g. https://github.com/your-name."
                     CssClass="text-danger" Display="Dynamic" />
             </div>
 

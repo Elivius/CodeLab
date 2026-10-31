@@ -21,6 +21,9 @@ namespace CodeLab.BLL
         /// <summary>Password rule: at least 8 characters with a letter, a number and a symbol (spaces do not count as a symbol).</summary>
         public const string PasswordPattern = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,}$";
 
+        /// <summary>Tutor portfolio link on Register: a GitHub profile or repository, e.g. https://github.com/your-name.</summary>
+        public const string GitHubPattern = @"^https://(www\.)?github\.com/[A-Za-z0-9-]+(/\S*)?$";
+
         private readonly UserRepository _userRepository = new UserRepository();
 
         /// <summary>
@@ -214,6 +217,11 @@ namespace CodeLab.BLL
                 if (applicationError != null)
                 {
                     return OperationResult.Fail(applicationError);
+                }
+
+                if (!Regex.IsMatch(application.PortfolioUrl, GitHubPattern, RegexOptions.IgnoreCase))
+                {
+                    return OperationResult.Fail("Enter your GitHub profile link, e.g. https://github.com/your-name.");
                 }
             }
 
