@@ -38,7 +38,8 @@ COMMIT TRANSACTION;";
             using (var connection = DatabaseHelper.GetConnection())
             {
                 connection.Open();
-                using (var command = new SqlCommand(@"SELECT COUNT(*), COALESCE(SUM(CASE WHEN IsCompleted=1 THEN 1 ELSE 0 END),0) FROM dbo.CourseEnrollments WHERE LearnerId=@id", connection))
+                // Same filter as the course list below, so a locked course leaves the numbers and the list together
+                using (var command = new SqlCommand(@"SELECT COUNT(*), COALESCE(SUM(CASE WHEN e.IsCompleted=1 THEN 1 ELSE 0 END),0) FROM dbo.CourseEnrollments e INNER JOIN dbo.Courses c ON c.Id=e.CourseId WHERE e.LearnerId=@id AND c.Status=N'Published'", connection))
                 {
                     command.Parameters.Add("@id", SqlDbType.Int).Value = learnerId;
                     using (var reader = command.ExecuteReader()) if (reader.Read()) { data.Enrolled = reader.GetInt32(0); data.Completed = reader.GetInt32(1); }

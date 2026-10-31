@@ -159,6 +159,11 @@
     color: #FBBF24;
 }
 
+.cl-admin-tone-accent {
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+}
+
 /* ---------- Short lists (Overview panels) ---------- */
 
 .cl-admin-list {
@@ -243,6 +248,12 @@
 .cl-admin-badge-rejected {
     color: #B91C1C;
     background-color: rgba(239, 68, 68, 0.12);
+}
+
+.cl-admin-badge-neutral {
+    color: var(--cl-text-soft);
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
 }
 
 [data-theme="dark"] .cl-admin-badge-pending {
@@ -493,4 +504,149 @@
 .cl-admin-table td {
     vertical-align: middle;
     border-bottom: 1px solid var(--cl-border);
+}
+
+/* ---------- Course moderation list ---------- */
+
+.cl-admin-search {
+    display: flex;
+    gap: 8px;
+    max-width: 520px;
+    margin-bottom: 16px;
+}
+
+/* The admin's reason under a status badge */
+.cl-admin-note {
+    display: block;
+    max-width: 240px;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: var(--cl-muted);
+}
+
+.cl-admin-row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.cl-admin-row-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+/* ---------- Course review page ---------- */
+
+.cl-admin-cover {
+    display: block;
+    width: 100%;
+    max-height: 240px;
+    margin-bottom: 20px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.cl-admin-lesson {
+    margin-bottom: 8px;
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-admin-lesson summary {
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cl-admin-lesson summary .cl-admin-meta {
+    margin-left: 8px;
+    font-weight: 400;
+}
+
+/* Lesson content comes from MarkdownHelper. These match .cl-markdown in Tutor.css, which admin pages do not load. */
+.cl-admin-lesson-body {
+    padding: 4px 14px 14px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--cl-text-soft);
+    overflow-wrap: anywhere;
+}
+
+.cl-admin-lesson-body h3,
+.cl-admin-lesson-body h4,
+.cl-admin-lesson-body h5 {
+    margin: 1.2em 0 0.5em;
+    font-size: 1.05rem;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--cl-text);
+}
+
+.cl-admin-lesson-body blockquote {
+    margin: 1em 0;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--cl-accent);
+}
+
+.cl-admin-lesson-body code {
+    padding: 2px 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85em;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 6px;
+}
+
+/* Dark in both themes, like the code blocks learners see */
+.cl-admin-lesson-body pre.cl-code {
+    margin: 1em 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #ABB2BF;
+    background-color: #282C34;
+    border-radius: 12px;
+}
+
+.cl-admin-lesson-body pre.cl-code code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre;
+    background: transparent;
+}
+
+.cl-admin-lesson-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.cl-admin-lesson-links .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cl-admin-delete {
+    color: #B91C1C;
+}
+
+[data-theme="dark"] .cl-admin-delete {
+    color: #F87171;
+}
+
+/* ---------- Full-width controls in panels ---------- */
+
+/* Site.css caps every input, select and textarea at 280px, which leaves a gap on the right of
+   controls that are meant to fill their panel (the decision buttons and the reason box). */
+.cl-admin-panel input.w-100,
+.cl-admin-panel .form-control {
+    max-width: 100%;
 }

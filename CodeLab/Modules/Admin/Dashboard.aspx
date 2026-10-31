@@ -44,6 +44,45 @@
                 </asp:PlaceHolder>
             </section>
         </div>
+
+        <%-- ===== Course moderation ===== --%>
+        <div class="col-lg-6">
+            <section class="cl-card cl-admin-panel">
+                <div class="cl-admin-panel-head">
+                    <span class="cl-admin-panel-icon cl-admin-tone-accent"><i data-lucide="book-open" class="cl-icon" aria-hidden="true"></i></span>
+                    <div>
+                        <h2>Course moderation</h2>
+                        <p><asp:Literal ID="litCourseSummary" runat="server" Mode="Encode" /></p>
+                    </div>
+                    <a runat="server" href="~/Modules/Admin/Courses" class="cl-admin-panel-link">
+                        All courses <i data-lucide="arrow-right" class="cl-icon" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <asp:Repeater ID="rptCourses" runat="server">
+                    <HeaderTemplate><ul class="cl-admin-list"></HeaderTemplate>
+                    <ItemTemplate>
+                        <li class="cl-admin-list-item">
+                            <div class="cl-admin-list-text">
+                                <strong><%#: Eval("Title") %></strong>
+                                <span><%#: Eval("TutorName") %> &middot; <%#: Eval("Category") %></span>
+                            </div>
+                            <span class="cl-admin-badge <%# DisplayHelper.CourseBadgeCss((string)Eval("Status")) %>"><%#: Eval("Status") %></span>
+                            <asp:HyperLink runat="server" CssClass="btn btn-primary btn-sm" Text="Review"
+                                NavigateUrl='<%# "~/Modules/Admin/CourseReview?id=" + Eval("Id") %>' />
+                        </li>
+                    </ItemTemplate>
+                    <FooterTemplate></ul></FooterTemplate>
+                </asp:Repeater>
+
+                <asp:PlaceHolder ID="phNoCourses" runat="server" Visible="false">
+                    <div class="cl-admin-empty">
+                        <i data-lucide="circle-check" class="cl-icon" aria-hidden="true"></i>
+                        <p>No courses are waiting or locked. New submissions will appear here.</p>
+                    </div>
+                </asp:PlaceHolder>
+            </section>
+        </div>
     </div>
 
 </asp:Content>

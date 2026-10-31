@@ -1,4 +1,5 @@
 using System;
+using CodeLab.Models;
 
 namespace CodeLab.Helpers
 {
@@ -50,6 +51,33 @@ namespace CodeLab.Helpers
 
             int cut = text.LastIndexOf(' ', maxLength);
             return text.Substring(0, cut > 0 ? cut : maxLength).TrimEnd() + "...";
+        }
+
+        /// <summary>
+        /// The Admin.css badge colour for a course status.
+        /// </summary>
+        public static string CourseBadgeCss(string status)
+        {
+            switch (status)
+            {
+                case CourseStatuses.Published: return "cl-admin-badge-approved";
+                case CourseStatuses.PendingReview: return "cl-admin-badge-pending";
+                case CourseStatuses.Locked: return "cl-admin-badge-rejected";
+                default: return "cl-admin-badge-neutral";
+            }
+        }
+
+        /// <summary>
+        /// The OnClientClick script that asks an admin to confirm deleting a course.
+        /// </summary>
+        public static string CourseDeleteConfirm(int studentCount)
+        {
+            string students = studentCount == 0
+                ? "No students are enrolled."
+                : studentCount + (studentCount == 1 ? " enrolled student loses access." : " enrolled students lose access.");
+
+            return "return confirm('Delete this course permanently, with its lessons, quiz, challenge and discussions? "
+                + students + "');";
         }
     }
 }
