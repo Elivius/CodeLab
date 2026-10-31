@@ -21,6 +21,10 @@ namespace CodeLab.BLL
         /// <summary>Password rule from the proposal: at least 8 characters with at least one number.</summary>
         public const string PasswordPattern = @"^(?=.*\d).{8,}$";
 
+        // Checked when a username does not exist, so that takes as long as a wrong password
+        // and the response time does not reveal which usernames exist
+        private static readonly string DummyPasswordHash = PasswordHelper.HashPassword(Guid.NewGuid().ToString());
+
         private readonly UserRepository _userRepository = new UserRepository();
 
         /// <summary>
@@ -112,8 +116,16 @@ namespace CodeLab.BLL
                 return OperationResult<User>.Fail("A system error occurred while signing in. Please try again.");
             }
 
-            if (user == null || !PasswordHelper.VerifyPassword(password, user.PasswordHash))
+            if (user == null)
             {
+                PasswordHelper.VerifyPassword(password, DummyPasswordHash);
+                return OperationResult<User>.Fail(InvalidLoginMessage);
+            }
+
+            if (!PasswordHelper.VerifyPassword(password, user.PasswordHash))
+            {
+                // An unknown username cannot be recorded: AuditLogs.UserId must point at a real user
+                new AuditManager().RecordActivity(user.Id, "LOGIN_FAILED", "Wrong password.");
                 return OperationResult<User>.Fail(InvalidLoginMessage);
             }
 

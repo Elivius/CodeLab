@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using CodeLab.DAL;
 using CodeLab.Helpers;
 using CodeLab.Models;
@@ -9,6 +8,7 @@ namespace CodeLab.BLL
     public class AuditManager
     {
         private const int MaxDetailsLength = 500;
+        private const int PageSize = 25;
 
         private readonly AuditRepository _auditRepository = new AuditRepository();
 
@@ -40,21 +40,42 @@ namespace CodeLab.BLL
             _auditRepository.InsertAuditLog(log);
         }
 
-        public OperationResult<List<AuditLog>> GetRecentAuditLogs()
+        /// <summary>
+        /// Returns one page of the audit log, newest first. category is one of AuditCategories, or null
+        /// for all of them. A page past the end shows the last page.
+        /// </summary>
+        public OperationResult<AuditLogPage> Search(string search, string category, int page)
         {
             if (!SessionHelper.IsUserInRole(UserRoles.Admin))
             {
-                return OperationResult<List<AuditLog>>.Fail("Unauthorized: Only administrators can view audit logs.");
+                return OperationResult<AuditLogPage>.Fail("Unauthorized: Only administrators can view audit logs.");
+            }
+
+            if (category != null && AuditCategories.Find(category) == null)
+            {
+                return OperationResult<AuditLogPage>.Fail("Unknown audit category.");
             }
 
             try
             {
-                return OperationResult<List<AuditLog>>.Ok(_auditRepository.GetRecentLogsWithUsernames());
+                string searchText = string.IsNullOrWhiteSpace(search) ? null : search.Trim();
+
+                int totalCount = _auditRepository.CountLogs(searchText, category);
+                int pageCount = Math.Max(1, (totalCount + PageSize - 1) / PageSize);
+                int currentPage = Math.Min(Math.Max(page, 1), pageCount);
+
+                return OperationResult<AuditLogPage>.Ok(new AuditLogPage
+                {
+                    Rows = _auditRepository.GetLogs(searchText, category, (currentPage - 1) * PageSize, PageSize),
+                    TotalCount = totalCount,
+                    Page = currentPage,
+                    PageCount = pageCount
+                });
             }
             catch (Exception exception)
             {
-                LogHelper.LogError("AuditManager.GetRecentAuditLogs failure", exception);
-                return OperationResult<List<AuditLog>>.Fail("The audit logs could not be loaded. Please try again.");
+                LogHelper.LogError("AuditManager.Search failure", exception);
+                return OperationResult<AuditLogPage>.Fail("The audit logs could not be loaded. Please try again.");
             }
         }
     }

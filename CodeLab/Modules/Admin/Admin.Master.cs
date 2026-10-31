@@ -9,28 +9,76 @@ namespace CodeLab.Modules.Admin
 {
     public partial class AdminMaster : MasterPage
     {
-        // PreRender runs after the page's button clicks, so a badge count is already up to date
+        // PreRender runs after the page's button clicks, so the numbers are already up to date
         // when an admin has just approved or rejected something on this request
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            rptTabs.DataSource = BuildTabs();
+            OperationResult<AdminStats> result = new AdminStatsManager().GetStats();
+
+            // Without numbers the cards are hidden, but the tabs still work
+            phStats.Visible = result.Success;
+            AdminStats stats = result.Success ? result.Data : new AdminStats();
+            if (result.Success)
+            {
+                ShowStats(stats);
+            }
+
+            rptTabs.DataSource = BuildTabs(stats.PendingTutors, stats.PendingCourses);
             rptTabs.DataBind();
         }
 
-        // One entry per Admin tab. Each phase that adds a page adds its tab here.
-        private List<AdminTab> BuildTabs()
+        private void ShowStats(AdminStats stats)
         {
-            OperationResult<int> pendingTutors = new TutorApprovalManager().CountPending();
-            OperationResult<int> pendingCourses = new CourseModerationManager().CountPending();
+            litDatabaseSize.Text = stats.DatabaseSizeMb.ToString("0.0") + " MB";
+            litQueryTime.Text = stats.QueryMilliseconds < 1 ? "under 1 ms" : stats.QueryMilliseconds + " ms";
+            litTableCount.Text = stats.TableCount.ToString();
 
+            litPendingTotal.Text = stats.PendingTotal.ToString();
+            litPendingTutors.Text = stats.PendingTutors.ToString();
+            litPendingCourses.Text = stats.PendingCourses.ToString();
+
+            litActiveUsers.Text = stats.ActiveUsers.ToString();
+            litNewUsers.Text = stats.NewUsersThisMonth.ToString();
+            litLearners.Text = stats.Learners.ToString();
+            litTutors.Text = stats.Tutors.ToString();
+            litAdmins.Text = stats.Admins.ToString();
+
+            litTotalCourses.Text = stats.TotalCourses.ToString();
+            litDraftCourses.Text = stats.DraftCourses.ToString();
+            litPublishedCourses.Text = stats.PublishedCourses.ToString();
+            litReviewCourses.Text = stats.PendingCourses.ToString();
+            litLockedCourses.Text = stats.LockedCourses.ToString();
+
+            phBanner.Visible = stats.PendingTotal > 0;
+            litBanner.Text = BannerText(stats);
+        }
+
+        // e.g. "2 tutor applications and 1 course are waiting for review."
+        private static string BannerText(AdminStats stats)
+        {
+            List<string> waiting = new List<string>();
+            if (stats.PendingTutors > 0)
+            {
+                waiting.Add(stats.PendingTutors + (stats.PendingTutors == 1 ? " tutor application" : " tutor applications"));
+            }
+
+            if (stats.PendingCourses > 0)
+            {
+                waiting.Add(stats.PendingCourses + (stats.PendingCourses == 1 ? " course" : " courses"));
+            }
+
+            return string.Join(" and ", waiting) + (stats.PendingTotal == 1 ? " is" : " are") + " waiting for review.";
+        }
+
+        // One entry per Admin tab. Each phase that adds a page adds its tab here.
+        private List<AdminTab> BuildTabs(int pendingTutors, int pendingCourses)
+        {
             List<AdminTab> tabs = new List<AdminTab>
             {
                 new AdminTab("Overview", "layout-dashboard", "~/Modules/Admin/Dashboard", 0, "Dashboard"),
                 new AdminTab("Users", "users", "~/Modules/Admin/Users", 0, "Users", "UserEdit"),
-                new AdminTab("Course Moderation", "book-open", "~/Modules/Admin/Courses",
-                    pendingCourses.Success ? pendingCourses.Data : 0, "Courses", "CourseReview"),
-                new AdminTab("Tutor Applications", "graduation-cap", "~/Modules/Admin/TutorApplications",
-                    pendingTutors.Success ? pendingTutors.Data : 0, "TutorApplications", "TutorApplication"),
+                new AdminTab("Course Moderation", "book-open", "~/Modules/Admin/Courses", pendingCourses, "Courses", "CourseReview"),
+                new AdminTab("Tutor Applications", "graduation-cap", "~/Modules/Admin/TutorApplications", pendingTutors, "TutorApplications", "TutorApplication"),
                 new AdminTab("Audit Logs", "shield", "~/Modules/Admin/AuditLogs", 0, "AuditLogs")
             };
 

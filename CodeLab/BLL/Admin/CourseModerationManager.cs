@@ -85,27 +85,6 @@ namespace CodeLab.BLL
             }
         }
 
-        /// <summary>
-        /// The number of courses waiting for review, for the tab badge.
-        /// </summary>
-        public OperationResult<int> CountPending()
-        {
-            if (!SessionHelper.IsUserInRole(UserRoles.Admin))
-            {
-                return OperationResult<int>.Fail(UnauthorizedMessage);
-            }
-
-            try
-            {
-                return OperationResult<int>.Ok(_repository.CountPending());
-            }
-            catch (Exception exception)
-            {
-                LogHelper.LogError("CourseModerationManager.CountPending failure", exception);
-                return OperationResult<int>.Fail("The number of pending courses could not be loaded.");
-            }
-        }
-
         public OperationResult Approve(int courseId)
         {
             OperationResult<AdminCourseRow> course = LoadCourse(courseId);

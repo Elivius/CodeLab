@@ -81,22 +81,6 @@ namespace CodeLab.DAL
             }
         }
 
-        public int CountPending()
-        {
-            string query = @"SELECT COUNT(*) FROM TutorProfiles WHERE Status = @Pending";
-
-            using (SqlConnection connection = DatabaseHelper.GetConnection())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.Add("@Pending", SqlDbType.NVarChar, 20).Value = TutorStatuses.Pending;
-
-                    connection.Open();
-                    return Convert.ToInt32(command.ExecuteScalar());
-                }
-            }
-        }
-
         /// <summary>
         /// Approves a Pending application. Returns false if it was not Pending (already reviewed) or could not be saved.
         /// </summary>
