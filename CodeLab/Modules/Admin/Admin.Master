@@ -1,0 +1,37 @@
+<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="CodeLab.Modules.Admin.AdminMaster" %>
+
+<%--
+    Layout for every Admin page: the Control Center header and the tab bar, inside Site.Master.
+    A new Admin page uses MasterPageFile="~/Modules/Admin/Admin.Master", puts its markup in the
+    AdminContent placeholder, and adds its tab in Admin.Master.cs (BuildTabs).
+--%>
+
+<asp:Content ID="AdminHeadContent" ContentPlaceHolderID="HeadContent" runat="server">
+    <link rel="stylesheet" href="<%: ResolveUrl("~/Content/Admin.css") %>" />
+</asp:Content>
+
+<asp:Content ID="AdminMainContent" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="cl-admin">
+        <header class="cl-admin-header">
+            <span class="cl-admin-kicker">Control Center</span>
+            <h1>Administration</h1>
+            <p>Review tutor applications, moderate courses, manage accounts and check platform activity.</p>
+        </header>
+
+        <nav class="cl-admin-tabs" aria-label="Admin sections">
+            <asp:Repeater ID="rptTabs" runat="server">
+                <ItemTemplate>
+                    <a href="<%# ResolveUrl((string)Eval("Url")) %>" class="<%# (bool)Eval("IsActive") ? "active" : "" %>"
+                        <%# (bool)Eval("IsActive") ? "aria-current=\"page\"" : "" %>>
+                        <i data-lucide="<%# Eval("Icon") %>" class="cl-icon" aria-hidden="true"></i>
+                        <%#: Eval("Title") %>
+                        <%# (int)Eval("Badge") > 0 ? "<span class=\"cl-admin-count\">" + Eval("Badge") + "</span>" : "" %>
+                    </a>
+                </ItemTemplate>
+            </asp:Repeater>
+        </nav>
+
+        <asp:ContentPlaceHolder ID="AdminContent" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+</asp:Content>
