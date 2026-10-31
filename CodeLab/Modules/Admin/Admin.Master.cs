@@ -26,6 +26,7 @@ namespace CodeLab.Modules.Admin
             List<AdminTab> tabs = new List<AdminTab>
             {
                 new AdminTab("Overview", "layout-dashboard", "~/Modules/Admin/Dashboard", 0, "Dashboard"),
+                new AdminTab("Users", "users", "~/Modules/Admin/Users", 0, "Users", "UserEdit"),
                 new AdminTab("Course Moderation", "book-open", "~/Modules/Admin/Courses",
                     pendingCourses.Success ? pendingCourses.Data : 0, "Courses", "CourseReview"),
                 new AdminTab("Tutor Applications", "graduation-cap", "~/Modules/Admin/TutorApplications",

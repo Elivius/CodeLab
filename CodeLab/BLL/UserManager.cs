@@ -153,6 +153,27 @@ namespace CodeLab.BLL
         }
 
         /// <summary>
+        /// False if an admin has suspended or deleted this account, or changed its role, since the login
+        /// cookie was issued. role is the role in the cookie. Global.asax calls this on every page request.
+        /// </summary>
+        public bool IsLoginStillValid(int userId, string role)
+        {
+            try
+            {
+                User account = _userRepository.GetAccountState(userId);
+                return account != null
+                    && account.Status == UserStatuses.Active
+                    && string.Equals(account.Role, role, StringComparison.OrdinalIgnoreCase);
+            }
+            catch (Exception exception)
+            {
+                // A database problem must not sign everyone out; the page itself will report it
+                LogHelper.LogError("UserManager.IsLoginStillValid failure", exception);
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Creates a Learner or Tutor account. account carries FullName, Username, Email and Role;
         /// application is the tutor application (null for learners). Tutors start Pending but can log in.
         /// </summary>

@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+using CodeLab.BLL;
 using CodeLab.Helpers;
 
 namespace CodeLab
@@ -35,6 +36,30 @@ namespace CodeLab
 
             string role = SessionHelper.GetRoleFromTicket(identity.Ticket);
             Context.User = new GenericPrincipal(identity, new string[] { role });
+        }
+
+        // The login cookie cannot know that an admin has since suspended or deleted this account, or
+        // changed its role, so check the database once per page. This runs here rather than in
+        // Application_AuthenticateRequest because signing out needs the session, which is loaded by now.
+        // Requests with no session (images, scripts, styles) are skipped.
+        protected void Application_PostAcquireRequestState(object sender, EventArgs e)
+        {
+            FormsIdentity identity = Context.User == null ? null : Context.User.Identity as FormsIdentity;
+            if (identity == null || !identity.IsAuthenticated || Context.Session == null)
+            {
+                return;
+            }
+
+            int userId = SessionHelper.GetUserIdFromTicket(identity.Ticket);
+            string role = SessionHelper.GetRoleFromTicket(identity.Ticket);
+            if (new UserManager().IsLoginStillValid(userId, role))
+            {
+                return;
+            }
+
+            SessionHelper.SignOut();
+            Response.Redirect("~/Modules/Public/Login?reason=changed", false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         protected void Application_Error(object sender, EventArgs e)

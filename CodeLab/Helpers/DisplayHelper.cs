@@ -68,6 +68,40 @@ namespace CodeLab.Helpers
         }
 
         /// <summary>
+        /// The Admin.css badge colour for a user's role.
+        /// </summary>
+        public static string RoleBadgeCss(string role)
+        {
+            switch (role)
+            {
+                case UserRoles.Admin: return "cl-admin-badge-accent";
+                case UserRoles.Tutor: return "cl-admin-badge-info";
+                default: return "cl-admin-badge-neutral";
+            }
+        }
+
+        /// <summary>
+        /// The Admin.css badge colour for an account status.
+        /// </summary>
+        public static string UserStatusBadgeCss(string status)
+        {
+            switch (status)
+            {
+                case UserStatuses.Active: return "cl-admin-badge-approved";
+                case UserStatuses.Suspended: return "cl-admin-badge-rejected";
+                default: return "cl-admin-badge-pending";
+            }
+        }
+
+        /// <summary>
+        /// When a user last logged in, as TimeAgo text, or "Never".
+        /// </summary>
+        public static string LastLogin(DateTime? utc)
+        {
+            return utc.HasValue ? TimeAgo(utc.Value) : "Never";
+        }
+
+        /// <summary>
         /// The OnClientClick script that asks an admin to confirm deleting a course.
         /// </summary>
         public static string CourseDeleteConfirm(int studentCount)

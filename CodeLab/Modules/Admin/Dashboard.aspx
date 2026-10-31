@@ -6,8 +6,41 @@
     <asp:Label ID="lblMessage" runat="server" CssClass="alert alert-danger d-block" Visible="false" />
 
     <div class="row g-4">
-        <%-- ===== Pending tutor applications ===== --%>
+        <%-- ===== Recent users ===== --%>
         <div class="col-lg-6">
+            <section class="cl-card cl-admin-panel">
+                <div class="cl-admin-panel-head">
+                    <span class="cl-admin-panel-icon cl-admin-tone-accent"><i data-lucide="users" class="cl-icon" aria-hidden="true"></i></span>
+                    <div>
+                        <h2>Recent users</h2>
+                        <p><asp:Literal ID="litUserSummary" runat="server" Mode="Encode" /></p>
+                    </div>
+                    <a runat="server" href="~/Modules/Admin/Users" class="cl-admin-panel-link">
+                        Manage all users <i data-lucide="arrow-right" class="cl-icon" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <asp:Repeater ID="rptUsers" runat="server">
+                    <HeaderTemplate><ul class="cl-admin-list"></HeaderTemplate>
+                    <ItemTemplate>
+                        <li class="cl-admin-list-item">
+                            <span class="cl-admin-avatar" aria-hidden="true"><%#: DisplayHelper.Initials((string)Eval("FullName")) %></span>
+                            <div class="cl-admin-list-text">
+                                <strong><%#: Eval("FullName") %></strong>
+                                <span><%#: Eval("Email") %></span>
+                            </div>
+                            <span class="cl-admin-badge <%# DisplayHelper.RoleBadgeCss((string)Eval("Role")) %>"><%#: Eval("Role") %></span>
+                            <asp:HyperLink runat="server" CssClass="btn cl-btn-outline btn-sm" Text="Edit"
+                                NavigateUrl='<%# "~/Modules/Admin/UserEdit?id=" + Eval("Id") %>' />
+                        </li>
+                    </ItemTemplate>
+                    <FooterTemplate></ul></FooterTemplate>
+                </asp:Repeater>
+            </section>
+        </div>
+
+        <%-- ===== Work waiting for review: two panels stacked in one column ===== --%>
+        <div class="col-lg-6 d-flex flex-column gap-4">
             <section class="cl-card cl-admin-panel">
                 <div class="cl-admin-panel-head">
                     <span class="cl-admin-panel-icon cl-admin-tone-amber"><i data-lucide="graduation-cap" class="cl-icon" aria-hidden="true"></i></span>
@@ -43,10 +76,7 @@
                     </div>
                 </asp:PlaceHolder>
             </section>
-        </div>
 
-        <%-- ===== Course moderation ===== --%>
-        <div class="col-lg-6">
             <section class="cl-card cl-admin-panel">
                 <div class="cl-admin-panel-head">
                     <span class="cl-admin-panel-icon cl-admin-tone-accent"><i data-lucide="book-open" class="cl-icon" aria-hidden="true"></i></span>

@@ -138,6 +138,16 @@ namespace CodeLab.Helpers
             return parts == null ? string.Empty : parts[1];
         }
 
+        /// <summary>
+        /// Reads the user's id out of a login ticket, or 0 if it has none. Used by Global.asax.
+        /// </summary>
+        public static int GetUserIdFromTicket(FormsAuthenticationTicket ticket)
+        {
+            string[] parts = SplitUserData(ticket);
+            int userId;
+            return parts != null && int.TryParse(parts[0], out userId) ? userId : 0;
+        }
+
         private static object GetValue(string key)
         {
             HttpContext context = HttpContext.Current;

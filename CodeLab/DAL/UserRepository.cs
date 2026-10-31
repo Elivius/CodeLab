@@ -83,6 +83,38 @@ namespace CodeLab.DAL
         }
 
         /// <summary>
+        /// Returns only the user's Role and Status, or null if the account no longer exists.
+        /// Global.asax calls this on every page request, so it stays this small.
+        /// </summary>
+        public User GetAccountState(int userId)
+        {
+            string query = @"SELECT Role, Status FROM Users WHERE Id = @Id";
+
+            using (SqlConnection connection = DatabaseHelper.GetConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            return null;
+                        }
+
+                        return new User
+                        {
+                            Role = reader["Role"].ToString(),
+                            Status = reader["Status"].ToString()
+                        };
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// True if an account already uses this username. The database collation ignores case,
         /// so "Tutor" matches "tutor".
         /// </summary>

@@ -24,6 +24,13 @@ namespace CodeLab.Modules.Public
                 lblSuccess.Text = "Account created. Your tutor application is waiting for admin review. Log in to track its status.";
                 lblSuccess.Visible = true;
             }
+
+            // Global.asax sends someone here after an admin suspends their account or changes its role
+            if (!IsPostBack && Request.QueryString["reason"] == "changed")
+            {
+                lblMessage.Text = "Your account was changed by an administrator. Please log in again.";
+                lblMessage.Visible = true;
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
