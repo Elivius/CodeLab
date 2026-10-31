@@ -6,6 +6,9 @@
 --   tutor   / Tutor@123
 --   learner / Learner@123
 --
+-- Tutor applicants waiting for admin review (both use the password Tutor@123):
+--   helena, marcus
+--
 -- Password hashes are produced by PasswordHelper.HashPassword.
 -- Rows refer to each other by looking up names, never by hard-coded Id numbers.
 
@@ -40,6 +43,36 @@ IF NOT EXISTS (SELECT 1 FROM dbo.TutorProfiles WHERE UserId = @TutorId)
     VALUES (@TutorId, N'Ph.D. in Computer Science', N'https://portfolio.codelab.local/turing',
             N'A hands-on algorithms course: complexity, sorting, graphs and dynamic programming, each with coding challenges.',
             N'Father of modern computing and algorithm design.', N'Algorithms & Logic', N'Approved', SYSUTCDATETIME());
+
+-- =====================================
+-- Tutor applicants (Pending, so the admin review queue is not empty)
+-- =====================================
+IF NOT EXISTS (SELECT 1 FROM dbo.Users WHERE Username = N'helena')
+    INSERT INTO dbo.Users (FullName, Username, Email, PasswordHash, Role, Status)
+    VALUES (N'Dr. Helena Zhang', N'helena', N'helena.zhang@codelab.local',
+            N'PBKDF2$100000$0fsSTcyDpxdQVoneFacuPw==$dqINMldOdpgvXkRgZGExxXMI3GyUwXwXRXm+wOMHcEU=', N'Tutor', N'Active');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Users WHERE Username = N'marcus')
+    INSERT INTO dbo.Users (FullName, Username, Email, PasswordHash, Role, Status)
+    VALUES (N'Marcus Vance', N'marcus', N'marcus.vance@codelab.local',
+            N'PBKDF2$100000$6ef7qiDoihlguhgYukYJLg==$+FdcpHGvQCHteS1oNIy7Drjo3314xbCRqpya4+sg/4k=', N'Tutor', N'Active');
+
+DECLARE @HelenaId INT = (SELECT Id FROM dbo.Users WHERE Username = N'helena');
+DECLARE @MarcusId INT = (SELECT Id FROM dbo.Users WHERE Username = N'marcus');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.TutorProfiles WHERE UserId = @HelenaId)
+    INSERT INTO dbo.TutorProfiles (UserId, Qualifications, PortfolioUrl, CurriculumPitch, Bio, Specialty, Status)
+    VALUES (@HelenaId, N'Ph.D. in Machine Learning; 8 years as an ML research lead.', N'https://portfolio.codelab.local/helena',
+            N'Deep learning from scratch: tensors, gradient descent and backpropagation, then building and training a small transformer in PyTorch.',
+            N'Passionate about making tensor operations and gradient descent easy to follow for software engineers.',
+            N'Machine Learning & PyTorch', N'Pending');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.TutorProfiles WHERE UserId = @MarcusId)
+    INSERT INTO dbo.TutorProfiles (UserId, Qualifications, PortfolioUrl, CurriculumPitch, Bio, Specialty, Status)
+    VALUES (@MarcusId, N'6 years as a staff infrastructure engineer; Certified Kubernetes Administrator.', N'https://portfolio.codelab.local/marcus',
+            N'Containers to production: Docker images, Kubernetes deployments, CI/CD pipelines and GitOps, with a hands-on lab in every lesson.',
+            N'Infrastructure engineer who enjoys teaching practical container orchestration and pipeline reliability.',
+            N'Cloud Native DevOps & Kubernetes', N'Pending');
 
 -- =====================================
 -- Courses (the three featured on the landing page)
