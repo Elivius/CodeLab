@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.UI;
 using CodeLab.BLL;
+using CodeLab.Helpers;
 using CodeLab.Models;
 
 namespace CodeLab.Modules.Admin
@@ -32,6 +33,7 @@ namespace CodeLab.Modules.Admin
             litDatabaseSize.Text = stats.DatabaseSizeMb.ToString("0.0") + " MB";
             litQueryTime.Text = stats.QueryMilliseconds < 1 ? "under 1 ms" : stats.QueryMilliseconds + " ms";
             litTableCount.Text = stats.TableCount.ToString();
+            litLastBackup.Text = stats.LastBackupAt.HasValue ? DisplayHelper.TimeAgo(stats.LastBackupAt.Value) : "never";
 
             litPendingTotal.Text = stats.PendingTotal.ToString();
             litPendingTutors.Text = stats.PendingTutors.ToString();
@@ -79,7 +81,8 @@ namespace CodeLab.Modules.Admin
                 new AdminTab("Users", "users", "~/Modules/Admin/Users", 0, "Users", "UserEdit"),
                 new AdminTab("Course Moderation", "book-open", "~/Modules/Admin/Courses", pendingCourses, "Courses", "CourseReview"),
                 new AdminTab("Tutor Applications", "graduation-cap", "~/Modules/Admin/TutorApplications", pendingTutors, "TutorApplications", "TutorApplication"),
-                new AdminTab("Audit Logs", "shield", "~/Modules/Admin/AuditLogs", 0, "AuditLogs")
+                new AdminTab("Audit Logs", "shield", "~/Modules/Admin/AuditLogs", 0, "AuditLogs"),
+                new AdminTab("Database Backups", "hard-drive", "~/Modules/Admin/Backups", 0, "Backups")
             };
 
             // e.g. "~/Modules/Admin/TutorApplication.aspx" gives "TutorApplication"

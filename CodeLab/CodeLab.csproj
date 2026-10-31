@@ -112,6 +112,7 @@
     <Content Include="Modules\Admin\AuditLogs.aspx" />
     <Content Include="Modules\Admin\Web.config" />
     <Content Include="Modules\Admin\Admin.Master" />
+    <Content Include="Modules\Admin\Backups.aspx" />
     <Content Include="Modules\Admin\CourseReview.aspx" />
     <Content Include="Modules\Admin\Courses.aspx" />
     <Content Include="Modules\Admin\Dashboard.aspx" />
@@ -236,6 +237,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="BLL\Admin\AdminStatsManager.cs" />
+    <Compile Include="BLL\Admin\BackupManager.cs" />
     <Compile Include="BLL\Admin\CourseModerationManager.cs" />
     <Compile Include="BLL\Admin\TutorApprovalManager.cs" />
     <Compile Include="BLL\Admin\UserAdminManager.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="BLL\Tutor\TutorManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="DAL\Admin\AdminStatsRepository.cs" />
+    <Compile Include="DAL\Admin\BackupRepository.cs" />
     <Compile Include="DAL\Admin\CourseModerationRepository.cs" />
     <Compile Include="DAL\Admin\TutorApprovalRepository.cs" />
     <Compile Include="DAL\Admin\UserAdminRepository.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="Models\Admin\AdminUserRow.cs" />
     <Compile Include="Models\Admin\AuditCategories.cs" />
     <Compile Include="Models\Admin\AuditLogPage.cs" />
+    <Compile Include="Models\Admin\BackupFile.cs" />
     <Compile Include="Models\Admin\CourseReviewDetails.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Learner\ChallengeSubmissionResult.cs" />
@@ -323,6 +327,13 @@
     </Compile>
     <Compile Include="Modules\Admin\AuditLogs.aspx.designer.cs">
       <DependentUpon>AuditLogs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Admin\Backups.aspx.cs">
+      <DependentUpon>Backups.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\Backups.aspx.designer.cs">
+      <DependentUpon>Backups.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Learner\Leaderboard.aspx.cs">
       <DependentUpon>Leaderboard.aspx</DependentUpon>

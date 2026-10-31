@@ -41,6 +41,9 @@ UpgradeLog*.htm
 # Local database files (the schema is versioned in App_Data/Schema.sql and Seed.sql)
 *.mdf
 *.ldf
+# Database backups hold every account's data, and their checksum files sit next to them
+*.bak
+*.sha256
 
 ## =====================================
 ## User Uploads (profile photos, course covers)

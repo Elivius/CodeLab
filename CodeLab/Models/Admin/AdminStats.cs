@@ -1,3 +1,5 @@
+using System;
+
 namespace CodeLab.Models
 {
     /// <summary>
@@ -25,6 +27,9 @@ namespace CodeLab.Models
 
         // How long a test query took, measured by AdminStatsManager
         public long QueryMilliseconds { get; set; }
+
+        // When the newest backup was made (UTC); null if there are none
+        public DateTime? LastBackupAt { get; set; }
 
         public int ActiveUsers
         {
