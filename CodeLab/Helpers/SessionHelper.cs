@@ -123,7 +123,7 @@ namespace CodeLab.Helpers
             {
                 case UserRoles.Tutor: return "~/Modules/Tutor/Dashboard";
                 case UserRoles.Learner: return "~/Modules/Learner/Dashboard";
-                case UserRoles.Admin: return "~/Modules/Admin/AuditLogs";
+                case UserRoles.Admin: return "~/Modules/Admin/Dashboard";
                 default: return "~/";
             }
         }

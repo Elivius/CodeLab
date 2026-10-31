@@ -111,6 +111,10 @@
     <Content Include="Content\LearnerWorkspace.css" />
     <Content Include="Modules\Admin\AuditLogs.aspx" />
     <Content Include="Modules\Admin\Web.config" />
+    <Content Include="Modules\Admin\Admin.Master" />
+    <Content Include="Modules\Admin\Dashboard.aspx" />
+    <Content Include="Modules\Admin\TutorApplication.aspx" />
+    <Content Include="Modules\Admin\TutorApplications.aspx" />
     <Content Include="Modules\Learner\CourseDetails.aspx" />
     <Content Include="Modules\Learner\Challenge.aspx" />
     <Content Include="Modules\Learner\Curriculum.aspx" />
@@ -156,6 +160,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Admin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Tutor.css" />
     <Content Include="Default.aspx" />
@@ -226,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="BLL\Admin\TutorApprovalManager.cs" />
     <Compile Include="BLL\AuditManager.cs" />
     <Compile Include="BLL\Learner\LeaderboardManager.cs" />
     <Compile Include="BLL\Learner\LearnerChallengeDetailManager.cs" />
@@ -236,6 +242,7 @@
     <Compile Include="BLL\Tutor\LessonManager.cs" />
     <Compile Include="BLL\Tutor\TutorManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
+    <Compile Include="DAL\Admin\TutorApprovalRepository.cs" />
     <Compile Include="DAL\AuditRepository.cs" />
     <Compile Include="DAL\Learner\LeaderboardRepository.cs" />
     <Compile Include="DAL\Learner\LearnerChallengeDetailRepository.cs" />
@@ -259,6 +266,7 @@
     <Compile Include="Helpers\Tutor\FileUploadHelper.cs" />
     <Compile Include="Helpers\Tutor\MarkdownHelper.cs" />
     <Compile Include="Helpers\Tutor\TutorDisplayHelper.cs" />
+    <Compile Include="Helpers\DisplayHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
@@ -303,6 +311,34 @@
     <Compile Include="Modules\Learner\Leaderboard.aspx.cs">
       <DependentUpon>Leaderboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\Admin.Master.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\Admin.Master.designer.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Admin\Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Admin\TutorApplication.aspx.cs">
+      <DependentUpon>TutorApplication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\TutorApplication.aspx.designer.cs">
+      <DependentUpon>TutorApplication.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Admin\TutorApplications.aspx.cs">
+      <DependentUpon>TutorApplications.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Admin\TutorApplications.aspx.designer.cs">
+      <DependentUpon>TutorApplications.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Public\CourseDetails.aspx.cs">
       <DependentUpon>CourseDetails.aspx</DependentUpon>

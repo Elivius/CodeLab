@@ -27,6 +27,12 @@ namespace CodeLab.Models
         public string Status { get; set; }
         public DateTime? ApprovedDate { get; set; }
 
+        // The admin's reason when Status is Rejected; null otherwise
+        public string RejectionReason { get; set; }
+
+        // When the application was last submitted (UTC). Only filled by TutorApprovalRepository; null everywhere else
+        public DateTime? AppliedAt { get; set; }
+
         public bool HasApplied
         {
             get { return Status != null; }

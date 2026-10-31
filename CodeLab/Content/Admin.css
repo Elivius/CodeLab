@@ -1,0 +1,496 @@
+/* ==========================================================================
+   Admin module (Modules/Admin). Linked from Modules/Admin/Admin.Master.
+   Uses the theme tokens from Site.css (--cl-surface, --cl-border, ...), so
+   light and dark mode both work. Every class starts with cl-admin-.
+   ========================================================================== */
+
+.cl-admin {
+    padding: 32px 0 56px;
+}
+
+/* ---------- Header ---------- */
+
+.cl-admin-header {
+    margin-bottom: 24px;
+}
+
+.cl-admin-kicker {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cl-surface);
+    background-color: var(--cl-text);
+    border-radius: 6px;
+}
+
+.cl-admin-header h1 {
+    margin: 10px 0 4px;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.cl-admin-header p {
+    margin: 0;
+    color: var(--cl-muted);
+}
+
+/* ---------- Tab bar ---------- */
+
+.cl-admin-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-admin-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--cl-text-soft);
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.cl-admin-tabs a:hover {
+    color: var(--cl-text);
+    background-color: var(--cl-soft);
+}
+
+/* Fixed raspberry in both themes, so the white text always has enough contrast */
+.cl-admin-tabs a.active {
+    color: #ffffff;
+    background-color: var(--cl-raspberry);
+    box-shadow: 0 4px 12px rgba(201, 82, 125, 0.25);
+}
+
+.cl-admin-count {
+    min-width: 20px;
+    padding: 1px 7px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 999px;
+}
+
+.cl-admin-tabs a.active .cl-admin-count {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Panels ---------- */
+
+.cl-admin-panel {
+    padding: 24px;
+}
+
+.cl-admin-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.cl-admin-panel-head > div {
+    flex: 1;
+    min-width: 220px;
+}
+
+.cl-admin-panel-head h2,
+.cl-admin-panel-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.cl-admin-panel-title {
+    margin-bottom: 12px;
+}
+
+.cl-admin-panel-head p {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: var(--cl-muted);
+}
+
+.cl-admin-panel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--cl-accent);
+    text-decoration: none;
+}
+
+.cl-admin-panel-link:hover {
+    color: var(--cl-accent-hover);
+}
+
+.cl-admin-panel-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.15rem;
+    border-radius: 12px;
+}
+
+.cl-admin-tone-amber {
+    color: #B45309;
+    background-color: rgba(245, 158, 11, 0.14);
+}
+
+[data-theme="dark"] .cl-admin-tone-amber {
+    color: #FBBF24;
+}
+
+/* ---------- Short lists (Overview panels) ---------- */
+
+.cl-admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-admin-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+}
+
+.cl-admin-list-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cl-admin-list-text strong {
+    font-size: 0.95rem;
+}
+
+.cl-admin-list-text span {
+    overflow: hidden;
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cl-admin-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--cl-accent);
+    background-color: var(--cl-soft);
+    border-radius: 50%;
+}
+
+.cl-admin-avatar-lg {
+    width: 56px;
+    height: 56px;
+    font-size: 1.1rem;
+}
+
+/* ---------- Status badges ---------- */
+
+.cl-admin-badge {
+    display: inline-block;
+    padding: 2px 9px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 6px;
+}
+
+.cl-admin-badge-pending {
+    color: #B45309;
+    background-color: rgba(245, 158, 11, 0.16);
+}
+
+.cl-admin-badge-approved {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-admin-badge-rejected {
+    color: #B91C1C;
+    background-color: rgba(239, 68, 68, 0.12);
+}
+
+[data-theme="dark"] .cl-admin-badge-pending {
+    color: #FBBF24;
+}
+
+[data-theme="dark"] .cl-admin-badge-approved {
+    color: #34D399;
+}
+
+[data-theme="dark"] .cl-admin-badge-rejected {
+    color: #F87171;
+}
+
+/* ---------- Filter buttons ---------- */
+
+.cl-admin-filters {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px;
+    background-color: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    border-radius: 10px;
+}
+
+.cl-admin-filters a {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.cl-admin-filters a:hover {
+    color: var(--cl-text);
+}
+
+.cl-admin-filters a.active {
+    color: var(--cl-text);
+    background-color: var(--cl-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Tutor application rows ---------- */
+
+.cl-admin-apps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-admin-app {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-admin-app:first-child {
+    padding-top: 4px;
+    border-top: none;
+}
+
+.cl-admin-app-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-admin-app-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    margin-bottom: 6px;
+}
+
+.cl-admin-app-title h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.cl-admin-app p {
+    margin: 0 0 4px;
+    font-size: 0.88rem;
+    color: var(--cl-text-soft);
+}
+
+.cl-admin-app-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.cl-admin-app-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+@media (max-width: 767.98px) {
+    .cl-admin-app {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .cl-admin-app-actions {
+        justify-content: flex-start;
+    }
+}
+
+.cl-admin-meta {
+    font-size: 0.8rem;
+    color: var(--cl-muted);
+}
+
+/* The admin's reason for a rejection, wherever it is shown */
+.cl-admin-reason {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: var(--cl-text-soft);
+    background-color: rgba(239, 68, 68, 0.06);
+    border-left: 3px solid #EF4444;
+    border-radius: 6px;
+}
+
+.cl-admin-app p.cl-admin-reason {
+    margin-top: 8px;
+}
+
+/* ---------- Empty state ---------- */
+
+.cl-admin-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 28px 12px;
+    text-align: center;
+    color: var(--cl-muted);
+}
+
+.cl-admin-empty .cl-icon {
+    width: 28px;
+    height: 28px;
+    color: #10B981;
+}
+
+.cl-admin-empty p {
+    margin: 0;
+}
+
+/* ---------- Application detail page ---------- */
+
+.cl-admin-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    text-decoration: none;
+}
+
+.cl-admin-back:hover {
+    color: var(--cl-accent);
+}
+
+.cl-admin-applicant {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.cl-admin-applicant > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-admin-applicant h2 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.cl-admin-facts {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px 16px;
+    margin: 0 0 8px;
+    padding: 16px;
+    font-size: 0.9rem;
+    background-color: var(--cl-bg);
+    border-radius: 12px;
+}
+
+.cl-admin-facts dt {
+    font-weight: 600;
+    color: var(--cl-muted);
+}
+
+.cl-admin-facts dd {
+    margin: 0;
+    word-break: break-word;
+}
+
+.cl-admin-section h3 {
+    margin: 20px 0 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+/* Keeps the line breaks the applicant typed */
+.cl-admin-prose {
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+/* ---------- Tables (Audit Logs) ---------- */
+
+.cl-admin-table {
+    margin: 0;
+    font-size: 0.88rem;
+    --bs-table-bg: transparent;
+}
+
+.cl-admin-table th {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-admin-table td {
+    vertical-align: middle;
+    border-bottom: 1px solid var(--cl-border);
+}

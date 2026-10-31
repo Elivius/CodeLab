@@ -278,7 +278,10 @@ namespace CodeLab.Modules.Tutor
                     break;
                 case PageMode.Resubmit:
                     litFormTitle.Text = "Update and resubmit your application";
-                    litFormIntro.Text = "Your last application was not approved. Review your details and send it for review again.";
+                    litFormIntro.Text = string.IsNullOrWhiteSpace(profile.RejectionReason)
+                        ? "Your last application was not approved. Review your details and send it for review again."
+                        : "Your last application was not approved. The administrator wrote: \"" + profile.RejectionReason
+                            + "\" Update your details and send it for review again.";
                     btnSave.Text = "Resubmit application";
                     break;
                 default:

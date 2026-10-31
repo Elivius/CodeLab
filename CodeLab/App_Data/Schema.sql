@@ -50,7 +50,9 @@ BEGIN
         -- New tutors wait for an Admin to approve them
         Status         NVARCHAR(20)  NOT NULL CONSTRAINT DF_TutorProfiles_Status DEFAULT (N'Pending')
                                               CONSTRAINT CK_TutorProfiles_Status CHECK (Status IN (N'Approved', N'Pending', N'Rejected')),
-        ApprovedDate   DATETIME2     NULL
+        ApprovedDate   DATETIME2     NULL,
+        -- The admin's reason when the application is Rejected; cleared when the tutor resubmits
+        RejectionReason NVARCHAR(500) NULL
     );
 END
 GO
@@ -369,4 +371,10 @@ IF EXISTS(SELECT 1 FROM sys.check_constraints WHERE name=N'CK_CodeSubmissions_St
     ALTER TABLE dbo.CodeSubmissions DROP CONSTRAINT CK_CodeSubmissions_Status;
 ALTER TABLE dbo.CodeSubmissions WITH CHECK ADD CONSTRAINT CK_CodeSubmissions_Status
     CHECK(Status IN(N'Passed',N'Failed',N'Error',N'Pending review'));
+GO
+-- Admin: the reason shown to a tutor whose application was rejected (for databases made before it was added).
+IF COL_LENGTH('dbo.TutorProfiles', 'RejectionReason') IS NULL
+BEGIN
+    ALTER TABLE dbo.TutorProfiles ADD RejectionReason NVARCHAR(500) NULL;
+END;
 GO
