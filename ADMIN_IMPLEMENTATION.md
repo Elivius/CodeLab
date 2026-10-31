@@ -16,8 +16,8 @@ Today nobody can do either, so only the seeded tutor and courses work.
 | 0 | `fix/session-authorization-redirection` | Signed-in users are sent from guest pages to their home page | Done |
 | 1 | `feat/admin-module` | Admin pages layout + approve or reject tutor applications | Done |
 | 2 | `feat/course-moderation` | Review, approve, reject, lock, unlock and delete courses | Done |
-| 3 | `feat/course-moderation` | List, search, create, edit, suspend and delete users | Built, in review |
-| 4 | `feat/admin-4-overview-audit` | Stat cards, Overview tab, searchable audit logs | |
+| 3 | `feat/user-management` | List, search, create, edit, suspend and delete users | Built, not reviewed |
+| 4 | `feat/admin-overview` | Stat cards, Overview tab, searchable audit logs | Built, not reviewed |
 | 5 | `feat/admin-5-backups` | Database backups with download (optional) | |
 
 ---
@@ -273,7 +273,7 @@ Before deleting, read the cover and lesson attachment paths. After the transacti
 
 ## Phase 3: Users
 
-**Branch:** `feat/course-moderation`
+**Branch:** `feat/user-management`
 **Goal:** an admin can find, create and edit users, change roles, and suspend accounts in a way that actually takes effect.
 
 ### New files
@@ -343,7 +343,7 @@ protected void Application_PostAcquireRequestState(object sender, EventArgs e)
 
 ## Phase 4: Overview, stat cards and audit logs
 
-**Branch:** `feat/admin-4-overview-audit`
+**Branch:** `feat/admin-overview`
 **Goal:** the Overview tab and the stat cards show real numbers, and the audit logs can be searched and filtered.
 
 ### Stat cards
@@ -364,7 +364,8 @@ Shown at the top of every admin tab (in `Admin.Master`), as in the prototype:
 | `Models/Admin/AdminStats.cs` | Every number on the cards and the banner |
 | `DAL/Admin/AdminStatsRepository.cs` | One query that returns all the counts. Database size comes from `SELECT SUM(size) * 8 / 1024.0 FROM sys.database_files` (MB). |
 | `BLL/Admin/AdminStatsManager.cs` | Admin check. Times a `SELECT 1` with `Stopwatch` for the query time. |
-| `Models/Admin/AuditCategories.cs` | The category names and rules (see below) |
+| `Models/Admin/AuditCategories.cs` | The category names. The rules are in `AuditRepository` (see below) |
+| `Models/Admin/AuditLogPage.cs` | One page of rows, the total count, the page number and the page count |
 
 ### Audit log upgrade
 
@@ -383,9 +384,8 @@ While editing `Authenticate`, also fix the timing gap found in the earlier revie
 
 | File | Change |
 |---|---|
-| `Modules/Admin/Admin.Master(.cs)` | The four cards and the "waiting for review" banner (closable) |
-| `Modules/Admin/Dashboard.aspx` | Final layout: Recent users, Pending tutor applications, Course moderation |
-| `DAL/AuditRepository.cs`, `BLL/AuditManager.cs` | `Search(text, category, page)` and the total count |
+| `Modules/Admin/Admin.Master(.cs)` | The four cards and the "waiting for review" banner (closable). The tab badges now use the same numbers, so the `CountPending` methods from Phases 1 and 2 are gone |
+| `DAL/AuditRepository.cs`, `BLL/AuditManager.cs` | `Search(text, category, page)` and the total count, replacing the "latest 100" query |
 | `Modules/Admin/AuditLogs.aspx(.cs)` | Search box, category buttons, pager, category badge column |
 | `BLL/UserManager.cs` | `LOGIN_FAILED` and the dummy-hash check |
 

@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="BLL\Admin\AdminStatsManager.cs" />
     <Compile Include="BLL\Admin\CourseModerationManager.cs" />
     <Compile Include="BLL\Admin\TutorApprovalManager.cs" />
     <Compile Include="BLL\Admin\UserAdminManager.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="BLL\Tutor\LessonManager.cs" />
     <Compile Include="BLL\Tutor\TutorManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
+    <Compile Include="DAL\Admin\AdminStatsRepository.cs" />
     <Compile Include="DAL\Admin\CourseModerationRepository.cs" />
     <Compile Include="DAL\Admin\TutorApprovalRepository.cs" />
     <Compile Include="DAL\Admin\UserAdminRepository.cs" />
@@ -280,7 +282,10 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\Tutor\YouTubeHelper.cs" />
     <Compile Include="Models\Admin\AdminCourseRow.cs" />
+    <Compile Include="Models\Admin\AdminStats.cs" />
     <Compile Include="Models\Admin\AdminUserRow.cs" />
+    <Compile Include="Models\Admin\AuditCategories.cs" />
+    <Compile Include="Models\Admin\AuditLogPage.cs" />
     <Compile Include="Models\Admin\CourseReviewDetails.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Learner\ChallengeSubmissionResult.cs" />

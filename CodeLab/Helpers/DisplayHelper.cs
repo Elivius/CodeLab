@@ -94,6 +94,20 @@ namespace CodeLab.Helpers
         }
 
         /// <summary>
+        /// The Admin.css badge colour for an audit log category.
+        /// </summary>
+        public static string AuditCategoryBadgeCss(string category)
+        {
+            switch (category)
+            {
+                case AuditCategories.Security: return "cl-admin-badge-rejected";
+                case AuditCategories.Administrative: return "cl-admin-badge-info";
+                case AuditCategories.Deletion: return "cl-admin-badge-pending";
+                default: return "cl-admin-badge-neutral";
+            }
+        }
+
+        /// <summary>
         /// When a user last logged in, as TimeAgo text, or "Never".
         /// </summary>
         public static string LastLogin(DateTime? utc)

@@ -11,5 +11,8 @@ namespace CodeLab.Models
         public string Action { get; set; }
         public string Details { get; set; }
         public DateTime Timestamp { get; set; }
+
+        // One of AuditCategories. Only filled by AuditRepository.GetLogs; null everywhere else
+        public string Category { get; set; }
     }
 }

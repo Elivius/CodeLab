@@ -683,6 +683,136 @@
     margin-top: 20px;
 }
 
+/* ---------- Banner and stat cards ---------- */
+
+.cl-admin-banner.alert {
+    margin-bottom: 20px;
+    font-size: 0.92rem;
+    color: var(--cl-text);
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+}
+
+.cl-admin-banner .cl-icon {
+    margin-right: 6px;
+}
+
+[data-theme="dark"] .cl-admin-banner .btn-close {
+    filter: invert(1);
+}
+
+.cl-admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 991.98px) {
+    .cl-admin-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cl-admin-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.cl-admin-stat {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+}
+
+.cl-admin-stat-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cl-admin-stat-head h2 {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cl-muted);
+}
+
+.cl-admin-stat-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cl-admin-stat p {
+    margin: 2px 0 12px;
+    font-size: 0.82rem;
+    color: var(--cl-muted);
+}
+
+.cl-admin-stat-foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 10px;
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 0.78rem;
+    color: var(--cl-text-soft);
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-admin-stat-foot a {
+    font-weight: 600;
+    color: var(--cl-accent);
+    text-decoration: none;
+}
+
+.cl-admin-stat-foot a:hover {
+    color: var(--cl-accent-hover);
+}
+
+.cl-admin-tone-green {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-admin-tone-blue {
+    color: #1D4ED8;
+    background-color: rgba(59, 130, 246, 0.14);
+}
+
+[data-theme="dark"] .cl-admin-tone-green {
+    color: #34D399;
+}
+
+[data-theme="dark"] .cl-admin-tone-blue {
+    color: #93C5FD;
+}
+
+/* ---------- Audit logs ---------- */
+
+.cl-admin-action {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.cl-admin-pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 14px;
+}
+
 /* ---------- Disabled actions ---------- */
 
 /* A disabled action sits in a wrapper that carries the tooltip. Bootstrap's .disabled turns off pointer

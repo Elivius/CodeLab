@@ -65,27 +65,6 @@ namespace CodeLab.BLL
             }
         }
 
-        /// <summary>
-        /// The number of applications waiting for review, for the tab badge and the Overview.
-        /// </summary>
-        public OperationResult<int> CountPending()
-        {
-            if (!SessionHelper.IsUserInRole(UserRoles.Admin))
-            {
-                return OperationResult<int>.Fail(UnauthorizedMessage);
-            }
-
-            try
-            {
-                return OperationResult<int>.Ok(_repository.CountPending());
-            }
-            catch (Exception exception)
-            {
-                LogHelper.LogError("TutorApprovalManager.CountPending failure", exception);
-                return OperationResult<int>.Fail("The number of pending applications could not be loaded.");
-            }
-        }
-
         public OperationResult Approve(int userId)
         {
             OperationResult<TutorProfile> pending = GetPendingApplication(userId);

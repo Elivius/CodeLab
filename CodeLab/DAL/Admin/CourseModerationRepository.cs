@@ -82,22 +82,6 @@ namespace CodeLab.DAL
             }
         }
 
-        public int CountPending()
-        {
-            string query = @"SELECT COUNT(*) FROM Courses WHERE Status = @PendingReview";
-
-            using (SqlConnection connection = DatabaseHelper.GetConnection())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.Add("@PendingReview", SqlDbType.NVarChar, 20).Value = CourseStatuses.PendingReview;
-
-                    connection.Open();
-                    return Convert.ToInt32(command.ExecuteScalar());
-                }
-            }
-        }
-
         /// <summary>
         /// Publishes a Pending Review course. Returns false if it was not Pending Review or could not be saved.
         /// </summary>

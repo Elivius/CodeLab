@@ -18,6 +18,72 @@
             <p>Review tutor applications, moderate courses, manage accounts and check platform activity.</p>
         </header>
 
+        <asp:PlaceHolder ID="phStats" runat="server">
+            <%-- Only shown when something is waiting, so it means something when it appears --%>
+            <asp:PlaceHolder ID="phBanner" runat="server" Visible="false">
+                <div class="alert alert-dismissible fade show cl-admin-banner" role="status">
+                    <i data-lucide="bell" class="cl-icon" aria-hidden="true"></i>
+                    <asp:Literal ID="litBanner" runat="server" Mode="Encode" />
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </asp:PlaceHolder>
+
+            <div class="cl-admin-stats">
+                <section class="cl-card cl-admin-stat">
+                    <div class="cl-admin-stat-head">
+                        <h2>Database</h2>
+                        <span class="cl-admin-panel-icon cl-admin-tone-green"><i data-lucide="database" class="cl-icon" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="cl-admin-stat-value"><asp:Literal ID="litDatabaseSize" runat="server" Mode="Encode" /></div>
+                    <p>Test query: <asp:Literal ID="litQueryTime" runat="server" Mode="Encode" /></p>
+                    <div class="cl-admin-stat-foot">
+                        <span><asp:Literal ID="litTableCount" runat="server" Mode="Encode" /> tables</span>
+                    </div>
+                </section>
+
+                <section class="cl-card cl-admin-stat">
+                    <div class="cl-admin-stat-head">
+                        <h2>Needs your review</h2>
+                        <span class="cl-admin-panel-icon cl-admin-tone-amber"><i data-lucide="clipboard-check" class="cl-icon" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="cl-admin-stat-value"><asp:Literal ID="litPendingTotal" runat="server" Mode="Encode" /></div>
+                    <p>Waiting for an admin</p>
+                    <div class="cl-admin-stat-foot">
+                        <a runat="server" href="~/Modules/Admin/TutorApplications"><asp:Literal ID="litPendingTutors" runat="server" Mode="Encode" /> tutors</a>
+                        <a runat="server" href="~/Modules/Admin/Courses?status=pending"><asp:Literal ID="litPendingCourses" runat="server" Mode="Encode" /> courses</a>
+                    </div>
+                </section>
+
+                <section class="cl-card cl-admin-stat">
+                    <div class="cl-admin-stat-head">
+                        <h2>Active accounts</h2>
+                        <span class="cl-admin-panel-icon cl-admin-tone-blue"><i data-lucide="users" class="cl-icon" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="cl-admin-stat-value"><asp:Literal ID="litActiveUsers" runat="server" Mode="Encode" /></div>
+                    <p><asp:Literal ID="litNewUsers" runat="server" Mode="Encode" /> joined this month</p>
+                    <div class="cl-admin-stat-foot">
+                        <span><asp:Literal ID="litLearners" runat="server" Mode="Encode" /> Learners</span>
+                        <span><asp:Literal ID="litTutors" runat="server" Mode="Encode" /> Tutors</span>
+                        <span><asp:Literal ID="litAdmins" runat="server" Mode="Encode" /> Admins</span>
+                    </div>
+                </section>
+
+                <section class="cl-card cl-admin-stat">
+                    <div class="cl-admin-stat-head">
+                        <h2>Total courses</h2>
+                        <span class="cl-admin-panel-icon cl-admin-tone-accent"><i data-lucide="book-open" class="cl-icon" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="cl-admin-stat-value"><asp:Literal ID="litTotalCourses" runat="server" Mode="Encode" /></div>
+                    <p><asp:Literal ID="litDraftCourses" runat="server" Mode="Encode" /> still in draft</p>
+                    <div class="cl-admin-stat-foot">
+                        <span><asp:Literal ID="litPublishedCourses" runat="server" Mode="Encode" /> Published</span>
+                        <span><asp:Literal ID="litReviewCourses" runat="server" Mode="Encode" /> In review</span>
+                        <span><asp:Literal ID="litLockedCourses" runat="server" Mode="Encode" /> Locked</span>
+                    </div>
+                </section>
+            </div>
+        </asp:PlaceHolder>
+
         <nav class="cl-admin-tabs" aria-label="Admin sections">
             <asp:Repeater ID="rptTabs" runat="server">
                 <ItemTemplate>
