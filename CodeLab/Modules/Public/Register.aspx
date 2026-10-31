@@ -51,11 +51,11 @@
             <div class="mb-3">
                 <asp:Label ID="lblPassword" runat="server" AssociatedControlID="txtPassword" CssClass="form-label" Text="Password" />
                 <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" />
-                <div class="form-text">At least 8 characters, including a number.</div>
+                <div class="form-text">At least 8 characters, with a letter, a number and a symbol.</div>
                 <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="Account"
                     ErrorMessage="Password is required." CssClass="text-danger" Display="Dynamic" />
                 <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="Account"
-                    ErrorMessage="Password must be at least 8 characters and contain at least one number." CssClass="text-danger" Display="Dynamic" />
+                    ErrorMessage="Password must be at least 8 characters and include a letter, a number and a symbol." CssClass="text-danger" Display="Dynamic" />
             </div>
 
             <div class="mb-4">

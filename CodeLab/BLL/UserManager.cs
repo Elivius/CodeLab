@@ -18,8 +18,8 @@ namespace CodeLab.BLL
         /// <summary>Email format check, shared by the Register page's validators and Register().</summary>
         public const string EmailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
-        /// <summary>Password rule from the proposal: at least 8 characters with at least one number.</summary>
-        public const string PasswordPattern = @"^(?=.*\d).{8,}$";
+        /// <summary>Password rule: at least 8 characters with a letter, a number and a symbol (spaces do not count as a symbol).</summary>
+        public const string PasswordPattern = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,}$";
 
         private readonly UserRepository _userRepository = new UserRepository();
 
@@ -57,7 +57,7 @@ namespace CodeLab.BLL
         public OperationResult ChangeLearnerPassword(string current,string password,string confirm)
         {
             if(!SessionHelper.IsLoggedIn() || !SessionHelper.IsUserInRole("Learner")) return OperationResult.Fail("Learner access required.");
-            if(string.IsNullOrEmpty(password) || password.Length>128 || !Regex.IsMatch(password,PasswordPattern) || password!=confirm) return OperationResult.Fail("Use 8–128 characters with a number and matching confirmation.");
+            if(string.IsNullOrEmpty(password) || password.Length>128 || !Regex.IsMatch(password,PasswordPattern) || password!=confirm) return OperationResult.Fail("Use 8–128 characters with a letter, a number, a symbol and matching confirmation.");
             try {
                 var user=_userRepository.GetLearnerProfile(SessionHelper.GetCurrentUserID());
                 if(user==null || !PasswordHelper.VerifyPassword(current,user.PasswordHash)) return OperationResult.Fail("Current password is incorrect.");
@@ -193,7 +193,7 @@ namespace CodeLab.BLL
 
             if (!Regex.IsMatch(password, PasswordPattern))
             {
-                return OperationResult.Fail("Password must be at least 8 characters and contain at least one number.");
+                return OperationResult.Fail("Password must be at least 8 characters and include a letter, a number and a symbol.");
             }
 
             if (password != confirmPassword)
