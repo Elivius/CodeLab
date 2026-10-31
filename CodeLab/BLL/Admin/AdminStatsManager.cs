@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using CodeLab.DAL;
 using CodeLab.Helpers;
@@ -28,6 +29,13 @@ namespace CodeLab.BLL
                 _repository.Ping();
                 stopwatch.Stop();
                 stats.QueryMilliseconds = stopwatch.ElapsedMilliseconds;
+
+                // Newest first, so the first one is the last backup
+                OperationResult<List<BackupFile>> backups = new BackupManager().GetBackups();
+                if (backups.Success && backups.Data.Count > 0)
+                {
+                    stats.LastBackupAt = backups.Data[0].CreatedAt;
+                }
 
                 return OperationResult<AdminStats>.Ok(stats);
             }

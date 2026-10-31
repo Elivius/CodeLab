@@ -13,9 +13,14 @@
 <asp:Content ID="AdminMainContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="cl-admin">
         <header class="cl-admin-header">
-            <span class="cl-admin-kicker">Control Center</span>
-            <h1>Administration</h1>
-            <p>Review tutor applications, moderate courses, manage accounts and check platform activity.</p>
+            <div>
+                <span class="cl-admin-kicker">Control Center</span>
+                <h1>Administration</h1>
+                <p>Review tutor applications, moderate courses, manage accounts and check platform activity.</p>
+            </div>
+            <a runat="server" href="~/Modules/Admin/Backups" class="btn btn-primary">
+                <i data-lucide="hard-drive" class="cl-icon" aria-hidden="true"></i> Backup Database
+            </a>
         </header>
 
         <asp:PlaceHolder ID="phStats" runat="server">
@@ -38,6 +43,7 @@
                     <p>Test query: <asp:Literal ID="litQueryTime" runat="server" Mode="Encode" /></p>
                     <div class="cl-admin-stat-foot">
                         <span><asp:Literal ID="litTableCount" runat="server" Mode="Encode" /> tables</span>
+                        <a runat="server" href="~/Modules/Admin/Backups">Last backup: <asp:Literal ID="litLastBackup" runat="server" Mode="Encode" /></a>
                     </div>
                 </section>
 

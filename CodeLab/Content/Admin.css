@@ -11,6 +11,11 @@
 /* ---------- Header ---------- */
 
 .cl-admin-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
     margin-bottom: 24px;
 }
 
@@ -813,6 +818,48 @@
     margin-top: 14px;
 }
 
+/* ---------- Database backups ---------- */
+
+/* Dark in both themes, so the white text always has enough contrast */
+.cl-admin-backup-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 24px;
+    color: #ffffff;
+    background-color: #1E293B;
+    border-radius: var(--cl-radius);
+}
+
+.cl-admin-backup-hero > div {
+    flex: 1;
+    min-width: 240px;
+}
+
+.cl-admin-backup-hero h2 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.cl-admin-backup-hero p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #CBD5E1;
+}
+
+.cl-admin-checksum {
+    display: block;
+    max-width: 300px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.75rem;
+    color: var(--cl-muted);
+    word-break: break-all;
+}
 /* ---------- Disabled actions ---------- */
 
 /* A disabled action sits in a wrapper that carries the tooltip. Bootstrap's .disabled turns off pointer

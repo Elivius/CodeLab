@@ -18,7 +18,7 @@ Today nobody can do either, so only the seeded tutor and courses work.
 | 2 | `feat/course-moderation` | Review, approve, reject, lock, unlock and delete courses | Done |
 | 3 | `feat/user-management` | List, search, create, edit, suspend and delete users | Built, not reviewed |
 | 4 | `feat/admin-overview` | Stat cards, Overview tab, searchable audit logs | Built, not reviewed |
-| 5 | `feat/admin-5-backups` | Database backups with download (optional) | |
+| 5 | `feat/backups` | Database backups with download (optional) | Built, not reviewed |
 
 ---
 
@@ -401,7 +401,7 @@ While editing `Authenticate`, also fix the timing gap found in the earlier revie
 
 ## Phase 5: Database backups (optional)
 
-**Branch:** `feat/admin-5-backups`
+**Branch:** `feat/backups`
 **Goal:** an admin can make a real backup of the database and download it. Build this only if there is time after Phase 4.
 
 ### New files
@@ -424,7 +424,7 @@ BACKUP DATABASE @db TO DISK = @Path WITH INIT, CHECKSUM, COPY_ONLY;
 - Set `CommandTimeout` to 120 seconds.
 - After the backup, compute the SHA-256 of the file and save it next to it as `<name>.sha256`. `List()` reads those files, so no database table is needed.
 
-**Downloading.** Only allow a name that `List()` returned (use `Path.GetFileName`, and require the `.bak` extension and that the file exists in the folder), so nobody can download other files by changing the name. Then send it with `Response.TransmitFile` and `Content-Disposition: attachment`.
+**Downloading.** Only allow names in the exact format this code creates (`codelab-yyyyMMdd-HHmmss.bak`) that exist in the folder, so nobody can download other files by changing the name. Then send it with `Response.TransmitFile` and `Content-Disposition: attachment`.
 
 ### Changed files
 
