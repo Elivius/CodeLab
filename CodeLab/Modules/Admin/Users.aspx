@@ -91,7 +91,7 @@
                             </asp:LinkButton>
                             <%-- A disabled button shows no tooltip of its own, so the outer span carries it --%>
                             <asp:PlaceHolder runat="server" Visible='<%# (bool)Eval("HasActivity") && !IsSelf((int)Eval("Id")) %>'>
-                                <span class="d-inline-block" title="This account has activity, so it cannot be deleted. Suspend it instead.">
+                                <span class="d-inline-block cl-admin-disabled-action" title="This account has activity, so it cannot be deleted. Suspend it instead.">
                                     <span class="btn btn-outline-danger btn-sm disabled" aria-disabled="true"><i data-lucide="trash-2" class="cl-icon" aria-hidden="true"></i></span>
                                 </span>
                             </asp:PlaceHolder>

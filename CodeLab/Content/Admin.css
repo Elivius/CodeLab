@@ -682,3 +682,15 @@
     gap: 8px;
     margin-top: 20px;
 }
+
+/* ---------- Disabled actions ---------- */
+
+/* A disabled action sits in a wrapper that carries the tooltip. Bootstrap's .disabled turns off pointer
+   events on the button itself, so the "not allowed" cursor has to be set on the wrapper. */
+.cl-admin-disabled-action {
+    cursor: not-allowed;
+}
+
+.cl-admin-disabled-action .btn.disabled {
+    opacity: 0.45;
+}
