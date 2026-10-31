@@ -77,8 +77,9 @@
                         <%-- Guest links; hidden for every signed-in user (they use their module links, tutors their sidebar) --%>
                         <asp:PlaceHolder ID="phPublicNav" runat="server">
                             <li class="nav-item"><a class="nav-link" runat="server" href="~/">Landing</a></li>
-                            <li class="nav-item"><a class="nav-link" runat="server" href="~/#courses">Courses</a></li>
-                            <li class="nav-item"><a class="nav-link" runat="server" href="~/#about">About</a></li>
+                            <%-- Not runat="server": ASP.NET turns "~/#courses" into "#courses#courses" on the landing page --%>
+                            <li class="nav-item"><a class="nav-link" href="<%: ResolveUrl("~/") %>#courses">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<%: ResolveUrl("~/") %>#about">About</a></li>
                         </asp:PlaceHolder>
 
                         <%-- Add the links for your module inside the PlaceHolder for its role --%>
