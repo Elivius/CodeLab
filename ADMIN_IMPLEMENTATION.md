@@ -13,9 +13,9 @@ Today nobody can do either, so only the seeded tutor and courses work.
 
 | Phase | Branch | What it delivers | Status |
 |---|---|---|---|
-| 0 | `fix/session-authorization-redirection` | Signed-in users are sent from guest pages to their home page | Done, not merged |
-| 1 | `feat/admin-1-tutor-applications` | Admin pages layout + approve or reject tutor applications | |
-| 2 | `feat/admin-2-course-moderation` | Review, approve, reject, lock, unlock and delete courses | |
+| 0 | `fix/session-authorization-redirection` | Signed-in users are sent from guest pages to their home page | Done |
+| 1 | `feat/admin-module` | Admin pages layout + approve or reject tutor applications | Done |
+| 2 | `feat/admin-module` | Review, approve, reject, lock, unlock and delete courses | Built, in review |
 | 3 | `feat/admin-3-users` | List, search, create, edit, suspend and delete users | |
 | 4 | `feat/admin-4-overview-audit` | Stat cards, Overview tab, searchable audit logs | |
 | 5 | `feat/admin-5-backups` | Database backups with download (optional) | |
@@ -131,7 +131,7 @@ A signed-in user who opens the landing page, Login, Register or the public cours
 
 ## Phase 1: Admin layout + Tutor applications
 
-**Branch:** `feat/admin-1-tutor-applications`
+**Branch:** `feat/admin-module`
 **Goal:** an admin can approve or reject tutor applications, and a rejected tutor sees why.
 
 ### Database
@@ -208,7 +208,7 @@ Tell Edwin and Joshua about the two teammate files before merging.
 
 ## Phase 2: Course moderation
 
-**Branch:** `feat/admin-2-course-moderation`
+**Branch:** `feat/admin-module`
 **Goal:** an admin can review submitted courses and publish them, send them back with feedback, lock bad ones, and delete spam.
 
 ### How course statuses change
@@ -227,7 +227,7 @@ The tutor side already exists (Edwin): only Drafts can be edited, submitting cle
 | File | Contents |
 |---|---|
 | `Models/Admin/AdminCourseRow.cs` | `Id`, `Title`, `Difficulty`, `Category`, `Status`, `TutorName`, `TutorEmail`, `LessonCount`, `StudentCount`, `LockReason`, `RejectionReason`, `UpdatedAt` |
-| `Models/Admin/CourseReview.cs` | One course with its lessons (title, length, has video, has attachment), number of quiz questions, and whether it has a coding challenge |
+| `Models/Admin/CourseReviewDetails.cs` | One course with its lessons, quiz and coding challenge. Not named `CourseReview`, because the page has that name |
 | `DAL/Admin/CourseModerationRepository.cs` | `GetCourses(string status, string search)`, `GetReview(int courseId)`, `CountPending()`, `Approve`, `Reject`, `Lock`, `Unlock`, `Delete` |
 | `BLL/Admin/CourseModerationManager.cs` | Admin check, reason validation, audit entries, removing uploaded files after a delete |
 | `Modules/Admin/Courses.aspx` | Filter buttons (All, Pending, Published, Locked, Draft), a search box (title or tutor), and the table from the prototype. Each row shows only the actions its status allows. |

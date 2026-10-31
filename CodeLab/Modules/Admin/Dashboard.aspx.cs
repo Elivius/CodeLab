@@ -9,7 +9,7 @@ namespace CodeLab.Modules.Admin
 {
     public partial class Dashboard : Page
     {
-        // How many pending applications the Overview lists; the rest are on the Tutor Applications tab
+        // How many rows each Overview panel lists; the rest are on that panel's tab
         private const int PendingPreviewCount = 5;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -17,7 +17,32 @@ namespace CodeLab.Modules.Admin
             if (!IsPostBack)
             {
                 BindPendingTutors();
+                BindCourses();
             }
+        }
+
+        // The courses that need an admin: waiting for review first, then locked
+        private void BindCourses()
+        {
+            OperationResult<List<AdminCourseRow>> result = new CourseModerationManager().GetCourses(null, null);
+            if (!result.Success)
+            {
+                lblMessage.Text = result.Message;
+                lblMessage.Visible = true;
+                litCourseSummary.Text = "Could not be loaded.";
+                return;
+            }
+
+            List<AdminCourseRow> courses = result.Data
+                .Where(c => c.Status == CourseStatuses.PendingReview || c.Status == CourseStatuses.Locked)
+                .ToList();
+            int pending = courses.Count(c => c.Status == CourseStatuses.PendingReview);
+
+            litCourseSummary.Text = pending + " waiting for review, " + (courses.Count - pending) + " locked.";
+
+            phNoCourses.Visible = courses.Count == 0;
+            rptCourses.DataSource = courses.Take(PendingPreviewCount);
+            rptCourses.DataBind();
         }
 
         private void BindPendingTutors()

@@ -21,10 +21,13 @@ namespace CodeLab.Modules.Admin
         private List<AdminTab> BuildTabs()
         {
             OperationResult<int> pendingTutors = new TutorApprovalManager().CountPending();
+            OperationResult<int> pendingCourses = new CourseModerationManager().CountPending();
 
             List<AdminTab> tabs = new List<AdminTab>
             {
                 new AdminTab("Overview", "layout-dashboard", "~/Modules/Admin/Dashboard", 0, "Dashboard"),
+                new AdminTab("Course Moderation", "book-open", "~/Modules/Admin/Courses",
+                    pendingCourses.Success ? pendingCourses.Data : 0, "Courses", "CourseReview"),
                 new AdminTab("Tutor Applications", "graduation-cap", "~/Modules/Admin/TutorApplications",
                     pendingTutors.Success ? pendingTutors.Data : 0, "TutorApplications", "TutorApplication"),
                 new AdminTab("Audit Logs", "shield", "~/Modules/Admin/AuditLogs", 0, "AuditLogs")
