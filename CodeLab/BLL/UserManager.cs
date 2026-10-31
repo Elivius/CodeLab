@@ -15,8 +15,12 @@ namespace CodeLab.BLL
         private const int MaxUsernameLength = 50;
         private const int MaxEmailLength = 255;
 
-        /// <summary>Email format check, shared by the Register page's validators and Register().</summary>
-        public const string EmailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        /// <summary>
+        /// Email format check, shared by the Register and admin UserEdit validators, Register(), the learner
+        /// profile and UserAdminManager. Letters, numbers and . _ % + - before the @, no dots at the start or
+        /// end or side by side, then a domain ending in a letters-only part of at least 2, such as .com.
+        /// </summary>
+        public const string EmailPattern = @"^[A-Za-z0-9_%+-]+(\.[A-Za-z0-9_%+-]+)*@([A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$";
 
         /// <summary>Password rule from the proposal: at least 8 characters with at least one number.</summary>
         public const string PasswordPattern = @"^(?=.*\d).{8,}$";
