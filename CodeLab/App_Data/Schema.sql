@@ -252,8 +252,8 @@ BEGIN
         CurrentLevel        INT          NOT NULL CONSTRAINT DF_LearnerStats_CurrentLevel DEFAULT (1),
         LevelTitle          NVARCHAR(50) NOT NULL CONSTRAINT DF_LearnerStats_LevelTitle DEFAULT (N'Novice Coder'),
         NextMilestonePoints INT          NOT NULL CONSTRAINT DF_LearnerStats_NextMilestonePoints DEFAULT (500),
-        StreakDays          INT          NOT NULL CONSTRAINT DF_LearnerStats_StreakDays DEFAULT (1),
-        LastActiveDate      DATE         NOT NULL CONSTRAINT DF_LearnerStats_LastActiveDate DEFAULT (CAST(SYSUTCDATETIME() AS DATE))
+        StreakDays          INT          NOT NULL CONSTRAINT DF_LearnerStats_StreakDays DEFAULT (0),
+        LastActiveDate      DATE         NOT NULL CONSTRAINT DF_LearnerStats_LastActiveDate DEFAULT (CAST(DATEADD(hour,8,SYSUTCDATETIME()) AS DATE))
     );
 END
 GO
@@ -313,4 +313,60 @@ IF COL_LENGTH('dbo.QuizAttempts', 'AnswerReviewJson') IS NULL
 BEGIN
     ALTER TABLE dbo.QuizAttempts ADD AnswerReviewJson NVARCHAR(MAX) NULL;
 END;
+GO
+
+-- General discussions have no course. Existing course posts keep their course ID.
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID(N'dbo.DiscussionPosts') AND name=N'CourseId' AND is_nullable=0)
+BEGIN
+    ALTER TABLE dbo.DiscussionPosts ALTER COLUMN CourseId INT NULL;
+END;
+GO
+
+-- Permanent badge catalog and learner awards.
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+IF OBJECT_ID('dbo.Badges', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Badges (
+        Id INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_Badges PRIMARY KEY,
+        Code VARCHAR(50) NOT NULL CONSTRAINT UQ_Badges_Code UNIQUE,
+        Name NVARCHAR(100) NOT NULL,
+        Description NVARCHAR(300) NOT NULL,
+        Icon VARCHAR(30) NOT NULL,
+        Category VARCHAR(20) NOT NULL,
+        Metric VARCHAR(20) NOT NULL CONSTRAINT CK_Badges_Metric CHECK (Metric IN ('lessons','quizzes','challenges','points')),
+        Target INT NOT NULL CONSTRAINT CK_Badges_Target CHECK (Target > 0),
+        SortOrder INT NOT NULL
+    );
+END;
+IF OBJECT_ID('dbo.LearnerBadges', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.LearnerBadges (
+        LearnerId INT NOT NULL CONSTRAINT FK_LearnerBadges_Users REFERENCES dbo.Users(Id),
+        BadgeId INT NOT NULL CONSTRAINT FK_LearnerBadges_Badges REFERENCES dbo.Badges(Id),
+        EarnedAtUtc DATETIME2 NOT NULL CONSTRAINT DF_LearnerBadges_EarnedAtUtc DEFAULT SYSUTCDATETIME(),
+        CONSTRAINT PK_LearnerBadges PRIMARY KEY (LearnerId, BadgeId)
+    );
+END;
+COMMIT;
+GO
+
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_NULLS ON;
+IF COL_LENGTH('dbo.LearnerBadges','IsFeatured') IS NULL
+    ALTER TABLE dbo.LearnerBadges ADD IsFeatured BIT NOT NULL CONSTRAINT DF_LearnerBadges_IsFeatured DEFAULT 0;
+GO
+IF NOT EXISTS(SELECT 1 FROM sys.indexes WHERE object_id=OBJECT_ID('dbo.LearnerBadges') AND name='UX_LearnerBadges_Featured')
+    CREATE UNIQUE INDEX UX_LearnerBadges_Featured ON dbo.LearnerBadges(LearnerId) WHERE IsFeatured=1;
+GO
+
+
+-- AI challenge review: preserve older attempts and require explicit pending status.
+IF COL_LENGTH('dbo.CodeSubmissions','AiFeedback') IS NULL
+    ALTER TABLE dbo.CodeSubmissions ADD AiFeedback NVARCHAR(MAX) NULL;
+GO
+IF EXISTS(SELECT 1 FROM sys.check_constraints WHERE name=N'CK_CodeSubmissions_Status' AND parent_object_id=OBJECT_ID(N'dbo.CodeSubmissions'))
+    ALTER TABLE dbo.CodeSubmissions DROP CONSTRAINT CK_CodeSubmissions_Status;
+ALTER TABLE dbo.CodeSubmissions WITH CHECK ADD CONSTRAINT CK_CodeSubmissions_Status
+    CHECK(Status IN(N'Passed',N'Failed',N'Error',N'Pending review'));
 GO

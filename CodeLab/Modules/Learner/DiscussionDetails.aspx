@@ -87,26 +87,22 @@
         Discussion Forum
     </a>
 
-    <span class="ld-tab disabled"
-        aria-disabled="true"
-        title="Coming in a later phase">
+    <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Leaderboard") %>">
         <svg class="ld-icon" aria-hidden="true">
             <use href="#lf-nav-trophy" />
         </svg>
         Leaderboard &amp; Badges
-    </span>
+    </a>
 
-    <span class="ld-tab disabled"
-        aria-disabled="true"
-        title="Coming in a later phase">
+    <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Profile") %>">
         <svg class="ld-icon" aria-hidden="true">
             <use href="#lf-nav-user" />
         </svg>
-        Profile &amp; Security
-    </span>
+        My Profile
+    </a>
 
     <span class="ld-identity">
-        <span class="ld-avatar">
+        <span class="ld-avatar"><% if(!string.IsNullOrEmpty(((CodeLab.SiteMaster)Master).LearnerAvatarUrl)){ %><img class="ld-identity-photo" src="<%: ((CodeLab.SiteMaster)Master).LearnerAvatarUrl %>" alt="" referrerpolicy="no-referrer" onerror="this.remove()" /><% } %>
             <asp:Literal ID="litNavInitial"
                 runat="server" Mode="Encode" />
         </span>
@@ -176,11 +172,13 @@
                         <div class="lf-author-info">
                             <div class="lf-author-heading">
                                 <strong>
+                                    <% if(currentPost!=null && currentPost.AuthorRole=="Tutor") { %><%: currentPost.AuthorName %><% } %>
                                     <asp:Literal ID="litAuthorName"
                                         runat="server"
                                         Mode="Encode" />
                                 </strong>
 
+                                <% if(currentPost != null && !string.IsNullOrEmpty(currentPost.AuthorBadgeName)) { %><span class="cl-earned-badge tier-<%: currentPost.AuthorBadgeTier %>" title="Featured earned badge">&#9733; <%: currentPost.AuthorBadgeName %></span><% } %>
                                 <span class="lf-role">
                                     <asp:Literal ID="litAuthorRole"
                                         runat="server"
@@ -293,7 +291,7 @@
                                     <div class="lf-author-info">
                                         <div class="lf-author-heading">
                                             <strong>
-                                                <%#: Eval("AuthorName") %>
+                                                <asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) == "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) != "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrEmpty(Eval("AuthorBadgeName") as string) %>'><span class='cl-earned-badge tier-<%#: Eval("AuthorBadgeTier") %>' title="Featured earned badge">&#9733; <%#: Eval("AuthorBadgeName") %></span></asp:PlaceHolder>
                                             </strong>
 
                                             <span class="lf-role">

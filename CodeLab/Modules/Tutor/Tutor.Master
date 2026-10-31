@@ -31,6 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Content/Site.css") %>?v=<%= System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Content/Site.css")).Ticks %>" />
     <asp:PlaceHolder runat="server">
         <link href="<%: TutorCssUrl %>" rel="stylesheet" />
     </asp:PlaceHolder>
@@ -279,5 +280,7 @@
             });
         })();
     </script>
+    <button type="button" id="clBackToTop" class="cl-back-top" aria-label="Back to top" title="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7M12 5v15" /></svg></button>
+    <script src="<%= ResolveUrl("~/Scripts/site-ui.js") %>?v=<%= System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Scripts/site-ui.js")).Ticks %>"></script>
 </body>
 </html>

@@ -19,6 +19,8 @@ namespace CodeLab.Models
         public DateTime CreatedAt { get; set; }
 
         // ----- Filled when reading, for display -----
+        public string AuthorBadgeTier { get; set; }
+        public string AuthorBadgeName { get; set; }
         public string AuthorName { get; set; }
         public string AuthorUsername { get; set; }
         public string AuthorRole { get; set; }
@@ -26,7 +28,7 @@ namespace CodeLab.Models
 
         // The post this reply belongs to (filled for "My replies")
         public string PostTitle { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
         public string CourseTitle { get; set; }
     }
 }

@@ -15,6 +15,24 @@ namespace CodeLab.Modules.Learner
     {
 
         /// <summary>
+        /// litInitial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litInitial;
+
+        /// <summary>
+        /// litNavName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litNavName;
+
+        /// <summary>
         /// litLevel control.
         /// </summary>
         /// <remarks>
@@ -22,6 +40,15 @@ namespace CodeLab.Modules.Learner
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litLevel;
+
+        /// <summary>
+        /// litNavPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litNavPoints;
 
         /// <summary>
         /// lblError control.
@@ -51,6 +78,15 @@ namespace CodeLab.Modules.Learner
         protected global::System.Web.UI.WebControls.Literal litName;
 
         /// <summary>
+        /// litEnrolledIntro control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litEnrolledIntro;
+
+        /// <summary>
         /// litPoints control.
         /// </summary>
         /// <remarks>
@@ -60,13 +96,22 @@ namespace CodeLab.Modules.Learner
         protected global::System.Web.UI.WebControls.Literal litPoints;
 
         /// <summary>
-        /// litCompleted control.
+        /// litBadges control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litCompleted;
+        protected global::System.Web.UI.WebControls.Literal litBadges;
+
+        /// <summary>
+        /// litNextLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litNextLevel;
 
         /// <summary>
         /// litEnrolled control.
@@ -76,6 +121,24 @@ namespace CodeLab.Modules.Learner
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litEnrolled;
+
+        /// <summary>
+        /// litBadgesShortcut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litBadgesShortcut;
+
+        /// <summary>
+        /// litEnrolledHeading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litEnrolledHeading;
 
         /// <summary>
         /// rptCourses control.
@@ -112,13 +175,5 @@ namespace CodeLab.Modules.Learner
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litMilestone;
-        protected global::System.Web.UI.WebControls.Literal litInitial;
-        protected global::System.Web.UI.WebControls.Literal litNavName;
-        protected global::System.Web.UI.WebControls.Literal litNavPoints;
-        protected global::System.Web.UI.WebControls.Literal litEnrolledIntro;
-        protected global::System.Web.UI.WebControls.Literal litEnrolledHeading;
-        protected global::System.Web.UI.WebControls.Literal litBadges;
-        protected global::System.Web.UI.WebControls.Literal litBadgesShortcut;
-        protected global::System.Web.UI.WebControls.Literal litNextLevel;
     }
 }

@@ -1,4 +1,4 @@
-<%@ Page Title="Discussion Forum"
+﻿<%@ Page Title="Discussion Forum"
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
@@ -90,26 +90,22 @@
                 Discussion Forum
             </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Leaderboard") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-trophy" />
                 </svg>
                 Leaderboard &amp; Badges
-            </span>
+            </a>
 
-            <span class="ld-tab disabled"
-                aria-disabled="true"
-                title="Coming in a later phase">
+            <a class="ld-tab" href="<%= ResolveUrl("~/Modules/Learner/Profile") %>">
                 <svg class="ld-icon" aria-hidden="true">
                     <use href="#lf-nav-user" />
                 </svg>
-                Profile &amp; Security
-            </span>
+                My Profile
+            </a>
 
             <span class="ld-identity">
-                <span class="ld-avatar">
+                <span class="ld-avatar"><% if(!string.IsNullOrEmpty(((CodeLab.SiteMaster)Master).LearnerAvatarUrl)){ %><img class="ld-identity-photo" src="<%: ((CodeLab.SiteMaster)Master).LearnerAvatarUrl %>" alt="" referrerpolicy="no-referrer" onerror="this.remove()" /><% } %>
                     <asp:Literal ID="litNavInitial"
                         runat="server"
                         Mode="Encode" />
@@ -196,8 +192,7 @@
             <h2>No course discussions yet</h2>
 
             <p>
-                Discussions are grouped by course. They will appear here once a course
-                has been published.
+                General discussions are available now. Course discussions appear when courses are published.
             </p>
 
             <a class="lf-button lf-button-primary"
@@ -206,10 +201,7 @@
             </a>
         </asp:Panel>
 
-        <nav class="lf-section-nav" aria-label="Discussion categories">
-            <a class="is-active" href="<%= ResolveUrl("~/Modules/Learner/DiscussionForum.aspx") %>">Course Discussions</a>
-        </nav>
-        <asp:Panel ID="pnlForum" runat="server">
+<asp:Panel ID="pnlForum" runat="server">
 
             <!-- Outside results panel to retain search focus -->
             <asp:Panel ID="pnlFilters"
@@ -294,7 +286,7 @@
                                             <div class="lf-author-info">
                                                 <div class="lf-author-heading">
                                                     <strong>
-                                                        <%#: Eval("AuthorName") %>
+                                                        <asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) == "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# Convert.ToString(Eval("AuthorRole")) != "Tutor" %>'><%#: Eval("AuthorName") %></asp:PlaceHolder><asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrEmpty(Eval("AuthorBadgeName") as string) %>'><span class='cl-earned-badge tier-<%#: Eval("AuthorBadgeTier") %>' title="Featured earned badge">&#9733; <%#: Eval("AuthorBadgeName") %></span></asp:PlaceHolder>
                                                     </strong>
 
                                                     <span class="lf-role">
