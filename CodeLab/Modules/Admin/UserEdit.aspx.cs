@@ -1,6 +1,7 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using CodeLab.BLL;
 using CodeLab.Helpers;
 using CodeLab.Models;
@@ -12,13 +13,21 @@ namespace CodeLab.Modules.Admin
         // True after a save, so the form shows what is stored now rather than what was typed
         private bool _refreshForm;
 
-        // The account's id from ?id=, or 0 when this page is creating a new account
+        // The account's id from ?id=, or 0 when there is no ?id= because this page is creating an account.
+        // A bad id such as ?id=abc gives -1, which no account has, so the page says it was not found.
+        // Unvalidated is safe here because the text is only ever read as a number.
         private int EditingId
         {
             get
             {
+                string id = Request.Unvalidated.QueryString["id"];
+                if (id == null)
+                {
+                    return 0;
+                }
+
                 int userId;
-                return int.TryParse(Request.QueryString["id"], out userId) ? userId : 0;
+                return int.TryParse(id, out userId) && userId > 0 ? userId : -1;
             }
         }
 
@@ -30,6 +39,7 @@ namespace CodeLab.Modules.Admin
         protected void Page_Init(object sender, EventArgs e)
         {
             // One copy of each rule: the browser checks use the same patterns as the BLL
+            revFullName.ValidationExpression = UserAdminManager.FullNamePattern;
             revUsername.ValidationExpression = UserAdminManager.UsernamePattern;
             revEmail.ValidationExpression = UserManager.EmailPattern;
             revPassword.ValidationExpression = UserManager.PasswordPattern;
@@ -38,6 +48,7 @@ namespace CodeLab.Modules.Admin
             txtUsername.ReadOnly = !IsNew;
             rfvUsername.Enabled = IsNew;
             revUsername.Enabled = IsNew;
+            cvUsernameTaken.Enabled = IsNew;
 
             phNewAccount.Visible = IsNew;
             phAccount.Visible = !IsNew;
@@ -79,6 +90,17 @@ namespace CodeLab.Modules.Admin
             }
 
             ShowAccount(user);
+        }
+
+        // These show the message beside the field. The BLL checks again when it saves.
+        protected void cvUsernameTaken_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = !new UserManager().IsUsernameTaken(args.Value);
+        }
+
+        protected void cvEmailTaken_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = !new UserAdminManager().IsEmailTaken(EditingId, args.Value);
         }
 
         protected void btnSave_Click(object sender, EventArgs e)

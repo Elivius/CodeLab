@@ -69,7 +69,7 @@
                         <asp:RequiredFieldValidator ID="rfvReason" runat="server" ControlToValidate="txtReason" ValidationGroup="Reject"
                             ErrorMessage="Please give a reason. The applicant will see it." CssClass="text-danger small" Display="Dynamic" />
                         <asp:RegularExpressionValidator ID="revReason" runat="server" ControlToValidate="txtReason" ValidationGroup="Reject"
-                            ValidationExpression="^[\s\S]{0,500}$" ErrorMessage="The reason must be 500 characters or fewer."
+                            ValidationExpression="^[\s\S]{10,500}$" ErrorMessage="The reason must be 10 to 500 characters."
                             CssClass="text-danger small" Display="Dynamic" />
                         <asp:Button ID="btnReject" runat="server" Text="Reject application" CssClass="btn btn-outline-danger w-100 mt-2"
                             ValidationGroup="Reject" OnClick="btnReject_Click" />

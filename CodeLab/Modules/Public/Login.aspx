@@ -17,7 +17,8 @@
 
         <div class="mb-3">
             <asp:Label ID="lblPassword" runat="server" AssociatedControlID="txtPassword" CssClass="form-label" Text="Password" />
-            <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" />
+            <%-- A password can contain text such as <a. That is safe because it is only ever hashed, never shown. --%>
+            <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" ValidateRequestMode="Disabled" />
             <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword"
                 ErrorMessage="Password is required." CssClass="text-danger" Display="Dynamic" />
         </div>
