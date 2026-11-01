@@ -18,6 +18,12 @@ namespace CodeLab.BLL
         /// <summary>The rule the learner profile page uses, so these accounts can be saved there too.</summary>
         public const string UsernamePattern = @"^[a-zA-Z0-9_]{3,50}$";
 
+        /// <summary>
+        /// At least 2 characters and one letter, using only letters, spaces and . ' - / (for names such as "Kumar a/l Raju").
+        /// À-￿ is the letters of other languages. \p{L} would be shorter, but browsers do not read it the way .NET does.
+        /// </summary>
+        public const string FullNamePattern = @"^(?=.*[A-Za-zÀ-￿])[A-Za-zÀ-￿ .'/-]{2,}$";
+
         private const int MaxFullNameLength = 120;
         private const int MaxEmailLength = 255;
         private const int MaxPasswordLength = 128;
@@ -46,6 +52,22 @@ namespace CodeLab.BLL
             {
                 LogHelper.LogError("UserAdminManager.GetUsers failure", exception);
                 return OperationResult<List<AdminUserRow>>.Fail("The users could not be loaded. Please try again.");
+            }
+        }
+
+        /// <summary>
+        /// True when a different account already uses this email. A new account passes 0 as userId.
+        /// </summary>
+        public bool IsEmailTaken(int userId, string email)
+        {
+            try
+            {
+                return _repository.IsEmailTakenByOther(userId, (email ?? string.Empty).Trim());
+            }
+            catch (Exception exception)
+            {
+                LogHelper.LogError("UserAdminManager.IsEmailTaken failure", exception);
+                return false;
             }
         }
 
@@ -316,6 +338,11 @@ namespace CodeLab.BLL
             if (fullName.Length > MaxFullNameLength)
             {
                 return "Full name must be " + MaxFullNameLength + " characters or fewer.";
+            }
+
+            if (!Regex.IsMatch(fullName, FullNamePattern))
+            {
+                return "Full name must be at least 2 characters: letters, spaces and . ' - / only.";
             }
 
             if (email.Length > MaxEmailLength || !Regex.IsMatch(email, UserManager.EmailPattern))

@@ -12,6 +12,7 @@ namespace CodeLab.BLL
     /// </summary>
     public class CourseModerationManager
     {
+        public const int MinReasonLength = 10;
         public const int MaxReasonLength = 500;
 
         private const string UnauthorizedMessage = "Unauthorized: Only administrators can moderate courses.";
@@ -261,6 +262,11 @@ namespace CodeLab.BLL
             if (reason.Length == 0)
             {
                 return "Please give a reason. The tutor will see it.";
+            }
+
+            if (reason.Length < MinReasonLength)
+            {
+                return "The reason must be at least " + MinReasonLength + " characters, so the tutor knows what to fix.";
             }
 
             return reason.Length > MaxReasonLength

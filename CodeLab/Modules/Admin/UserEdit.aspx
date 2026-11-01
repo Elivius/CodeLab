@@ -16,30 +16,40 @@
                 <section class="cl-card cl-admin-panel">
                     <h2 class="cl-admin-panel-title"><asp:Literal ID="litHeading" runat="server" Mode="Encode" /></h2>
 
+                    <%-- ValidateRequestMode="Disabled" lets the validators below answer text such as <b> with their own
+                         message, instead of ASP.NET stopping the page. The rules reject it, so it is never saved. --%>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <asp:Label ID="lblFullName" runat="server" AssociatedControlID="txtFullName" CssClass="form-label" Text="Full name" />
-                            <asp:TextBox ID="txtFullName" runat="server" CssClass="form-control" MaxLength="120" />
+                            <asp:TextBox ID="txtFullName" runat="server" CssClass="form-control" MaxLength="120" ValidateRequestMode="Disabled" />
                             <asp:RequiredFieldValidator ID="rfvFullName" runat="server" ControlToValidate="txtFullName" ValidationGroup="User"
                                 ErrorMessage="Full name is required." CssClass="text-danger small" Display="Dynamic" />
+                            <asp:RegularExpressionValidator ID="revFullName" runat="server" ControlToValidate="txtFullName" ValidationGroup="User"
+                                ErrorMessage="Use at least 2 characters: letters, spaces and . ' - / only." CssClass="text-danger small" Display="Dynamic" />
                         </div>
 
                         <div class="col-md-6">
                             <asp:Label ID="lblUsername" runat="server" AssociatedControlID="txtUsername" CssClass="form-label" Text="Username" />
-                            <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" MaxLength="50" />
+                            <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" MaxLength="50" ValidateRequestMode="Disabled" />
                             <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ControlToValidate="txtUsername" ValidationGroup="User"
                                 ErrorMessage="Username is required." CssClass="text-danger small" Display="Dynamic" />
                             <asp:RegularExpressionValidator ID="revUsername" runat="server" ControlToValidate="txtUsername" ValidationGroup="User"
                                 ErrorMessage="Use 3 to 50 letters, numbers or underscores." CssClass="text-danger small" Display="Dynamic" />
+                            <asp:CustomValidator ID="cvUsernameTaken" runat="server" ControlToValidate="txtUsername" ValidationGroup="User"
+                                OnServerValidate="cvUsernameTaken_ServerValidate"
+                                ErrorMessage="That username is already taken." CssClass="text-danger small" Display="Dynamic" />
                         </div>
 
                         <div class="col-md-6">
                             <asp:Label ID="lblEmail" runat="server" AssociatedControlID="txtEmail" CssClass="form-label" Text="Email" />
-                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" MaxLength="255" TextMode="Email" />
+                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" MaxLength="255" TextMode="Email" ValidateRequestMode="Disabled" />
                             <asp:RequiredFieldValidator ID="rfvEmail" runat="server" ControlToValidate="txtEmail" ValidationGroup="User"
                                 ErrorMessage="Email is required." CssClass="text-danger small" Display="Dynamic" />
                             <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtEmail" ValidationGroup="User"
                                 ErrorMessage="Please enter a valid email address." CssClass="text-danger small" Display="Dynamic" />
+                            <asp:CustomValidator ID="cvEmailTaken" runat="server" ControlToValidate="txtEmail" ValidationGroup="User"
+                                OnServerValidate="cvEmailTaken_ServerValidate"
+                                ErrorMessage="That email is already registered." CssClass="text-danger small" Display="Dynamic" />
                         </div>
 
                         <div class="col-md-6">
@@ -55,7 +65,8 @@
                         <asp:PlaceHolder ID="phNewAccount" runat="server">
                             <div class="col-md-6">
                                 <asp:Label ID="lblPassword" runat="server" AssociatedControlID="txtPassword" CssClass="form-label" Text="Password" />
-                                <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" MaxLength="128" autocomplete="new-password" />
+                                <%-- A password can contain text such as <a. That is safe because it is only ever hashed, never shown. --%>
+                                <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" MaxLength="128" autocomplete="new-password" ValidateRequestMode="Disabled" />
                                 <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="User"
                                     ErrorMessage="Password is required." CssClass="text-danger small" Display="Dynamic" />
                                 <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="User"
@@ -64,7 +75,7 @@
 
                             <div class="col-md-6">
                                 <asp:Label ID="lblConfirmPassword" runat="server" AssociatedControlID="txtConfirmPassword" CssClass="form-label" Text="Confirm password" />
-                                <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" MaxLength="128" autocomplete="new-password" />
+                                <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" MaxLength="128" autocomplete="new-password" ValidateRequestMode="Disabled" />
                                 <asp:RequiredFieldValidator ID="rfvConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword" ValidationGroup="User"
                                     ErrorMessage="Please confirm the password." CssClass="text-danger small" Display="Dynamic" />
                                 <asp:CompareValidator ID="cvPassword" runat="server" ControlToValidate="txtConfirmPassword" ControlToCompare="txtPassword" ValidationGroup="User"

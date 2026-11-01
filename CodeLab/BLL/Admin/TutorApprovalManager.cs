@@ -12,6 +12,7 @@ namespace CodeLab.BLL
     /// </summary>
     public class TutorApprovalManager
     {
+        public const int MinReasonLength = 10;
         public const int MaxReasonLength = 500;
 
         private const string UnauthorizedMessage = "Unauthorized: Only administrators can review tutor applications.";
@@ -90,6 +91,11 @@ namespace CodeLab.BLL
             if (reason.Length == 0)
             {
                 return OperationResult.Fail("Please give a reason. The applicant will see it.");
+            }
+
+            if (reason.Length < MinReasonLength)
+            {
+                return OperationResult.Fail("The reason must be at least " + MinReasonLength + " characters, so the applicant knows what to improve.");
             }
 
             if (reason.Length > MaxReasonLength)
