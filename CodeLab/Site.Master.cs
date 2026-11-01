@@ -64,10 +64,23 @@ namespace CodeLab
             lnkFooterBrand.HRef = homeUrl;
         }
 
-        // Pages outside Modules/, plus Modules/Public/ (Login, Register)
+        // The footer links to these on every page, so signed-in users must be able to open them too
+        private static readonly string[] OpenPages =
+        {
+            "~/Modules/Public/Terms.aspx",
+            "~/Modules/Public/Privacy.aspx",
+            "~/Modules/Public/Contact.aspx"
+        };
+
+        // Pages outside Modules/, plus Modules/Public/ (Login, Register), but not OpenPages
         private bool IsGuestPage()
         {
             string path = Page.AppRelativeVirtualPath ?? string.Empty;
+            if (Array.Exists(OpenPages, page => string.Equals(page, path, StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+
             return !path.StartsWith("~/Modules/", StringComparison.OrdinalIgnoreCase)
                 || path.StartsWith("~/Modules/Public/", StringComparison.OrdinalIgnoreCase);
         }

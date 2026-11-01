@@ -134,8 +134,11 @@
     <Content Include="Modules\Learner\DiscussionForum.aspx" />
     <Content Include="Modules\Learner\MyDiscussions.aspx" />
     <Content Include="Modules\Learner\Workspace.aspx" />
+    <Content Include="Modules\Public\Contact.aspx" />
     <Content Include="Modules\Public\Login.aspx" />
+    <Content Include="Modules\Public\Privacy.aspx" />
     <Content Include="Modules\Public\Register.aspx" />
+    <Content Include="Modules\Public\Terms.aspx" />
     <Content Include="Modules\Tutor\Dashboard.aspx" />
     <Content Include="Modules\Tutor\LessonEditor.aspx" />
     <Content Include="Modules\Tutor\QuizEditor.aspx" />
@@ -166,6 +169,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Admin.css" />
+    <Content Include="Content\Legal.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Tutor.css" />
     <Content Include="Default.aspx" />
@@ -485,6 +489,27 @@
     </Compile>
     <Compile Include="Modules\Public\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\Contact.aspx.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\Contact.aspx.designer.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\Privacy.aspx.cs">
+      <DependentUpon>Privacy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\Privacy.aspx.designer.cs">
+      <DependentUpon>Privacy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Public\Terms.aspx.cs">
+      <DependentUpon>Terms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Public\Terms.aspx.designer.cs">
+      <DependentUpon>Terms.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tutor\CourseEditor.aspx.cs">
       <DependentUpon>CourseEditor.aspx</DependentUpon>
