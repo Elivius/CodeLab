@@ -1,14 +1,18 @@
--- CodeLab demo data: a fully populated database for demos. Run AFTER Schema.sql and Seed.sql.
+-- CodeLab demo data: a fully populated database for demos. Self-contained: run Schema.sql, then this file.
+-- It includes everything Seed.sql adds (the admin, tutor and learner accounts, the tutor applicants,
+-- the three landing-page courses and the badge catalog), so Seed.sql is not needed any more.
 -- Safe to re-run: every row is only inserted if it is missing, and the whole script is one
 -- transaction, so an error rolls everything back and leaves the database as it was.
 -- Never run this on a real deployment: the accounts below use public passwords.
 --
--- Accounts added (Learner@123 for learners, Tutor@123 for tutors):
---   Tutors   : grace, ada                         (approved, own courses)
---   Learners : alice, ben, chloe, daniel, emma, farid, gracelee, hiro
---   Suspended: ivan (a learner an admin has suspended)
--- Together with Seed.sql: admin / Admin@123, tutor / Tutor@123, learner / Learner@123,
--- plus helena and marcus, whose tutor applications are waiting for review.
+-- Accounts (admin: Admin@123, tutors: Tutor@123, learners: Learner@123):
+--   Admin     : admin
+--   Tutors    : tutor (Dr. Alan Turing), grace, ada       (approved, with their own courses)
+--   Applicants: helena, marcus                            (tutor applications waiting for admin review)
+--   Learners  : learner (Sarah Connor), alice, ben, chloe, daniel, emma, farid, gracelee, hiro
+--   Suspended : ivan (a learner an admin has suspended)
+-- Profile photos and course covers are files in CodeLab/Uploads/Avatars and CodeLab/Uploads/Covers;
+-- this script only stores their paths, so those files must exist on the machine that runs the site.
 --
 -- Rows refer to each other by looking up names, never by hard-coded Id numbers.
 
@@ -19,12 +23,15 @@ SET QUOTED_IDENTIFIER ON;
 BEGIN TRY
 BEGIN TRANSACTION;
 
-IF NOT EXISTS (SELECT 1 FROM dbo.Users WHERE Username = N'tutor')
-    THROW 50001, 'The seeded users are missing. Run Schema.sql and Seed.sql first.', 1;
+IF OBJECT_ID('dbo.Badges', 'U') IS NULL OR COL_LENGTH('dbo.CodeSubmissions', 'AiFeedback') IS NULL
+    THROW 50001, 'The tables are missing or out of date. Run Schema.sql first.', 1;
 
--- Same hashes as Seed.sql (learner = Learner@123, tutor = Tutor@123)
+-- Password hashes made by PasswordHelper.HashPassword
 DECLARE @LearnerHash NVARCHAR(255) = N'PBKDF2$100000$37zQ2kfdZ148fOYGIfD+iA==$w7QKt8ThVv0X/Ex8yqMapnaL9rHduxn/AtQG1106MTg=';
 DECLARE @TutorHash   NVARCHAR(255) = N'PBKDF2$100000$FEu2YWRbd+EGiSvsO+FwuA==$P6uWyc8nseayvQ65rCeGe/YVYk18mtndKpFBZqK8K0k=';
+DECLARE @AdminHash   NVARCHAR(255) = N'PBKDF2$100000$OBc+sqcmvyOf3s03wTz3zg==$za1bHIPChNws30L5gLcbVmZJUR+yTbACUOrJeiHLN8A=';
+DECLARE @HelenaHash  NVARCHAR(255) = N'PBKDF2$100000$0fsSTcyDpxdQVoneFacuPw==$dqINMldOdpgvXkRgZGExxXMI3GyUwXwXRXm+wOMHcEU=';
+DECLARE @MarcusHash  NVARCHAR(255) = N'PBKDF2$100000$6ef7qiDoihlguhgYukYJLg==$+FdcpHGvQCHteS1oNIy7Drjo3314xbCRqpya4+sg/4k=';
 
 -- Course titles, used by every section below
 DECLARE @tTS   NVARCHAR(200) = N'Modern TypeScript & Scalable React Patterns';
@@ -40,67 +47,108 @@ DECLARE @tPerl NVARCHAR(200) = N'Perl Scripting Basics';
 -- =====================================
 -- Users
 -- =====================================
-INSERT INTO dbo.Users (FullName, Username, Email, PasswordHash, Role, Status, JoinedDate, LastLogin)
-SELECT v.FullName, v.Username, v.Email, v.Hash, v.Role, v.Status,
+INSERT INTO dbo.Users (FullName, Username, Email, PasswordHash, Role, Status, AvatarUrl, JoinedDate, LastLogin)
+SELECT v.FullName, v.Username, v.Email, v.Hash, v.Role, v.Status, v.AvatarUrl,
        DATEADD(DAY, -v.JoinedDaysAgo, SYSUTCDATETIME()),
        CASE WHEN v.LoginHoursAgo IS NULL THEN NULL ELSE DATEADD(HOUR, -v.LoginHoursAgo, SYSUTCDATETIME()) END
 FROM (VALUES
-    (N'Prof. Grace Hopper', N'grace',    N'grace.hopper@codelab.local',   @TutorHash,   N'Tutor',   N'Active',    70, 5),
-    (N'Dr. Ada Lovelace',   N'ada',      N'ada.lovelace@codelab.local',   @TutorHash,   N'Tutor',   N'Active',    65, 9),
-    (N'Alice Tan',          N'alice',    N'alice.tan@codelab.local',      @LearnerHash, N'Learner', N'Active',    60, 2),
-    (N'Ben Carter',         N'ben',      N'ben.carter@codelab.local',     @LearnerHash, N'Learner', N'Active',    55, 6),
-    (N'Chloe Nguyen',       N'chloe',    N'chloe.nguyen@codelab.local',   @LearnerHash, N'Learner', N'Active',    50, 12),
-    (N'Daniel Lim',         N'daniel',   N'daniel.lim@codelab.local',     @LearnerHash, N'Learner', N'Active',    45, 30),
-    (N'Emma Wong',          N'emma',     N'emma.wong@codelab.local',      @LearnerHash, N'Learner', N'Active',    40, 4),
-    (N'Farid Rahman',       N'farid',    N'farid.rahman@codelab.local',   @LearnerHash, N'Learner', N'Active',    35, 48),
-    (N'Grace Lee',          N'gracelee', N'grace.lee@codelab.local',      @LearnerHash, N'Learner', N'Active',    30, 3),
-    (N'Hiro Tanaka',        N'hiro',     N'hiro.tanaka@codelab.local',    @LearnerHash, N'Learner', N'Active',    25, 8),
-    (N'Ivan Petrov',        N'ivan',     N'ivan.petrov@codelab.local',    @LearnerHash, N'Learner', N'Suspended', 20, 100)
-) v(FullName, Username, Email, Hash, Role, Status, JoinedDaysAgo, LoginHoursAgo)
+    (N'System Administrator', N'admin',   N'admin@codelab.local',        @AdminHash,   N'Admin',   N'Active',    N'~/Uploads/Avatars/avatar-admin.jpg',        90, 1),
+    (N'Dr. Alan Turing',      N'tutor',   N'tutor@codelab.local',        @TutorHash,   N'Tutor',   N'Active',    N'~/Uploads/Avatars/avatar-alan-turing.jpg',  80, 2),
+    (N'Sarah Connor',         N'learner', N'learner@codelab.local',      @LearnerHash, N'Learner', N'Active',    N'~/Uploads/Avatars/avatar-sarah-connor.jpg', 62, 1),
+    (N'Dr. Helena Zhang',     N'helena',  N'helena.zhang@codelab.local', @HelenaHash,  N'Tutor',   N'Active',    N'~/Uploads/Avatars/avatar-helena-zhang.jpg', 3, NULL),
+    (N'Marcus Vance',         N'marcus',  N'marcus.vance@codelab.local', @MarcusHash,  N'Tutor',   N'Active',    N'~/Uploads/Avatars/avatar-marcus-vance.jpg', 2, NULL),
+    (N'Prof. Grace Hopper', N'grace',    N'grace.hopper@codelab.local',   @TutorHash,   N'Tutor',   N'Active',    N'~/Uploads/Avatars/avatar-grace-hopper.jpg', 70, 5),
+    (N'Dr. Ada Lovelace',   N'ada',      N'ada.lovelace@codelab.local',   @TutorHash,   N'Tutor',   N'Active',    N'~/Uploads/Avatars/avatar-ada-lovelace.jpg', 65, 9),
+    (N'Alice Tan',          N'alice',    N'alice.tan@codelab.local',      @LearnerHash, N'Learner', N'Active',    CAST(NULL AS NVARCHAR(500)),                  60, 2),
+    (N'Ben Carter',         N'ben',      N'ben.carter@codelab.local',     @LearnerHash, N'Learner', N'Active',    NULL,                                         55, 6),
+    (N'Chloe Nguyen',       N'chloe',    N'chloe.nguyen@codelab.local',   @LearnerHash, N'Learner', N'Active',    NULL,                                         50, 12),
+    (N'Daniel Lim',         N'daniel',   N'daniel.lim@codelab.local',     @LearnerHash, N'Learner', N'Active',    NULL,                                         45, 30),
+    (N'Emma Wong',          N'emma',     N'emma.wong@codelab.local',      @LearnerHash, N'Learner', N'Active',    NULL,                                         40, 4),
+    (N'Farid Rahman',       N'farid',    N'farid.rahman@codelab.local',   @LearnerHash, N'Learner', N'Active',    NULL,                                         35, 48),
+    (N'Grace Lee',          N'gracelee', N'grace.lee@codelab.local',      @LearnerHash, N'Learner', N'Active',    NULL,                                         30, 3),
+    (N'Hiro Tanaka',        N'hiro',     N'hiro.tanaka@codelab.local',    @LearnerHash, N'Learner', N'Active',    NULL,                                         25, 8),
+    (N'Ivan Petrov',        N'ivan',     N'ivan.petrov@codelab.local',    @LearnerHash, N'Learner', N'Suspended', NULL,                                         20, 100)
+) v(FullName, Username, Email, Hash, Role, Status, AvatarUrl, JoinedDaysAgo, LoginHoursAgo)
 WHERE NOT EXISTS (SELECT 1 FROM dbo.Users u WHERE u.Username = v.Username);
 
--- The demo learner from Seed.sql has logged in before too
+-- A learner that already existed from an earlier run has logged in before too
 UPDATE dbo.Users SET LastLogin = DATEADD(HOUR, -1, SYSUTCDATETIME()) WHERE Username = N'learner' AND LastLogin IS NULL;
 
 -- =====================================
--- Tutor profiles (the new tutors are already approved)
+-- Tutor profiles (tutor, grace and ada are approved; helena and marcus are waiting for review)
 -- =====================================
 INSERT INTO dbo.TutorProfiles (UserId, Qualifications, PortfolioUrl, CurriculumPitch, Bio, Specialty, Status, ApprovedDate)
-SELECT u.Id, v.Qualifications, v.PortfolioUrl, v.Pitch, v.Bio, v.Specialty, N'Approved', DATEADD(DAY, -v.ApprovedDaysAgo, SYSUTCDATETIME())
+SELECT u.Id, v.Qualifications, v.PortfolioUrl, v.Pitch, v.Bio, v.Specialty, v.Status,
+       CASE WHEN v.Status = N'Approved' THEN DATEADD(DAY, -v.ApprovedDaysAgo, SYSUTCDATETIME()) END
 FROM (VALUES
+    (N'tutor', N'Ph.D. in Computer Science', N'https://portfolio.codelab.local/turing',
+     N'A hands-on algorithms course: complexity, sorting, graphs and dynamic programming, each with coding challenges.',
+     N'Father of modern computing and algorithm design.', N'Algorithms & Logic', N'Approved', 80),
+    (N'helena', N'Ph.D. in Machine Learning; 8 years as an ML research lead.', N'https://portfolio.codelab.local/helena',
+     N'Deep learning from scratch: tensors, gradient descent and backpropagation, then building and training a small transformer in PyTorch.',
+     N'Passionate about making tensor operations and gradient descent easy to follow for software engineers.', N'Machine Learning & PyTorch', N'Pending', 0),
+    (N'marcus', N'6 years as a staff infrastructure engineer; Certified Kubernetes Administrator.', N'https://portfolio.codelab.local/marcus',
+     N'Containers to production: Docker images, Kubernetes deployments, CI/CD pipelines and GitOps, with a hands-on lab in every lesson.',
+     N'Infrastructure engineer who enjoys teaching practical container orchestration and pipeline reliability.', N'Cloud Native DevOps & Kubernetes', N'Pending', 0),
     (N'grace', N'M.Sc. in Computer Science; 12 years teaching web development.', N'https://portfolio.codelab.local/grace',
      N'Practical web and database courses: HTML, CSS, SQL, each lesson with a small exercise.',
-     N'Teacher who loves turning complicated ideas into short, friendly lessons.', N'Web Development & Databases', 60),
+     N'Teacher who loves turning complicated ideas into short, friendly lessons.', N'Web Development & Databases', N'Approved', 60),
     (N'ada', N'Ph.D. in Mathematics; author of a Python data structures workbook.', N'https://portfolio.codelab.local/ada',
      N'Data structures in Python, from lists and stacks to linked lists, with a coding challenge per topic.',
-     N'Mathematician turned programmer who enjoys explaining how data is organised.', N'Python & Data Structures', 55)
-) v(Username, Qualifications, PortfolioUrl, Pitch, Bio, Specialty, ApprovedDaysAgo)
+     N'Mathematician turned programmer who enjoys explaining how data is organised.', N'Python & Data Structures', N'Approved', 55)
+) v(Username, Qualifications, PortfolioUrl, Pitch, Bio, Specialty, Status, ApprovedDaysAgo)
 JOIN dbo.Users u ON u.Username = v.Username
 WHERE NOT EXISTS (SELECT 1 FROM dbo.TutorProfiles p WHERE p.UserId = u.Id);
 
 -- =====================================
 -- Courses: published, waiting for review, draft and locked
 -- =====================================
-INSERT INTO dbo.Courses (Title, Description, Category, Difficulty, InstructorId, Status, LockReason)
-SELECT v.Title, v.Description, v.Category, v.Difficulty, u.Id, v.Status, v.LockReason
+INSERT INTO dbo.Courses (Title, Description, Category, Difficulty, InstructorId, Status, ThumbnailUrl, LockReason)
+SELECT v.Title, v.Description, v.Category, v.Difficulty, u.Id, v.Status, v.ThumbnailUrl, v.LockReason
 FROM (VALUES
-    (@tWeb,  N'Build your first web pages: the structure of an HTML document, styling with CSS and laying out content with Flexbox.', N'Web Development', N'Beginner', N'grace', N'Published', CAST(NULL AS NVARCHAR(500))),
-    (@tDS,   N'Learn how data is organised in Python: lists, tuples, dictionaries, stacks, queues and linked lists.', N'Computer Science', N'Intermediate', N'ada', N'Published', NULL),
-    (@tSQL,  N'Learn to read from a relational database: tables, SELECT, WHERE and JOINs, with plenty of examples.', N'Data & Databases', N'Beginner', N'grace', N'Published', NULL),
-    (@tJS,   N'A short, practical start to JavaScript: variables, functions and arrays, with a quiz and coding challenges.', N'Programming Fundamentals', N'Beginner', N'tutor', N'Pending Review', NULL),
-    (@tGit,  N'Understand version control and make your first commit. Still being written.', N'Developer Tools', N'Beginner', N'ada', N'Draft', NULL),
-    (@tPerl, N'An older course on Perl scripting for text processing.', N'Programming Fundamentals', N'Beginner', N'grace', N'Locked', N'Content is out of date and is being rewritten.')
-) v(Title, Description, Category, Difficulty, Instructor, Status, LockReason)
+    (@tTS,   N'Master enterprise-grade TypeScript type gymnastics, React 18 concurrent rendering, custom hooks, and scalable state management.', N'Frontend Engineering', N'Intermediate', N'tutor', N'Published', N'~/Uploads/Covers/cover-typescript-react.jpg', CAST(NULL AS NVARCHAR(500))),
+    (@tAlgo, N'Explore rigorous algorithmic principles, asymptotic complexity, graph theory, dynamic programming, and proof techniques.', N'Computer Science', N'Advanced', N'tutor', N'Published', N'~/Uploads/Covers/cover-algorithms-math.jpg', NULL),
+    (@tPy,   N'Comprehensive introduction to Python programming syntax, idiomatic data structures, file I/O operations, and task automation.', N'Programming Fundamentals', N'Beginner', N'tutor', N'Published', N'~/Uploads/Covers/cover-python-essentials.jpg', NULL),
+    (@tWeb,  N'Build your first web pages: the structure of an HTML document, styling with CSS and laying out content with Flexbox.', N'Web Development', N'Beginner', N'grace', N'Published', N'~/Uploads/Covers/cover-web-basics.jpg', NULL),
+    (@tDS,   N'Learn how data is organised in Python: lists, tuples, dictionaries, stacks, queues and linked lists.', N'Computer Science', N'Intermediate', N'ada', N'Published', N'~/Uploads/Covers/cover-data-structures.jpg', NULL),
+    (@tSQL,  N'Learn to read from a relational database: tables, SELECT, WHERE and JOINs, with plenty of examples.', N'Data & Databases', N'Beginner', N'grace', N'Published', N'~/Uploads/Covers/cover-sql-essentials.jpg', NULL),
+    (@tJS,   N'A short, practical start to JavaScript: variables, functions and arrays, with a quiz and coding challenges.', N'Programming Fundamentals', N'Beginner', N'tutor', N'Pending Review', N'~/Uploads/Covers/cover-javascript-foundations.jpg', NULL),
+    (@tGit,  N'Understand version control and make your first commit. Still being written.', N'Developer Tools', N'Beginner', N'ada', N'Draft', N'~/Uploads/Covers/cover-git-github.jpg', NULL),
+    (@tPerl, N'An older course on Perl scripting for text processing.', N'Programming Fundamentals', N'Beginner', N'grace', N'Locked', N'~/Uploads/Covers/cover-perl-scripting.jpg', N'Content is out of date and is being rewritten.')
+) v(Title, Description, Category, Difficulty, Instructor, Status, ThumbnailUrl, LockReason)
 JOIN dbo.Users u ON u.Username = v.Instructor
 WHERE NOT EXISTS (SELECT 1 FROM dbo.Courses c WHERE c.Title = v.Title);
 
 -- =====================================
--- Lessons (Seed.sql already has lesson 1 of the TypeScript course)
+-- Attach cover images and avatars to rows that already existed from an earlier run
+-- =====================================
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-typescript-react.jpg' WHERE Title = @tTS AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-algorithms-math.jpg' WHERE Title = @tAlgo AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-python-essentials.jpg' WHERE Title = @tPy AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-web-basics.jpg' WHERE Title = @tWeb AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-data-structures.jpg' WHERE Title = @tDS AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-sql-essentials.jpg' WHERE Title = @tSQL AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-javascript-foundations.jpg' WHERE Title = @tJS AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-git-github.jpg' WHERE Title = @tGit AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+UPDATE dbo.Courses SET ThumbnailUrl = '~/Uploads/Covers/cover-perl-scripting.jpg' WHERE Title = @tPerl AND (ThumbnailUrl IS NULL OR ThumbnailUrl = '');
+
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-grace-hopper.jpg' WHERE Username = N'grace' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-ada-lovelace.jpg' WHERE Username = N'ada' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-alan-turing.jpg' WHERE Username = N'tutor' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-helena-zhang.jpg' WHERE Username = N'helena' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-marcus-vance.jpg' WHERE Username = N'marcus' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-sarah-connor.jpg' WHERE Username = N'learner' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+UPDATE dbo.Users SET AvatarUrl = '~/Uploads/Avatars/avatar-admin.jpg' WHERE Username = N'admin' AND (AvatarUrl IS NULL OR AvatarUrl = '');
+
+-- =====================================
+-- Lessons
 -- =====================================
 INSERT INTO dbo.Lessons (CourseId, Title, Content, CodeSnippet, CodeLanguage, OrderIndex, DurationMinutes)
 SELECT c.Id, v.Title, v.Content, v.Code, v.Lang, v.OrderIndex, v.Minutes
 FROM (VALUES
     -- TypeScript
+    (@tTS, N'Introduction to TypeScript Types', N'Learn how type annotations make your web applications robust and bug-free.',
+        N'const greeting: string = "Hello, CodeLab!";' + CHAR(10) + N'console.log(greeting);', N'typescript', 1, 15),
     (@tTS, N'Interfaces and Type Aliases', N'Interfaces describe the shape of an object. A type alias can also name a union such as "Active" or "Suspended".',
         N'interface Course {' + CHAR(10) + N'  title: string;' + CHAR(10) + N'  lessons: number;' + CHAR(10) + N'}' + CHAR(10) + N'const course: Course = { title: "TypeScript", lessons: 4 };' + CHAR(10) + N'console.log(course.title);', N'typescript', 2, 15),
     (@tTS, N'Generics in Practice', N'Generics let one function work with many types while keeping type safety. The type parameter goes in angle brackets.',
@@ -169,6 +217,7 @@ WHERE NOT EXISTS (SELECT 1 FROM dbo.Lessons l WHERE l.CourseId = c.Id AND l.Titl
 INSERT INTO dbo.Quizzes (CourseId, Title, PassMark, CreatedByUserId, Instructions)
 SELECT c.Id, v.Title, v.PassMark, u.Id, v.Instructions
 FROM (VALUES
+    (@tTS,   N'TypeScript Fundamentals Quiz', 80, N'tutor', N'Test your knowledge on static typing and basic interfaces.'),
     (@tAlgo, N'Algorithms and Big-O Quiz',   70, N'tutor', N'Three questions on complexity, sorting and graphs. You need 70% to pass.'),
     (@tPy,   N'Python Essentials Quiz',      70, N'tutor', N'Three questions on printing, lists and indentation. You need 70% to pass.'),
     (@tWeb,  N'HTML and CSS Quiz',           70, N'grace', N'Three questions on HTML tags, CSS properties and Flexbox. You need 70% to pass.'),
@@ -181,11 +230,13 @@ JOIN dbo.Users u ON u.Username = v.Creator
 WHERE NOT EXISTS (SELECT 1 FROM dbo.Quizzes q WHERE q.Title = v.Title);
 
 -- =====================================
--- Quiz questions (Seed.sql already has question 1 of the TypeScript quiz)
+-- Quiz questions
 -- =====================================
 INSERT INTO dbo.QuizQuestions (QuizId, QuestionText, QuestionType, OptionsJson, CorrectOptionIndex, Explanation, OrderIndex)
 SELECT q.Id, v.QuestionText, v.QuestionType, v.OptionsJson, v.CorrectIndex, v.Explanation, v.OrderIndex
 FROM (VALUES
+    (N'TypeScript Fundamentals Quiz', 1, N'Which keyword is used to declare a block-scoped variable in modern JavaScript/TypeScript?', N'Multiple Choice',
+        N'["var", "let", "global", "dim"]', 1, N'The "let" keyword defines block-scoped variables in modern ECMAScript.'),
     (N'TypeScript Fundamentals Quiz', 2, N'What does the any type do in TypeScript?', N'Multiple Choice',
         N'["Turns off type checking for that value","Creates a number","Makes a value read-only","Declares a class"]', 0, N'any opts out of type checking, so use it sparingly.'),
     (N'TypeScript Fundamentals Quiz', 3, N'An interface can describe the shape of an object.', N'True-False',
@@ -370,6 +421,7 @@ WHERE NOT EXISTS (SELECT 1 FROM dbo.CodeSubmissions s WHERE s.LearnerId = u.Id A
 INSERT INTO dbo.LearnerStats (LearnerId, AchievementPoints, CurrentLevel, LevelTitle, NextMilestonePoints, StreakDays, LastActiveDate)
 SELECT u.Id, v.Points, v.Level, v.Title, v.NextXp, v.Streak, CAST(DATEADD(HOUR, 8, SYSUTCDATETIME()) AS DATE)
 FROM (VALUES
+    (N'learner',  1250, 4, N'Code Voyager',      2000, 5),
     (N'alice',    3800, 6, N'Code Specialist',   5000, 12),
     (N'ben',      2650, 5, N'Skilled Developer', 3500, 8),
     (N'chloe',    1500, 4, N'Code Voyager',      2000, 4),
@@ -474,6 +526,45 @@ BEGIN
 END;
 
 -- =====================================
+-- Badge catalog only. Awards are recorded on first eligibility check, in UTC.
+-- =====================================
+DECLARE @Catalog TABLE(Code varchar(50),Name nvarchar(100),Description nvarchar(300),Icon varchar(30),Category varchar(20),Metric varchar(20),Target int,SortOrder int);
+INSERT @Catalog VALUES
+ ('first-steps',N'First Steps',N'Complete your first lesson.','book','curriculum','lessons',1,1),
+ ('dedicated-learner',N'Dedicated Learner',N'Complete 15 lessons.','book','curriculum','lessons',15,2),
+ ('quiz-explorer',N'Quiz Explorer',N'Pass your first quiz.','award','quiz','quizzes',1,3),
+ ('quiz-scholar',N'Quiz Scholar',N'Pass 10 different quizzes.','award','quiz','quizzes',10,4),
+ ('problem-solver',N'Problem Solver',N'Pass your first coding challenge.','terminal','coding','challenges',1,5),
+ ('code-explorer',N'Code Explorer',N'Pass 10 different coding challenges.','terminal','coding','challenges',10,6),
+ ('rising-star',N'Rising Star',N'Reach 500 XP.','sparkles','xp','points',500,7),
+ ('xp-champion',N'XP Champion',N'Reach 3,000 XP.','trophy','xp','points',3000,8),
+ ('curriculum-expert',N'Curriculum Expert',N'Complete 25 lessons.','book','curriculum','lessons',25,9),
+ ('curriculum-master',N'Curriculum Master',N'Complete 50 lessons.','trophy','curriculum','lessons',50,10),
+ ('quiz-expert',N'Quiz Expert',N'Pass 20 different quizzes.','award','quiz','quizzes',20,11),
+ ('quiz-master',N'Quiz Master',N'Pass 30 different quizzes.','trophy','quiz','quizzes',30,12),
+ ('code-specialist',N'Code Specialist',N'Pass 25 different coding challenges.','terminal','coding','challenges',25,13),
+ ('code-master',N'Code Master',N'Pass 50 different coding challenges.','trophy','coding','challenges',50,14),
+ ('xp-elite',N'XP Elite',N'Reach 5,000 XP.','zap','xp','points',5000,15),
+ ('xp-legend',N'XP Legend',N'Reach 10,000 XP.','flame','xp','points',10000,16),
+ ('lesson-veteran',N'Lesson Veteran',N'Complete 75 lessons.','book','curriculum','lessons',75,17),
+ ('knowledge-keeper',N'Knowledge Keeper',N'Complete 100 lessons.','award','curriculum','lessons',100,18),
+ ('learning-legend',N'Learning Legend',N'Complete 150 lessons.','trophy','curriculum','lessons',150,19),
+ ('quiz-veteran',N'Quiz Veteran',N'Pass 40 different quizzes.','award','quiz','quizzes',40,20),
+ ('quiz-champion',N'Quiz Champion',N'Pass 50 different quizzes.','zap','quiz','quizzes',50,21),
+ ('quiz-legend',N'Quiz Legend',N'Pass 75 different quizzes.','trophy','quiz','quizzes',75,22),
+ ('code-veteran',N'Code Veteran',N'Pass 75 different coding challenges.','terminal','coding','challenges',75,23),
+ ('code-champion',N'Code Champion',N'Pass 100 different coding challenges.','zap','coding','challenges',100,24),
+ ('code-legend',N'Code Legend',N'Pass 150 different coding challenges.','trophy','coding','challenges',150,25),
+ ('xp-vanguard',N'XP Vanguard',N'Reach 15,000 XP.','sparkles','xp','points',15000,26),
+ ('xp-titan',N'XP Titan',N'Reach 25,000 XP.','flame','xp','points',25000,27),
+ ('xp-immortal',N'XP Immortal',N'Reach 50,000 XP.','trophy','xp','points',50000,28)
+;
+-- Existing awards and their original dates are retained when requirements change.
+UPDATE b SET Name=v.Name,Description=v.Description,Icon=v.Icon,Category=v.Category,Metric=v.Metric,Target=v.Target,SortOrder=v.SortOrder FROM dbo.Badges b JOIN @Catalog v ON b.Code=v.Code;
+INSERT dbo.Badges(Code,Name,Description,Icon,Category,Metric,Target,SortOrder)
+SELECT v.* FROM @Catalog v WHERE NOT EXISTS(SELECT 1 FROM dbo.Badges b WHERE b.Code=v.Code);
+
+-- =====================================
 -- What the database holds now
 -- =====================================
 SELECT 'Users' AS TableName, COUNT(*) AS Total FROM dbo.Users
@@ -489,7 +580,8 @@ UNION ALL SELECT 'CodeSubmissions', COUNT(*) FROM dbo.CodeSubmissions
 UNION ALL SELECT 'LearnerStats', COUNT(*) FROM dbo.LearnerStats
 UNION ALL SELECT 'DiscussionPosts', COUNT(*) FROM dbo.DiscussionPosts
 UNION ALL SELECT 'DiscussionReplies', COUNT(*) FROM dbo.DiscussionReplies
-UNION ALL SELECT 'AuditLogs', COUNT(*) FROM dbo.AuditLogs;
+UNION ALL SELECT 'AuditLogs', COUNT(*) FROM dbo.AuditLogs
+UNION ALL SELECT 'Badges', COUNT(*) FROM dbo.Badges;
 
 COMMIT TRANSACTION;
 END TRY
