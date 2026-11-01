@@ -163,11 +163,11 @@
                             <div class="col-12">
                                 <asp:Label ID="lblPortfolioUrl" runat="server" AssociatedControlID="txtPortfolioUrl" CssClass="form-label" Text="Portfolio link" />
                                 <asp:TextBox ID="txtPortfolioUrl" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" MaxLength="500"
-                                    placeholder="https://github.com/your-name" />
+                                    placeholder="https://your-portfolio.com" />
                                 <asp:RequiredFieldValidator ID="rfvPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl"
                                     ErrorMessage="Portfolio link is required." CssClass="text-danger small" Display="Dynamic" ValidationGroup="Profile" />
+                                <%-- Pattern and message are set in Page_Init from TutorManager, the same rule as the Register page --%>
                                 <asp:RegularExpressionValidator ID="revPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl"
-                                    ValidationExpression="^\s*https?://\S+\s*$" ErrorMessage="Portfolio link must start with http:// or https://."
                                     CssClass="text-danger small" Display="Dynamic" ValidationGroup="Profile" />
                             </div>
 

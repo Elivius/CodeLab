@@ -19,7 +19,8 @@ namespace CodeLab.Modules.Public
             // One copy of each rule: the browser checks use the same patterns as UserManager.Register
             revEmail.ValidationExpression = UserManager.EmailPattern;
             revPassword.ValidationExpression = UserManager.PasswordPattern;
-            revPortfolioUrl.ValidationExpression = UserManager.GitHubPattern;
+            revPortfolioUrl.ValidationExpression = TutorManager.PortfolioUrlPattern;
+            revPortfolioUrl.ErrorMessage = TutorManager.PortfolioUrlMessage;
         }
 
         // Someone already signed in never gets this far: Site.Master sends them to their home page

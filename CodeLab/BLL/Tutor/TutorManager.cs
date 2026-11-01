@@ -24,6 +24,15 @@ namespace CodeLab.BLL
         private const int MaxFullNameLength = 120;
         private const int MaxSpecialtyLength = 100;
         private const int MaxUrlLength = 500;
+
+        /// <summary>
+        /// Portfolio link rule, shared by Register and the Tutor Profile page: any website, but it must use https,
+        /// e.g. https://github.com/your-name or https://your-name.vercel.app. The browser checks use this pattern;
+        /// CleanAndValidate checks it again on the server.
+        /// </summary>
+        public const string PortfolioUrlPattern = @"^\s*https://\S+\s*$";
+
+        public const string PortfolioUrlMessage = "Portfolio link must start with https://";
         private const int MaxLongTextLength = 2000;
 
         /// <summary>Largest profile photo accepted: 2 MB.</summary>
@@ -317,12 +326,29 @@ namespace CodeLab.BLL
                 return "Qualifications, biography and curriculum pitch must each be " + MaxLongTextLength + " characters or fewer.";
             }
 
-            if (application.PortfolioUrl.Length > MaxUrlLength || !IsWebUrl(application.PortfolioUrl))
+            if (application.PortfolioUrl.Length > MaxUrlLength)
             {
-                return "Portfolio link must be a valid web address starting with http:// or https://.";
+                return "Portfolio link must be " + MaxUrlLength + " characters or fewer.";
+            }
+
+            if (!IsHttpsUrl(application.PortfolioUrl))
+            {
+                return PortfolioUrlMessage;
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// True for an absolute https address with a host, e.g. https://your-name.vercel.app. Any website is fine.
+        /// </summary>
+        public static bool IsHttpsUrl(string value)
+        {
+            Uri uri;
+            return !string.IsNullOrWhiteSpace(value)
+                && Uri.TryCreate(value.Trim(), UriKind.Absolute, out uri)
+                && uri.Scheme == Uri.UriSchemeHttps
+                && !string.IsNullOrEmpty(uri.Host);
         }
 
         /// <summary>

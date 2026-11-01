@@ -125,11 +125,11 @@
             <div class="mb-3">
                 <asp:Label ID="lblPortfolioUrl" runat="server" AssociatedControlID="txtPortfolioUrl" CssClass="form-label" Text="Portfolio link" />
                 <asp:TextBox ID="txtPortfolioUrl" runat="server" ValidateRequestMode="Disabled" CssClass="form-control" MaxLength="500"
-                    placeholder="https://github.com/your-name" />
+                    placeholder="https://your-portfolio.com" />
                 <asp:RequiredFieldValidator ID="rfvPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl" ValidationGroup="Teaching"
                     ErrorMessage="Portfolio link is required." CssClass="text-danger" Display="Dynamic" />
+                <%-- Pattern and message are set in Page_Init from TutorManager, the same rule as the Tutor Profile page --%>
                 <asp:RegularExpressionValidator ID="revPortfolioUrl" runat="server" ControlToValidate="txtPortfolioUrl" ValidationGroup="Teaching"
-                    ErrorMessage="Enter your GitHub profile link, e.g. https://github.com/your-name."
                     CssClass="text-danger" Display="Dynamic" />
             </div>
 

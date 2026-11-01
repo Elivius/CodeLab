@@ -27,6 +27,13 @@ namespace CodeLab.Modules.Tutor
 
         protected string Initials { get; private set; } = "T";
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            // Same portfolio link rule as the Register page and the server check (any https website)
+            revPortfolioUrl.ValidationExpression = TutorManager.PortfolioUrlPattern;
+            revPortfolioUrl.ErrorMessage = TutorManager.PortfolioUrlMessage;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             // This page shows the approval status itself
