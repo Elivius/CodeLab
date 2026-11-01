@@ -15,166 +15,76 @@ namespace CodeLab.Modules.Admin
     {
 
         /// <summary>
-        /// phStats control.
+        /// rptTabs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phStats;
+        protected global::System.Web.UI.WebControls.Repeater rptTabs;
 
         /// <summary>
-        /// phBanner control.
+        /// phSummary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phBanner;
+        protected global::System.Web.UI.WebControls.PlaceHolder phSummary;
 
         /// <summary>
-        /// litBanner control.
+        /// pnlQueue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litBanner;
+        protected global::System.Web.UI.WebControls.Panel pnlQueue;
 
         /// <summary>
-        /// litDatabaseSize control.
+        /// litQueueTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDatabaseSize;
+        protected global::System.Web.UI.WebControls.Literal litQueueTitle;
 
         /// <summary>
-        /// litQueryTime control.
+        /// phQueueClear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litQueryTime;
+        protected global::System.Web.UI.WebControls.PlaceHolder phQueueClear;
 
         /// <summary>
-        /// litTableCount control.
+        /// hlReviewTutors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTableCount;
+        protected global::System.Web.UI.WebControls.HyperLink hlReviewTutors;
 
         /// <summary>
-        /// litLastBackup control.
+        /// litReviewTutors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLastBackup;
+        protected global::System.Web.UI.WebControls.Literal litReviewTutors;
 
         /// <summary>
-        /// litPendingTotal control.
+        /// hlReviewCourses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPendingTotal;
-
-        /// <summary>
-        /// litPendingTutors control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPendingTutors;
-
-        /// <summary>
-        /// litPendingCourses control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPendingCourses;
-
-        /// <summary>
-        /// litActiveUsers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litActiveUsers;
-
-        /// <summary>
-        /// litNewUsers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litNewUsers;
-
-        /// <summary>
-        /// litLearners control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLearners;
-
-        /// <summary>
-        /// litTutors control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTutors;
-
-        /// <summary>
-        /// litAdmins control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAdmins;
-
-        /// <summary>
-        /// litTotalCourses control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalCourses;
-
-        /// <summary>
-        /// litDraftCourses control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDraftCourses;
-
-        /// <summary>
-        /// litPublishedCourses control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPublishedCourses;
+        protected global::System.Web.UI.WebControls.HyperLink hlReviewCourses;
 
         /// <summary>
         /// litReviewCourses control.
@@ -186,22 +96,67 @@ namespace CodeLab.Modules.Admin
         protected global::System.Web.UI.WebControls.Literal litReviewCourses;
 
         /// <summary>
-        /// litLockedCourses control.
+        /// litAccountsFigure control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLockedCourses;
+        protected global::System.Web.UI.WebControls.Literal litAccountsFigure;
 
         /// <summary>
-        /// rptTabs control.
+        /// litAccountsDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptTabs;
+        protected global::System.Web.UI.WebControls.Literal litAccountsDetail;
+
+        /// <summary>
+        /// litCoursesFigure control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCoursesFigure;
+
+        /// <summary>
+        /// litCoursesDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litCoursesDetail;
+
+        /// <summary>
+        /// litDatabaseFigure control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litDatabaseFigure;
+
+        /// <summary>
+        /// litDatabaseDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litDatabaseDetail;
+
+        /// <summary>
+        /// litLastBackup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litLastBackup;
 
         /// <summary>
         /// AdminContent control.

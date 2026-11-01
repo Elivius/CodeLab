@@ -62,10 +62,10 @@
                         <asp:PlaceHolder runat="server" Visible='<%# IsSelf((int)Eval("Id")) %>'>
                             <span class="cl-admin-badge cl-admin-badge-neutral">You</span>
                         </asp:PlaceHolder>
-                        <span class="cl-admin-meta d-block"><%#: Eval("Username") %> &middot; <%#: Eval("Email") %></span>
+                        <span class="cl-admin-meta cl-admin-meta-row"><span>@<%#: Eval("Username") %></span><span><%#: Eval("Email") %></span></span>
                     </td>
                     <td><span class="cl-admin-badge <%# DisplayHelper.RoleBadgeCss((string)Eval("Role")) %>"><%#: Eval("Role") %></span></td>
-                    <td><span class="cl-admin-badge <%# DisplayHelper.UserStatusBadgeCss((string)Eval("Status")) %>"><%#: Eval("Status") %></span></td>
+                    <td><span class="cl-admin-badge cl-admin-status <%# DisplayHelper.UserStatusBadgeCss((string)Eval("Status")) %>"><%#: Eval("Status") %></span></td>
                     <td><%#: TutorDisplayHelper.LocalDate((DateTime)Eval("JoinedDate")) %></td>
                     <td><%#: DisplayHelper.LastLogin((DateTime?)Eval("LastLogin")) %></td>
                     <td>

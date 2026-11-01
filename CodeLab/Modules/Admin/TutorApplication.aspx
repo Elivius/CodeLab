@@ -50,7 +50,7 @@
 
             <%-- ===== Decision ===== --%>
             <div class="col-lg-4">
-                <section id="decision" class="cl-card cl-admin-panel">
+                <section id="decision" class="cl-card cl-admin-panel cl-admin-decision">
                     <h2 class="cl-admin-panel-title">Decision</h2>
 
                     <asp:PlaceHolder ID="phDecision" runat="server">

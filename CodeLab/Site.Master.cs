@@ -11,7 +11,10 @@ namespace CodeLab
         protected string AccountAvatar;
         public string LearnerAvatarUrl { get { return AccountAvatar; } }
         protected string AccountInitial { get { string name=SessionHelper.GetCurrentFullName(); return string.IsNullOrWhiteSpace(name)?"?":System.Globalization.StringInfo.GetNextTextElement(name).ToUpperInvariant(); } }
-        protected string AccountProfileUrl { get { return ResolveUrl(SessionHelper.IsUserInRole(UserRoles.Tutor)?"~/Modules/Tutor/Profile":SessionHelper.IsUserInRole(UserRoles.Admin)?"~/Modules/Admin/Dashboard":"~/Modules/Learner/Profile"); } }
+        protected string AccountProfileUrl { get { return ResolveUrl(SessionHelper.IsUserInRole(UserRoles.Tutor)?"~/Modules/Tutor/Profile":"~/Modules/Learner/Profile"); } }
+
+        // Admins have no profile page, so their account menu only offers Sign out
+        protected bool HasProfilePage { get { return !SessionHelper.IsUserInRole(UserRoles.Admin); } }
 
         protected void Page_Init(object sender, EventArgs e)
         {

@@ -10,66 +10,68 @@ namespace CodeLab.Modules.Admin
 {
     public partial class AdminMaster : MasterPage
     {
+        // e.g. "~/Modules/Admin/TutorApplication.aspx" gives "TutorApplication"
+        private string CurrentPage
+        {
+            get { return Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath); }
+        }
+
         // PreRender runs after the page's button clicks, so the numbers are already up to date
         // when an admin has just approved or rejected something on this request
         protected void Page_PreRender(object sender, EventArgs e)
         {
             OperationResult<AdminStats> result = new AdminStatsManager().GetStats();
-
-            // Without numbers the cards are hidden, but the tabs still work
-            phStats.Visible = result.Success;
             AdminStats stats = result.Success ? result.Data : new AdminStats();
-            if (result.Success)
+
+            // The summary is for the Overview, so the other tabs open straight on their content.
+            // Without numbers it stays hidden, but the tabs still work.
+            bool isOverview = string.Equals(CurrentPage, "Dashboard", StringComparison.OrdinalIgnoreCase);
+            phSummary.Visible = result.Success && isOverview;
+            if (phSummary.Visible)
             {
-                ShowStats(stats);
+                ShowSummary(stats);
             }
 
             rptTabs.DataSource = BuildTabs(stats.PendingTutors, stats.PendingCourses);
             rptTabs.DataBind();
         }
 
-        private void ShowStats(AdminStats stats)
+        private void ShowSummary(AdminStats stats)
         {
-            litDatabaseSize.Text = stats.DatabaseSizeMb.ToString("0.0") + " MB";
-            litQueryTime.Text = stats.QueryMilliseconds < 1 ? "under 1 ms" : stats.QueryMilliseconds + " ms";
-            litTableCount.Text = stats.TableCount.ToString();
-            litLastBackup.Text = stats.LastBackupAt.HasValue ? DisplayHelper.TimeAgo(stats.LastBackupAt.Value) : "never";
+            bool hasWork = stats.PendingTotal > 0;
 
-            litPendingTotal.Text = stats.PendingTotal.ToString();
-            litPendingTutors.Text = stats.PendingTutors.ToString();
-            litPendingCourses.Text = stats.PendingCourses.ToString();
+            // The band changes colour with its state: raspberry when work is waiting, quiet when it is not
+            pnlQueue.CssClass = hasWork ? "cl-admin-queue" : "cl-admin-queue is-clear";
+            phQueueClear.Visible = !hasWork;
+            litQueueTitle.Text = !hasWork
+                ? "Nothing needs your review"
+                : Count(stats.PendingTotal, "item") + (stats.PendingTotal == 1 ? " needs your review" : " need your review");
 
-            litActiveUsers.Text = stats.ActiveUsers.ToString();
-            litNewUsers.Text = stats.NewUsersThisMonth.ToString();
-            litLearners.Text = stats.Learners.ToString();
-            litTutors.Text = stats.Tutors.ToString();
-            litAdmins.Text = stats.Admins.ToString();
+            hlReviewTutors.Visible = stats.PendingTutors > 0;
+            litReviewTutors.Text = "Review " + Count(stats.PendingTutors, "tutor application");
+            hlReviewCourses.Visible = stats.PendingCourses > 0;
+            litReviewCourses.Text = "Review " + Count(stats.PendingCourses, "course");
 
-            litTotalCourses.Text = stats.TotalCourses.ToString();
-            litDraftCourses.Text = stats.DraftCourses.ToString();
-            litPublishedCourses.Text = stats.PublishedCourses.ToString();
-            litReviewCourses.Text = stats.PendingCourses.ToString();
-            litLockedCourses.Text = stats.LockedCourses.ToString();
+            litAccountsFigure.Text = stats.ActiveUsers + " active";
+            litAccountsDetail.Text = Count(stats.Learners, "learner") + ", " + Count(stats.Tutors, "tutor") + " and "
+                + Count(stats.Admins, "admin") + ". " + stats.NewUsersThisMonth + " joined this month.";
 
-            phBanner.Visible = stats.PendingTotal > 0;
-            litBanner.Text = BannerText(stats);
+            litCoursesFigure.Text = Count(stats.TotalCourses, "course");
+            litCoursesDetail.Text = stats.PublishedCourses + " published, " + stats.PendingCourses + " in review, "
+                + stats.LockedCourses + " locked and " + Count(stats.DraftCourses, "draft") + ".";
+
+            litDatabaseFigure.Text = stats.DatabaseSizeMb.ToString("0.0") + " MB";
+            litDatabaseDetail.Text = Count(stats.TableCount, "table") + ", test query "
+                + (stats.QueryMilliseconds < 1 ? "under 1 ms" : stats.QueryMilliseconds + " ms") + ".";
+            litLastBackup.Text = stats.LastBackupAt.HasValue
+                ? "Last backup: " + DisplayHelper.TimeAgo(stats.LastBackupAt.Value)
+                : "No backups yet";
         }
 
-        // e.g. "2 tutor applications and 1 course are waiting for review."
-        private static string BannerText(AdminStats stats)
+        // e.g. "1 course", "3 courses"
+        private static string Count(int count, string noun)
         {
-            List<string> waiting = new List<string>();
-            if (stats.PendingTutors > 0)
-            {
-                waiting.Add(stats.PendingTutors + (stats.PendingTutors == 1 ? " tutor application" : " tutor applications"));
-            }
-
-            if (stats.PendingCourses > 0)
-            {
-                waiting.Add(stats.PendingCourses + (stats.PendingCourses == 1 ? " course" : " courses"));
-            }
-
-            return string.Join(" and ", waiting) + (stats.PendingTotal == 1 ? " is" : " are") + " waiting for review.";
+            return count + " " + noun + (count == 1 ? string.Empty : "s");
         }
 
         // One entry per Admin tab. Each phase that adds a page adds its tab here.
@@ -79,14 +81,13 @@ namespace CodeLab.Modules.Admin
             {
                 new AdminTab("Overview", "layout-dashboard", "~/Modules/Admin/Dashboard", 0, "Dashboard"),
                 new AdminTab("Users", "users", "~/Modules/Admin/Users", 0, "Users", "UserEdit"),
-                new AdminTab("Course Moderation", "book-open", "~/Modules/Admin/Courses", pendingCourses, "Courses", "CourseReview"),
-                new AdminTab("Tutor Applications", "graduation-cap", "~/Modules/Admin/TutorApplications", pendingTutors, "TutorApplications", "TutorApplication"),
-                new AdminTab("Audit Logs", "shield", "~/Modules/Admin/AuditLogs", 0, "AuditLogs"),
-                new AdminTab("Database Backups", "hard-drive", "~/Modules/Admin/Backups", 0, "Backups")
+                new AdminTab("Course moderation", "book-open", "~/Modules/Admin/Courses", pendingCourses, "Courses", "CourseReview"),
+                new AdminTab("Tutor applications", "graduation-cap", "~/Modules/Admin/TutorApplications", pendingTutors, "TutorApplications", "TutorApplication"),
+                new AdminTab("Audit logs", "shield", "~/Modules/Admin/AuditLogs", 0, "AuditLogs"),
+                new AdminTab("Database backups", "hard-drive", "~/Modules/Admin/Backups", 0, "Backups")
             };
 
-            // e.g. "~/Modules/Admin/TutorApplication.aspx" gives "TutorApplication"
-            string currentPage = Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath);
+            string currentPage = CurrentPage;
             foreach (AdminTab tab in tabs)
             {
                 tab.IsActive = Array.Exists(tab.Pages,

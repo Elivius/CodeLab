@@ -6,7 +6,7 @@
     <section class="cl-card cl-admin-panel">
         <div class="cl-admin-panel-head">
             <div>
-                <h2>Course moderation &amp; quality</h2>
+                <h2>Courses</h2>
                 <p>Review what tutors submit, publish it or send it back with feedback, and lock anything that breaks the rules.</p>
             </div>
             <nav class="cl-admin-filters" aria-label="Filter by status">
@@ -49,7 +49,7 @@
                 <tr>
                     <td>
                         <strong class="d-block"><%#: Eval("Title") %></strong>
-                        <span class="cl-admin-meta"><%#: Eval("Difficulty") %> &middot; <%#: LessonText((int)Eval("LessonCount")) %></span>
+                        <span class="cl-admin-meta"><%#: Eval("Difficulty") %>, <%#: LessonText((int)Eval("LessonCount")) %></span>
                     </td>
                     <td>
                         <span class="d-block"><%#: Eval("TutorName") %></span>
@@ -59,7 +59,7 @@
                     <td>
                         <span class="cl-admin-badge <%# DisplayHelper.CourseBadgeCss((string)Eval("Status")) %>"><%#: Eval("Status") %></span>
                         <asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrEmpty((string)Eval("ModerationNote")) %>'>
-                            <span class="cl-admin-note"><%#: DisplayHelper.Excerpt((string)Eval("ModerationNote"), 90) %></span>
+                            <span class="cl-admin-note">Reason: <%#: DisplayHelper.Excerpt((string)Eval("ModerationNote"), 90) %></span>
                         </asp:PlaceHolder>
                     </td>
                     <td class="text-end"><%# Eval("StudentCount") %></td>

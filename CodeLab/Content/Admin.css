@@ -8,58 +8,35 @@
     padding: 32px 0 56px;
 }
 
-/* ---------- Header ---------- */
+/* ---------- Title ---------- */
 
-.cl-admin-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 24px;
-}
-
-.cl-admin-kicker {
-    display: inline-block;
-    padding: 3px 10px;
-    font-size: 0.7rem;
+.cl-admin-title {
+    margin: 0 0 14px;
+    font-size: 1.75rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cl-surface);
-    background-color: var(--cl-text);
-    border-radius: 6px;
-}
-
-.cl-admin-header h1 {
-    margin: 10px 0 4px;
-    font-size: 2rem;
-    font-weight: 800;
-}
-
-.cl-admin-header p {
-    margin: 0;
-    color: var(--cl-muted);
+    letter-spacing: -0.01em;
 }
 
 /* ---------- Tab bar ---------- */
 
 .cl-admin-tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px;
     margin-bottom: 24px;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
+    overflow-x: auto;
     border-bottom: 1px solid var(--cl-border);
 }
 
 .cl-admin-tabs a {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     gap: 8px;
     padding: 8px 14px;
     font-size: 0.92rem;
     font-weight: 600;
+    white-space: nowrap;
     color: var(--cl-text-soft);
     text-decoration: none;
     border-radius: 10px;
@@ -70,11 +47,10 @@
     background-color: var(--cl-soft);
 }
 
-/* Fixed raspberry in both themes, so the white text always has enough contrast */
+/* The darker raspberry in both themes, so the white text passes contrast at this size */
 .cl-admin-tabs a.active {
     color: #ffffff;
-    background-color: var(--cl-raspberry);
-    box-shadow: 0 4px 12px rgba(201, 82, 125, 0.25);
+    background-color: #A93F66;
 }
 
 .cl-admin-count {
@@ -169,12 +145,27 @@
     background-color: var(--cl-soft);
 }
 
+.cl-admin-tone-green {
+    color: #047857;
+    background-color: rgba(16, 185, 129, 0.14);
+}
+
+.cl-admin-tone-blue {
+    color: #1D4ED8;
+    background-color: rgba(59, 130, 246, 0.14);
+}
+
+[data-theme="dark"] .cl-admin-tone-green {
+    color: #34D399;
+}
+
+[data-theme="dark"] .cl-admin-tone-blue {
+    color: #93C5FD;
+}
+
 /* ---------- Short lists (Overview panels) ---------- */
 
 .cl-admin-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -184,9 +175,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
-    border: 1px solid var(--cl-border);
-    border-radius: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-admin-list-item:first-child {
+    border-top: none;
 }
 
 .cl-admin-list-text {
@@ -232,12 +226,11 @@
 
 .cl-admin-badge {
     display: inline-block;
-    padding: 2px 9px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 999px;
 }
 
 .cl-admin-badge-pending {
@@ -474,12 +467,9 @@
 }
 
 .cl-admin-section h3 {
-    margin: 20px 0 6px;
-    font-size: 0.78rem;
+    margin: 22px 0 6px;
+    font-size: 0.95rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--cl-muted);
 }
 
 /* Keeps the line breaks the applicant typed */
@@ -498,10 +488,10 @@
 }
 
 .cl-admin-table th {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    padding-top: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
     color: var(--cl-muted);
     border-bottom: 1px solid var(--cl-border);
 }
@@ -509,6 +499,39 @@
 .cl-admin-table td {
     vertical-align: middle;
     border-bottom: 1px solid var(--cl-border);
+}
+
+.cl-admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cl-admin-table tr:hover > td {
+    background-color: var(--cl-bg);
+}
+
+/* A plain dot and word for account status, so it reads differently from the role next to it */
+.cl-admin-badge.cl-admin-status {
+    padding: 0;
+    font-size: 0.85rem;
+    background: none;
+    border: none;
+}
+
+.cl-admin-status::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 6px;
+    vertical-align: 0.1em;
+    background-color: currentColor;
+    border-radius: 50%;
+}
+
+/* Username, then email, each on its own line under the name */
+.cl-admin-meta-row {
+    display: flex;
+    flex-direction: column;
 }
 
 /* ---------- Course moderation list ---------- */
@@ -539,8 +562,19 @@
 .cl-admin-row-actions .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
+    min-width: 34px;
+    min-height: 32px;
     white-space: nowrap;
+}
+
+/* Bootstrap's own hover colour still applies, so each action shows what it does when pointed at */
+.cl-admin-row-actions .btn-outline-warning,
+.cl-admin-row-actions .btn-outline-success,
+.cl-admin-row-actions .btn-outline-danger {
+    --bs-btn-color: var(--cl-text-soft);
+    --bs-btn-border-color: var(--cl-border);
 }
 
 /* ---------- Course review page ---------- */
@@ -688,116 +722,190 @@
     margin-top: 20px;
 }
 
-/* ---------- Banner and stat cards ---------- */
+/* ---------- Overview summary ---------- */
 
-.cl-admin-banner.alert {
-    margin-bottom: 20px;
-    font-size: 0.92rem;
-    color: var(--cl-text);
-    background-color: rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.3);
-    border-radius: 12px;
-}
-
-.cl-admin-banner .cl-icon {
-    margin-right: 6px;
-}
-
-[data-theme="dark"] .cl-admin-banner .btn-close {
-    filter: invert(1);
-}
-
-.cl-admin-stats {
+.cl-admin-summary {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     margin-bottom: 24px;
+    overflow: hidden;
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
+    border-radius: var(--cl-radius);
 }
 
-@media (max-width: 991.98px) {
-    .cl-admin-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 575.98px) {
-    .cl-admin-stats {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-.cl-admin-stat {
+/* The one loud thing in the admin pages. Fixed colours in both themes: white on this raspberry passes contrast. */
+.cl-admin-queue {
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding: 18px;
+    justify-content: center;
+    gap: 16px;
+    padding: 28px;
+    overflow: hidden;
+    color: #ffffff;
+    background-color: #A93F66;
 }
 
-.cl-admin-stat-head {
+/* Sits behind the text and takes its colour from the band, so it also works in the quiet state */
+.cl-admin-queue-art {
+    position: absolute;
+    right: -84px;
+    bottom: -30px;
+    width: 230px;
+    height: auto;
+    pointer-events: none;
+}
+
+.cl-admin-queue h2,
+.cl-admin-queue p,
+.cl-admin-queue-actions {
+    position: relative;
+}
+
+.cl-admin-queue h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: inherit;
+}
+
+.cl-admin-queue p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+/* Nothing waiting: the band goes quiet, so the raspberry always means there is work */
+.cl-admin-queue.is-clear {
+    color: var(--cl-text);
+    background-color: transparent;
+}
+
+.cl-admin-queue.is-clear .cl-admin-queue-art {
+    color: var(--cl-accent);
+}
+
+.cl-admin-queue.is-clear .cl-admin-queue-actions {
+    display: none;
+}
+
+.cl-admin-queue-actions {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
-.cl-admin-stat-head h2 {
-    margin: 0;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--cl-muted);
+.cl-admin-queue-btn {
+    --bs-btn-color: #A93F66;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-border-color: #ffffff;
+    --bs-btn-hover-color: #8E2F53;
+    --bs-btn-hover-bg: #FFE5EC;
+    --bs-btn-hover-border-color: #FFE5EC;
+    --bs-btn-active-color: #8E2F53;
+    --bs-btn-active-bg: #FFE5EC;
+    --bs-btn-active-border-color: #FFE5EC;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.cl-admin-stat-value {
-    font-size: 1.6rem;
-    font-weight: 800;
-    line-height: 1.2;
+.cl-admin-figures {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.cl-admin-stat p {
-    margin: 2px 0 12px;
-    font-size: 0.82rem;
-    color: var(--cl-muted);
+.cl-admin-figure {
+    padding: 24px 22px;
+    border-left: 1px solid var(--cl-border);
 }
 
-.cl-admin-stat-foot {
+.cl-admin-figure-head {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    gap: 4px 10px;
-    margin-top: auto;
-    padding-top: 10px;
-    font-size: 0.78rem;
-    color: var(--cl-text-soft);
-    border-top: 1px solid var(--cl-border);
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
-.cl-admin-stat-foot a {
+.cl-admin-figure h3 {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+}
+
+.cl-admin-figure h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cl-admin-figure h3 a:hover {
+    color: var(--cl-accent);
+}
+
+.cl-admin-figure strong {
+    display: block;
+    font-size: 1.35rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.cl-admin-figure p {
+    margin: 6px 0 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--cl-text-soft);
+}
+
+.cl-admin-figure-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.82rem;
     font-weight: 600;
     color: var(--cl-accent);
     text-decoration: none;
 }
 
-.cl-admin-stat-foot a:hover {
+.cl-admin-figure-link:hover {
     color: var(--cl-accent-hover);
 }
 
-.cl-admin-tone-green {
-    color: #047857;
-    background-color: rgba(16, 185, 129, 0.14);
+@media (max-width: 991.98px) {
+    .cl-admin-summary {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-admin-figure:first-child {
+        border-left: none;
+    }
+
+    .cl-admin-queue.is-clear {
+        border-bottom: 1px solid var(--cl-border);
+    }
 }
 
-.cl-admin-tone-blue {
-    color: #1D4ED8;
-    background-color: rgba(59, 130, 246, 0.14);
-}
+@media (max-width: 575.98px) {
+    .cl-admin-queue-art {
+        display: none;
+    }
 
-[data-theme="dark"] .cl-admin-tone-green {
-    color: #34D399;
-}
+    .cl-admin-figures {
+        grid-template-columns: minmax(0, 1fr);
+    }
 
-[data-theme="dark"] .cl-admin-tone-blue {
-    color: #93C5FD;
+    .cl-admin-figure {
+        padding: 18px 22px;
+        border-top: 1px solid var(--cl-border);
+        border-left: none;
+    }
+
+    .cl-admin-figure:first-child {
+        border-top: none;
+    }
 }
 
 /* ---------- Audit logs ---------- */
@@ -820,7 +928,7 @@
 
 /* ---------- Database backups ---------- */
 
-/* Dark in both themes, so the white text always has enough contrast */
+/* Soft rose rather than raspberry: on these pages raspberry means work is waiting, and a backup is a choice */
 .cl-admin-backup-hero {
     display: flex;
     flex-wrap: wrap;
@@ -829,8 +937,9 @@
     gap: 16px;
     margin-bottom: 20px;
     padding: 24px;
-    color: #ffffff;
-    background-color: #1E293B;
+    color: var(--cl-text);
+    background-color: var(--cl-soft);
+    border: 1px solid var(--cl-border);
     border-radius: var(--cl-radius);
 }
 
@@ -843,13 +952,17 @@
     margin: 0 0 4px;
     font-size: 1.15rem;
     font-weight: 700;
-    color: #ffffff;
+    color: inherit;
+}
+
+.cl-admin-backup-hero h2 .cl-icon {
+    color: var(--cl-accent);
 }
 
 .cl-admin-backup-hero p {
     margin: 0;
     font-size: 0.88rem;
-    color: #CBD5E1;
+    color: var(--cl-text-soft);
 }
 
 .cl-admin-checksum {
@@ -870,4 +983,36 @@
 
 .cl-admin-disabled-action .btn.disabled {
     opacity: 0.45;
+}
+
+/* ---------- Decision panel ---------- */
+
+/* Stays in view while the admin reads a long application or course, so nobody scrolls back to decide */
+.cl-admin-decision {
+    scroll-margin-top: 84px;
+}
+
+@media (min-width: 992px) {
+    .cl-admin-decision {
+        position: sticky;
+        top: 84px;
+    }
+}
+
+/* ---------- Keyboard focus ---------- */
+
+.cl-admin a:focus-visible,
+.cl-admin summary:focus-visible {
+    outline: 2px solid var(--cl-accent);
+    outline-offset: 2px;
+}
+
+/* The tab bar scrolls, which would cut off an outline drawn outside it */
+.cl-admin .cl-admin-tabs a:focus-visible {
+    outline-offset: -2px;
+}
+
+/* White, so the outline shows on the raspberry band */
+.cl-admin .cl-admin-queue-btn:focus-visible {
+    outline-color: #ffffff;
 }

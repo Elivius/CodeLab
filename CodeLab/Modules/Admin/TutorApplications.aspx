@@ -6,7 +6,7 @@
     <section class="cl-card cl-admin-panel">
         <div class="cl-admin-panel-head">
             <div>
-                <h2>Tutor verification &amp; application queue</h2>
+                <h2>Tutor applications</h2>
                 <p>Approve an applicant to unlock course authoring, or reject with a reason they can act on.</p>
             </div>
             <nav class="cl-admin-filters" aria-label="Filter by status">
