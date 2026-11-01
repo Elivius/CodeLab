@@ -598,6 +598,7 @@
     padding: 10px 14px;
     font-size: 0.92rem;
     font-weight: 600;
+    overflow-wrap: anywhere;
     cursor: pointer;
 }
 
@@ -671,6 +672,44 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+}
+
+/* Quiz answers on the review page. These match .cl-answer-list in Tutor.css, which admin pages do not load. */
+.cl-admin-answers {
+    display: grid;
+    gap: 6px;
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-admin-answers li {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.cl-admin-answers li .cl-icon {
+    flex: none;
+    margin-top: 4px;
+    color: var(--cl-muted);
+}
+
+.cl-admin-answers li.is-correct {
+    font-weight: 600;
+    color: #047857;
+}
+
+.cl-admin-answers li.is-correct .cl-icon {
+    color: #10B981;
+}
+
+[data-theme="dark"] .cl-admin-answers li.is-correct {
+    color: #34D399;
+}
+
+.cl-admin-answer-note {
+    margin: 10px 0 0;
 }
 
 .cl-admin-delete {

@@ -77,9 +77,52 @@
                     </div>
 
                     <div class="cl-admin-section">
-                        <h3>Quiz and coding challenge</h3>
-                        <p class="mb-1"><asp:Literal ID="litQuiz" runat="server" Mode="Encode" /></p>
-                        <p class="mb-0"><asp:Literal ID="litChallenge" runat="server" Mode="Encode" /></p>
+                        <h3>Quiz</h3>
+                        <p class="cl-admin-meta"><asp:Literal ID="litQuiz" runat="server" Mode="Encode" /></p>
+
+                        <asp:PlaceHolder ID="phQuizInstructions" runat="server" Visible="false">
+                            <p class="cl-admin-prose"><asp:Literal ID="litQuizInstructions" runat="server" Mode="Encode" EnableViewState="false" /></p>
+                        </asp:PlaceHolder>
+
+                        <%-- Bound on every request, like the lessons, so the answers are not repeated in the page's view state --%>
+                        <asp:Repeater ID="rptQuestions" runat="server" EnableViewState="false">
+                            <ItemTemplate>
+                                <details class="cl-admin-lesson">
+                                    <summary>
+                                        <%# Eval("OrderIndex") %>. <%#: Eval("QuestionText") %>
+                                        <span class="cl-admin-meta"><%#: (string)Eval("QuestionType") == QuizQuestion.TrueFalse ? "True / False" : "Multiple choice" %></span>
+                                    </summary>
+                                    <div class="cl-admin-lesson-body">
+                                        <%# OptionsHtml((QuizQuestion)Container.DataItem) %>
+                                        <asp:PlaceHolder runat="server" Visible='<%# !string.IsNullOrWhiteSpace((string)Eval("Explanation")) %>'>
+                                            <p class="cl-admin-answer-note"><strong>Explanation:</strong> <%#: Eval("Explanation") %></p>
+                                        </asp:PlaceHolder>
+                                    </div>
+                                </details>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+
+                    <div class="cl-admin-section">
+                        <h3>Coding challenge</h3>
+                        <p class="cl-admin-meta"><asp:Literal ID="litChallenge" runat="server" Mode="Encode" /></p>
+
+                        <%-- MarkdownHelper returns safe HTML, so these literals pass it straight through.
+                             They are set on every request, so the text is not repeated in the page's view state. --%>
+                        <asp:PlaceHolder ID="phChallenge" runat="server" Visible="false">
+                            <details class="cl-admin-lesson">
+                                <summary>Problem and code</summary>
+                                <div class="cl-admin-lesson-body">
+                                    <asp:Literal ID="litChallengeDescription" runat="server" Mode="PassThrough" EnableViewState="false" />
+                                    <asp:PlaceHolder ID="phStarterCode" runat="server" Visible="false">
+                                        <h4>Starter code</h4>
+                                        <asp:Literal ID="litStarterCode" runat="server" Mode="PassThrough" EnableViewState="false" />
+                                    </asp:PlaceHolder>
+                                    <h4>Expected output</h4>
+                                    <asp:Literal ID="litExpectedOutput" runat="server" Mode="PassThrough" EnableViewState="false" />
+                                </div>
+                            </details>
+                        </asp:PlaceHolder>
                     </div>
                 </section>
             </div>
