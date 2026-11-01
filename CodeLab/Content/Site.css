@@ -820,3 +820,54 @@ textarea {
 /* Back-to-top button, shared by Site.Master and Tutor.Master. */
 .cl-back-top{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:1040;width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #f6b6cd;border-radius:50%;background:linear-gradient(135deg,#b93b69,#d64578);color:#fff;box-shadow:0 4px 16px #b93b6933;cursor:pointer;transition:transform .15s,box-shadow .15s}
 .cl-back-top[hidden]{display:none!important}.cl-back-top:hover{transform:translateY(-3px);box-shadow:0 6px 20px #b93b6944}.cl-back-top:focus-visible{outline:3px solid #c9527d;outline-offset:4px}.cl-back-top svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}@media(max-width:640px){.cl-back-top{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}}@media(prefers-reduced-motion:reduce){.cl-back-top{transition:none}}
+
+/* Show/hide password toggle, added to every password box by Scripts/site-ui.js */
+.cl-password-wrap {
+    position: relative;
+    display: block;
+    flex: 1;
+    min-width: 0;
+}
+
+.cl-password-wrap input {
+    width: 100%;
+    padding-right: 44px !important;
+}
+
+.cl-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--cl-muted);
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.cl-password-toggle:hover,
+.cl-password-toggle:focus-visible {
+    color: var(--cl-accent);
+}
+
+.cl-password-toggle:focus-visible {
+    outline: 2px solid var(--cl-accent);
+    outline-offset: 1px;
+}
+
+.cl-password-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
