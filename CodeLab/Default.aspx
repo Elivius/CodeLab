@@ -77,8 +77,8 @@
 
         <%-- ===== Sandbox panel ===== --%>
         <section class="cl-section">
-            <div class="cl-dark-panel">
-                <span class="cl-pill cl-pill-dark">
+            <div class="cl-soft-panel">
+                <span class="cl-pill cl-pill-panel">
                     <i data-lucide="terminal" class="cl-icon" aria-hidden="true"></i>
                     Zero-Toolchain Code Execution
                 </span>
@@ -173,7 +173,7 @@
                     </div>
                 </div>
 
-                <div class="cl-dark-panel cl-cta-bar">
+                <div class="cl-soft-panel cl-cta-bar">
                     <div>
                         <h3>Start Your Software Engineering Journey</h3>
                         <p>Register in less than 30 seconds to unlock complete curriculums, interactive code sandboxes, and quizzes.</p>

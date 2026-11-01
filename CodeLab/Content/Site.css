@@ -617,34 +617,33 @@ textarea {
     color: var(--cl-muted);
 }
 
-/* ---------- Landing page: dark panels ---------- */
+/* ---------- Landing page: rose panels ---------- */
 
-.cl-dark-panel {
+.cl-soft-panel {
     padding: 48px;
-    color: #ffffff;
-    background: linear-gradient(135deg, #2D3436 0%, #3B4252 55%, #2D3436 100%);
+    color: var(--cl-text);
+    background-color: var(--cl-soft);
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(45, 52, 54, 0.18);
 }
 
-.cl-dark-panel h2 {
+.cl-soft-panel h2 {
     margin: 16px 0;
     font-size: 1.9rem;
 }
 
-.cl-dark-panel .cl-lead {
+.cl-soft-panel .cl-lead {
     max-width: 680px;
-    color: #D1D5DB;
+    color: var(--cl-text-soft);
 }
 
-.cl-pill-dark {
+.cl-pill-panel {
     padding: 4px 12px;
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--cl-text);
+    background-color: var(--cl-surface);
 }
 
-.cl-pill-dark .cl-icon {
-    color: var(--cl-coral);
+.cl-pill-panel .cl-icon {
+    color: var(--cl-accent);
 }
 
 .cl-step {
@@ -652,9 +651,9 @@ textarea {
     padding: 16px;
     font-size: 0.8rem;
     line-height: 1.6;
-    color: #E5E7EB;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--cl-text-soft);
+    background-color: var(--cl-surface);
+    border: 1px solid var(--cl-border);
     border-radius: 12px;
 }
 
@@ -664,7 +663,7 @@ textarea {
     font-family: Consolas, "Courier New", monospace;
     font-size: 0.72rem;
     font-weight: 700;
-    color: var(--cl-coral);
+    color: var(--cl-accent-hover);
 }
 
 .cl-panel-footer {
@@ -676,7 +675,7 @@ textarea {
     margin-top: 32px;
     padding-top: 16px;
     font-size: 0.8rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(201, 82, 125, 0.25);
 }
 
 .cl-cta-bar {
@@ -697,7 +696,7 @@ textarea {
 .cl-cta-bar p {
     margin: 0;
     font-size: 0.875rem;
-    color: #E5E7EB;
+    color: var(--cl-text-soft);
 }
 
 /* ---------- Landing page: about ---------- */
@@ -763,7 +762,7 @@ textarea {
 }
 
 @media (max-width: 575.98px) {
-    .cl-dark-panel,
+    .cl-soft-panel,
     .cl-about {
         padding: 28px 20px;
     }
@@ -790,9 +789,8 @@ textarea {
     filter: invert(1);
 }
 
-[data-theme="dark"] .cl-dark-panel {
+[data-theme="dark"] .cl-soft-panel {
     border: 1px solid var(--cl-border);
-    box-shadow: none;
 }
 
 /* Shared earned-badge colors: profile, preview, and forum use the same palette. */
