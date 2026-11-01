@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Terms, Privacy and Contact pages (Modules/Public). Every class starts with
+   cl-legal-. Uses the theme tokens from Site.css, so light and dark both work.
+   ========================================================================== */
+
+.cl-legal {
+    padding-top: 24px;
+}
+
+/* ---------- Page heading ---------- */
+
+.cl-legal-head {
+    max-width: 68ch;
+    margin-bottom: 32px;
+}
+
+.cl-legal-head h1 {
+    margin: 0 0 8px;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.cl-legal-date {
+    margin: 0 0 16px;
+    font-size: 0.9rem;
+    color: var(--cl-muted);
+}
+
+.cl-legal-intro {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--cl-text-soft);
+}
+
+/* ---------- Sections: the full text, with its short version as a code comment ---------- */
+
+.cl-legal-section {
+    padding: 28px 0;
+    border-top: 1px solid var(--cl-border);
+    scroll-margin-top: 90px;
+}
+
+.cl-legal-section h2 {
+    margin: 0 0 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.cl-legal-body {
+    max-width: 68ch;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--cl-text-soft);
+}
+
+.cl-legal-body p {
+    margin: 0 0 12px;
+}
+
+.cl-legal-body ul {
+    margin: 0 0 12px;
+    padding-left: 1.25em;
+}
+
+.cl-legal-body li {
+    margin-bottom: 6px;
+}
+
+.cl-legal-body > :last-child {
+    margin-bottom: 0;
+}
+
+/* The darker raspberry, so this small text passes contrast on the light page background */
+.cl-legal-gist {
+    margin: 0 0 12px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: #A93F66;
+}
+
+.cl-legal-gist::before {
+    content: "// ";
+}
+
+[data-theme="dark"] .cl-legal-gist {
+    color: var(--cl-accent);
+}
+
+/* On a wide screen the comments sit beside the text, like comments in the margin of a code review */
+@media (min-width: 1200px) {
+    .cl-legal-section {
+        display: grid;
+        grid-template-columns: minmax(0, 68ch) minmax(0, 1fr);
+        column-gap: 56px;
+    }
+
+    .cl-legal-section h2,
+    .cl-legal-body {
+        grid-column: 1;
+    }
+
+    .cl-legal-gist {
+        position: sticky;
+        top: 96px;
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: start;
+        margin: 0;
+    }
+}
+
+.cl-legal-table {
+    margin: 4px 0 12px;
+    font-size: 0.92rem;
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--cl-text-soft);
+    --bs-table-border-color: var(--cl-border);
+}
+
+.cl-legal-table th {
+    font-weight: 600;
+    color: var(--cl-muted);
+}
+
+.cl-legal-table code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    color: var(--cl-text);
+}
+
+.cl-legal-end {
+    max-width: 68ch;
+    margin: 0;
+    padding-top: 24px;
+    color: var(--cl-text-soft);
+    border-top: 1px solid var(--cl-border);
+}
+
+/* ---------- Contact ---------- */
+
+.cl-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 64px;
+    align-items: start;
+}
+
+.cl-contact .cl-legal-head {
+    margin-bottom: 0;
+}
+
+.cl-contact-email {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.cl-contact-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cl-contact-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 24px;
+    align-items: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cl-contact-item:first-child {
+    padding-top: 0;
+    border-top: none;
+}
+
+.cl-contact-item h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.cl-contact-item p {
+    grid-column: 1;
+    margin: 0;
+    color: var(--cl-text-soft);
+}
+
+.cl-contact-item .cl-legal-gist {
+    position: static;
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+.cl-contact-item .btn {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+    .cl-contact {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .cl-contact-item {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cl-contact-item .btn {
+        grid-column: 1;
+        grid-row: auto;
+        justify-self: start;
+        margin-top: 10px;
+    }
+}

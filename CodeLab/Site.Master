@@ -138,9 +138,9 @@
                     <span>&copy; <%: DateTime.Now.Year %> CodeLab. All rights reserved.</span>
                 </div>
                 <div class="d-flex gap-4">
-                    <a href="#">Terms</a>
-                    <a href="#">Privacy</a>
-                    <a href="#">Contact</a>
+                    <a runat="server" href="~/Modules/Public/Terms">Terms</a>
+                    <a runat="server" href="~/Modules/Public/Privacy">Privacy</a>
+                    <a runat="server" href="~/Modules/Public/Contact">Contact</a>
                 </div>
             </div>
         </footer>
