@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using CodeLab.BLL;
@@ -102,16 +103,44 @@ namespace CodeLab.Modules.Admin
             rptLessons.DataSource = review.Lessons;
             rptLessons.DataBind();
 
-            Quiz quiz = review.Quiz;
-            litQuiz.Text = quiz == null
-                ? "No quiz."
-                : "Quiz: " + quiz.Title + " (" + quiz.Questions.Count + (quiz.Questions.Count == 1 ? " question" : " questions")
-                    + ", pass mark " + quiz.PassMark + "%).";
+            ShowQuiz(review.Quiz);
+            ShowChallenge(review.Challenge);
+        }
 
-            CodingChallenge challenge = review.Challenge;
-            litChallenge.Text = challenge == null
-                ? "No coding challenge."
-                : "Coding challenge: " + challenge.Title + " (" + challenge.Difficulty + ").";
+        private void ShowQuiz(Quiz quiz)
+        {
+            if (quiz == null)
+            {
+                litQuiz.Text = "No quiz.";
+                return;
+            }
+
+            litQuiz.Text = quiz.Title + " (" + quiz.Questions.Count + (quiz.Questions.Count == 1 ? " question" : " questions")
+                + ", pass mark " + quiz.PassMark + "%).";
+
+            phQuizInstructions.Visible = !string.IsNullOrWhiteSpace(quiz.Instructions);
+            litQuizInstructions.Text = quiz.Instructions;
+
+            rptQuestions.DataSource = quiz.Questions;
+            rptQuestions.DataBind();
+        }
+
+        private void ShowChallenge(CodingChallenge challenge)
+        {
+            phChallenge.Visible = challenge != null;
+            if (challenge == null)
+            {
+                litChallenge.Text = "No coding challenge.";
+                return;
+            }
+
+            litChallenge.Text = challenge.Title + " (" + challenge.Difficulty + ", " + TutorDisplayHelper.LanguageName(challenge.Language)
+                + ", " + challenge.PointsReward + (challenge.PointsReward == 1 ? " point" : " points") + ").";
+
+            litChallengeDescription.Text = MarkdownHelper.ToHtml(challenge.Description);
+            phStarterCode.Visible = !string.IsNullOrWhiteSpace(challenge.StarterCode);
+            litStarterCode.Text = MarkdownHelper.CodeBlockToHtml(challenge.StarterCode, challenge.Language);
+            litExpectedOutput.Text = MarkdownHelper.CodeBlockToHtml(challenge.ExpectedOutput, null);
         }
 
         // Shows only what this status allows. A course can be deleted in any status.
@@ -183,6 +212,23 @@ namespace CodeLab.Modules.Admin
             }
 
             return string.Join(", ", flags);
+        }
+
+        // The answer options, with the correct one ticked. The page writes this as HTML, so each option is encoded here.
+        protected static string OptionsHtml(QuizQuestion question)
+        {
+            StringBuilder html = new StringBuilder("<ul class=\"cl-admin-answers\">");
+            for (int i = 0; i < question.Options.Count; i++)
+            {
+                bool isCorrect = i == question.CorrectOptionIndex;
+                html.Append(isCorrect ? "<li class=\"is-correct\">" : "<li>")
+                    .Append("<i data-lucide=\"").Append(isCorrect ? "circle-check" : "circle").Append("\" class=\"cl-icon\" aria-hidden=\"true\"></i>")
+                    .Append("<span>").Append(HttpUtility.HtmlEncode(question.Options[i])).Append("</span>")
+                    .Append(isCorrect ? "<span class=\"visually-hidden\"> (correct answer)</span>" : string.Empty)
+                    .Append("</li>");
+            }
+
+            return html.Append("</ul>").ToString();
         }
 
         // Only http(s) links become clickable, so a stored value can never run script

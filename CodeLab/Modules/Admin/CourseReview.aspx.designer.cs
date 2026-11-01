@@ -150,6 +150,33 @@ namespace CodeLab.Modules.Admin
         protected global::System.Web.UI.WebControls.Literal litQuiz;
 
         /// <summary>
+        /// phQuizInstructions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phQuizInstructions;
+
+        /// <summary>
+        /// litQuizInstructions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litQuizInstructions;
+
+        /// <summary>
+        /// rptQuestions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptQuestions;
+
+        /// <summary>
         /// litChallenge control.
         /// </summary>
         /// <remarks>
@@ -157,6 +184,51 @@ namespace CodeLab.Modules.Admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litChallenge;
+
+        /// <summary>
+        /// phChallenge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phChallenge;
+
+        /// <summary>
+        /// litChallengeDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litChallengeDescription;
+
+        /// <summary>
+        /// phStarterCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phStarterCode;
+
+        /// <summary>
+        /// litStarterCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litStarterCode;
+
+        /// <summary>
+        /// litExpectedOutput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litExpectedOutput;
 
         /// <summary>
         /// litDecisionNote control.
