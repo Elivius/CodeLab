@@ -106,7 +106,7 @@ namespace CodeLab.BLL
             if (string.IsNullOrEmpty(password) || password.Length > MaxPasswordLength
                 || !Regex.IsMatch(password, UserManager.PasswordPattern))
             {
-                return OperationResult<int>.Fail("Password must be 8 to " + MaxPasswordLength + " characters and contain at least one number.");
+                return OperationResult<int>.Fail("Password must be 8 to " + MaxPasswordLength + " characters and include a letter, a number and a symbol.");
             }
 
             if (password != confirmPassword)

@@ -81,7 +81,7 @@ namespace CodeLab.Modules.Admin
             imgCover.Visible = !string.IsNullOrEmpty(course.ThumbnailUrl);
 
             litTitle.Text = course.Title;
-            litSubtitle.Text = course.Category + " · " + course.Difficulty;
+            litSubtitle.Text = course.Category + ", " + course.Difficulty;
             lblStatus.Text = HttpUtility.HtmlEncode(course.Status);
             lblStatus.CssClass = "cl-admin-badge " + DisplayHelper.CourseBadgeCss(course.Status);
 
@@ -163,7 +163,7 @@ namespace CodeLab.Modules.Admin
             lblMessage.Visible = true;
         }
 
-        // e.g. "Video · Attachment · Code"
+        // e.g. "Video, Attachment, Code"
         protected static string LessonFlags(Lesson lesson)
         {
             List<string> flags = new List<string>();
@@ -182,7 +182,7 @@ namespace CodeLab.Modules.Admin
                 flags.Add("Code");
             }
 
-            return string.Join(" · ", flags);
+            return string.Join(", ", flags);
         }
 
         // Only http(s) links become clickable, so a stored value can never run script

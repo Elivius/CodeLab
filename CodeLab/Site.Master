@@ -83,8 +83,8 @@
                         </asp:PlaceHolder>
 
                         <%-- Add the links for your module inside the PlaceHolder for its role --%>
+                        <%-- Empty on purpose: Admin pages have their own tab bar (Modules/Admin/Admin.Master) --%>
                         <asp:PlaceHolder ID="phAdminNav" runat="server" Visible="false">
-                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Modules/Admin/Dashboard">Admin Dashboard</a></li>
                         </asp:PlaceHolder>
                         <%-- Empty on purpose: Tutor pages have their own sidebar (Modules/Tutor/Tutor.Master) --%>
                         <asp:PlaceHolder ID="phTutorNav" runat="server" Visible="false">
@@ -105,7 +105,7 @@
                                 </button>
                                 <div id="accountMenuPanel" class="cl-account-menu" hidden>
                                     <div class="cl-account-heading"><strong><asp:Label ID="lblCurrentUser" runat="server" /></strong><small>ACTIVE ROLE: <%: CodeLab.Helpers.SessionHelper.GetCurrentRole() %></small></div>
-                                    <a class="dropdown-item" href="<%: AccountProfileUrl %>"><svg class="cl-account-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> My Profile</a>
+                                    <% if(HasProfilePage){ %><a class="dropdown-item" href="<%: AccountProfileUrl %>"><svg class="cl-account-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> My Profile</a><% } %>
                                     <asp:LinkButton ID="btnLogout" runat="server" CssClass="dropdown-item" CausesValidation="false" OnClick="btnLogout_Click"><svg class="cl-account-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v16h5M10 12h11m-4-4 4 4-4 4" /></svg>Sign out</asp:LinkButton>
                                 </div>
                             </li>                        </asp:PlaceHolder>

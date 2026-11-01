@@ -6,7 +6,7 @@
     <section class="cl-card cl-admin-panel">
         <div class="cl-admin-panel-head">
             <div>
-                <h2>System &amp; security audit trail</h2>
+                <h2>Audit trail</h2>
                 <p>Every recorded activity, newest first.</p>
             </div>
             <nav class="cl-admin-filters" aria-label="Filter by category">
@@ -34,7 +34,8 @@
                 <Columns>
                     <asp:TemplateField HeaderText="Time">
                         <ItemTemplate>
-                            <%# ((DateTime)Eval("Timestamp")).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss") %>
+                            <span class="d-block text-nowrap"><%#: DisplayHelper.TimeAgo((DateTime)Eval("Timestamp")) %></span>
+                            <span class="cl-admin-meta text-nowrap"><%#: TutorDisplayHelper.LocalDateTime((DateTime)Eval("Timestamp")) %></span>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="User">

@@ -12,6 +12,9 @@ namespace CodeLab.Modules.Admin
         // How many rows each Overview panel lists; the rest are on that panel's tab
         private const int PendingPreviewCount = 5;
 
+        // Recent users sits beside two panels, so it lists more rows to match their height
+        private const int RecentUserCount = 7;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -34,8 +37,10 @@ namespace CodeLab.Modules.Admin
             }
 
             int count = result.Data.Count;
-            litUserSummary.Text = count + (count == 1 ? " account" : " accounts") + ", newest first.";
-            rptUsers.DataSource = result.Data.Take(PendingPreviewCount);
+            litUserSummary.Text = count > RecentUserCount
+                ? "Newest " + RecentUserCount + " of " + count + " accounts."
+                : count + (count == 1 ? " account" : " accounts") + ", newest first.";
+            rptUsers.DataSource = result.Data.Take(RecentUserCount);
             rptUsers.DataBind();
         }
 

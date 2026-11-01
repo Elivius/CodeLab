@@ -5,7 +5,7 @@
 
     <section class="cl-admin-backup-hero">
         <div>
-            <h2><i data-lucide="hard-drive" class="cl-icon" aria-hidden="true"></i> Manual database backup</h2>
+            <h2><i data-lucide="hard-drive" class="cl-icon" aria-hidden="true"></i> Back up the database</h2>
             <p>Saves a full copy of the database as a .bak file, with a SHA-256 checksum so you can confirm a download is intact.</p>
         </div>
         <asp:Button ID="btnBackup" runat="server" Text="Run backup now" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnBackup_Click" />

@@ -59,7 +59,7 @@
                                 <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="User"
                                     ErrorMessage="Password is required." CssClass="text-danger small" Display="Dynamic" />
                                 <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="User"
-                                    ErrorMessage="Use at least 8 characters with at least one number." CssClass="text-danger small" Display="Dynamic" />
+                                    ErrorMessage="Password must be at least 8 characters and include a letter, a number and a symbol." CssClass="text-danger small" Display="Dynamic" />
                             </div>
 
                             <div class="col-md-6">
