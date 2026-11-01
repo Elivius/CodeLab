@@ -443,6 +443,19 @@ BACKUP DATABASE @db TO DISK = @Path WITH INIT, CHECKSUM, COPY_ONLY;
 
 ---
 
+## UI pass
+
+**Branch:** `feat/enhance-ui`
+
+After the five phases, the admin pages were redesigned around one question: what needs a decision? No features were removed.
+
+- **Overview:** a summary band replaces the four stat cards and the banner. Its headline is the review queue ("3 items need your review") with a button for each kind of work, and it turns quiet when nothing is waiting. The platform numbers sit beside it as short sentences. Pending work comes first, in the wider column.
+- **Other tabs:** the summary only shows on the Overview, so these tabs open straight on their content. The tab badges still show what is pending.
+- **Header:** the "Control Center" label, the description and the "Backup Database" button are gone. Backups are reached from their tab and the Overview's "Last backup" link.
+- **Tables and lists:** sentence-case headings, a row highlight, grey row actions that show their colour on hover, a dot and word for account status, and divider lines in the Overview lists.
+- **Detail pages:** the Decision panel stays in view while scrolling.
+- **Audit logs:** time shows how long ago first, with the exact time under it.
+
 ## Out of scope
 
 - Restoring a backup from the admin pages

@@ -145,6 +145,8 @@ textarea {
 /* ---------- Header ---------- */
 
 .cl-navbar {
+    padding-top: 14px;
+    padding-bottom: 14px;
     background-color: var(--cl-surface);
     border-bottom: 1px solid var(--cl-border);
 }
