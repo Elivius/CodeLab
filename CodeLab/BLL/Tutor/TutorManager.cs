@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using CodeLab.DAL;
 using CodeLab.Helpers;
 using CodeLab.Models;
@@ -26,13 +27,21 @@ namespace CodeLab.BLL
         private const int MaxUrlLength = 500;
 
         /// <summary>
-        /// Portfolio link rule, shared by Register and the Tutor Profile page: any website, but it must use https,
-        /// e.g. https://github.com/your-name or https://your-name.vercel.app. The browser checks use this pattern;
+        /// Portfolio link rule, shared by Register and the Tutor Profile page: any website, but it must be a valid
+        /// https address, e.g. https://example.com or https://github.com/your-name. Read left to right:
+        ///   https://                                        must use https
+        ///   ([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+  one or more name parts like "example." or "github."
+        ///                                                     (letters, numbers, "-", but not "-" at the start or end)
+        ///   [A-Za-z]{2,63}                                  the ending, e.g. com, app, my (so https://meow/ fails)
+        ///   (:\d{1,5})?                                     an optional port, e.g. :8080
+        ///   ([/?#]\S*)?                                     an optional path, query or #part, with no spaces
+        /// It checks the shape of the address, not that the website exists. The browser checks use this pattern;
         /// CleanAndValidate checks it again on the server.
         /// </summary>
-        public const string PortfolioUrlPattern = @"^\s*https://\S+\s*$";
+        public const string PortfolioUrlPattern =
+            @"^\s*https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}(?::\d{1,5})?(?:[/?#]\S*)?\s*$";
 
-        public const string PortfolioUrlMessage = "Portfolio link must start with https://";
+        public const string PortfolioUrlMessage = "Enter a valid https link, e.g. https://example.com";
         private const int MaxLongTextLength = 2000;
 
         /// <summary>Largest profile photo accepted: 2 MB.</summary>
@@ -340,15 +349,16 @@ namespace CodeLab.BLL
         }
 
         /// <summary>
-        /// True for an absolute https address with a host, e.g. https://your-name.vercel.app. Any website is fine.
+        /// True for a valid https address on any website, e.g. https://example.com. Uses the same
+        /// PortfolioUrlPattern as the browser checks, so the browser and the server always agree.
         /// </summary>
         public static bool IsHttpsUrl(string value)
         {
             Uri uri;
             return !string.IsNullOrWhiteSpace(value)
+                && Regex.IsMatch(value, PortfolioUrlPattern)
                 && Uri.TryCreate(value.Trim(), UriKind.Absolute, out uri)
-                && uri.Scheme == Uri.UriSchemeHttps
-                && !string.IsNullOrEmpty(uri.Host);
+                && uri.Scheme == Uri.UriSchemeHttps;
         }
 
         /// <summary>
