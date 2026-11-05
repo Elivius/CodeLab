@@ -1,0 +1,1378 @@
+<mxfile host="app.diagrams.net" pages="7">
+  <diagram id="fc1" name="1 Tutor application">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Admin Flowchart 1 – Review a Tutor Application" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="950" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="Based on BLL/Admin/TutorApprovalManager.cs · Modules/Admin/TutorApplications.aspx.cs · Modules/Admin/TutorApplication.aspx.cs" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="950" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Start" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Signed in as Admin?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Open Tutor Applications, click Review&lt;br&gt;&lt;small&gt;filter: Pending · Approved · Rejected · All&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="314" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="Application found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="425" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="Show error:&lt;br&gt;“could not be found”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Show full application&lt;br&gt;&lt;small&gt;bio · qualifications · portfolio · pitch&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="554" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="Status is Pending?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="End&lt;br&gt;&lt;small&gt;shows past decision, no buttons&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="Approve or Reject?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="&lt;b&gt;Still Pending?&lt;/b&gt; is checked again on click, so a double click or a second admin gets a clear message." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="Still Pending?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="Show error:&lt;br&gt;“already approved / rejected”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Set status Approved&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Pending&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1034" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1145" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" value="Show error:&lt;br&gt;“could not be approved”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1160" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Record APPROVE_TUTOR&lt;br&gt;&lt;small&gt;in AuditLogs&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1274" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Type rejection reason" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="794" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="Reason 10–500 chars?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="Still Pending?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1025" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x5" value="Show error:&lt;br&gt;“already approved / rejected”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" value="Set status Rejected, save reason&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Pending&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1154" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1265" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" value="Show error:&lt;br&gt;“could not be rejected”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Record REJECT_TUTOR&lt;br&gt;&lt;small&gt;with the reason&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1394" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" value="Show success message, reload page&lt;br&gt;&lt;small&gt;page now shows the new status&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1514" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1640" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="&lt;b&gt;Two locks&lt;/b&gt;&lt;br&gt;Modules/Admin/Web.config denies non-admins, and every TutorApprovalManager method re-checks IsUserInRole(Admin)." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="185" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Quick approve&lt;/b&gt;&lt;br&gt;Pending rows on the list also have an Approve button. It runs the same Approve steps." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="425" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="A rejected tutor sees the reason on their Profile and can resubmit, which sets the status back to Pending." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1385" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1730" width="950" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="start" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d1" target="x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p1" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d2" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d2" target="x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d3" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d3" target="g1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Approve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="Reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d5" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d5" target="x3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p3" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d6" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d6" target="x4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a1" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p4" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d7" target="d8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="No: show rule" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d7" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d8" target="p5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d8" target="x5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p5" target="d9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d9" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d9" target="x6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="a2" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok1" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fc6" name="6 Database backups">
+    <mxGraphModel dx="1860" dy="996" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" value="Admin Flowchart 6 – Database Backups" vertex="1">
+          <mxGeometry height="30" width="950" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" parent="1" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" value="Based on BLL/Admin/BackupManager.cs · DAL/Admin/BackupRepository.cs · Modules/Admin/Backups.aspx.cs" vertex="1">
+          <mxGeometry height="20" width="950" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" value="Start" vertex="1">
+          <mxGeometry height="60" width="200" x="290" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" value="Signed in as Admin?" vertex="1">
+          <mxGeometry height="90" width="200" x="290" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" vertex="1">
+          <mxGeometry height="60" width="200" x="40" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" value="Open the Database Backups tab&lt;br&gt;&lt;small&gt;lists backups: size, date, SHA-256&lt;/small&gt;" vertex="1">
+          <mxGeometry height="72" width="200" x="290" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" value="Create or Download?" vertex="1">
+          <mxGeometry height="90" width="200" x="290" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" value="Click Run backup now&lt;br&gt;&lt;small&gt;file name codelab-yyyyMMdd-HHmmss.bak&lt;/small&gt;" vertex="1">
+          <mxGeometry height="72" width="200" x="290" y="554" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" value="BACKUP DATABASE to App_Data/Backups&lt;br&gt;&lt;small&gt;INIT · CHECKSUM · COPY_ONLY · 120 s timeout&lt;/small&gt;" vertex="1">
+          <mxGeometry height="72" width="200" x="290" y="674" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" value="Backup succeeded?" vertex="1">
+          <mxGeometry height="90" width="200" x="290" y="785" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" value="Show error:&lt;br&gt;“could not be created”" vertex="1">
+          <mxGeometry height="60" width="200" x="40" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" value="Compute the SHA-256&lt;br&gt;&lt;small&gt;saved next to the backup as .sha256&lt;/small&gt;" vertex="1">
+          <mxGeometry height="72" width="200" x="290" y="914" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" value="Record CREATE_BACKUP" vertex="1">
+          <mxGeometry height="72" width="200" x="290" y="1034" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" value="Show “Backup … was created”&lt;br&gt;&lt;small&gt;the list refreshes&lt;/small&gt;" vertex="1">
+          <mxGeometry height="72" width="200" x="290" y="1154" as="geometry" />
+        </mxCell>
+        <mxCell id="end1" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" value="End" vertex="1">
+          <mxGeometry height="60" width="200" x="290" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" value="Click Download on a backup" vertex="1">
+          <mxGeometry height="72" width="200" x="540" y="434" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" value="Name matches the pattern?" vertex="1">
+          <mxGeometry height="90" width="200" x="540" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" value="Show error:&lt;br&gt;“could not be found”&lt;br&gt;&lt;small&gt;blocks names like ..\Database.mdf&lt;/small&gt;" vertex="1">
+          <mxGeometry height="60" width="200" x="790" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" value="File exists?" vertex="1">
+          <mxGeometry height="90" width="200" x="540" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" value="Show error:&lt;br&gt;“may have been removed”" vertex="1">
+          <mxGeometry height="60" width="200" x="790" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" value="Record DOWNLOAD_BACKUP" vertex="1">
+          <mxGeometry height="72" width="200" x="540" y="794" as="geometry" />
+        </mxCell>
+        <mxCell id="ok2" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" value="Send the file as a download&lt;br&gt;&lt;small&gt;Content-Disposition: attachment&lt;/small&gt;" vertex="1">
+          <mxGeometry height="72" width="200" x="540" y="914" as="geometry" />
+        </mxCell>
+        <mxCell id="end2" parent="1" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" value="End" vertex="1">
+          <mxGeometry height="60" width="200" x="540" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" parent="1" style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" value="&lt;b&gt;No restore&lt;/b&gt;&lt;br&gt;Restoring would replace the database everyone is using, so there is no restore button." vertex="1">
+          <mxGeometry height="100" width="200" x="790" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" parent="1" style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" value="IIS never serves App_Data, so BackupManager is the only way to get a backup file." vertex="1">
+          <mxGeometry height="80" width="200" x="790" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" value="&lt;b&gt;Pattern&lt;/b&gt;&lt;br&gt;codelab-yyyyMMdd-HHmmss.bak: the only names this code creates, lists or downloads." vertex="1">
+          <mxGeometry height="90" width="200" x="790" y="905" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" vertex="1">
+          <mxGeometry height="24" width="950" x="40" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="d1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" target="p1" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" target="x1" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="d2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="p2" value="Create">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="p5" value="Download">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="p3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="d3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" target="p4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" target="x2" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="a1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="ok1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="ok1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="end1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="p5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="d4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="d4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" target="d5" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="d4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" target="x3" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="d5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" target="a2" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="d5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" target="x4" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="ok2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="ok2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" target="end2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fc2" name="2 Course approve-reject">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Admin Flowchart 2 – Moderate a Course: Approve or Reject" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="950" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="Based on BLL/Admin/CourseModerationManager.cs · DAL/Admin/CourseModerationRepository.cs · Modules/Admin/Courses.aspx.cs · Modules/Admin/CourseReview.aspx.cs" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="950" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Start" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Signed in as Admin?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Open Course Moderation, click Review&lt;br&gt;&lt;small&gt;filter by status · search title or tutor&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="314" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="Course found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="425" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="Show error:&lt;br&gt;“could not be found”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Show course for review&lt;br&gt;&lt;small&gt;cover · lessons · quiz · coding challenge&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="554" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="Status is Pending Review?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="o1" value="Draft, Published or Locked:&lt;br&gt;see Flowchart 3" style="shape=offPageConnector;size=0.25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="675" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="Approve or Reject?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="Confirms “Publish this course?”" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="End&lt;br&gt;&lt;small&gt;cancelled, nothing changes&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="Still Pending Review?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1025" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="Show error:&lt;br&gt;“course is …, so it cannot be approved”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Set status Published&lt;br&gt;&lt;small&gt;clears rejection reason · UPDATE … WHERE Status = &#39;Pending Review&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1154" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1265" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" value="Show error:&lt;br&gt;“could not be approved”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Record APPROVE_COURSE" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1394" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Type feedback for the tutor" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="794" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="Reason 10–500 chars?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="Still Pending Review?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1025" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x5" value="Show error:&lt;br&gt;“course is …, so it cannot be rejected”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" value="Set status Draft, save reason&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Pending Review&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1154" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1265" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" value="Show error:&lt;br&gt;“could not be rejected”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Record REJECT_COURSE&lt;br&gt;&lt;small&gt;with the reason&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1394" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" value="Show success message, reload page&lt;br&gt;&lt;small&gt;page now shows the new status&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1514" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1640" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="&lt;b&gt;Two locks&lt;/b&gt;&lt;br&gt;Modules/Admin/Web.config denies non-admins, and every CourseModerationManager method re-checks IsUserInRole(Admin)." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="185" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Quick approve&lt;/b&gt;&lt;br&gt;Pending rows on the list also have Approve, with the same confirm. Reject needs this page, because it needs a reason." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="425" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Delete works in every status, including Pending Review. See Flowchart 3." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="665" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="Approved: learners can enrol straight away. Rejected: back to Draft, and the tutor sees the feedback in the Course builder." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1385" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#666666&quot;&gt;■&lt;/font&gt; Continues in another flowchart &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1730" width="950" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="start" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d1" target="x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p1" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d2" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d2" target="x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d3" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d3" target="o1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Approve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="Reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d5" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d5" target="g1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d6" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d6" target="x3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p3" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d7" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d7" target="x4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a1" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p4" target="d8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d8" target="d9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="No: show rule" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d8" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d9" target="p5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d9" target="x5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p5" target="d10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d10" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d10" target="x6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="a2" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok1" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fc3" name="3 Course lock-unlock-delete">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Admin Flowchart 3 – Moderate a Course: Lock, Unlock or Delete" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1450" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="Based on BLL/Admin/CourseModerationManager.cs · DAL/Admin/CourseModerationRepository.cs · Modules/Admin/CourseReview.aspx.cs · Modules/Admin/Courses.aspx.cs" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1450" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Start" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Signed in as Admin?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Open a course on Course Moderation&lt;br&gt;&lt;small&gt;list row or Review page&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="314" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="Course found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="425" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="Show error:&lt;br&gt;“could not be found”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="Which action?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="545" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Type reason for locking" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="554" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="Reason 10–500 chars?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="Still Published?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="Show error:&lt;br&gt;“course is …, so it cannot be locked”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Set status Locked, save reason&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Published&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="914" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1025" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" value="Show error:&lt;br&gt;“could not be locked”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Record LOCK_COURSE&lt;br&gt;&lt;small&gt;with the reason&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1154" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="Confirms “Unlock this course?”" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="End&lt;br&gt;&lt;small&gt;cancelled, nothing changes&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="Still Locked?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x5" value="Show error:&lt;br&gt;“course is …, so it cannot be unlocked”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Set status Published, clear lock reason&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Locked&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="914" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1025" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" value="Show error:&lt;br&gt;“could not be unlocked”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Record UNLOCK_COURSE" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1154" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" value="Show success message, reload page&lt;br&gt;&lt;small&gt;a locked course disappears for learners&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1274" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end1" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" value="Confirms delete?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="545" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" value="End&lt;br&gt;&lt;small&gt;cancelled, nothing changes&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="560" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" value="Read cover and lesson attachment paths&lt;br&gt;&lt;small&gt;before the rows are gone&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="674" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p6" value="Delete in one transaction&lt;br&gt;&lt;small&gt;quiz first, then the course; the rest cascades&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="794" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d11" value="Delete succeeded?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x7" value="Show error:&lt;br&gt;“could not be deleted”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p7" value="Delete cover and lesson files&lt;br&gt;&lt;small&gt;from ~/Uploads&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1034" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="Record DELETE_COURSE&lt;br&gt;&lt;small&gt;names the tutor and enrolled count&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1154" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok2" value="Back to Course Moderation&lt;br&gt;&lt;small&gt;“… was deleted” message&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1274" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end2" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="&lt;b&gt;Buttons shown by status&lt;/b&gt;&lt;br&gt;Lock: Published only · Unlock: Locked only · Delete: every status (Draft, Pending Review, Published, Locked). The BLL checks the status again on click." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="185" width="450" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Two locks&lt;/b&gt;&lt;br&gt;Web.config denies non-admins, and every CourseModerationManager method re-checks IsUserInRole(Admin)." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="305" width="450" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="&lt;b&gt;Why the quiz first?&lt;/b&gt;&lt;br&gt;Quizzes.CourseId is ON DELETE SET NULL, so the quiz would be left without a course. Lessons, enrolments, completions, the challenge and discussions cascade." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="185" width="200" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="The delete dialog shows how many students are enrolled." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="425" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="Files are removed only after the delete succeeds, so a failed delete never leaves a course with missing files." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="1025" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1490" width="1450" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="start" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d1" target="x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p1" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d2" target="x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="Lock" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d3" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Unlock" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d3" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="Delete" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d3" target="d10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p2" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d4" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="No: show rule" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d4" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d5" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d5" target="x3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p3" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d6" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d6" target="x4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="a1" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d7" target="d8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d7" target="g1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d8" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d8" target="x5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p4" target="d9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d9" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d9" target="x6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a2" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok1" target="end1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d10" target="p5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d10" target="g2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p5" target="p6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p6" target="d11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e32" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d11" target="p7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e33" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d11" target="x7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p7" target="a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a3" target="ok2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok2" target="end2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fc4" name="4 Create user">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Admin Flowchart 4 – Create a User" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="950" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="Based on BLL/Admin/UserAdminManager.cs (Create) · Modules/Admin/UserEdit.aspx.cs · BLL/UserManager.cs" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="950" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Start" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Signed in as Admin?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Users tab, click Create user&lt;br&gt;&lt;small&gt;opens UserEdit with no id&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="314" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Fill in the form, click Create user&lt;br&gt;&lt;small&gt;name · username · email · role · password ×2&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="434" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="Page validators pass?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="Name, email and role valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="Show error:&lt;br&gt;missing field, bad name or email, no role" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="Username format OK?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="Show error:&lt;br&gt;“3 to 50 letters, numbers or underscores”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="Password valid and matching?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" value="Show error:&lt;br&gt;password too weak, or “Passwords do not match”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ca" value="A" style="ellipse;aspect=fixed;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="115" y="1045" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cb" value="A" style="ellipse;aspect=fixed;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="85" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="Username free?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x5" value="Show error:&lt;br&gt;“That username is already taken”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="Email free?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="305" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" value="Show error:&lt;br&gt;“That email is already registered”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Hash the password, set status Active" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="434" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Insert the user&lt;br&gt;&lt;small&gt;no tutor application&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="554" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="Insert succeeded?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x7" value="Show error:&lt;br&gt;“could not be created”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Record CREATE_USER" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="794" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" value="Open the new account&lt;br&gt;&lt;small&gt;“Account created. Give the user their password.”&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="914" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="&lt;b&gt;Checked twice&lt;/b&gt;&lt;br&gt;The page validators use the same patterns as the BLL, and the BLL checks again when it saves." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="290" y="305" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Rules&lt;/b&gt;&lt;br&gt;Username: 3–50 letters, numbers or _&lt;br&gt;Password: 8–128 characters with a letter, a number and a symbol" style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="425" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="A new Tutor still applies to teach from their Profile page, then an admin approves them (Flowchart 1)." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="785" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#666666&quot;&gt;■&lt;/font&gt; Connector: continues at the matching letter &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1130" width="950" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="start" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d1" target="x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p1" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p2" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="No: fix fields" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d2" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d3" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d3" target="x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d4" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d4" target="x3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d5" target="ca">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d5" target="x4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="cb" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d6" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d6" target="x5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d7" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d7" target="x6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p3" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p4" target="d8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d8" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d8" target="x7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a1" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok1" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fc5a" name="5A Edit user">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Admin Flowchart 5A – Edit a User" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="950" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="Based on BLL/Admin/UserAdminManager.cs (Update) · Modules/Admin/UserEdit.aspx.cs · Global.asax.cs" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="950" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Start" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Signed in as Admin?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Users tab, click Edit on a row&lt;br&gt;&lt;small&gt;search name, username or email · filter role and status&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="314" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="Account found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="425" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="Show error:&lt;br&gt;“could not be found”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Change name, email or role, click Save&lt;br&gt;&lt;small&gt;username is read-only&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="554" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="Page validators pass?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="Name, email and role valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="Show error:&lt;br&gt;missing field, bad name or email, no role" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="Changing own role?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" value="Show error:&lt;br&gt;“cannot change the role of your own account”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ca" value="A" style="ellipse;aspect=fixed;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="115" y="1045" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cb" value="A" style="ellipse;aspect=fixed;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="85" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="Role change while teaching?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x5" value="Show error:&lt;br&gt;“still teaches N courses… delete those first”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="Anything changed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="305" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="End&lt;br&gt;&lt;small&gt;“There were no changes to save.”&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="Email free?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="425" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" value="Show error:&lt;br&gt;“That email is already registered”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Save name, email and role&lt;br&gt;&lt;small&gt;own account: header name updates too&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="554" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="Saved?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x7" value="Show error:&lt;br&gt;“could not be saved, refresh”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="790" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Record UPDATE_USER&lt;br&gt;&lt;small&gt;lists every change&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="794" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" value="Show “Saved.”&lt;br&gt;&lt;small&gt;role changed: user is logged out on next click&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="914" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1040" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="Suspend, Reactivate and Delete are on the same page: see Flowchart 5B." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="290" y="305" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Role change takes effect&lt;/b&gt;&lt;br&gt;Global.asax checks every request. If the role no longer matches the login cookie, the user is signed out and sent to Login." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="790" y="785" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="Own account: the role list is disabled on the page, and the BLL refuses too." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1025" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#666666&quot;&gt;■&lt;/font&gt; Connector: continues at the matching letter &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1135" width="950" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="start" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d1" target="x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p1" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d2" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d2" target="x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d3" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="No: fix fields" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="d3" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d4" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d4" target="x3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d5" target="ca">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d5" target="x4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="cb" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d6" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d6" target="x5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d7" target="d8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d7" target="g1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d8" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d8" target="x6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p3" target="d9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d9" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d9" target="x7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a1" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok1" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fc5b" name="5B Suspend-reactivate-delete">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Admin Flowchart 5B – Suspend, Reactivate or Delete a User" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1500" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" value="Based on BLL/Admin/UserAdminManager.cs (Suspend, Reactivate, Delete) · DAL/Admin/UserAdminRepository.cs · Modules/Admin/Users.aspx.cs · Modules/Admin/UserEdit.aspx.cs · Global.asax.cs" style="text;html=1;fontSize=12;fontColor=#666666;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1500" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Start" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="80" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="Signed in as Admin?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="185" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" value="Access denied&lt;br&gt;&lt;small&gt;redirected away from the page&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Find the user on the Users tab&lt;br&gt;&lt;small&gt;search · role and status filters&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="314" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Click Suspend, Reactivate or Delete&lt;br&gt;&lt;small&gt;on the row or on the Edit page&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="434" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="Confirms the dialog?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="545" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="End&lt;br&gt;&lt;small&gt;cancelled, nothing changes&lt;/small&gt;" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="560" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="Account found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="665" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" value="Show error:&lt;br&gt;“could not be found”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="Which action?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="Own account?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" value="Show error:&lt;br&gt;“cannot suspend your own account”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="Status is Active?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" value="Show error:&lt;br&gt;“account is …, so it cannot be suspended”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Set status Suspended&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Active&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1034" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1145" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x5" value="Show error:&lt;br&gt;“could not be suspended”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1160" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="Record SUSPEND_USER" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1274" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="Status is Suspended?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" value="Show error:&lt;br&gt;“account is …, so it cannot be reactivated”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Set status Active&lt;br&gt;&lt;small&gt;UPDATE … WHERE Status = &#39;Suspended&#39;&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1034" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="Row updated?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1145" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x7" value="Show error:&lt;br&gt;“could not be reactivated”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1160" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Record REACTIVATE_USER" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1274" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok1" value="Show success message, reload&lt;br&gt;&lt;small&gt;reactivated user can log in again&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1394" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end1" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1520" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" value="Own account?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="785" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x8" value="Show error:&lt;br&gt;“cannot delete your own account”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="800" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d11" value="Account has activity?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="905" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x9" value="Show error:&lt;br&gt;“has activity… Suspend it instead”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" value="Delete the user&lt;br&gt;&lt;small&gt;TutorProfiles and LearnerStats cascade&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1034" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="d12" value="Row deleted?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1145" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="x10" value="Show error:&lt;br&gt;“could not be deleted”" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="1160" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="Record DELETE_USER" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1274" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ok2" value="Back to the Users list&lt;br&gt;&lt;small&gt;“… account was deleted”&lt;/small&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1394" width="200" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="end2" value="End" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1520" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="&lt;b&gt;Buttons shown only when allowed&lt;/b&gt;&lt;br&gt;Suspend: Active accounts · Reactivate: Suspended accounts · Delete: accounts with no activity. All three are hidden on your own account. The BLL checks again on click." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="185" width="460" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;b&gt;Activity&lt;/b&gt; means courses taught, enrolments, lesson completions, quizzes, quiz attempts, code submissions, forum posts or replies, badges or audit entries. Logging in writes an audit entry, so in practice only an unused account can be deleted." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="185" width="460" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="&lt;b&gt;Suspend takes effect&lt;/b&gt;&lt;br&gt;Global.asax checks every request and signs a suspended user out on their next click." style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1265" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Start, End, success &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Step &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decision &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Audit log entry &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Ends with an error message &amp;nbsp;&amp;nbsp; &lt;font color=&quot;#999999&quot;&gt;■&lt;/font&gt; Note" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1610" width="1500" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="start" target="d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d1" target="x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p1" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p2" target="d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d2" target="d3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d2" target="g1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d3" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d3" target="x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Suspend" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="Reactivate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="d8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Delete" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="d4" target="d10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d5" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d5" target="x3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d6" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d6" target="x4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p3" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d7" target="a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d7" target="x5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="a1" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d8" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d8" target="x6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p4" target="d9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d9" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d9" target="x7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a2" target="ok1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok1" target="end1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d10" target="d11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d10" target="x8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e30" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d11" target="p5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d11" target="x9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e32" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="p5" target="d12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e33" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#2D7600;" edge="1" parent="1" source="d12" target="a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;fontColor=#B20000;" edge="1" parent="1" source="d12" target="x10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="a3" target="ok2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;labelBackgroundColor=default;defaultLabelBackgroundColor=page;" edge="1" parent="1" source="ok2" target="end2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
