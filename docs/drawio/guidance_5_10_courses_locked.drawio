@@ -13,8 +13,8 @@
 <mxCell id="hl_statusNav" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f59e0b;fillOpacity=10;strokeColor=#f59e0b;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1097" y="349" width="446" height="39" as="geometry" />
         </mxCell>
-<mxCell id="callout_statusNav" value="&lt;b&gt;Locked filter active&lt;/b&gt;&lt;br&gt;(Isolated restricted queue)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="349" width="175" height="46" as="geometry" />
+<mxCell id="callout_statusNav" value="&lt;b&gt;Locked filter active&lt;/b&gt;&lt;br&gt;(Isolated restricted queue)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="342" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_statusNav" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#f59e0b;strokeWidth=2;endSize=7;" edge="1" source="callout_statusNav" target="hl_statusNav" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -22,8 +22,8 @@
 <mxCell id="hl_lockedBadge" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f59e0b;fillOpacity=10;strokeColor=#f59e0b;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="951" y="501" width="62" height="22" as="geometry" />
         </mxCell>
-<mxCell id="callout_lockedBadge" value="&lt;b&gt;Locked status badge&lt;/b&gt;&lt;br&gt;(hidden from the learner catalog)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="501" width="175" height="61" as="geometry" />
+<mxCell id="callout_lockedBadge" value="&lt;b&gt;Locked status badge&lt;/b&gt;&lt;br&gt;(hidden from the learner catalog)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="492" width="223" height="78" as="geometry" />
         </mxCell>
 <mxCell id="arrow_lockedBadge" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#f59e0b;strokeWidth=2;endSize=7;" edge="1" source="callout_lockedBadge" target="hl_lockedBadge" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -31,8 +31,8 @@
 <mxCell id="hl_reviewBtn" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1367" y="517" width="88" height="32" as="geometry" />
         </mxCell>
-<mxCell id="callout_reviewBtn" value="&lt;b&gt;View&lt;/b&gt;&lt;br&gt;Open the course: lessons, quiz and challenge. The lock reason is under the badge" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="574" width="175" height="90" as="geometry" />
+<mxCell id="callout_reviewBtn" value="&lt;b&gt;View&lt;/b&gt;&lt;br&gt;Open the course: lessons, quiz and challenge. The lock reason is under the badge" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="578" width="223" height="115" as="geometry" />
         </mxCell>
 <mxCell id="arrow_reviewBtn" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_reviewBtn" target="hl_reviewBtn" parent="1">
           <mxGeometry relative="1" as="geometry" />

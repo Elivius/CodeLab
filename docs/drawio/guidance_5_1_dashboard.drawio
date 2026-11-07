@@ -13,8 +13,8 @@
 <mxCell id="hl_queue" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f59e0b;fillOpacity=10;strokeColor=#f59e0b;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="273" y="325" width="539" height="179" as="geometry" />
         </mxCell>
-<mxCell id="callout_queue" value="&lt;b&gt;Needs your review&lt;/b&gt;&lt;br&gt;action shortcuts" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="391" width="175" height="46" as="geometry" />
+<mxCell id="callout_queue" value="&lt;b&gt;Needs your review&lt;/b&gt;&lt;br&gt;action shortcuts" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="384" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_queue" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#f59e0b;strokeWidth=2;endSize=7;" edge="1" source="callout_queue" target="hl_queue" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -22,8 +22,8 @@
 <mxCell id="hl_tutors" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="272" y="529" width="746" height="244" as="geometry" />
         </mxCell>
-<mxCell id="callout_tutors" value="&lt;b&gt;Pending tutor&lt;/b&gt;&lt;br&gt;applications queue" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="628" width="175" height="46" as="geometry" />
+<mxCell id="callout_tutors" value="&lt;b&gt;Pending tutor&lt;/b&gt;&lt;br&gt;applications queue" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="622" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_tutors" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_tutors" target="hl_tutors" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -31,8 +31,8 @@
 <mxCell id="hl_courses" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="272" y="798" width="746" height="311" as="geometry" />
         </mxCell>
-<mxCell id="callout_courses" value="&lt;b&gt;Course moderation&lt;/b&gt;&lt;br&gt;&amp; review queue" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="930" width="175" height="46" as="geometry" />
+<mxCell id="callout_courses" value="&lt;b&gt;Course moderation&lt;/b&gt;&lt;br&gt;&amp; review queue" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="924" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_courses" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_courses" target="hl_courses" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -40,8 +40,8 @@
 <mxCell id="hl_themeToggle" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1305" y="94" width="38" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_themeToggle" value="&lt;b&gt;Switch interface theme&lt;/b&gt;&lt;br&gt;(Light / Dark)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="94" width="175" height="46" as="geometry" />
+<mxCell id="callout_themeToggle" value="&lt;b&gt;Switch interface theme&lt;/b&gt;&lt;br&gt;(Light / Dark)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="88" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_themeToggle" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" edge="1" source="callout_themeToggle" target="hl_themeToggle" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -49,8 +49,8 @@
 <mxCell id="hl_accountToggle" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#10b981;fillOpacity=10;strokeColor=#10b981;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1367" y="95" width="201" height="37" as="geometry" />
         </mxCell>
-<mxCell id="callout_accountToggle" value="&lt;b&gt;Account menu&lt;/b&gt;&lt;br&gt;(Sign out)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="154" width="175" height="47" as="geometry" />
+<mxCell id="callout_accountToggle" value="&lt;b&gt;Account menu&lt;/b&gt;&lt;br&gt;(Sign out)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="155" width="223" height="60" as="geometry" />
         </mxCell>
 <mxCell id="arrow_accountToggle" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#10b981;strokeWidth=2;endSize=7;" edge="1" source="callout_accountToggle" target="hl_accountToggle" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -58,8 +58,8 @@
 <mxCell id="hl_tabs" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="272" y="251" width="1296" height="49" as="geometry" />
         </mxCell>
-<mxCell id="callout_tabs" value="&lt;b&gt;Admin navigation&lt;/b&gt;&lt;br&gt;tabs bar" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="252" width="175" height="46" as="geometry" />
+<mxCell id="callout_tabs" value="&lt;b&gt;Admin navigation&lt;/b&gt;&lt;br&gt;tabs bar" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="246" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_tabs" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_tabs" target="hl_tabs" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -67,8 +67,8 @@
 <mxCell id="hl_figures" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="812" y="325" width="755" height="179" as="geometry" />
         </mxCell>
-<mxCell id="callout_figures" value="&lt;b&gt;Platform summary metrics&lt;/b&gt;&lt;br&gt;(Accounts, Courses, DB)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="391" width="175" height="46" as="geometry" />
+<mxCell id="callout_figures" value="&lt;b&gt;Platform summary metrics&lt;/b&gt;&lt;br&gt;(Accounts, Courses, DB)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="384" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_figures" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_figures" target="hl_figures" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -76,13 +76,13 @@
 <mxCell id="hl_users" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1042" y="529" width="526" height="579" as="geometry" />
         </mxCell>
-<mxCell id="callout_users" value="&lt;b&gt;Recent user accounts&lt;/b&gt;&lt;br&gt;&amp; role directory" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="795" width="175" height="46" as="geometry" />
+<mxCell id="callout_users" value="&lt;b&gt;Recent user accounts&lt;/b&gt;&lt;br&gt;&amp; role directory" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="788" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_users" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_users" target="hl_users" parent="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-      <mxCell id="hl_x1" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="503" y="253" width="407" height="34" as="geometry" /></mxCell><mxCell id="callout_x1" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Count bubbles&lt;/b&gt;&lt;br&gt;show items waiting (courses and tutor applications)" vertex="1"><mxGeometry x="20" y="232" width="175" height="76" as="geometry" /></mxCell><mxCell id="arrow_x1" edge="1" parent="1" source="callout_x1" target="hl_x1" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell></root>
+      <mxCell id="hl_x1" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="503" y="253" width="407" height="34" as="geometry" /></mxCell><mxCell id="callout_x1" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Count bubbles&lt;/b&gt;&lt;br&gt;show items waiting (courses and tutor applications)" vertex="1"><mxGeometry x="-4" y="222" width="223" height="97" as="geometry" /></mxCell><mxCell id="arrow_x1" edge="1" parent="1" source="callout_x1" target="hl_x1" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell></root>
     </mxGraphModel>
   </diagram>
 </mxfile>

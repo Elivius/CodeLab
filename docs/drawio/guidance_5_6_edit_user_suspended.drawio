@@ -13,8 +13,8 @@
 <mxCell id="hl_fullName" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="297" y="451" width="395" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_fullName" value="&lt;b&gt;Suspended user details&lt;/b&gt;&lt;br&gt;(Ivan Petrov)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="451" width="175" height="46" as="geometry" />
+<mxCell id="callout_fullName" value="&lt;b&gt;Suspended user details&lt;/b&gt;&lt;br&gt;(Ivan Petrov)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="444" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_fullName" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_fullName" target="hl_fullName" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -22,8 +22,8 @@
 <mxCell id="hl_role" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="708" y="537" width="395" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_role" value="&lt;b&gt;Account role selector&lt;/b&gt;&lt;br&gt;(Learner)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="537" width="175" height="46" as="geometry" />
+<mxCell id="callout_role" value="&lt;b&gt;Account role selector&lt;/b&gt;&lt;br&gt;(Learner)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="530" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_role" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" edge="1" source="callout_role" target="hl_role" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -31,8 +31,8 @@
 <mxCell id="hl_statusBadge" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f59e0b;fillOpacity=10;strokeColor=#f59e0b;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1319" y="436" width="86" height="22" as="geometry" />
         </mxCell>
-<mxCell id="callout_statusBadge" value="&lt;b&gt;Suspended status badge&lt;/b&gt;&lt;br&gt;(Access blocked)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="436" width="175" height="46" as="geometry" />
+<mxCell id="callout_statusBadge" value="&lt;b&gt;Suspended status badge&lt;/b&gt;&lt;br&gt;(Access blocked)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="430" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_statusBadge" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#f59e0b;strokeWidth=2;endSize=7;" edge="1" source="callout_statusBadge" target="hl_statusBadge" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -40,13 +40,13 @@
 <mxCell id="hl_reactivateBtn" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#10b981;fillOpacity=10;strokeColor=#10b981;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="1177" y="626" width="366" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_reactivateBtn" value="&lt;b&gt;Reactivate account button&lt;/b&gt;&lt;br&gt;(Restores login access)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="640" width="175" height="46" as="geometry" />
+<mxCell id="callout_reactivateBtn" value="&lt;b&gt;Reactivate account button&lt;/b&gt;&lt;br&gt;(Restores login access)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="647" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_reactivateBtn" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#10b981;strokeWidth=2;endSize=7;" edge="1" source="callout_reactivateBtn" target="hl_reactivateBtn" parent="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-      <mxCell id="hl_x1" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="1177" y="572" width="359" height="36" as="geometry" /></mxCell><mxCell id="callout_x1" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;No Delete button&lt;/b&gt;&lt;br&gt;An account with activity can't be deleted, so only Reactivate is offered" vertex="1"><mxGeometry x="1655" y="552" width="175" height="76" as="geometry" /></mxCell><mxCell id="arrow_x1" edge="1" parent="1" source="callout_x1" target="hl_x1" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell></root>
+      <mxCell id="hl_x1" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="1177" y="572" width="359" height="36" as="geometry" /></mxCell><mxCell id="callout_x1" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;No Delete button&lt;/b&gt;&lt;br&gt;An account with activity can't be deleted, so only Reactivate is offered" vertex="1"><mxGeometry x="1631" y="542" width="223" height="97" as="geometry" /></mxCell><mxCell id="arrow_x1" edge="1" parent="1" source="callout_x1" target="hl_x1" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell></root>
     </mxGraphModel>
   </diagram>
 </mxfile>

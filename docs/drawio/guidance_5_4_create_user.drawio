@@ -13,8 +13,8 @@
 <mxCell id="hl_backLink" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="272" y="324" width="81" height="22" as="geometry" />
         </mxCell>
-<mxCell id="callout_backLink" value="&lt;b&gt;Return to directory&lt;/b&gt;&lt;br&gt;without saving" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="324" width="175" height="46" as="geometry" />
+<mxCell id="callout_backLink" value="&lt;b&gt;Return to directory&lt;/b&gt;&lt;br&gt;without saving" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="318" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_backLink" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_backLink" target="hl_backLink" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -22,8 +22,8 @@
 <mxCell id="hl_fullName" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="297" y="451" width="395" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_fullName" value="&lt;b&gt;Full name&lt;/b&gt;&lt;br&gt;(at least 2 characters: letters, spaces and . ' - /)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="451" width="175" height="76" as="geometry" />
+<mxCell id="callout_fullName" value="&lt;b&gt;Full name&lt;/b&gt;&lt;br&gt;(at least 2 characters: letters, spaces and . ' - /)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="440" width="223" height="97" as="geometry" />
         </mxCell>
 <mxCell id="arrow_fullName" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_fullName" target="hl_fullName" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -31,8 +31,8 @@
 <mxCell id="hl_username" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="708" y="451" width="395" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_username" value="&lt;b&gt;Unique @username&lt;/b&gt;&lt;br&gt;(3 to 50 letters, numbers or _; locked after creation)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="539" width="175" height="76" as="geometry" />
+<mxCell id="callout_username" value="&lt;b&gt;Unique @username&lt;/b&gt;&lt;br&gt;(3 to 50 letters, numbers or _; locked after creation)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="545" width="223" height="97" as="geometry" />
         </mxCell>
 <mxCell id="arrow_username" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" edge="1" source="callout_username" target="hl_username" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -40,8 +40,8 @@
 <mxCell id="hl_email" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#0284c7;fillOpacity=10;strokeColor=#0284c7;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="297" y="537" width="395" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_email" value="&lt;b&gt;Unique email&lt;/b&gt;&lt;br&gt;(must not be registered already)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="627" width="175" height="61" as="geometry" />
+<mxCell id="callout_email" value="&lt;b&gt;Unique email&lt;/b&gt;&lt;br&gt;(must not be registered already)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#0284c7;strokeWidth=1.6;fontColor=#0369a1;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="650" width="223" height="78" as="geometry" />
         </mxCell>
 <mxCell id="arrow_email" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#0284c7;strokeWidth=2;endSize=7;" edge="1" source="callout_email" target="hl_email" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -49,8 +49,8 @@
 <mxCell id="hl_role" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="708" y="537" width="395" height="86" as="geometry" />
         </mxCell>
-<mxCell id="callout_role" value="&lt;b&gt;Role&lt;/b&gt;&lt;br&gt;(Learner, Tutor, Admin). A new tutor still has to apply and be approved" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="700" width="175" height="76" as="geometry" />
+<mxCell id="callout_role" value="&lt;b&gt;Role&lt;/b&gt;&lt;br&gt;(Learner, Tutor, Admin). A new tutor still has to apply and be approved" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="736" width="223" height="97" as="geometry" />
         </mxCell>
 <mxCell id="arrow_role" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" edge="1" source="callout_role" target="hl_role" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -58,8 +58,8 @@
 <mxCell id="hl_password" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f59e0b;fillOpacity=10;strokeColor=#f59e0b;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="297" y="671" width="395" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_password" value="&lt;b&gt;Initial password&lt;/b&gt;&lt;br&gt;(8+ characters with a letter, a number and a symbol)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="788" width="175" height="76" as="geometry" />
+<mxCell id="callout_password" value="&lt;b&gt;Initial password&lt;/b&gt;&lt;br&gt;(8+ characters with a letter, a number and a symbol)" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#f59e0b;strokeWidth=1.6;fontColor=#b45309;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-4" y="841" width="223" height="97" as="geometry" />
         </mxCell>
 <mxCell id="arrow_password" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#f59e0b;strokeWidth=2;endSize=7;" edge="1" source="callout_password" target="hl_password" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -67,13 +67,13 @@
 <mxCell id="hl_saveBtn" value="" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#10b981;fillOpacity=10;strokeColor=#10b981;strokeWidth=2.5;" vertex="1" parent="1">
           <mxGeometry x="987" y="769" width="116" height="38" as="geometry" />
         </mxCell>
-<mxCell id="callout_saveBtn" value="&lt;b&gt;Create user&lt;/b&gt;&lt;br&gt;&amp; provision credentials" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="1655" y="769" width="175" height="46" as="geometry" />
+<mxCell id="callout_saveBtn" value="&lt;b&gt;Create user&lt;/b&gt;&lt;br&gt;&amp; provision credentials" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1631" y="762" width="223" height="59" as="geometry" />
         </mxCell>
 <mxCell id="arrow_saveBtn" value="" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#10b981;strokeWidth=2;endSize=7;" edge="1" source="callout_saveBtn" target="hl_saveBtn" parent="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-      <mxCell id="hl_x1" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="708" y="671" width="395" height="38" as="geometry" /></mxCell><mxCell id="callout_x1" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Confirm password&lt;/b&gt;&lt;br&gt;Must match the password" vertex="1"><mxGeometry x="1655" y="666" width="175" height="47" as="geometry" /></mxCell><mxCell id="arrow_x1" edge="1" parent="1" source="callout_x1" target="hl_x1" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="hl_x2" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#10b981;fillOpacity=10;strokeColor=#10b981;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="297" y="730" width="428" height="18" as="geometry" /></mxCell><mxCell id="callout_x2" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=11;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;No email is sent&lt;/b&gt;&lt;br&gt;Give the user their password yourself" vertex="1"><mxGeometry x="20" y="876" width="175" height="61" as="geometry" /></mxCell><mxCell id="arrow_x2" edge="1" parent="1" source="callout_x2" target="hl_x2" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#10b981;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell></root>
+      <mxCell id="hl_x1" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8b5cf6;fillOpacity=10;strokeColor=#8b5cf6;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="708" y="671" width="395" height="38" as="geometry" /></mxCell><mxCell id="callout_x1" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#8b5cf6;strokeWidth=1.6;fontColor=#6b21a8;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Confirm password&lt;/b&gt;&lt;br&gt;Must match the password" vertex="1"><mxGeometry x="1631" y="660" width="223" height="60" as="geometry" /></mxCell><mxCell id="arrow_x1" edge="1" parent="1" source="callout_x1" target="hl_x1" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#8b5cf6;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="hl_x2" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#10b981;fillOpacity=10;strokeColor=#10b981;strokeWidth=2.5;" value="" vertex="1"><mxGeometry x="297" y="730" width="428" height="18" as="geometry" /></mxCell><mxCell id="callout_x2" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#10b981;strokeWidth=1.6;fontColor=#047857;fontSize=14;fontFamily=Segoe UI,Helvetica,Arial;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;No email is sent&lt;/b&gt;&lt;br&gt;Give the user their password yourself" vertex="1"><mxGeometry x="-4" y="946" width="223" height="78" as="geometry" /></mxCell><mxCell id="arrow_x2" edge="1" parent="1" source="callout_x2" target="hl_x2" style="edgeStyle=straight;endArrow=classic;html=1;strokeColor=#10b981;strokeWidth=2;endSize=7;" value=""><mxGeometry relative="1" as="geometry" /></mxCell></root>
     </mxGraphModel>
   </diagram>
 </mxfile>
