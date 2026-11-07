@@ -1,0 +1,243 @@
+// =====================================
+// 1. Users & authentication
+// =====================================
+Table Users {
+  Id int [pk, increment]
+  FullName nvarchar(120) [not null]
+  Username nvarchar(50) [not null, unique]
+  Email nvarchar(255) [not null, unique]
+  PasswordHash nvarchar(255) [not null]
+  Role nvarchar(20) [not null, default: 'Learner']
+  Status nvarchar(20) [not null, default: 'Active']
+  AvatarUrl nvarchar(500)
+  JoinedDate datetime2 [not null]
+  LastLogin datetime2
+}
+
+// =====================================
+// 2. Tutor profiles
+// =====================================
+Table TutorProfiles {
+  UserId int [pk, ref: ?- Users.Id] // One-to-One
+  Qualifications nvarchar(MAX) [not null]
+  PortfolioUrl nvarchar(500) [not null]
+  CurriculumPitch nvarchar(MAX)
+  Bio nvarchar(MAX) [not null]
+  Specialty nvarchar(100) [not null]
+  Status nvarchar(20) [not null, default: 'Pending']
+  ApprovedDate datetime2
+  RejectionReason nvarchar(500)
+}
+
+// =====================================
+// 3. Courses
+// =====================================
+Table Courses {
+  Id int [pk, increment]
+  Title nvarchar(200) [not null]
+  Description nvarchar(MAX) [not null]
+  Category nvarchar(80) [not null]
+  Difficulty nvarchar(20) [not null, default: 'Beginner']
+  InstructorId int [not null, ref: ?> Users.Id]
+  Status nvarchar(20) [not null, default: 'Draft']
+  ThumbnailUrl nvarchar(500)
+  LockReason nvarchar(500)
+  RejectionReason nvarchar(500)
+  MaterialsDescription nvarchar(MAX)
+  CreatedAt datetime2 [not null]
+  UpdatedAt datetime2 [not null]
+}
+
+// =====================================
+// 4. Lessons
+// =====================================
+Table Lessons {
+  Id int [pk, increment]
+  CourseId int [not null, ref: ?> Courses.Id]
+  Title nvarchar(200) [not null]
+  Content nvarchar(MAX) [not null]
+  CodeSnippet nvarchar(MAX)
+  CodeLanguage nvarchar(50) [default: 'javascript']
+  ThumbnailUrl nvarchar(500)
+  VideoUrl nvarchar(500)
+  AttachmentUrl nvarchar(500)
+  AttachmentName nvarchar(255)
+  OrderIndex int [not null, default: 1]
+  DurationMinutes int [not null, default: 15]
+  CreatedAt datetime2 [not null]
+}
+
+// =====================================
+// 5. Course enrollments
+// =====================================
+Table CourseEnrollments {
+  Id int [pk, increment]
+  LearnerId int [not null, ref: ?> Users.Id]
+  CourseId int [not null, ref: ?> Courses.Id]
+  EnrolledAt datetime2 [not null]
+  ProgressPercent decimal(5,2) [not null, default: 0.00]
+  IsCompleted bit [not null, default: 0]
+  CompletedAt datetime2
+
+  indexes {
+    (LearnerId, CourseId) [unique]
+  }
+}
+
+// =====================================
+// 6. Lesson completions
+// =====================================
+Table LessonCompletions {
+  LearnerId int [not null, ref: ?> Users.Id]
+  LessonId int [not null, ref: ?> Lessons.Id]
+  CompletedAt datetime2 [not null]
+
+  indexes {
+    (LearnerId, LessonId) [pk]
+  }
+}
+
+// =====================================
+// 7. Quizzes
+// =====================================
+Table Quizzes {
+  Id int [pk, increment]
+  CourseId int [ref: ?>? Courses.Id]
+  Title nvarchar(150) [not null]
+  PassMark int [not null, default: 80]
+  CreatedByUserId int [not null, ref: ?> Users.Id]
+  Instructions nvarchar(MAX)
+  CreatedAt datetime2 [not null]
+}
+
+// =====================================
+// 8. Quiz questions
+// =====================================
+Table QuizQuestions {
+  Id int [pk, increment]
+  QuizId int [not null, ref: ?> Quizzes.Id]
+  QuestionText nvarchar(MAX) [not null]
+  QuestionType nvarchar(30) [not null, default: 'Multiple Choice']
+  OptionsJson nvarchar(MAX) [not null]
+  CorrectOptionIndex int [not null, default: 0]
+  Explanation nvarchar(MAX) [not null]
+  OrderIndex int [not null, default: 1]
+}
+
+// =====================================
+// 9. Quiz attempts
+// =====================================
+Table QuizAttempts {
+  Id int [pk, increment]
+  LearnerId int [not null, ref: ?> Users.Id]
+  QuizId int [not null, ref: ?> Quizzes.Id]
+  ScorePercent int [not null]
+  Passed bit [not null]
+  TotalQuestions int [not null]
+  CorrectCount int [not null]
+  AttemptedAt datetime2 [not null]
+  AnswerReviewJson nvarchar(MAX)
+}
+
+// =====================================
+// 10. Coding challenges (Code Lab)
+// =====================================
+Table CodingChallenges {
+  Id int [pk, increment]
+  CourseId int [not null, ref: ?> Courses.Id]
+  Title nvarchar(200) [not null]
+  Description nvarchar(MAX) [not null]
+  Difficulty nvarchar(20) [not null, default: 'Beginner']
+  Language nvarchar(50) [not null, default: 'javascript']
+  StarterCode nvarchar(MAX) [not null]
+  ExpectedOutput nvarchar(MAX) [not null]
+  PointsReward int [not null, default: 50]
+  CreatedAt datetime2 [not null]
+}
+
+// =====================================
+// 11. Code submissions
+// =====================================
+Table CodeSubmissions {
+  Id int [pk, increment]
+  LearnerId int [not null, ref: ?> Users.Id]
+  ChallengeId int [not null, ref: ?> CodingChallenges.Id]
+  SubmittedCode nvarchar(MAX) [not null]
+  Status nvarchar(30) [not null]
+  OutputResult nvarchar(MAX)
+  SubmittedAt datetime2 [not null]
+  AiFeedback nvarchar(MAX)
+}
+
+// =====================================
+// 12. Learner stats
+// =====================================
+Table LearnerStats {
+  LearnerId int [pk, ref: ?- Users.Id] // One-to-One
+  AchievementPoints int [not null, default: 0]
+  CurrentLevel int [not null, default: 1]
+  LevelTitle nvarchar(50) [not null, default: 'Novice Coder']
+  NextMilestonePoints int [not null, default: 500]
+  StreakDays int [not null, default: 0]
+  LastActiveDate date [not null]
+}
+
+// =====================================
+// 13. Discussion posts
+// =====================================
+Table DiscussionPosts {
+  Id int [pk, increment]
+  CourseId int [ref: ?>? Courses.Id]
+  AuthorId int [not null, ref: ?> Users.Id]
+  Title nvarchar(250) [not null]
+  Content nvarchar(MAX) [not null]
+  CreatedAt datetime2 [not null]
+}
+
+// =====================================
+// 14. Discussion replies
+// =====================================
+Table DiscussionReplies {
+  Id int [pk, increment]
+  PostId int [not null, ref: ?> DiscussionPosts.Id]
+  AuthorId int [not null, ref: ?> Users.Id]
+  Content nvarchar(MAX) [not null]
+  CreatedAt datetime2 [not null]
+}
+
+// =====================================
+// 15. Audit logs
+// =====================================
+Table AuditLogs {
+  Id int [pk, increment]
+  UserId int [not null, ref: ?> Users.Id]
+  Action varchar(50) [not null]
+  Details nvarchar(500)
+  Timestamp datetime2 [not null]
+}
+
+// =====================================
+// 16. Badges & Awards
+// =====================================
+Table Badges {
+  Id int [pk, increment]
+  Code varchar(50) [not null, unique]
+  Name nvarchar(100) [not null]
+  Description nvarchar(300) [not null]
+  Icon varchar(30) [not null]
+  Category varchar(20) [not null]
+  Metric varchar(20) [not null]
+  Target int [not null]
+  SortOrder int [not null]
+}
+
+Table LearnerBadges {
+  LearnerId int [not null, ref: ?> Users.Id]
+  BadgeId int [not null, ref: ?> Badges.Id]
+  EarnedAtUtc datetime2 [not null]
+  IsFeatured bit [not null, default: 0]
+
+  indexes {
+    (LearnerId, BadgeId) [pk]
+  }
+}
